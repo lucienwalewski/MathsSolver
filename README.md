@@ -8,9 +8,9 @@
 
     - Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
 
-    - Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead
+    - Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead, Git master
 
-    - Peixin You, hyleindex , _ , Algorithms team lead
+    - Peixin You, hyleindex , _ , Algorithms/Equations team lead
 
     - Constance Ferragu, constanceferragu , _ , Differential Calculator team lead
 
@@ -18,19 +18,19 @@
 
     - Hugo de Mascarel, hugodemascarel , _ , GUI team lead
 
-    - Jean Paul Touret, _ , _ , _
+    - Hector Devie, hector-dvi , _ , Trello master, Algorithms/Equations team
 
-    - Hector Devie, hector-dvi , _ , _
+    - Jean Paul Touret, _ , _ , Differential calculator team
 
-    - Merlin Beaufils, merlinbeaufils , _ , _
+    - Merlin Beaufils, merlinbeaufils , _ , Differential calculator team
 
-    - Wenqing Qu, QwQSama , _ , _
+    - Wenqing Qu, QwQSama , _ , Algorithms/Equations team
 
-    - Aurele Bohbot, aurelebohbot , Aurele Bohbot , _
+    - Aurele Bohbot, aurelebohbot , Aurele Bohbot , Algorithms/Equations team
 
-    - Ines Saih, _ , _ , _
-    
-    - Marie Huynh, marie-huynh , _ , _ 
+    - Ines Saih, _ , _ , Numerical integration team
+
+    - Marie Huynh, marie-huynh , _ , Differential calculator team
 
     ## Teams
 
@@ -38,17 +38,31 @@
 
     - Lucien Walewski
 
+    - Lazar Milikic
+
+    - Peixin You
+
     ### Differential calculator
 
     - Constance Ferragu
 
-    ### Equations
+    - Merlin Beaufils
+
+    - Jean Paul Touret
+
+    - Marie Huynh
+
+    ### Algorithms/Equations
 
     - Peixin You
 
-    ### Numerical
+    - Wenqing Qu, Aurele Bohbot, Hector Devie
+
+    ### Numerical integration
 
     - Ghadi Nehme
+
+    - Ines Saih
     
     ### GUI
 
