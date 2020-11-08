@@ -28,7 +28,7 @@
 
     - Aurele Bohbot, aurelebohbot , Aurele Bohbot , Algorithms/Equations team
 
-    - Ines Saih, _ , _ , Numerical integration team
+    - Ines Saih, inessaih , inessaih , Numerical integration team
 
     - Marie Huynh, marie-huynh , mariehuynh6 , Differential calculator team
 
