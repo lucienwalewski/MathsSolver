@@ -20,7 +20,7 @@
 
     - Hector Devie, hector-dvi , _ , Trello master, Algorithms/Equations team
 
-    - Jean Paul Touret, _ , _ , Differential calculator team
+    - Jean Paul Touret, jeanpaultouret2000 , _ , Differential calculator team
 
     - Merlin Beaufils, merlinbeaufils , _ , Differential calculator team
 
