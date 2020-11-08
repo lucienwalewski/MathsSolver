@@ -6,17 +6,17 @@
 
     ## Members (name surname, github username, trello username, [role])
 
-    - Lazar Milikic, _ , _ , Project lead
-    - Lucien Walewski, lucienwalewski, _ , Image recognition team lead
-    - Peixin You, _ , _ , Algorithms team lead
-    - Constance Ferragu, _ , _ , Differential Calculator team lead
+    - Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
+    - Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead
+    - Peixin You, hyleindex , _ , Algorithms team lead
+    - Constance Ferragu, constanceferragu , _ , Differential Calculator team lead
     - Hugo de Mascarel, _ , _ , _
     - Jean Paul Touret, _ , _ , _
-    - Hector Devie, _ , _ , _
-    - Merlin Beaufils, _ , _ , _
-    - Wenqing Qu, _ , _ , _
-    - Ghadie Nehme, _ , _ , _
-    - Aurele Bohbot, _ , _ , _
+    - Hector Devie, hector-dvi , _ , _
+    - Merlin Beaufils, merlinbeaufils , _ , _
+    - Wenqing Qu, QwQSama , _ , _
+    - Ghadie Nehme, ghadinehme , ghadinehme , Numerical integration team lead
+    - Aurele Bohbot, aurelebohbot , Aurele Bohbot , _
     - Ines Saih, _ , _ , _
     - Marie Huynh, _ , _ , _ 
 
