@@ -56,7 +56,11 @@
 
     - Peixin You
 
-    - Wenqing Qu, Aurele Bohbot, Hector Devie
+    - Wenqing Qu
+    
+    - Aurele Bohbot 
+
+    - Hector Devie
 
     ### Numerical integration
 
