@@ -29,5 +29,15 @@
     ### Differential calculator
 
     - Constance Ferragu
+
+    ### Equations
+
+    - Peixin You
+
+    ### Numerical
+
+    - Ghadi Nehme
     
-    ### Graphical Interface
+    ### GUI
+
+    - Hugo de Mascarel
