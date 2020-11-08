@@ -70,4 +70,4 @@
     
     ### GUI
 
-    - Hugo de Mascarel
+    - Hugo de Mascarel, Hector Devie
