@@ -30,7 +30,7 @@
 
     - Ines Saih, _ , _ , Numerical integration team
 
-    - Marie Huynh, marie-huynh , _ , Differential calculator team
+    - Marie Huynh, marie-huynh , mariehuynh6 , Differential calculator team
 
     ## Teams
 
@@ -57,7 +57,7 @@
     - Peixin You
 
     - Wenqing Qu
-    
+
     - Aurele Bohbot 
 
     - Hector Devie
