@@ -16,7 +16,7 @@
 
     - Ghadie Nehme, ghadinehme , ghadinehme , Numerical integration team lead
 
-    - Hugo de Mascarel, hugodemascarel , _ , GUI team lead
+    - Hugo de Mascarel, hugodemascarel , hugodemascarel , GUI team lead
 
     - Hector Devie, hector-dvi , _ , Trello master, Algorithms/Equations team
 
