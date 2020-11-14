@@ -21,4 +21,4 @@ public:
 private:
     double activation(double x, activationFunction a);
     double gradient(double x, activationFunction a);
-}
+};
