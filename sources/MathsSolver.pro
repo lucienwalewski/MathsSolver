@@ -10,19 +10,25 @@ CONFIG += c++11
 
 SOURCES += \
     Derivatives/derivatives.cpp \
+    ImageRecognition/imagePre-processing.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Derivatives/derivatives.hpp \
+    ImageRecognition/imagePre-processing.hpp \
     mainwindow.h
 
 FORMS += \
     mainwindow.ui
 
-INCLUDEPATH += "/Users/lucienwalewski/opencv/build/install/include/opencv4"
-LIBS += -L"/Users/lucienwalewski/opencv/build/install/lib" \
-        -l"opencv_world"
+INCLUDEPATH += C:\Users\Korisnik\Downloads\opencv\release\install\include
+
+LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_core450.dll
+LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_highgui450.dll
+LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_imgcodecs450.dll
+LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_imgproc450.dll
+LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_calib3d450.dll
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

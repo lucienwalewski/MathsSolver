@@ -1,0 +1,101 @@
+For this Week, As a group we focused mostly on setting the base for the project.
+We decided on a Linked node tree structure to represent the functions to make it easier to find a derivative.
+
+I focused on the constructor of the function. Using strings effectively in C++ was probably the most challenging
+aspect of the code.
+The draft for the header and cpp file below.
+
+
+
+#####Header##########
+enum Operator{
+    None = 0,
+    comp = 1,
+    mul = 2,
+    di = 2,
+    sub = 3,
+    add = 3,
+};
+string operators = "+-*/~";
+class AbstractFunction{
+public:
+    AbstractFunction(string f);
+    void op_to_enum(char a,Operator &o);
+    ~AbstractFunction();
+private:
+   AbstractFunction *left,*right;
+   Operator o;
+};
+
+###########CPP###########
+derivative::derivative(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::derivative)
+{
+    ui->setupUi(this);
+}
+
+derivative::~derivative()
+{
+    delete ui;
+}
+
+AbstractFunction::AbstractFunction(string fun){
+    o = None;
+    while (fun[0] == "("[0] and fun[-1] == ")"[0]){
+        string new_f = "";
+        for (string::iterator i = fun.begin() + 1;i<fun.end();i++){
+            new_f += *i;
+        }
+        fun = new_f;
+    }
+    int counter = 0;
+    string::iterator j = fun.begin();
+    for (string::iterator i = fun.begin();i<fun.end();i++){
+        if (*i == "("[0]){
+            counter += 1;
+        }
+        if (*i == ")"[0]){
+            counter += 1;
+        }
+        if (operators.find_first_of(*i,0) != string::npos and counter == 0){
+            char op = *i;
+            Operator new_o;
+            op_to_enum(op, new_o);
+            if (new_o > o){
+                o = new_o;
+                j = i;
+            };
+        }
+    }
+    string l = ""; string r = "";
+    for (string::iterator i = fun.begin();i<fun.end();i++){
+        if (i<j){
+            l += *i;
+        }
+        if (i>j){
+            r += *i;
+        }
+    *left = AbstractFunction(l);*right = AbstractFunction(r);
+    }
+}
+void AbstractFunction::op_to_enum(char op,Operator &o){
+    if (op == "+"[0]){
+        o = add;
+    }
+    if (op == "-"[0]){
+        o = sub;
+    }
+    if (op == "*"[0]){
+        o = mul;
+    }
+    if (op == "/"[0]){
+        o = di;
+    }
+    if (op == "~"[0]){
+        o = comp;
+    }
+}
+
+
+

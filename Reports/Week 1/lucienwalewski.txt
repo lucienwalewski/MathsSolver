@@ -1,0 +1,7 @@
+This first week has involved creating a plan for the image recognition part of the project. It was decided we would first focus on image preprocessing as this
+was a natural place to start. A more significant portion of the week was dedicated toward managing Git and getting to grips with openCV which was quite tedious
+to install and get running on our machines. In future, we need to be able to have a buildable project on Git so that anyone could download it and have it work
+without having to go through the entire process of installing Git. 
+
+The main goal for next week is to have a proper working project on Git that works with openCV and finish up on any image preprocessing that remains and then begin to 
+implement our neural network, hopefully writing functions for convolutions, pooling and fully connected layers in that order of priority. 

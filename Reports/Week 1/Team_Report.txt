@@ -1,0 +1,14 @@
+Much of the time spent in this first week was on setting up efficient workflows for the upcoming weeks and planning on how to carry out
+the project. Team leaders spent time in their respective teams, planning how they would approach the tasks at hand and delegating various
+assignments to team members. Individually, people also spent time getting to grips with the libraries and other softwares they would be using
+for the duration of the project.
+
+While a significant portion of this week's work went into planning, each team began implementing concrete code. On the GUI side, Hugo familiarized
+himself with Qt graphics libraries and then coded the main page for the API. On the linear systems team, a lot of progress was made, with Peixin, Aurele,
+Hector finishing the Miller_Rabin algorithm, a class for matrices along with a variety of methods and also started work on an FFT algorithm.
+
+On the Image recognition team, a lot of time was spent on understanding and installing openCV, while also planning how to approach the problem. The team
+will begin coding the neural network in the following week. It remains to be seen how we will incorporate openCV on the main branch.
+
+CONSTANCE
+GHADI

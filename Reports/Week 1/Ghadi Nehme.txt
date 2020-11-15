@@ -1,0 +1,7 @@
+This week, we determined which functions we are going to implement:
+A function that takes a function and  returns all its roots
+A function that takes a function and an interval and returns the value of the integral of the function on the interval
+A function that takes a function and a value and returns the value of its derivative at this point
+A function that takes a system of differential equations and returns a solution
+
+This week, we implemented the function that returns the derivative of a function at a point, and we searched for ways to implement the function that returns the roots of a function.
