@@ -14,10 +14,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    string path = "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\DSC_7797-18.jpg";  // testing path, you may change or delete this line
+    string path = "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\cam14_WB.jpg";  // testing path, you may change or delete this line
 
     Mat image = upload_img(path);
     image = convert_toGray(image);
+    image = noise_removal(image);
 
     imshow("Test image", image);
     waitKey(0);

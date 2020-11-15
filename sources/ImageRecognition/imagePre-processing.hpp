@@ -15,4 +15,6 @@ Mat convert_toGray(Mat image);
 
 Mat upload_img(string path);
 
+Mat noise_removal(Mat image);
+
 #endif // IMAGEPREPROCESSING_HPP
