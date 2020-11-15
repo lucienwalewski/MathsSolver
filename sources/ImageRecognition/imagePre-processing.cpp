@@ -42,5 +42,10 @@ Mat noise_removal(Mat image){
 
 Mat crop(Mat image){
 
+    if(!image.data){
+        cout<<"Image path is not valid\n";
+
+    RotatedRect rect = minAreaRect(image)
+    }
 }
 
