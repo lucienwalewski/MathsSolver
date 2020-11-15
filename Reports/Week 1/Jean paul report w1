@@ -1,0 +1,6 @@
+This week we all have discuss the structure of the derivate program,in order to facilitate the work , and divide the main areas.
+I have been working in collaboration with constance ferragu in the implementation of the sub-classes ,especially in the implementations of the basic solve methods for the different sub-classes.
+For the moment the program have not been able to compile hence we have not prove if it works, but this will be solved hopefully in the next week.
+Next week i will be working in the implementation of the printing of the solution of the programm ,specifically the transformation of an AbstractFunction object into a string.
+If possible this will be used to create a step by step solution 
+Jean paul Touret, member of derivative team
