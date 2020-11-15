@@ -1,0 +1,7 @@
+This week with the team of numerical integration, we assessed the different functions we have to create and these are the following functions:
+A function that takes a function as input and returns all its roots.
+A function that takes a function and an interval as input, and returns the value of the integral of this function on this interval.
+A function that takes a function and a value as input and returns the value of the derivative of the function at this point.
+A function that takes a system of differential equations as input and returns a solution.
+
+We implemented the function that returns the derivative of a function at a point, and we started thinking about the implementation of the function that returns the roots of a function.
