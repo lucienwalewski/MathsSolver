@@ -17,4 +17,6 @@ Mat upload_img(string path);
 
 Mat noise_removal(Mat image);
 
+Mat crop(Mat image);
+
 #endif // IMAGEPREPROCESSING_HPP

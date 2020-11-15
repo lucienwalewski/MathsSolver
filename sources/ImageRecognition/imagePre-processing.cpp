@@ -39,3 +39,8 @@ Mat noise_removal(Mat image){
 
     return final_img;
 }
+
+Mat crop(Mat image){
+
+}
+
