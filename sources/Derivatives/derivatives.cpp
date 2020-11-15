@@ -1,8 +1,10 @@
+#include "derivatives.hpp"
+
 AbstractFunction::AbstractFunction(string our_function){
 
 }
 
-AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation){
+AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operation operation){
     this-> left = left;
     this-> right = right;
     this-> operation = operation;

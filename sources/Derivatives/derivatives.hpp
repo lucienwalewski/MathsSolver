@@ -16,7 +16,7 @@ enum Operation{
 class AbstractFunction {
 public:
     AbstractFunction(string our_function);
-    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operation operation);
     ~AbstractFunction();
     AbstractFunction();
     AbstractFunction get_left();
