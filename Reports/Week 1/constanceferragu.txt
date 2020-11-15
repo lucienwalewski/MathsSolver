@@ -1,0 +1,15 @@
+This week, the main goal for the Derivatives Team was to come up with a rigorous and structured way to represent a function given to us as a 
+string input. Our initial approach was to represent an abstract function as a tree, however we soon discovered we had to take into account the 
+different operations as well as the different functions possible. We wanted to find a way to break up our function into a combination of 'simple' 
+functions (sin, cos, exponential, polynomials, constant, logarithmic) and operations (+, -, *, /, composition). After doing some more research, we 
+came up with the idea of using linked nodes. Specifically for my part, I coded the outer structure of the project (class structure and functions 
+needed to implement). This was the first step that had to be done before coding anything else. 
+
+We have our main AbstractFunction class, which represents a node. This node has an operation and two AbstractFunctions (left and right) associated 
+to it. The branch between the left and right AbstractFunction represents the operation between these two AbstractFunctions. 
+
+I also started working on the .solve() function that will be called on an AbstractFunction to derivate it. Jean Paul coded the .solve() function 
+for each of the basic functions, while I worked on the main .solve() function for the AbstractClass, and on the specific derivation rules for each
+operation (plus/minus, multiplication, division, chain rule). However, I have encountered an issue. A child class is not considered a parent class, 
+even though it takes all the public parent class members. Next week, I will work on finding a solution to this problem. I think I will use template 
+classes to solve this, that way when I call a function on an AbstractFunction, I can also call it on one of the basic functions.
