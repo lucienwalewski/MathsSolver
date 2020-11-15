@@ -9,6 +9,6 @@ Hector finishing the Miller_Rabin algorithm, a class for matrices along with a v
 
 On the Image recognition team, a lot of time was spent on understanding and installing openCV, while also planning how to approach the problem. The team
 will begin coding the neural network in the following week. It remains to be seen how we will incorporate openCV on the main branch.
-
-CONSTANCE
-GHADI
+For the numerical integration team, it was established what various functions would be required in order to implement the algorith.
+This first week, a function that returns the derivative of a function at a given point was coded. On the derivative calculator side,
+a lot of effort when into planning the algorithm, which would have a recursive structure.
