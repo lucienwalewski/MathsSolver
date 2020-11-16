@@ -1,0 +1,4 @@
+For the moment, I have started working alone on the user interface of the application, and will later be joined by Hector. 
+I have started familiarizing myself with the graphical part of the user interface through QT Creator and what it offers in 
+terms of libraries (QApplication, QWidget, QMainWindow, QMenu,... and different functionalities: I have coded the first bases
+of the application (main window) and started looking into the implementation of buttons and a menu bar.
