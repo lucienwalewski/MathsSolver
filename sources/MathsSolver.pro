@@ -19,16 +19,16 @@ SOURCES += \
     # Uncomment the line below if using opencv
 #    ImageRecognition/imagePreprocessing.cpp \
     main.cpp \
-    mainwindow.cpp
+    MainWindow/mainwindow.cpp
 
 HEADERS += \
     Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
 #    ImageRecognition/imagePreprocessing.hpp \
-    mainwindow.h
+    MainWindow/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    MainWindow/mainwindow.ui
 
 
 

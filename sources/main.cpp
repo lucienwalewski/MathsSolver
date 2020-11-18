@@ -1,4 +1,5 @@
-#include "mainwindow.h"
+#include "MainWindow/mainwindow.h"
+#include "Derivatives/derivatives.hpp"
 #include <QApplication>
 
 #include<iostream>
