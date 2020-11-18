@@ -15,16 +15,20 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Derivatives/derivatives.cpp \
+#    Derivatives/derivatives.cpp \
     # Uncomment the line below if using opencv
-#    ImageRecognition/imagePreprocessing.cpp \
+    ImageRecognition/imagePreprocessing.cpp \
+    ImageRecognition/cnn.cpp \
+    ImageRecognition/util.cpp \
     main.cpp \
     MainWindow/mainwindow.cpp
 
 HEADERS += \
-    Derivatives/derivatives.hpp \
+#    Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
-#    ImageRecognition/imagePreprocessing.hpp \
+    ImageRecognition/imagePreprocessing.hpp \
+    ImageRecognition/cnn.hpp \
+    ImageRecognition/util.hpp \
     MainWindow/mainwindow.h
 
 FORMS += \
@@ -32,8 +36,10 @@ FORMS += \
 
 
 
-# Uncomment the first two lines to use open cv
+# Uncomment the first four lines to use Eigen and openCV
 
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 #INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
 #LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
