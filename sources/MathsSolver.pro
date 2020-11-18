@@ -1,5 +1,11 @@
 QT       += core gui
 
+# For opencv use:
+# Go to projects, build steps, qmake, additional arguments and enter:
+# "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4"
+# where root is the path to opencv on your machine. Uncomment lines
+# 20,27,37-38.
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -11,14 +17,14 @@ CONFIG += c++11
 SOURCES += \
     Derivatives/derivatives.cpp \
     # Uncomment the line below if using opencv
-#    ImageRecognition/imagePreprocessing.cpp \
+    ImageRecognition/imagePreprocessing.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
-#    ImageRecognition/imagePreprocessing.hpp \
+    ImageRecognition/imagePreprocessing.hpp \
     mainwindow.h
 
 FORMS += \
@@ -28,8 +34,8 @@ FORMS += \
 
 # Uncomment the first two lines to use open cv
 
-#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
 ## -lopencv_core450 tells to link agains libopencv_core450 (this syntax is portable across platforms)
 
