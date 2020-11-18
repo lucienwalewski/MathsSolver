@@ -8,9 +8,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
-    cout << "Hello world";
-
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
     return a.exec();
 }
