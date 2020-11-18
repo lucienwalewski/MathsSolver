@@ -1,4 +1,4 @@
-QT       += core gui
+QT += core gui
 
 # For opencv use:
 # Go to projects, build steps, qmake, additional arguments and enter:
