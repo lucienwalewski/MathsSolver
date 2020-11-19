@@ -17,6 +17,7 @@ CONFIG += c++11
 SOURCES += \
 #    Derivatives/derivatives.cpp \
     # Uncomment the line below if using opencv
+    Derivatives/derivatives.cpp \
     ImageRecognition/imagePreprocessing.cpp \
     ImageRecognition/cnn.cpp \
     ImageRecognition/util.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
 #    Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
+    Derivatives/derivatives.hpp \
     ImageRecognition/imagePreprocessing.hpp \
     ImageRecognition/cnn.hpp \
     ImageRecognition/util.hpp \

@@ -13,97 +13,114 @@ enum Operation{
     none = 0
 };
 
+
+
 class AbstractFunction {
 public:
     AbstractFunction(string our_function);
-    AbstractFunction(AbstractFunction left, AbstractFunction right, Operation operation);
+    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operation operation){
+        this-> left = left;
+        this-> right = right;
+        this-> operation = operation;
+    };
     ~AbstractFunction();
     AbstractFunction();
-    AbstractFunction get_left();
-    void set_left(AbstractFunction left);
-    AbstractFunction get_right();
-    void set_right(AbstractFunction right);
+    AbstractFunction* get_left();
+    void set_left(AbstractFunction* left);
+    AbstractFunction* get_right();
+    void set_right(AbstractFunction* right);
     Operation get_operation();
     void set_operation(Operation operation);
-    AbstractFunction solve();
 
-    AbstractFunction add(AbstractFunction function1, AbstractFunction function2);
-    AbstractFunction subtract(AbstractFunction function1, AbstractFunction function2);
-    AbstractFunction multiply(AbstractFunction function1, AbstractFunction function2);
-    AbstractFunction divide(AbstractFunction function1, AbstractFunction function2);
-    AbstractFunction chain_rule(AbstractFunction function1, AbstractFunction function2);
+    template <typename Function1> Function1 solve();
+
+    template <typename Function1, typename Function2> AbstractFunction add(Function1 function1, Function2 function2);
+
+    template <typename Function1, typename Function2> AbstractFunction subtract(Function1 function1, Function2 function2);
+
+    template <typename Function1, typename Function2> AbstractFunction multiply(Function1 function1, Function2 function2);
+
+    template <typename Function1, typename Function2> AbstractFunction divide(Function1 function1, Function2 function2);
+
+    template <typename Function1, typename Function2> AbstractFunction chain_rule(Function1 function1, Function2 function2);
+
 private:
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 
 };
 
 class SinFunction : public AbstractFunction{
 public:
     SinFunction();
-    AbstractFunction solve();
+    template <typename Function1> Function1 solve();
 private:
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 
 class CosFunction : public AbstractFunction{
 public:
     CosFunction();
-    AbstractFunction solve();
+    template <typename Function1> Function1 solve();
 private:
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 class ExponentialFunction : public AbstractFunction{
 public:
     ExponentialFunction(int base);
-    AbstractFunction solve();
     int get_base();
+    template <typename Function1> Function1 solve();
 private:
     int base;
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 
 class LogarithmicFunction : public AbstractFunction{
 public:
     LogarithmicFunction(int base);
-    AbstractFunction solve();
     int get_base();
+    template <typename Function1> Function1 solve();
 private:
     int base;
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 
 class PolynomialFunction : public AbstractFunction{
 public:
     PolynomialFunction(int exponent);
-    AbstractFunction solve();
+
     int get_exponent();
+
+    template <typename Function1> Function1 solve();
+
 private:
     int exponent;
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 
 class ConstantFunction : public AbstractFunction{
 public:
     ConstantFunction(int c);
-    AbstractFunction solve();
+
     int get_c();
+
+    template <typename Function1> Function1 solve();
 private:
     int c;
     Operation operation;
-    AbstractFunction left;
-    AbstractFunction right;
+    AbstractFunction *left;
+    AbstractFunction *right;
 };
 
 
