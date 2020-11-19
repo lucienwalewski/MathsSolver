@@ -1,7 +1,44 @@
 #include "derivatives.hpp"
 
-AbstractFunction::AbstractFunction(string our_function){
-
+AbstractFunction::AbstractFunction(string fun){
+    operation = none;
+    while (fun[0] == "("[0] and fun[-1] == ")"[0]){
+        string new_f = "";
+        for (string::iterator i = fun.begin() + 1;i<fun.end();i++){
+            new_f += *i;
+        }
+        fun = new_f;
+    }
+    int counter = 0;
+    string::iterator j = fun.begin();
+    for (string::iterator i = fun.begin();i<fun.end();i++){
+        if (*i == "("[0]){
+            counter += 1;
+        }
+        if (*i == ")"[0]){
+            counter += 1;
+        }
+        if (operators.find_first_of(*i,0) != string::npos and counter == 0){
+            char op = *i;
+            Operation new_o;
+            op_to_enum(op, new_o);
+            if (new_o > operation){
+                operation = new_o;
+                j = i;
+            };
+        }
+    }
+    string l = ""; string r = "";
+    for (string::iterator i = fun.begin();i<fun.end();i++){
+        if (i<j){
+            l += *i;
+        }
+        if (i>j){
+            r += *i;
+        }
+    *left = AbstractFunction(l);
+    *right = AbstractFunction(r);
+    }
 }
 
 
@@ -10,6 +47,23 @@ AbstractFunction::AbstractFunction(){
     this->left = NULL;
     this->right = NULL;
     this->operation = none;
+}
+void AbstractFunction::op_to_enum(char op,Operation &operation){
+    if (op == "+"[0]){
+        operation = addition;
+    }
+    if (op == "-"[0]){
+        operation = subtraction;
+    }
+    if (op == "*"[0]){
+        operation = multiplication;
+    }
+    if (op == "/"[0]){
+        operation = division;
+    }
+    if (op == "~"[0]){
+        operation = composition;
+    }
 }
 
 AbstractFunction* AbstractFunction:: get_left(){
@@ -147,7 +201,9 @@ int LogarithmicFunction::get_base(){
 }
 template <typename Function1> Function1 LogarithmicFunction::solve(){
     int base = this->get_base();
+
     return AbstractFunction(ConstantFunction(1), AbstractFunction(ConstantFunction('ln(base)'), PolynomialFunction(1), multiplication), division);
+
 }
 
 

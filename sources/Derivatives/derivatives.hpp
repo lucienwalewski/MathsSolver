@@ -14,6 +14,8 @@ enum Operation{
 };
 
 
+string operators = "+-*/~";
+
 
 class AbstractFunction {
 public:
@@ -23,7 +25,9 @@ public:
         this-> right = right;
         this-> operation = operation;
     };
-    ~AbstractFunction();
+
+    ~AbstractFunction(){};
+
     AbstractFunction();
     AbstractFunction* get_left();
     void set_left(AbstractFunction* left);
@@ -31,6 +35,8 @@ public:
     void set_right(AbstractFunction* right);
     Operation get_operation();
     void set_operation(Operation operation);
+
+    void op_to_enum(char op, Operation &operation);
 
     template <typename Function1> Function1 solve();
 
@@ -43,6 +49,7 @@ public:
     template <typename Function1, typename Function2> AbstractFunction divide(Function1 function1, Function2 function2);
 
     template <typename Function1, typename Function2> AbstractFunction chain_rule(Function1 function1, Function2 function2);
+
 
 private:
     Operation operation;
