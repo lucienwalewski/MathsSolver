@@ -17,20 +17,18 @@ CONFIG += c++11
 SOURCES += \
 #    Derivatives/derivatives.cpp \
     # Uncomment the line below if using opencv
-    Derivatives/derivatives.cpp \
-    ImageRecognition/imagePreprocessing.cpp \
-    ImageRecognition/cnn.cpp \
-    ImageRecognition/util.cpp \
+    # ImageRecognition/imagePreprocessing.cpp \
+    # ImageRecognition/cnn.cpp \
+    # ImageRecognition/util.cpp \
     main.cpp \
     MainWindow/mainwindow.cpp
 
 HEADERS += \
 #    Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
-    Derivatives/derivatives.hpp \
-    ImageRecognition/imagePreprocessing.hpp \
-    ImageRecognition/cnn.hpp \
-    ImageRecognition/util.hpp \
+    # ImageRecognition/imagePreprocessing.hpp \
+    # ImageRecognition/cnn.hpp \
+    # ImageRecognition/util.hpp \
     MainWindow/mainwindow.h
 
 FORMS += \
