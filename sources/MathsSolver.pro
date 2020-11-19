@@ -1,4 +1,10 @@
-QT       += core gui
+QT += core gui
+
+# For opencv use:
+# Go to projects, build steps, qmake, additional arguments and enter:
+# "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4"
+# where root is the path to opencv on your machine. Uncomment lines
+# 20,27,37-38.
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,26 +15,36 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Derivatives/derivatives.cpp \
-    ImageRecognition/imagePre-processing.cpp \
+#    Derivatives/derivatives.cpp \
+    # Uncomment the line below if using opencv
+    ImageRecognition/imagePreprocessing.cpp \
+    ImageRecognition/cnn.cpp \
+    ImageRecognition/util.cpp \
     main.cpp \
-    mainwindow.cpp
+    MainWindow/mainwindow.cpp
 
 HEADERS += \
-    Derivatives/derivatives.hpp \
-    ImageRecognition/imagePre-processing.hpp \
-    mainwindow.h
+#    Derivatives/derivatives.hpp \
+    # Uncomment the line below if using opencv
+    ImageRecognition/imagePreprocessing.hpp \
+    ImageRecognition/cnn.hpp \
+    ImageRecognition/util.hpp \
+    MainWindow/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    MainWindow/mainwindow.ui
 
-INCLUDEPATH += C:\Users\Korisnik\Downloads\opencv\release\install\include
 
-LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_core450.dll
-LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_highgui450.dll
-LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_imgcodecs450.dll
-LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_imgproc450.dll
-LIBS += C:\Users\Korisnik\Downloads\opencv\release\bin\libopencv_calib3d450.dll
+
+# Uncomment the first four lines to use Eigen and openCV
+
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
+## -lopencv_core450 tells to link agains libopencv_core450 (this syntax is portable across platforms)
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

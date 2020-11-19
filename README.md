@@ -1,4 +1,8 @@
-**Maths Solver**
+**Build details**
+
+Double click on MathsSolver.pro to open the project in Qt in order to build and run it
+
+**Maths Solver Project Description**
 
 The MathsSolver program will allow a user to upload a picture of a handwritten maths
 problem or type the problem which will then be solved by the program.
