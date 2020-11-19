@@ -201,7 +201,9 @@ int LogarithmicFunction::get_base(){
 }
 template <typename Function1> Function1 LogarithmicFunction::solve(){
     int base = this->get_base();
-    return AbstractFunction(ConstantFunction(1), AbstractFunction(ConstantFunction(base), PolynomialFunction(1), multiplication), division);
+
+    return AbstractFunction(ConstantFunction(1), AbstractFunction(ConstantFunction('ln(base)'), PolynomialFunction(1), multiplication), division);
+
 }
 
 

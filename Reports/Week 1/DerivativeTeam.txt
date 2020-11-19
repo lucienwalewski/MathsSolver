@@ -1,0 +1,40 @@
+# Week 1 report (to be completed by Sunday)
+
+CSE201 Project
+Week 01: Derivatives Team
+
+Constance Ferragu, Merlin Beaufils, Marie Huynh,  Jean Paul Touret
+
+What we did this week: 
+- Researched and came up with the Classes structure for our project
+	- AbstractFunction Class
+	- Sin, cos, constant, exponential, polynomial, logarithmic Classes 
+- Started thinking about the string manipulation and decomposition for the 
+AbstractFunction Class constructor. 
+- Decided to implement a vector object to represent the string of the function. Our input is a string --> converted to a vector --> converted to an AbstractFunction object. 
+
+- We will represent the operations as an enumerator. 
+
+- We split up the tasks:
+	- Marie: converting the string to a vector 
+	- Merlin: converting vector to AbstractFunction
+	- Jeau Paul: converting AbstractFunction to string
+	- Constance: .solve() function 
+
+
+Base Function: 
+- Sin (sin(x))
+- Cos (cos(x)) 
+- Constant (a)
+- Exponential (a^x)
+- polynomial (x^a)
+- Logarithmic (log(x))
+
+Operations: -, +, *, /, ⚬  
+
+AbstractFunction Idea: 
+- Input: a string that represents a function
+	- Example: ‘(x+3) + (x^2)*cos(e^x) – (log(x))^4’
+- Output: Linked nodes that represent the function. The branches represent operations, and each node has a left and right pointer
+
+
