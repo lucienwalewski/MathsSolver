@@ -15,20 +15,20 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-#    Derivatives/derivatives.cpp \
+    Derivatives/derivatives.cpp \
     # Uncomment the line below if using opencv
-    ImageRecognition/imagePreprocessing.cpp \
-    ImageRecognition/cnn.cpp \
-    ImageRecognition/util.cpp \
+    #ImageRecognition/imagePreprocessing.cpp \
+    #ImageRecognition/cnn.cpp \
+    #ImageRecognition/util.cpp \
     main.cpp \
     MainWindow/mainwindow.cpp
 
 HEADERS += \
-#    Derivatives/derivatives.hpp \
+    Derivatives/derivatives.hpp \
     # Uncomment the line below if using opencv
-    ImageRecognition/imagePreprocessing.hpp \
-    ImageRecognition/cnn.hpp \
-    ImageRecognition/util.hpp \
+    #ImageRecognition/imagePreprocessing.hpp \
+    #ImageRecognition/cnn.hpp \
+    #ImageRecognition/util.hpp \
     MainWindow/mainwindow.h
 
 FORMS += \
