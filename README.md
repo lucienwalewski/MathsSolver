@@ -8,6 +8,8 @@ In order to run the project, you will need to install the following libraries. W
 Having installed these, you must navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" where "root" is the path towards
 both libraries on your machine. 
 
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
+
 Double click on MathsSolver.pro to open the project in Qt in order to build and run it
 
 # Maths Solver Project Description
