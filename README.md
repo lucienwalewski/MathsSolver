@@ -5,12 +5,20 @@ In order to run the project, you will need to install the following libraries. W
 - Eigen http://eigen.tuxfamily.org/index.php?title=Main_Page
 - OpenCV https://opencv.org/releases/ (This library takes quite some time to install and you will also have to install Cmake in order to configure the library)
 
-Having installed these, open the project by double-clicking on MathsSolver.pro in the sources directory and navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" where "root" is the path towards
-both libraries on your machine. In the example image below, the directory towards the libraries is "Users/lucienwalewski/"
+Having installed these, open the project by double-clicking on MathsSolver.pro in the sources directory and navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, 
+
+If on Mac:
+
+Enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" where "root" is the path towards
+both libraries on your machine. In the example image below, the directory towards the libraries is "Users/lucienwalewski/".
 
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
 
-Having done this, the project should now build and run. Make sure to uncomment any source or header files in MathsSolver.pro if they are still commented. 
+If on Windows: 
+
+Enter: "EIGEN_LIBRARY_INCLUDE=root\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root\opencv\release\install\include" "OPENCV_LIBRARY_PATH=root\opencv\release\bin\" where "root" is the path towards both libraries on your machine. 
+
+Then, scroll down to line 54 in MathsSolver.pro and follow the instructions. Having done this, the project should now build and run. Make sure to uncomment any source or header files in MathsSolver.pro if they are still commented. 
 
 
 # Maths Solver Project Description
