@@ -1,4 +1,4 @@
-**Build details**
+# Build details
 
 Double click on MathsSolver.pro to open the project in Qt in order to build and run it
 
