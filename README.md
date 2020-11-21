@@ -1,5 +1,10 @@
 # Build details
 
+In order to run the project, you will need to install the following libraries. We recommend you install them all in the same location:
+
+- Eigen http://eigen.tuxfamily.org/index.php?title=Main_Page
+- OpenCV
+
 Double click on MathsSolver.pro to open the project in Qt in order to build and run it
 
 # Maths Solver Project Description
