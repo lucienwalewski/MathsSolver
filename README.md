@@ -2,12 +2,12 @@
 
 Double click on MathsSolver.pro to open the project in Qt in order to build and run it
 
-**Maths Solver Project Description**
+# Maths Solver Project Description
 
 The MathsSolver program will allow a user to upload a picture of a handwritten maths
 problem or type the problem which will then be solved by the program.
 
-**Members (name surname, github, trello, [role])**
+## Members (name surname, github, trello, [role])
 
 - Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
 - Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead, Git master
@@ -23,7 +23,7 @@ problem or type the problem which will then be solved by the program.
 - Ines Saih, inessaih , inessaih , Numerical integration team
 - Marie Huynh, marie-huynh , mariehuynh6 , Differential calculator team
 
-**Teams**
+## Teams
 
 **Algorithms / Equations**
 
