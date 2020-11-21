@@ -5,7 +5,8 @@ In order to run the project, you will need to install the following libraries. W
 - Eigen http://eigen.tuxfamily.org/index.php?title=Main_Page
 - OpenCV https://opencv.org/releases/ (This library takes quite some time to install)
 
-Having installed these, you must navigate 
+Having installed these, you must navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" where "root" is the path towards
+both libraries on your machine. 
 
 Double click on MathsSolver.pro to open the project in Qt in order to build and run it
 
