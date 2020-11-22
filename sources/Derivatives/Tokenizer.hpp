@@ -1,0 +1,4 @@
+#ifndef TOKENIZER_HPP
+#define TOKENIZER_HPP
+
+#endif // TOKENIZER_HPP
