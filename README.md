@@ -9,7 +9,7 @@ Having installed these, open the project by double-clicking on MathsSolver.pro i
 
 If on Mac:
 
-Enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" where "root" is the path towards
+Enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=root/opencv/build/install/lib" where "root" is the path towards
 both libraries on your machine. In the example image below, the directory towards the libraries is "Users/lucienwalewski/".
 
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
