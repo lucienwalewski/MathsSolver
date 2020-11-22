@@ -1,6 +1,7 @@
-#pragma once
+//#pragma once
 #include "cnn.hpp"
 #include <Eigen/Dense>
+#include <iostream>
 
 using namespace Eigen;
 using namespace std;
@@ -14,6 +15,22 @@ double CNN::conv_single_step(MatrixXd slice_prev, MatrixXd W, double b) {
     return Z;
 }
 
+/* This function pads an input image with zeros of size pad
+ */
 MatrixXd CNN::zero_pad(MatrixXd image, int pad) {
-    return image;
+    int p = image.rows(), q = image.cols();
+    MatrixXd res = MatrixXd(p + pad, q + pad);
+    res.block(p, q, pad, pad) = image;
+    return res;
+}
+
+bool CNN::test_zero_pad() {
+    MatrixXd M;
+    CNN c;
+    M << 1, 2, 3,
+         4, 5, 6,
+         7, 8, 9;
+    M = c.zero_pad(M, 2);
+    cout << M;
+    return true;
 }

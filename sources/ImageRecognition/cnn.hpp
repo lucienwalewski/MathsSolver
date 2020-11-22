@@ -15,13 +15,15 @@ public:
     int train();
     double validate();
     void info();
+    MatrixXd zero_pad(MatrixXd image, int pad);
+    bool test_zero_pad();
 
 private:
     double conv_single_step(MatrixXd slice_prev, MatrixXd W, double b);
     int forward_prop();
     int backword_prop();
     double cross_entropy();
-    MatrixXd zero_pad(MatrixXd image, int pad);
+
 };
 
 #endif // CNN_HPP
