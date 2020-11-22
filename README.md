@@ -18,7 +18,7 @@ If on Windows:
 
 Enter: "EIGEN_LIBRARY_INCLUDE=root\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root\opencv\release\install\include" "OPENCV_LIBRARY_PATH=root\opencv\release\bin\" where "root" is the path towards both libraries on your machine. 
 
-Then, scroll down to line 54 in MathsSolver.pro and follow the instructions. Having done this, the project should now build and run. Make sure to uncomment any source or header files in MathsSolver.pro if they are still commented. 
+Then, scroll down to line 34 in MathsSolver.pro and follow the instructions. Having done this, the project should now build and run. Make sure to uncomment any source or header files in MathsSolver.pro if they are still commented. 
 
 ## Current Build Issues
 
