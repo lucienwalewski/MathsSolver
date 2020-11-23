@@ -1,0 +1,1 @@
+This week I further researched UI functionalities of QT5 in particular the relation between input-->cropping-->wanted output. I will implement the upload file button and its associated characteristics.
