@@ -1,0 +1,1 @@
+The symbolic solution of the integration of rational function
