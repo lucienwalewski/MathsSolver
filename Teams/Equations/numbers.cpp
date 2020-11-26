@@ -7,7 +7,8 @@ int gcd(int a, int b)
 
 long long mul_with_mod(long long x, long long y, long long p)
 {
-    return (x * y - (long long)((long double)x / p * y) * p + p) % p;
+    x %= p,y %= p;
+    return ((x * y - (long long)((long long)((long double)x / p * y + 0.5) * p)) % p + p) % p;
 }
 
 long long power(long long x, long long y, long long p)

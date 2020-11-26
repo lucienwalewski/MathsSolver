@@ -67,7 +67,7 @@ void NTT(long long *cp,long long cnt,long long inv,long long mod)
     }
     for (int i = 2; i <= cnt; i <<= 1)
     {
-        cur = i >> 1, res = mul_with_mod(G, (mod - 1) / i, mod);
+        cur = i >> 1, res = power(G, (mod - 1) / i, mod);
         for (long long * p = cp; p != cp + cnt; p += i)
         {
             omg = 1;
@@ -90,7 +90,7 @@ ll CRT(ll r1,ll r2,ll r3,ll mod)
     return ((k % mod) * (MOD % mod) % mod + r) % mod;
 }
 
-Polynomial mul_with_mod_po(Polynomial x, Polynomial y, long long mod)
+Polynomial mul_with_mod_po(Polynomial x, Polynomial y, ll mod)
 {
     ll cnt = 1, inv;
     static ll cpx[MAXN], cpy[MAXN];
@@ -114,7 +114,7 @@ Polynomial mul_with_mod_po(Polynomial x, Polynomial y, long long mod)
     }
     NTT(cpx, cnt, -1, mod);
     int deg = x.deg + y.deg;
-    inv = mul_with_mod(cnt, mod - 2, mod);
+    inv = power(cnt, mod - 2, mod);
     cpx[0] = cpx[0] * inv % mod;
     for (int i = 1; i <= cnt >> 1; i++)
     {
@@ -135,13 +135,21 @@ Polynomial mul_with_mod_po(Polynomial x, Polynomial y, long long mod)
 
 Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod)
 {
+    for (int i = 0; i <= x.deg; i++)
+    {
+        x.coefficient[i] %= mod;
+    }
+    for (int i = 0; i <= y.deg; i++)
+    {
+        y.coefficient[i] %= mod;
+    }
     Polynomial res1(mul_with_mod_po(x, y, MOD1));
     Polynomial res2(mul_with_mod_po(x, y, MOD2));
     Polynomial res3(mul_with_mod_po(x, y, MOD3));
     ll coeff[res1.deg + 1];
     for (int i = 0; i <= res1.deg; i++)
     {
-        coeff[i] = CRT(res1.coefficient[i], res2.coefficient[i], res3.coefficient[i],mod);
+        coeff[i] = CRT(res1.coefficient[i], res2.coefficient[i], res3.coefficient[i], mod);
     }
     return Polynomial(coeff, res1.deg);
 }

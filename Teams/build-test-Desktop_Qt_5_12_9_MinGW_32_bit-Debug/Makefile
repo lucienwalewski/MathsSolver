@@ -209,6 +209,7 @@ Makefile: ../Equations/test.pro D:/program/QT/5.12.9/mingw73_32/mkspecs/win32-g+
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/features/qt_config.prf \
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/win32-g++/qmake.conf \
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/features/exclusive_builds.prf \
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/features/toolchain.prf \
 		D:/program/QT/5.12.9/mingw73_32/mkspecs/features/default_pre.prf \
@@ -374,6 +375,7 @@ D:/program/QT/5.12.9/mingw73_32/mkspecs/features/qt_functions.prf:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/features/qt_config.prf:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/win32-g++/qmake.conf:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/features/spec_post.prf:
+.qmake.stash:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/features/exclusive_builds.prf:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/features/toolchain.prf:
 D:/program/QT/5.12.9/mingw73_32/mkspecs/features/default_pre.prf:
