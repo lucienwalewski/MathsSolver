@@ -1,4 +1,3 @@
-#include <iostream>
 #include "numbers.hpp"
 
 int gcd(int a, int b)
@@ -6,9 +5,9 @@ int gcd(int a, int b)
     return b > 0 ? gcd(b, a % b) : a;
 }
 
-long long mul_with_mod(unsigned long long x, unsigned long long y, long long p)
+long long mul_with_mod(long long x, long long y, long long p)
 {
-    return (x * y - (unsigned long long)((long double)x / p * y) * p + p) % p;
+    return (x * y - (long long)((long double)x / p * y) * p + p) % p;
 }
 
 long long power(long long x, long long y, long long p)
@@ -50,3 +49,12 @@ bool is_prime(long long x)
     return Miller_Rabin(2, x) && Miller_Rabin(3, x) && Miller_Rabin(5, x) && Miller_Rabin(7, x) && Miller_Rabin(43, x);
 }
 
+long long min_with_mod(long long x, long long y, long long p)
+{
+    return x - y < 0? x - y + p : x - y;
+}
+
+long long add_with_mod(long long x, long long y, long long p)
+{
+    return x + y > p? x + y - p : x + y;
+}

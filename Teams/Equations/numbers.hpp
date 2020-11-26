@@ -1,3 +1,8 @@
+#ifndef NUMBERS_HPP
+#define NUMBERS_HPP
+
+int gcd(int a, int b);
+
 class Complex
 {
 public:
@@ -38,10 +43,13 @@ private:
     double i, r;
 };
 
-int gcd(int a, int b);
 bool Miller_Rabin(long long x, long long p);
 bool is_prime(long long x);
 long long power(long long x, long long y, long long p);
-long long mul_with_mod(unsigned long long x, unsigned long long y, long long p);
+long long mul_with_mod(long long x, long long y, long long p);
+long long min_with_mod(long long x, long long y, long long p);
+long long add_with_mod(long long x, long long y, long long p);
 
 void FFT(Complex *y, int len, bool flag);
+
+#endif
