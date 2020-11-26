@@ -16,6 +16,7 @@ public:
     double validate();
     void info();
     MatrixXd zero_pad(MatrixXd image, int pad);
+    vector
     bool test_zero_pad();
 
 private:
