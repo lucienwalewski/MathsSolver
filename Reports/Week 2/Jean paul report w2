@@ -1,0 +1,3 @@
+In this week i worked on the creation of a method to convert an Abstractfunction object into a string.in order to do this i added a new private member
+to the the abstractfunction class , that stores the string of the object , by iterating over the tree to find every string of the base case.
+Now every node(specific function) of the tree has a label which will help to print it in the future by using the get_str_label method. 

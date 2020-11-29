@@ -1,0 +1,1 @@
+This week, we implemented the function that returns the integral of a function on an interval, and we searched for ways to implement the function that returns the roots of a function.
