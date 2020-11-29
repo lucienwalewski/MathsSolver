@@ -20,6 +20,7 @@ SOURCES += \
 HEADERS += \
     Derivatives/Tokenizer.hpp \
     Derivatives/derivatives.hpp \
+    Derivatives/tokenizer_testing.hpp \
     ImageRecognition/imagePreprocessing.hpp \
     ImageRecognition/cnn.hpp \
     ImageRecognition/util.hpp \
