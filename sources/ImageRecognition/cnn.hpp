@@ -8,6 +8,8 @@ using namespace Eigen;
 using namespace std;
 
 
+MatrixXd zero_pad(MatrixXd image, int pad);
+
 class CNN
 {
 public:
@@ -15,8 +17,8 @@ public:
     int train();
     double validate();
     void info();
-    MatrixXd zero_pad(MatrixXd image, int pad);
-    vector
+//    MatrixXd zero_pad(MatrixXd image, int pad);
+//    vector
     bool test_zero_pad();
 
 private:
