@@ -1,4 +1,5 @@
 QT += core gui
+QT += testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,18 +12,18 @@ CONFIG += c++11
 SOURCES += \
     Derivatives/Tokenizer.cpp \
     Derivatives/derivatives.cpp \
-    ImageRecognition/imagePreprocessing.cpp \
-    ImageRecognition/cnn.cpp \
-    ImageRecognition/util.cpp \
+#    ImageRecognition/imagePreprocessing.cpp \
+#    ImageRecognition/cnn.cpp \
+#    ImageRecognition/util.cpp \
     main.cpp \
     MainWindow/mainwindow.cpp
 
 HEADERS += \
     Derivatives/Tokenizer.hpp \
     Derivatives/derivatives.hpp \
-    ImageRecognition/imagePreprocessing.hpp \
-    ImageRecognition/cnn.hpp \
-    ImageRecognition/util.hpp \
+#    ImageRecognition/imagePreprocessing.hpp \
+#    ImageRecognition/cnn.hpp \
+#    ImageRecognition/util.hpp \
     MainWindow/mainwindow.h
 
 FORMS += \
@@ -52,7 +53,15 @@ LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 #LIBS += -L"/Users/lucienwalewski/opencv/build/install/lib" \
 #        -l"opencv_world"
 
+# Individual team member lines:
+
+# Lucien :
 #"OPENCV_LIBRARY_INCLUDE=/Users/lucienwalewski/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=/Users/lucienwalewski/opencv/build/install/lib" "EIGEN_LIBRARY_INCLUDE=/Users/lucienwalewski/eigen-3.3.8"
+
+# Lazar :
+#
+
+# ...
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
