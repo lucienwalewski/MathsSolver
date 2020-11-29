@@ -18,6 +18,7 @@ string operators = "+-*/^~";
 class AbstractFunction {
 public:
     AbstractFunction(string our_function);
+
     template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operation operation){
         this-> left = left;
         this-> right = right;
@@ -54,6 +55,7 @@ public:
     template <typename Function1, typename Function2> AbstractFunction chain_rule(Function1 function1, Function2 function2);
 
 
+
 private:
     Operation operation;
     AbstractFunction *left;
@@ -68,7 +70,7 @@ private:
 class SinFunction : public AbstractFunction{
 public:
     SinFunction();
-    template <typename Function1> Function1 solve();
+    AbstractFunction solve();
 private:
     Operation operation;
     AbstractFunction *left;
@@ -81,7 +83,7 @@ private:
 class CosFunction : public AbstractFunction{
 public:
     CosFunction();
-    template <typename Function1> Function1 solve();
+    AbstractFunction solve();
 private:
     Operation operation;
     AbstractFunction *left;
@@ -95,6 +97,7 @@ class ExponentialFunction : public AbstractFunction{
 public:
     ExponentialFunction(int base);
     template <typename Function1> Function1 solve();
+
     int get_base();
 private:
     int base;
@@ -110,6 +113,7 @@ class LogarithmicFunction : public AbstractFunction{
 public:
     LogarithmicFunction(int base);
     template <typename Function1> Function1 solve();
+
     int get_base();
 private:
     int base;
@@ -126,6 +130,7 @@ class PolynomialFunction : public AbstractFunction{
 public:
     PolynomialFunction(int exponent);
     template <typename Function1> Function1 solve();
+
     int get_exponent();
 private:
     int exponent;
@@ -141,6 +146,7 @@ class ConstantFunction : public AbstractFunction{
 public:
     ConstantFunction(int c);
     template <typename Function1> Function1 solve();
+
     int get_c();
 private:
     int c;

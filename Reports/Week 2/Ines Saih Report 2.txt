@@ -1,0 +1,1 @@
+This week we implemented the function that gives the value of the integral for an input containing the function that we want to compute the integral of and two values that are the bounds of integration. 
