@@ -62,7 +62,7 @@ AbstractFunction::AbstractFunction(AbstractFunction *left, AbstractFunction *rig
     this-> left = left;
     this-> right = right;
     this-> operation = operation;
-    this->str_label = left->str_label+operation+right->str_label;
+    this-> str_label = get_left().str_label + get_operation()  + get_right().str_label;
 }
 
 AbstractFunction::AbstractFunction(){
@@ -95,6 +95,9 @@ Operation AbstractFunction::get_operation(){
 void AbstractFunction::set_operation(Operation operation){
     this->operation = operation;
 
+}
+string AbstractFunction::get_str_label(){
+    return str_label
 }
 
 
