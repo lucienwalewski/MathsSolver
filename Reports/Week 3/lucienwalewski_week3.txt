@@ -1,1 +1,4 @@
-New report
+This week I created a new project for testing. I managed to make the project build and run tests for a single test file
+but encountered difficulties when trying to add multiple test files which I will have to discuss with the TA's. It was
+also established last week that using Tensorflow would be a better idea at this point so I will also look at getting TF
+to work with Lazar this week. 
