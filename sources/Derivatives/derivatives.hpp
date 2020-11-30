@@ -70,7 +70,7 @@ private:
 class SinFunction : public AbstractFunction{
 public:
     SinFunction();
-    AbstractFunction solve();
+    template <typename Function1> Function1 solve();
 private:
     Operation operation;
     AbstractFunction *left;
@@ -83,7 +83,7 @@ private:
 class CosFunction : public AbstractFunction{
 public:
     CosFunction();
-    AbstractFunction solve();
+    template <typename Function1> Function1 solve();
 private:
     Operation operation;
     AbstractFunction *left;
