@@ -1,4 +1,5 @@
 #include "derivatives.hpp"
+
 AbstractFunction::AbstractFunction(string fun){
     operation = none;
     str_label= fun;
@@ -39,6 +40,7 @@ AbstractFunction::AbstractFunction(string fun){
     *left = AbstractFunction(l);*right = AbstractFunction(r);
     }
 }
+
 void AbstractFunction::op_to_enum(char op,Operation &o){
     if (op == "+"[0]){
         o = addition;
@@ -57,19 +59,32 @@ void AbstractFunction::op_to_enum(char op,Operation &o){
     }
 }
 
+string AbstractFunction::get_string_operation(){
+    if (operation == 5){
+        return "+";
+    }
+    else if (operation == 4){
+        return "-";
+    }
+    else if(operation == 3){
+        return "*";
+    }
+    else if (operation == 2){
+        return "/";
+    }
+    else if (operation == 1){
+        return "~";
+    }
+    return "";
 
-AbstractFunction::AbstractFunction(AbstractFunction *left, AbstractFunction *right, Operation operation){
-    this-> left = left;
-    this-> right = right;
-    this-> operation = operation;
-    this->str_label = left->str_label+operation+right->str_label;
 }
 
 AbstractFunction::AbstractFunction(){
     this->left = nullptr;
     this->right = nullptr;
     this->operation = none;
-    this->str_label =none;
+    this->str_label = "";
+
 }
 
 AbstractFunction AbstractFunction:: get_left(){
@@ -97,9 +112,13 @@ void AbstractFunction::set_operation(Operation operation){
 
 }
 
+string AbstractFunction::get_str_label(){
+    return str_label;
+}
 
 
-AbstractFunction AbstractFunction::solve(){
+template <typename Function1> Function1 AbstractFunction::solve(){
+
     if(this->get_operation() == 5){
         return add(this->get_left(), this->get_right());
     }
@@ -234,3 +253,27 @@ AbstractFunction PolynomialFunction::solve(){
     int c = this->get_exponent();
     return AbstractFunction(ConstantFunction(c), PolynomialFunction(c-1), multiplication);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\
+
+
+
+
+
+
+
