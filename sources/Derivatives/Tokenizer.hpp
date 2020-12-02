@@ -37,19 +37,26 @@ vector <string> operators{"+", "-", "/", "^", "sqrt"};
 class Token {
 protected :
     string value;
+    operator_type type;
 public :
     Token(string s){
         value = s;
      }
+    Token(){
+    }
     string get_value(){
             return value;
         }
+    operator_type get_type(){
+        return type;
+    }
 };
 
 class Operator: public Token{
-private :
-    operator_type type;
 public :
+    Operator():Token(){
+        type = none;
+    }
     Operator(string t): Token(t){
         if (t == "+"){
             type = add;
@@ -66,14 +73,15 @@ public :
         if (t == "^"){
             type = pow;
         };
+        if (t == "~"){
+                type = comp;
+            };
         if (t == "(" or t == ")"){
             type = pare;
         };
     };
 
-    operator_type get_type(){
-        return type;
-    }
+
 
   };
 
@@ -100,7 +108,7 @@ vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
     string current;
     //std::string::iterator i = s.begin();
-    for (int i=0; i < s.size(); i++){
+    for (int i=0; i < int(s.size()); i++){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }

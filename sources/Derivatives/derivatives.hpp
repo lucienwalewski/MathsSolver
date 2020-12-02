@@ -1,25 +1,18 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
-
+#include "Tokenizer.hpp"
 #include <string>
+#include <vector>
 using namespace std;
 
-enum Operation{
-    addition = 5,
-    subtraction = 4,
-    multiplication = 3,
-    division = 2,
-    composition = 1,
-    none = 0
-};
 
 
-string operators = "+-*/^~";
+
 class AbstractFunction {
 public:
-    AbstractFunction(string our_function);
+    AbstractFunction(vector<Token> fun);
 
-    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operation operation){
+    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operator operation){
         this-> left = left;
         this-> right = right;
         this-> operation = operation;
@@ -28,15 +21,15 @@ public:
     ~AbstractFunction();
     AbstractFunction();
 
-    void op_to_enum(char op,Operation &operation);
+    void op_to_enum(char op,Operator &operation);
 
     AbstractFunction* get_left();
     void set_left(AbstractFunction *left);
     AbstractFunction* get_right();
     void set_right(AbstractFunction *right);
 
-    Operation get_operation();
-    void set_operation(Operation operation);
+    Operator get_operation();
+    void set_operation(Operator operation);
     string get_string_operation();
 
     string get_str_label();
@@ -57,7 +50,7 @@ public:
 
 
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -72,7 +65,7 @@ public:
     SinFunction();
     template <typename Function1> Function1 solve();
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -85,7 +78,7 @@ public:
     CosFunction();
     template <typename Function1> Function1 solve();
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -101,7 +94,7 @@ public:
     int get_base();
 private:
     int base;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -117,7 +110,7 @@ public:
     int get_base();
 private:
     int base;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -134,7 +127,7 @@ public:
     int get_exponent();
 private:
     int exponent;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -150,7 +143,7 @@ public:
     int get_c();
 private:
     int c;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
