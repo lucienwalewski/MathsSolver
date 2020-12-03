@@ -18,7 +18,7 @@ public:
         this-> operation = operation;
         this->str_label = left->str_label + get_string_operation()  + right->str_label;
     };
-    ~AbstractFunction();
+    ~AbstractFunction(){};
     AbstractFunction();
 
     void op_to_enum(char op,Operator &operation);
