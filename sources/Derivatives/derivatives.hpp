@@ -1,5 +1,6 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
+#include "Tokenizer.hpp"
 
 #include <string>
 using namespace std;
@@ -10,7 +11,7 @@ enum Operation{
     multiplication = 3,
     division = 2,
     composition = 1,
-    none = 0
+    no_op = 0
 };
 
 
@@ -25,14 +26,16 @@ public:
         this-> operation = operation;
         this->str_label = left->str_label + get_string_operation()  + right->str_label;
     };
+
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operation operation);
     ~AbstractFunction();
     AbstractFunction();
 
     void op_to_enum(char op,Operation &operation);
 
-    AbstractFunction* get_left();
+    AbstractFunction get_left();
     void set_left(AbstractFunction *left);
-    AbstractFunction* get_right();
+    AbstractFunction get_right();
     void set_right(AbstractFunction *right);
 
     Operation get_operation();
@@ -40,6 +43,8 @@ public:
     string get_string_operation();
 
     string get_str_label();
+
+    bool is_none();
 
 
     template <typename Function1> Function1 solve();
@@ -69,38 +74,42 @@ private:
 
 class SinFunction : public AbstractFunction{
 public:
-    SinFunction();
+    SinFunction(Token val);
     template <typename Function1> Function1 solve();
+    Token get_value();
 private:
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
+    Token value;
 };
 
 
 
 class CosFunction : public AbstractFunction{
 public:
-    CosFunction();
+    CosFunction(Token val);
     template <typename Function1> Function1 solve();
+    Token get_value();
 private:
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
+    Token value;
 };
 
 
 
 class ExponentialFunction : public AbstractFunction{
 public:
-    ExponentialFunction(int base);
+    ExponentialFunction(Token base);
     template <typename Function1> Function1 solve();
 
-    int get_base();
+    Token get_base();
 private:
-    int base;
+    Token base;
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -111,12 +120,14 @@ private:
 
 class LogarithmicFunction : public AbstractFunction{
 public:
-    LogarithmicFunction(int base);
+    LogarithmicFunction(Token val, Token base);
     template <typename Function1> Function1 solve();
 
-    int get_base();
+    Token get_base();
+    Token get_value();
 private:
-    int base;
+    Token base;
+    Token value;
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -128,12 +139,14 @@ private:
 
 class PolynomialFunction : public AbstractFunction{
 public:
-    PolynomialFunction(int exponent);
+    PolynomialFunction(Token base, Token exponent);
     template <typename Function1> Function1 solve();
 
-    int get_exponent();
+    Token get_exponent();
+    Token get_base();
 private:
-    int exponent;
+    Token exponent;
+    Token base;
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -144,12 +157,12 @@ private:
 
 class ConstantFunction : public AbstractFunction{
 public:
-    ConstantFunction(int c);
+    ConstantFunction(Token c);
     template <typename Function1> Function1 solve();
 
-    int get_c();
+    Token get_c();
 private:
-    int c;
+    Token c;
     Operation operation;
     AbstractFunction *left;
     AbstractFunction *right;

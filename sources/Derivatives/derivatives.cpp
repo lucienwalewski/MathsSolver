@@ -1,7 +1,7 @@
 #include "derivatives.hpp"
 
 AbstractFunction::AbstractFunction(string fun){
-    operation = none;
+    operation = no_op;
     str_label= fun;
     while (fun[0] == "("[0] and fun[-1] == ")"[0]){
         string new_f = "";
@@ -21,7 +21,7 @@ AbstractFunction::AbstractFunction(string fun){
         }
         if (operators.find_first_of(*i,0) != string::npos and counter == 0){
             char op = *i;
-            Operation new_o = none;
+            Operation new_o = no_op;
             op_to_enum(op, new_o);
             if (new_o > operation){
                 operation = new_o;
@@ -82,21 +82,22 @@ string AbstractFunction::get_string_operation(){
 AbstractFunction::AbstractFunction(){
     this->left = nullptr;
     this->right = nullptr;
-    this->operation = none;
+    this->operation = no_op;
     this->str_label = "";
 
 }
 
-AbstractFunction* AbstractFunction:: get_left(){
-    return left;
+
+AbstractFunction AbstractFunction:: get_left(){
+    return *left;
 }
 
 void AbstractFunction::set_left(AbstractFunction *left){
     this->left = left;
 }
 
-AbstractFunction* AbstractFunction:: get_right(){
-    return right;
+AbstractFunction AbstractFunction:: get_right(){
+    return *right;
 }
 
 void AbstractFunction::set_right(AbstractFunction *right){
@@ -117,6 +118,8 @@ string AbstractFunction::get_str_label(){
 }
 
 
+
+
 template <typename Function1> Function1 AbstractFunction::solve(){
 
     if(this->get_operation() == 5){
@@ -135,19 +138,22 @@ template <typename Function1> Function1 AbstractFunction::solve(){
         return chain_rule(this->get_left(), this->get_right());
     }
 
+
+    return nullptr;
+
 }
 
 
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::add(Function1 function1, Function2 function2){
+template <typename Function1, typename Function2> AbstractFunction AbstractFunction::multiply(Function1 function1, Function2 function2){
     return AbstractFunction(AbstractFunction(function1.solve(), function2, multiplication), AbstractFunction(function2.solve(), function1, multiplication), addition);
 };
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::subtract(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(AbstractFunction(function1.solve(), function2, multiplication), AbstractFunction(function1, function2.solve(),multiplication),subtraction), AbstractFunction(PolynomialFunction(2), function2, composition),division);
+template <typename Function1, typename Function2> AbstractFunction AbstractFunction::divide(Function1 function1, Function2 function2){
+    return AbstractFunction(AbstractFunction(AbstractFunction(function1.solve(), function2, multiplication), AbstractFunction(function1, function2.solve(),multiplication),subtraction), AbstractFunction(PolynomialFunction(Token(get_str_label()), Token("2")), function2, composition),division);
 };
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::multiply(Function1 function1, Function2 function2){
+template <typename Function1, typename Function2> AbstractFunction AbstractFunction::add(Function1 function1, Function2 function2){
     return AbstractFunction(function1.solve(), function2.solve(), addition);
 };
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::divide(Function1 function1, Function2 function2){
+template <typename Function1, typename Function2> AbstractFunction AbstractFunction::subtract(Function1 function1, Function2 function2){
     return AbstractFunction(function1.solve(), function2.solve(), subtraction);
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::chain_rule(Function1 function1, Function2 function2){
@@ -155,30 +161,39 @@ template <typename Function1, typename Function2> AbstractFunction AbstractFunct
 };
 
 
-SinFunction::SinFunction(){
+SinFunction::SinFunction(Token val){
     left = nullptr;
     right = nullptr;
-    operation = none;
+    operation = no_op;
     str_label= "sin";
+    value = val;
+}
+
+Token SinFunction::get_value(){
+    return value;
 }
 template <typename Function1> Function1 SinFunction::solve(){
 
-    return CosFunction();
+    return CosFunction(value);
 
 }
 
 
 
 
-CosFunction::CosFunction(){
+CosFunction::CosFunction(Token val){
     left = nullptr;
     right = nullptr;
-    operation = none;
+    operation = no_op;
     str_label= "cos";
+    value = val;
+}
+Token CosFunction::get_value(){
+    return value;
 }
 
 template <typename Function1> Function1 CosFunction::solve(){
-    return AbstractFunction(ConstantFunction(-1), SinFunction(), multiplication);
+    return AbstractFunction(ConstantFunction(Token("-1")), SinFunction(value), multiplication);
 }
 
 
@@ -186,72 +201,85 @@ template <typename Function1> Function1 CosFunction::solve(){
 
 
 
-ExponentialFunction::ExponentialFunction(int base){
+ExponentialFunction::ExponentialFunction(Token base){
     this->base = base;
     left = nullptr;
     right = nullptr;
-    operation = none;
+    operation = no_op;
     str_label="log(";
 }
-int ExponentialFunction::get_base(){
+Token ExponentialFunction::get_base(){
     return base;
 }
+
 template <typename Function1> Function1 ExponentialFunction::solve(){
-    return AbstractFunction(this, LogarithmicFunction('e'), multiplication);
+    return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), multiplication);
 }
 
 
 
 
-ConstantFunction::ConstantFunction(int c){
+ConstantFunction::ConstantFunction(Token c){
     this->c = c;
     left = nullptr;
     right = nullptr;
-    operation = none;
+    operation = no_op;
     str_label = "";
 }
-int ConstantFunction::get_c(){
+Token ConstantFunction::get_c(){
     return c;
 }
 template <typename Function1> Function1 ConstantFunction::solve(){
-    return ConstantFunction(0);
+    return ConstantFunction(Token("0"));
 }
 
 
 
 
 
-LogarithmicFunction::LogarithmicFunction(int base){
+LogarithmicFunction::LogarithmicFunction(Token val, Token base){
+    this->base = base;
+    value = val;
+    left = nullptr;
+    right = nullptr;
+    operation = no_op;
+    str_label = "log";
+}
+Token LogarithmicFunction::get_base(){
+    return base;
+}
+Token LogarithmicFunction::get_value(){
+    return value;
+}
+template <typename Function1> Function1 LogarithmicFunction::solve(){
+    Token base = this->get_base();
+    return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), multiplication), division);
+}
+
+
+
+
+
+
+
+PolynomialFunction::PolynomialFunction(Token base, Token exponent){
+    this->exponent = exponent;
     this->base = base;
     left = nullptr;
     right = nullptr;
-    operation = none;
-    str_label = "log";
-}
-int LogarithmicFunction::get_base(){
-    return base;
-}
-template <typename Function1> Function1 LogarithmicFunction::solve(){
-    int base = this->get_base();
-    return AbstractFunction(ConstantFunction(1), AbstractFunction(ConstantFunction('ln(base)'), PolynomialFunction(1), multiplication), division);
-}
-
-
-
-
-
-
-
-PolynomialFunction::PolynomialFunction(int exponent){
-    this->exponent = exponent;
-    left = nullptr;
-    right = nullptr;
-    operation = none;
+    operation = no_op;
     str_label = "";
 }
+Token PolynomialFunction::get_exponent(){
+    return exponent;
+}
+Token PolynomialFunction::get_base(){
+    return base;
+}
 template <typename Function1> Function1 PolynomialFunction::solve(){
-    int c = this->get_exponent();
-    return AbstractFunction(ConstantFunction(c), PolynomialFunction(c-1), multiplication);
+    Token c = this->get_exponent();
+    string new_exponent = c.get_value() + "-1";
+    return AbstractFunction(ConstantFunction(c), PolynomialFunction(base, Token(new_exponent)), multiplication);
 }
 
 

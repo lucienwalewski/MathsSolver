@@ -3,13 +3,15 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <vector>
+
 using namespace std;
 
-enum operator_type {none = 0, add, sub, mul, divi, pow, comp, pare};
+enum operator_type {add, sub, mul, divi, power, comp, pare};
 
 
 bool is_letter(char s){
-    if ((s>='0' && s<='9') or ( (s>='A' && s<='Z'))){
+    if ((s>='0' && s<='9') or  ( (s>='A' && s<='Z'))){
         return true;
     }
     return false;
@@ -23,132 +25,116 @@ bool is_number(char s){
 };
 
 bool is_in_vector(vector< string > v, string elem){
-    return (find(v.begin(), v.end(), elem));
+    return (find(v.begin(), v.end(), elem) != v.end());
 };
 
 vector <string> constants{"pi", "e"};
 
-vector <string> functions{"cos", "sin", "exp", "tan", "sqrt"};
+vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "ln"};
 
-vector <string> operators{"+", "-", "/", "^", "sqrt"};
+vector <string> str_operators{"+", "-", "/", "^", "sqrt"};
 
-enum Types{Operator = 0, Num, Function, Variable};
-
-class Operator {
-private :
-    operator_type value;
+class Token {
+protected :
+    string value;
 public :
-    Operator(){
-        value = none;
+    Token(string s){
+        value = s;
     }
-    Operator(char t){
-        if (t == '+'){
-            value = add;
+    Token(){
+        value = "";
+    };
+    string get_value(){
+        return value;
+    }
+};
+
+class Operator: public Token{
+private :
+    operator_type type;
+public :
+    Operator(string t): Token(t){
+        if (t == "+"){
+            type = add;
         };
-        if (t == '-'){
-            value = sub;
+        if (t == "-"){
+            type = sub;
         };
-        if (t == '*'){
-            value = mul;
+        if (t == "*"){
+            type = mul;
         };
-        if (t == '/'){
-            value = divi;
+        if (t == "/"){
+            type = divi;
         };
-        if (t == '^'){
-            value = pow;
+        if (t == "^"){
+            type = power;
         };
-        if (t == '(' or t == ')'){
-            value = pare;
+        if (t == "(" or t == ")"){
+            type = pare;
         };
     };
 
     operator_type get_type(){
-        return value;
+        return type;
     }
 
   };
 
-class Num {
-private :
-    string value;
+class Num: public Token {
 public :
-    Num(){
-        value = none;
-    }
-    Num(string t){
-            value = t;
-        }
-    string get_value(){
-        return value;
+    Num(string t):Token(t){
     }
 };
 
-class Function {
-private :
-    string value;
+class Function: public Token{
 public :
-    Function(){
-        value = none;
-    }
-    Function(string t){
-            value = t;
-        }
-    string get_value(){
-        return value;
+    Function(string t): Token(t){
     }
 };
 
-class Variable{
-private :
-    string value;
+class Variable: public Token{
 public:
-    Variable(string s){
-        value = s;
-    }
-    string get_value(){
-        return value;
+    Variable(string t): Token(t){
     }
 };
 
 
-template <typename T> class Token {
-private :
-    T elem;
-    string value;
-public :
-    Token(T o){
-        elem = o;
-        value = o.value();
-     }
-    string get_value(){
-            return value;
-        }
-};
-
-vector< Token<double> > simplify(string s, string variable){
-    vector<Token<template T>> new_vector;
+vector<Token> simplify(string s, char variable){
+    vector <Token> new_vector;
     string current;
-    std::string::iterator i = s.begin();
-    for (i; i< s.end(); i++){
-        if ((i* == variable) or (not is_letter(i*)) {
+    //std::string::iterator i = s.begin();
+    for (int i=0; i < s.size(); i++){
+        if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
+            continue;
+        }
+        else if ((s[i] == variable) || (!is_letter(s[i])) ){
             if (is_in_vector(constants, current)){
-                new_vector.push_back(Token(Num(current)));
+                new_vector.push_back(Num(current));
+                current = "";
             }
             else if (is_in_vector(functions, current)){
-                new_vector.push_back(Token(Function(current)));
+                new_vector.push_back(Function(current));
+                current = "";
             }
-            if (is_in_vector(operators, i*)){
-                new_vector.push_back(Token(Operator(i*)));
+            else {
+                new_vector.push_back(Num(current));
+                current = "";
             }
-            else if (is_number(i*)){
-                new_vector.push_back(Token(Num(i*)));
+            if (is_in_vector(str_operators, string(1,s[i]))){
+                string c(1, s[i]);
+                new_vector.push_back(Operator(c));
             }
-            else if (i* == variable){
-                new_vector.push_back(Token(Variable(i*)));
+            else if (is_number(s[i])){
+                string c(1, s[i]);
+                new_vector.push_back(Num(c));
+            }
+            else if (s[i] == variable){
+                string c(1, s[i]);
+                new_vector.push_back(Variable(c));
                 }
          }
         else {
-             current.pushback(i*);
+             current.push_back(s[i]);
     }
 }
     return new_vector;
@@ -156,4 +142,4 @@ vector< Token<double> > simplify(string s, string variable){
 
 
 #endif // TOKENIZER_HPP
-#endif // TOKENIZER_HPP
+
