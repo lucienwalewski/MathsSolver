@@ -113,4 +113,3 @@ problem or type the problem which will then be solved by the program.
 **GUI**
 
 - Hugo de Mascarel
-- Hector Devie
