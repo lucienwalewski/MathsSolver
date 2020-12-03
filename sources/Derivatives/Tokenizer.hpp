@@ -7,7 +7,15 @@
 
 using namespace std;
 
-enum operator_type {none = 0, add, sub, mul, divi, pow, comp, pare};
+enum operator_type {
+    none = 0,
+    addition = 5,
+    sub = 4,
+    mul = 3,
+    divi = 2,
+    power = 6,
+    comp = 1,
+    pare = 7};
 
 
 bool is_letter(char s){
@@ -15,18 +23,18 @@ bool is_letter(char s){
         return true;
     }
     return false;
-};
+}
 
 bool is_number(char s){
     if ((s>='0' && s<='9')){
         return true;
     }
     return false;
-};
+}
 
 bool is_in_vector(vector< string > v, string elem){
     return (find(v.begin(), v.end(), elem) != v.end());
-};
+}
 
 vector <string> constants{"pi", "e"};
 
@@ -36,8 +44,8 @@ vector <string> operators{"+", "-", "/", "^", "sqrt"};
 
 class Token {
 protected :
-    string value;
     operator_type type;
+    string value;
 public :
     Token(string s){
         value = s;
@@ -53,13 +61,16 @@ public :
 };
 
 class Operator: public Token{
+private :
+    string value;
+    operator_type type;
 public :
     Operator():Token(){
-        type = none;
-    }
+            type = none;
+        }
     Operator(string t): Token(t){
         if (t == "+"){
-            type = add;
+            type = addition;
         };
         if (t == "-"){
             type = sub;
@@ -71,17 +82,16 @@ public :
             type = divi;
         };
         if (t == "^"){
-            type = pow;
+            type = power;
         };
-        if (t == "~"){
-                type = comp;
-            };
         if (t == "(" or t == ")"){
             type = pare;
         };
     };
 
-
+    operator_type get_type(){
+        return type;
+    }
 
   };
 
@@ -108,7 +118,7 @@ vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
     string current;
     //std::string::iterator i = s.begin();
-    for (int i=0; i < int(s.size()); i++){
+    for (int i=0; i < s.size(); i++){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }

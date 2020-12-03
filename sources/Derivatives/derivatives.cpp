@@ -216,23 +216,3 @@ template <typename Function1> Function1 PolynomialFunction::solve(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-\
-
-
-
-
-
-
-
