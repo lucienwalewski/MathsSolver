@@ -9,9 +9,18 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+HEADERS += \
+    Derivatives/Tokenizer.hpp \
+    Derivatives/derivatives.hpp \
+#    Derivatives/tokenizer_testing.hpp \
+#    ImageRecognition/imagePreprocessing.hpp \
+#    ImageRecognition/cnn.hpp \
+#    ImageRecognition/util.hpp \
+#    MainWindow/mainwindow.h
+
 SOURCES += \
-#    Derivatives/Tokenizer.cpp \
-#    Derivatives/derivatives.cpp \
+    Derivatives/Tokenizer.cpp \
+    Derivatives/derivatives.cpp \
 #    ImageRecognition/imagePreprocessing.cpp \
 #    ImageRecognition/cnn.cpp \
 #    ImageRecognition/util.cpp \
@@ -19,14 +28,6 @@ SOURCES += \
     main.cpp \
 
 
-HEADERS += \
-#    Derivatives/Tokenizer.hpp \
-#    Derivatives/derivatives.hpp \
-#    Derivatives/tokenizer_testing.hpp \
-#    ImageRecognition/imagePreprocessing.hpp \
-#    ImageRecognition/cnn.hpp \
-#    ImageRecognition/util.hpp \
-#    MainWindow/mainwindow.h
 
 FORMS += \
     MainWindow/mainwindow.ui
