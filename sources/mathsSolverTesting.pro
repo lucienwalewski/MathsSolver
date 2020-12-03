@@ -11,30 +11,30 @@ TEMPLATE = app
 
 SOURCES += \
     testSuite.cpp \
-    Derivatives/Tokenizer.cpp \
-    Derivatives/derivatives.cpp \
-    ImageRecognition/imagePreprocessing.cpp \
-    ImageRecognition/cnn.cpp \
-    ImageRecognition/util.cpp \
-    MainWindow/mainwindow.cpp \
+#    Derivatives/Tokenizer.cpp \
+#    Derivatives/derivatives.cpp \
+#    ImageRecognition/imagePreprocessing.cpp \
+#    ImageRecognition/cnn.cpp \
+#    ImageRecognition/util.cpp \
+#    MainWindow/mainwindow.cpp \
     testclass.cpp \
 #    tstFunc.cpp
 
 HEADERS += \
-    Derivatives/Tokenizer.hpp \
-    Derivatives/derivatives.hpp \
-    ImageRecognition/imagePreprocessing.hpp \
-    ImageRecognition/cnn.hpp \
-    ImageRecognition/util.hpp \
-    MainWindow/mainwindow.h \
+#    Derivatives/Tokenizer.hpp \
+#    Derivatives/derivatives.hpp \
+#    ImageRecognition/imagePreprocessing.hpp \
+#    ImageRecognition/cnn.hpp \
+#    ImageRecognition/util.hpp \
+#    MainWindow/mainwindow.h \
     testclass.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui
 
 
-INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
@@ -47,9 +47,9 @@ LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON MAC UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} \
-        -l"opencv_world"
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} \
+#        -l"opencv_world"
 
 #INCLUDEPATH += "/Users/lucienwalewski/opencv/build/install/include/opencv4"
 #LIBS += -L"/Users/lucienwalewski/opencv/build/install/lib" \

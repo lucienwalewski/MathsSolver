@@ -10,32 +10,33 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Derivatives/Tokenizer.cpp \
-    Derivatives/derivatives.cpp \
+#    Derivatives/Tokenizer.cpp \
+#    Derivatives/derivatives.cpp \
 #    ImageRecognition/imagePreprocessing.cpp \
 #    ImageRecognition/cnn.cpp \
 #    ImageRecognition/util.cpp \
     main.cpp \
-    MainWindow/mainwindow.cpp
+#    MainWindow/mainwindow.cpp
 
 HEADERS += \
-    Derivatives/Tokenizer.hpp \
-    Derivatives/derivatives.hpp \
+#    Derivatives/Tokenizer.hpp \
+#    Derivatives/derivatives.hpp \
 
 #    Derivatives/tokenizer_testing.hpp \
 #    ImageRecognition/imagePreprocessing.hpp \
 #    ImageRecognition/cnn.hpp \
 #    ImageRecognition/util.hpp \
 
-    MainWindow/mainwindow.h
+#    MainWindow/mainwindow.h
 
 FORMS += \
     MainWindow/mainwindow.ui
 
 
+# Eigen path
 
-INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
@@ -71,14 +72,10 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-# Outdated instructions
 
-# For opencv use:
-# Go to projects, build steps, qmake, additional arguments and enter:
-# "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4"
-# where root is the path to opencv on your machine. Uncomment lines
-# 20,27,37-38.
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/release/ -ltensorflow.2.3.1
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/debug/ -ltensorflow.2.3.1
+#else:unix: LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/ -ltensorflow.2.3.1
 
-# For Eigen use:
-# Same as for opencv, add:
-# "OPENCV_LIBRARY_INCLUDE=root/eigen-3.3.8"
+#INCLUDEPATH += $$PWD/../../../../../../../../libtensorflow/include
+#DEPENDPATH += $$PWD/../../../../../../../../libtensorflow/include
