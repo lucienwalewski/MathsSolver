@@ -1,7 +1,6 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
 
-
 AbstractFunction::AbstractFunction(vector<Token> fun){
 
 
@@ -39,10 +38,12 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
 
 
 
+
 AbstractFunction::AbstractFunction(){
     this->left = nullptr;
     this->right = nullptr;
-    this->operation = Operator("");
+
+    this->operation = Operator();
     this->str_label = "";
 
 }
@@ -95,6 +96,7 @@ template <typename Function1> Function1 AbstractFunction::solve(){
         return divide(this->get_left(), this->get_right());
     }
     if(this->get_operation().get_type() == 1){
+
         return chain_rule(this->get_left(), this->get_right());
     }
 
@@ -118,6 +120,7 @@ template <typename Function1, typename Function2> AbstractFunction AbstractFunct
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::chain_rule(Function1 function1, Function2 function2){
     return AbstractFunction(AbstractFunction(function1.solve(), function2, comp), function2.solve(), mul);
+
 };
 
 
@@ -125,6 +128,7 @@ SinFunction::SinFunction(Token val){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label= "sin";
     value = val;
 }
@@ -145,6 +149,7 @@ CosFunction::CosFunction(Token val){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label= "cos";
     value = val;
 }
@@ -154,6 +159,7 @@ Token CosFunction::get_value(){
 
 template <typename Function1> Function1 CosFunction::solve(){
     return AbstractFunction(ConstantFunction(Token("-1")), SinFunction(value), Operator(mul));
+
 }
 
 
@@ -166,6 +172,7 @@ ExponentialFunction::ExponentialFunction(Token base){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label="log(";
 }
 Token ExponentialFunction::get_base(){
@@ -174,6 +181,7 @@ Token ExponentialFunction::get_base(){
 
 template <typename Function1> Function1 ExponentialFunction::solve(){
     return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), Operator(mul));
+
 }
 
 
@@ -184,6 +192,7 @@ ConstantFunction::ConstantFunction(Token c){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label = "";
 }
 Token ConstantFunction::get_c(){
@@ -203,6 +212,7 @@ LogarithmicFunction::LogarithmicFunction(Token val, Token base){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label = "log";
 }
 Token LogarithmicFunction::get_base(){
@@ -214,6 +224,7 @@ Token LogarithmicFunction::get_value(){
 template <typename Function1> Function1 LogarithmicFunction::solve(){
     Token base = this->get_base();
     return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), Operator(mul)), Operator(divi));
+
 }
 
 
@@ -228,6 +239,7 @@ PolynomialFunction::PolynomialFunction(Token base, Token exponent){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+
     str_label = "";
 }
 Token PolynomialFunction::get_exponent(){
@@ -240,6 +252,7 @@ template <typename Function1> Function1 PolynomialFunction::solve(){
     Token c = this->get_exponent();
     string new_exponent = c.get_value() + "-1";
     return AbstractFunction(ConstantFunction(c), PolynomialFunction(base, Token(new_exponent)), Operator(mul));
+
 }
 
 

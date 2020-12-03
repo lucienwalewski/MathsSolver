@@ -3,11 +3,12 @@
 #include "Tokenizer.hpp"
 
 #include <string>
+#include <vector>
 using namespace std;
 
 
 
-string operators = "+-*/^~";
+
 class AbstractFunction {
 public:
     AbstractFunction(vector<Token> fun);
@@ -102,6 +103,7 @@ public:
     Token get_base();
 private:
     Token base;
+
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -120,6 +122,7 @@ public:
 private:
     Token base;
     Token value;
+
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -139,6 +142,7 @@ public:
 private:
     Token exponent;
     Token base;
+
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -155,6 +159,7 @@ public:
     Token get_c();
 private:
     Token c;
+
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;

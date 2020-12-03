@@ -67,6 +67,7 @@ public :
 class Operator: public Token{
 private :
     operator_type type;
+
 public :
     Operator():Token(){
         type = none;
@@ -74,6 +75,7 @@ public :
     Operator(string t): Token(t){
         if (t == "+"){
             type = addition;
+
         };
         if (t == "-"){
             type = sub;
@@ -86,6 +88,7 @@ public :
         };
         if (t == "^"){
             type = power;
+
         };
         if (t == "~"){
                 type = comp;
@@ -106,11 +109,8 @@ public :
         return type;
     }
 
+
 };
-
-
-
-
 
 
 class Num: public Token {
@@ -154,6 +154,7 @@ vector<Token> simplify(string s, char variable){
                 current = "";
             }
             if (is_in_vector(str_operators, string(1,s[i]))){
+
                 string c(1, s[i]);
                 new_vector.push_back(Operator(c));
             }
@@ -175,7 +176,4 @@ vector<Token> simplify(string s, char variable){
 
 
 #endif // TOKENIZER_HPP
-
-
-
 

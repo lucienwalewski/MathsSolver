@@ -1,0 +1,1 @@
+This week, I implemented a testing structure that tests the functions we implemented during the last weeks. We observed some bugs and we tried to fix them.
