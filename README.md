@@ -36,7 +36,7 @@ _all_ the files from the main project (so that the project knows what you are ta
 when you call functions from the main project in your testing files) , _in addition_ to the testing
 files which will be in the folder "testingFiles" found in sources. 
 
-If you open "testSuite.cpp", you will find that the first line is "#include <QtTest>", which 
+If you open "testSuite.cpp", you will find that the first line is "#include QtTest", which 
 includes the QtTest library in order to use some testing functions. Then, we include the necessary
 testing files. We have included a sample testing class - "#include "testingFiles/sampleTestClass.hpp"".
 Then in main, for every test file, we add two lines in order to execute all the tests within the
