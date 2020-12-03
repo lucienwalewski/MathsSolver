@@ -9,8 +9,8 @@
 
 #include<iostream>
 #include<string>
-#include<opencv2/opencv.hpp>
-#include<tensorflow/c/c_api.h>
+//#include<opencv2/opencv.hpp>
+//#include<tensorflow/c/c_api.h>
 
 
 using namespace std;
