@@ -15,18 +15,17 @@ SOURCES += \
 #    ImageRecognition/imagePreprocessing.cpp \
 #    ImageRecognition/cnn.cpp \
 #    ImageRecognition/util.cpp \
-    main.cpp \
 #    MainWindow/mainwindow.cpp
+    main.cpp \
+
 
 HEADERS += \
 #    Derivatives/Tokenizer.hpp \
 #    Derivatives/derivatives.hpp \
-
 #    Derivatives/tokenizer_testing.hpp \
 #    ImageRecognition/imagePreprocessing.hpp \
 #    ImageRecognition/cnn.hpp \
 #    ImageRecognition/util.hpp \
-
 #    MainWindow/mainwindow.h
 
 FORMS += \

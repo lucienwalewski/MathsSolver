@@ -20,18 +20,4 @@ private slots:
 
 };
 
-//class testFunc : public QObject
-//{
-//    Q_OBJECT
-
-//public:
-//    testFunc();
-//    ~testFunc();
-
-//private slots:
-//    void initTestCase();
-//    void cleanupTestCase();
-//    void test_case1();
-//};
-
 #endif // TESTCLASS_HPP
