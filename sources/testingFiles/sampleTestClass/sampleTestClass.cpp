@@ -1,4 +1,4 @@
-#include "testclass.hpp"
+#include "sampleTestClass.hpp"
 #include <QtTest>
 #include <QCoreApplication>
 

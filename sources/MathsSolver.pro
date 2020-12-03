@@ -42,6 +42,7 @@ HEADERS += \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp
 
+
 FORMS += \
     MainWindow/mainwindow.ui
 
