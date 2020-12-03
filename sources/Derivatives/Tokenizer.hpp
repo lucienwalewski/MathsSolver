@@ -7,7 +7,15 @@
 
 using namespace std;
 
-enum operator_type {none = 0, add, sub, mul, divi, pow, comp, pare};
+enum operator_type {
+    none = 0,
+    addition = 5,
+    sub = 4,
+    mul = 3,
+    divi = 2,
+    power = 6,
+    comp = 1,
+    pare = 7};
 
 
 bool is_letter(char s){
@@ -30,9 +38,10 @@ bool is_in_vector(vector< string > v, string elem){
 
 vector <string> constants{"pi", "e"};
 
-vector <string> functions{"cos", "sin", "exp", "tan", "sqrt"};
+vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "ln"};
 
-vector <string> operators{"+", "-", "/", "^", "sqrt"};
+vector <string> str_operators{"+", "-", "/", "^", "sqrt"};
+
 
 class Token {
 protected :
@@ -43,6 +52,7 @@ public :
         value = s;
      }
     Token(){
+        value = "";
     }
     string get_value(){
             return value;
@@ -52,14 +62,20 @@ public :
     }
 };
 
+
+
 class Operator: public Token{
+private :
+    operator_type type;
+
 public :
     Operator():Token(){
         type = none;
     }
     Operator(string t): Token(t){
         if (t == "+"){
-            type = add;
+            type = addition;
+
         };
         if (t == "-"){
             type = sub;
@@ -71,7 +87,8 @@ public :
             type = divi;
         };
         if (t == "^"){
-            type = pow;
+            type = power;
+
         };
         if (t == "~"){
                 type = comp;
@@ -79,11 +96,22 @@ public :
         if (t == "(" or t == ")"){
             type = pare;
         };
+        if (t == ""){
+            type = none;
+        }
     };
 
+    Operator(operator_type t){
+        type = t;
+    }
+
+    operator_type get_type(){
+        return type;
+    }
 
 
-  };
+};
+
 
 class Num: public Token {
 public :
@@ -125,7 +153,8 @@ vector<Token> simplify(string s, char variable){
                 new_vector.push_back(Num(current));
                 current = "";
             }
-            if (is_in_vector(operators, string(1,s[i]))){
+            if (is_in_vector(str_operators, string(1,s[i]))){
+
                 string c(1, s[i]);
                 new_vector.push_back(Operator(c));
             }
@@ -147,3 +176,4 @@ vector<Token> simplify(string s, char variable){
 
 
 #endif // TOKENIZER_HPP
+
