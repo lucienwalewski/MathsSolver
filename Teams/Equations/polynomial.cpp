@@ -154,4 +154,50 @@ Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod)
     return Polynomial(coeff, res1.deg);
 }
 
+Polynomial linear_re(Polynomial a, Polynomial b, long long *f long long P)
+{
+    int l = a.deg + b.deg;
+    long long coe[l + 1];
+    for (int i = 0; i <= l; i++)
+    {
+        coe[i] = 0; 
+    }
+    for (int i = 0; i < a.deg; i++)
+        for (int j = 0; i < b.deg; j++)
+            (coe[i + j] += 1ll * a.coefficient[i] * b.coefficient[j] % P) %= P;
+    for (int i = l; i >= a.deg; coe[i--] = 0)
+        for (int j = 1; j <= b.deg; j++)
+            (coe[i - j] += 1ll * coe[i] * f[j] % P) %= P;
+}
 
+Polynomial ksm(Polynomial a, long long *f long long P, int b)
+{
+    Polynomial res(4020);
+    res.coefficient[0] = 1;
+    for (; b; res = linear_re(res, res, f, P), b >>= 1)
+        if (b & 1)
+            res = linear_re(res, a, f, P);
+    return res;
+}
+
+long long linear_res(int n, int k, long long *f, long long *h, long long P)
+{
+    if (n < k)
+    {
+        return h[n];
+    }
+    Polynomial res(4020);
+    res.coefficient[1] = 1;
+    long long ans = 0;
+    res = ksm(res, n);
+    for (int i = 0; i < k; i++)
+        ans = (ans + 1ll * res[i] * h[i] % P) % P;
+    return ans;
+}
+
+/*
+Polynomial Polynomial::inverse()
+{
+
+}
+*/

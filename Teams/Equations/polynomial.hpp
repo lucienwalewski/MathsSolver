@@ -9,6 +9,7 @@ public:
     long long *coefficient;
     Polynomial(long long c[], int d);
     Polynomial(){deg = -1, coefficient = NULL;}
+    Polynomial(int n) {deg = n; coefficient = new long long[n + 1]; memset(coefficient, 0, sizeof coefficient);}
     Polynomial(const Polynomial &b);
     ~Polynomial()
     {
@@ -18,9 +19,9 @@ public:
 //    Polynomial integral();
 //    Polynomial exp();
 //    Polynomial ln();
-    Polynomial operator + (const Polynomial& a) const;
-    Polynomial operator - (const Polynomial& a) const;
-    Polynomial operator * (const Polynomial& a); 
+//    Polynomial inverse();
+    Polynomial operator + (const Polynomial& b) const;
+    Polynomial operator - (const Polynomial& b) const;
     void print()
     {
         for (int i = 0; i <= deg; i++)
@@ -37,6 +38,11 @@ public:
 
 Polynomial mul_with_mod_po(Polynomial x, Polynomial y, long long mod); // return x * y % mod with mod = 469762049 or 998244353 or 1004535809
 Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod); // return x * y % mod with arbitary mod
+
+Polynomial linear_re(Polynomial a, long long *f long long P, int b);
+Polynomial ksm(Polynomial a, long long *f long long P, int b);
+
+long long linear_res(int n, int k, long long *f, long long *h, long long P);
 
 void NTT(long long *cp,long long cnt,long long inv,long long mod);
 
