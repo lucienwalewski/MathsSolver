@@ -29,3 +29,9 @@ void testClass::test_case1()
 {
     QVERIFY(true);
 }
+
+void testClass::test_case2()
+{
+    int a = 1, b = 1;
+    QVERIFY(a == b);
+}
