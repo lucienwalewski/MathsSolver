@@ -1,11 +1,10 @@
 #include<iostream>
-#include "gaussin.h"
+#include "gaussin.hpp"
+\
 using namespace std;
-void gaussin()
+
+void gaussin(int n)
 {
-    int n;
-    std::cout<<"n=";
-    std::cin >>n;
     double a[n][n];
     double b[n];
     double xin;

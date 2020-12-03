@@ -1,13 +1,10 @@
 #include<iostream>
-#include "step.h"
+#include "step.hpp"
 using namespace std;
 
 
-void linear_step()
+void linear_step(int n)
 {
-    int n;
-    std::cout<<"the number of unknows n=";
-    std::cin >>n;
     double a[n][n];
     double b[n];
     double xin;
@@ -116,10 +113,4 @@ void linear_step()
         }
     }
 
-}
-
-int main()
-{
-   linear_step();
-   return 0;
 }
