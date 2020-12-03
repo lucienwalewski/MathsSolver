@@ -51,7 +51,9 @@ https://doc.qt.io/qt-5/qtest-overview.html. Then we have added two test cases, w
 cpp file. If you navigate there, you will see that in "test_case1()", we have called QVERIFY(true);. This
 will verify that the expression within QVERIFY evaluates to true and will pass the test if it does so. QTest
 offers other useful testing methods. If you run the project, in "Application Output", you should see which
-tests passed and which failed. In this case, all tests should pass. 
+tests passed and which failed. In this case, all tests should pass. This is seen below.
+
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-12-03%20at%2010.45.27.png)
 
 When creating your own tests, first create a new testing class within the folder "testingFiles". Use
 the same boilerplate as in the class "sampleTestClass", just replacing the name of the file and class
