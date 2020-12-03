@@ -5,41 +5,33 @@
 #include <string>
 using namespace std;
 
-enum Operation{
-    addition = 5,
-    subtraction = 4,
-    multiplication = 3,
-    division = 2,
-    composition = 1,
-    no_op = 0
-};
 
 
 string operators = "+-*/^~";
 class AbstractFunction {
 public:
-    AbstractFunction(string our_function);
+    AbstractFunction(vector<Token> fun);
 
-    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operation operation){
+    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operator operation){
         this-> left = left;
         this-> right = right;
         this-> operation = operation;
         this->str_label = left->str_label + get_string_operation()  + right->str_label;
     };
 
-    AbstractFunction(AbstractFunction left, AbstractFunction right, Operation operation);
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
     ~AbstractFunction();
     AbstractFunction();
 
-    void op_to_enum(char op,Operation &operation);
+    void op_to_enum(char op,Operator &operation);
 
     AbstractFunction get_left();
     void set_left(AbstractFunction *left);
     AbstractFunction get_right();
     void set_right(AbstractFunction *right);
 
-    Operation get_operation();
-    void set_operation(Operation operation);
+    Operator get_operation();
+    void set_operation(Operator operation);
     string get_string_operation();
 
     string get_str_label();
@@ -62,7 +54,7 @@ public:
 
 
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -78,7 +70,7 @@ public:
     template <typename Function1> Function1 solve();
     Token get_value();
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -93,7 +85,7 @@ public:
     template <typename Function1> Function1 solve();
     Token get_value();
 private:
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -110,7 +102,7 @@ public:
     Token get_base();
 private:
     Token base;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -128,7 +120,7 @@ public:
 private:
     Token base;
     Token value;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -147,7 +139,7 @@ public:
 private:
     Token exponent;
     Token base;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
@@ -163,7 +155,7 @@ public:
     Token get_c();
 private:
     Token c;
-    Operation operation;
+    Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
