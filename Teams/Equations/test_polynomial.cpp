@@ -13,4 +13,8 @@ int main()
     z.print();
     Polynomial z1(mul_with_armod(x, y, 28));
     z1.print();
+    long long f[5] = {0, 3, -1, 0, 4};
+    long long h[5] = {-2, 3, 1, 5, 0};
+    long long ans = linear_res(6, 4, f, h, 998244353);
+    printf("%lld\n",ans);
 } 
