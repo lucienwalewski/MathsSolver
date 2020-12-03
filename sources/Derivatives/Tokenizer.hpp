@@ -7,7 +7,7 @@
 
 using namespace std;
 
-enum operator_type {none = 0, add, sub, mul, divi, pow, comp, pare};
+enum operator_type {other = -1,none = 0, add, sub, mul, divi, pow, comp, pare};
 
 
 bool is_letter(char s){
@@ -36,8 +36,8 @@ vector <string> operators{"+", "-", "/", "^", "sqrt"};
 
 class Token {
 protected :
-    string value;
     operator_type type;
+    string value;
 public :
     Token(string s){
         value = s;
@@ -88,18 +88,21 @@ public :
 class Num: public Token {
 public :
     Num(string t):Token(t){
+        type = other;
         }
 };
 
 class Function: public Token{
 public :
     Function(string t): Token(t){
+        type = other;
         }
 };
 
 class Variable: public Token{
 public:
     Variable(string t): Token(t){
+        type = other;
     }
 };
 
