@@ -24,7 +24,6 @@ Then, scroll down to line 34 in MathsSolver.pro and follow the instructions. Hav
 
 ## Current Build Issues
 
-- Will not build if derivates.hpp is included in main.cpp. Reason: Unknown. Unresolved. 
 
 # Testing Project Description
 
