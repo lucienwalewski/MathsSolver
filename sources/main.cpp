@@ -3,10 +3,10 @@
 
 //#include "MainWindow/mainwindow.h"
 //#include "Derivatives/derivatives.hpp"
-#include "ImageRecognition/imagePreprocessing.hpp"
+//#include "ImageRecognition/imagePreprocessing.hpp"
 //#include "Derivatives/Tokenizer.hpp"
-#include "NumericalSolver/num_derivation.hpp"
-#include "NumericalSolver/num_integration.hpp"
+//#include "NumericalSolver/num_derivation.hpp"
+//#include "NumericalSolver/num_integration.hpp"
 //#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 
@@ -46,6 +46,23 @@ int main(int argc, char *argv[])
     long long ans = linear_res(6, 4, f, h, 998244353);
     printf("%lld\n",ans);
 
+    long long c[4] = {-1,0,2,1};
+    Polynomial b(c, 3);
+    long long ce[2] = {1, 1};
+    Polynomial d(ce, 1);
+    Polynomial now = division(b, d);
+    std::vector<std::string> ans_s = solve(b);
+
+    if (ans_s.empty())
+    {
+        std::cout<<"No Solution"<<std::endl;
+        return 0;
+    }
+
+    for (auto i : ans_s)
+    {
+        std::cout<<i<<std::endl;
+    }
 
 //    MainWindow w;
 //    w.show();
