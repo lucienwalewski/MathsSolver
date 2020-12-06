@@ -55,11 +55,14 @@ public :
 
     Num(string t):Token(t){};
 
+};
 
 class Function: public Token{
 public :
 
     Function(string t): Token(t){};
+
+};
 
 class Variable: public Token{
 public:
@@ -67,9 +70,7 @@ public:
     Variable(string t): Token(t){};
 };
 
-
 vector<Token> simplify(string s, char variable);
 
 
 #endif // TOKENIZER_HPP
-
