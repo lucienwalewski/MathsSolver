@@ -1,0 +1,4 @@
+This week, I fixed up the bugs in my token class and simplify function by changing the implementation. 
+Before, the class function was a template class and now, I made it a superclass with subclasses (function, num, variable, operator). 
+I also fixed up the bugs with the string/char implementation. I wrote on a side object a draft for testing these, but did not manage to implement it in the main branch. 
+For the coming week, I want to implement testing.
