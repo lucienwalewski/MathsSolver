@@ -126,9 +126,6 @@ template <typename Function1> Function1 SinFunction::solve(){
 
 }
 
-
-
-
 CosFunction::CosFunction(){
     left = nullptr;
     right = nullptr;
@@ -139,10 +136,6 @@ CosFunction::CosFunction(){
 template <typename Function1> Function1 CosFunction::solve(){
     return AbstractFunction(ConstantFunction(-1), SinFunction(), Operator("*"));
 }
-
-
-
-
 
 
 ExponentialFunction::ExponentialFunction(int base){
@@ -177,9 +170,6 @@ template <typename Function1> Function1 ConstantFunction::solve(){
 }
 
 
-
-
-
 LogarithmicFunction::LogarithmicFunction(int base){
     this->base = base;
     left = nullptr;
@@ -195,12 +185,6 @@ template <typename Function1> Function1 LogarithmicFunction::solve(){
     int lnbase;
     return AbstractFunction(ConstantFunction(1), AbstractFunction(ConstantFunction(lnbase), PolynomialFunction(1), Operator("*")), Operator("/"));
 }
-
-
-
-
-
-
 
 PolynomialFunction::PolynomialFunction(int exponent){
     this->exponent = exponent;
