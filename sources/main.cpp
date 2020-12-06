@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    printf("The roots are\n");
     for (auto i : ans_s)
     {
         std::cout<<i<<std::endl;

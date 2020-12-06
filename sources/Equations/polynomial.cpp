@@ -278,6 +278,10 @@ std::vector<std::string> solve(Polynomial a)
             return ans;
         }
         ans.push_back(std::to_string(-i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
         return ans;
     }
     for (auto i : f)
@@ -299,6 +303,10 @@ std::vector<std::string> solve(Polynomial a)
             return ans;
         }
         ans.push_back(std::to_string(i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
         return ans;
     }
     return ans;
