@@ -1,18 +1,18 @@
 #include "Tokenizer.hpp"
 
-bool is_letter(char s){
-    if ((s>='0' && s<='9') or  ( (s>='A' && s<='Z'))){
-        return true;
-    }
-    return false;
-};
+//bool is_letter(char s){
+//    if ((s>='0' && s<='9') or  ( (s>='A' && s<='Z'))){
+//        return true;
+//    }
+//    return false;
+//};
 
-bool is_number(char s){
-    if ((s>='0' && s<='9')){
-        return true;
-    }
-    return false;
-};
+//bool is_number(char s){
+//    if ((s>='0' && s<='9')){
+//        return true;
+//    }
+//    return false;
+//};
 
 bool is_in_vector(vector< string > v, string elem){
     return (find(v.begin(), v.end(), elem) != v.end());
@@ -37,6 +37,10 @@ Token::Token(string s){
 string Token::get_value(){
         return value;
     }
+
+operator_type Token::get_type(){
+    return type;
+}
 
 Operator::Operator():Token(){
     type = none;
@@ -79,17 +83,14 @@ operator_type Operator::get_type(){
 }
 
 
-
-
 vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
     string current;
-    //std::string::iterator i = s.begin();
     for (int i=0; i < int(s.size()); i++){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }
-        else if ((s[i] == variable) || (!is_letter(s[i])) ){
+        else if ((s[i] == variable) || !isalpha(s[i])){
             if (is_in_vector(constants, current)){
                 new_vector.push_back(Num(current));
                 current = "";
@@ -107,7 +108,7 @@ vector<Token> simplify(string s, char variable){
                 string c(1, s[i]);
                 new_vector.push_back(Operator(c));
             }
-            else if (is_number(s[i])){
+            else if (isdigit(s[i])){
                 string c(1, s[i]);
                 new_vector.push_back(Num(c));
             }
@@ -117,7 +118,7 @@ vector<Token> simplify(string s, char variable){
                 }
          }
         else {
-             current.push_back(s[i]);
+             current+=s[i];
     }
 }
     return new_vector;
