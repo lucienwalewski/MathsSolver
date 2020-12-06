@@ -8,7 +8,9 @@
 using namespace std;
 
 enum operator_type {
+
     other = -1,
+
     none = 0,
     addition = 5,
     sub = 4,
@@ -41,6 +43,7 @@ public :
 
 class Operator: public Token{
 private :
+
     operator_type type;
 
 public :
@@ -49,6 +52,7 @@ public :
     Operator(operator_type t);
     operator_type get_type();
 };
+
 
 
 class Num: public Token {
@@ -68,7 +72,9 @@ public :
 class Variable: public Token{
 public:
 
+
     Variable(string t): Token(t){};
+
 };
 
 vector<Token> simplify(string s, char variable);

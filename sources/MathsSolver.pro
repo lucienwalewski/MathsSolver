@@ -19,14 +19,38 @@ HEADERS += \
 #    MainWindow/mainwindow.h
 
 SOURCES += \
-    Derivatives/Tokenizer.cpp \
-    Derivatives/derivatives.cpp \
-#    ImageRecognition/imagePreprocessing.cpp \
-#    ImageRecognition/cnn.cpp \
-#    ImageRecognition/util.cpp \
-#    MainWindow/mainwindow.cpp
-    main.cpp \
 
+#     ImageRecognition/imagePreprocessing.cpp \
+#     ImageRecognition/cnn.cpp \
+#     ImageRecognition/util.cpp \
+     Derivatives/Tokenizer.cpp \
+     Derivatives/derivatives.cpp \
+     Equations/fft.cpp \
+     Equations/gaussin.cpp \
+     Equations/matrix.cpp \
+     Equations/numbers.cpp \
+     Equations/polynomial.cpp \
+     Equations/step.cpp \
+     NumericalSolver/num_derivation.cpp \
+     NumericalSolver/num_integration.cpp \
+     main.cpp \
+     MainWindow/mainwindow.cpp
+
+HEADERS += \
+#     ImageRecognition/imagePreprocessing.hpp \
+#     ImageRecognition/cnn.hpp \
+#     ImageRecognition/util.hpp \
+     Derivatives/Tokenizer.hpp \
+     Derivatives/derivatives.hpp \
+     Equations/fft.hpp \
+     Equations/gaussin.hpp \
+     Equations/matrix.hpp \
+     Equations/numbers.hpp \
+     Equations/polynomial.hpp \
+     Equations/step.hpp \
+     MainWindow/mainwindow.h \
+     NumericalSolver/num_derivation.hpp \
+     NumericalSolver/num_integration.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui
@@ -70,11 +94,3 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/release/ -ltensorflow.2.3.1
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/debug/ -ltensorflow.2.3.1
-#else:unix: LIBS += -L$$PWD/../../../../../../../../libtensorflow/lib/ -ltensorflow.2.3.1
-
-#INCLUDEPATH += $$PWD/../../../../../../../../libtensorflow/include
-#DEPENDPATH += $$PWD/../../../../../../../../libtensorflow/include

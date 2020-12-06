@@ -142,10 +142,8 @@ template <typename Function1> Function1 SinFunction::solve(){
 
 }
 
-
-
-
 CosFunction::CosFunction(Token val){
+
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
@@ -165,9 +163,8 @@ template <typename Function1> Function1 CosFunction::solve(){
 
 
 
-
-
 ExponentialFunction::ExponentialFunction(Token base){
+
     this->base = base;
     left = nullptr;
     right = nullptr;
@@ -205,8 +202,8 @@ template <typename Function1> Function1 ConstantFunction::solve(){
 
 
 
-
 LogarithmicFunction::LogarithmicFunction(Token val, Token base){
+
     this->base = base;
     value = val;
     left = nullptr;
@@ -234,6 +231,7 @@ template <typename Function1> Function1 LogarithmicFunction::solve(){
 
 
 PolynomialFunction::PolynomialFunction(Token base, Token exponent){
+
     this->exponent = exponent;
     this->base = base;
     left = nullptr;
@@ -254,26 +252,6 @@ template <typename Function1> Function1 PolynomialFunction::solve(){
     return AbstractFunction(ConstantFunction(c), PolynomialFunction(base, Token(new_exponent)), Operator(mul));
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\
-
-
-
-
 
 
 

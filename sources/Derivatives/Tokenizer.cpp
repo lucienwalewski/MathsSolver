@@ -1,3 +1,4 @@
+
 #include "Tokenizer.hpp"
 
 //bool is_letter(char s){
@@ -123,3 +124,4 @@ vector<Token> simplify(string s, char variable){
 }
     return new_vector;
 };
+

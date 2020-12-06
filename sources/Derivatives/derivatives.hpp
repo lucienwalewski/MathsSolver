@@ -24,6 +24,7 @@ public:
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
     ~AbstractFunction();
 
+
     AbstractFunction();
 
     void op_to_enum(char op,Operator &operation);
@@ -167,21 +168,6 @@ private:
     AbstractFunction *right;
     string str_label;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
