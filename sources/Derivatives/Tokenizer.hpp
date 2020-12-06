@@ -118,7 +118,7 @@ vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
     string current;
     //std::string::iterator i = s.begin();
-    for (int i=0; i < s.size(); i++){
+    for (int i=0; i <(int)s.size(); i++){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }

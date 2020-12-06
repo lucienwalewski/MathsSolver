@@ -9,7 +9,6 @@ double integral(double f(double), double a, double b){
     T=0.5*f(x);
     for(int i=1; i<DIV; i++){
         x+=h;
-        //cout<<T<<"\n";
         T+= f(x);
     }
     x+=h;
