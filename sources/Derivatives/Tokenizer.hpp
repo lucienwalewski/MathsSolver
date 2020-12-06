@@ -27,8 +27,8 @@ bool is_in_vector(vector< string > v, string elem);
 
 class Token {
 protected :
-    string value;
     operator_type type;
+    string value;
 public :
     Token(string s);
     Token();
@@ -52,16 +52,18 @@ public :
 
 class Num: public Token {
 public :
+
     Num(string t):Token(t){};
-};
+
 
 class Function: public Token{
 public :
+
     Function(string t): Token(t){};
-};
 
 class Variable: public Token{
 public:
+
     Variable(string t): Token(t){};
 };
 

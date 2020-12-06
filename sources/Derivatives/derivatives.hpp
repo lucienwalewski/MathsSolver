@@ -20,8 +20,10 @@ public:
         this->str_label = left->str_label + get_string_operation()  + right->str_label;
     };
 
+
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
     ~AbstractFunction();
+
     AbstractFunction();
 
     void op_to_enum(char op,Operator &operation);
