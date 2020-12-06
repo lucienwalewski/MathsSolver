@@ -8,17 +8,18 @@
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 //#include "Derivatives/derivatives.hpp"
+#include "Equations/polynomial.hpp"
 
 
 #include<iostream>
 #include<string>
 #include<math.h>
-#include<opencv2/opencv.hpp>
+//#include<opencv2/opencv.hpp>
 
 
 
 using namespace std;
-using namespace cv;
+//using namespace cv;
 
 /*double F(double x){
     return sin(2*x-2.1)/(x*x+1);
@@ -28,7 +29,7 @@ int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
 
-    string f;
+    //string f;
 
     //cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
     //cin>>f;
@@ -37,8 +38,14 @@ int main(int argc, char *argv[])
     //cout<<"Hello the result of the integral is "<<integral(F, 1.2, 1.6)<<"\n";
     //cout<<"Hello the result of the derivative is "<<derivative(F, 1)<<"\n";
 
-    string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference2.jpg";
-    display_prepocessing(path);
+    //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference2.jpg";
+    //display_prepocessing(path);
+
+    long long f[5] = {0, 3, -1, 0, 4};
+    long long h[5] = {-2, 3, 1, 5, 0};
+    long long ans = linear_res(6, 4, f, h, 998244353);
+    printf("%lld\n",ans);
+
 
 //    MainWindow w;
 //    w.show();

@@ -22,7 +22,7 @@ Polynomial::Polynomial(const Polynomial &b)
     coefficient = new long long [deg + 1];
     for (int i = 0; i <= deg; i++)
     {
-        coefficient[i] = b.coefficient[i];
+        coefficient[i] = b[i];
     }
 }
 
@@ -154,4 +154,69 @@ Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod)
     return Polynomial(coeff, res1.deg);
 }
 
+Polynomial linear_re(Polynomial a, Polynomial b, int k, long long f[], long long P)
+{
+    Polynomial res(20);
+    std::cout<<a[1]<<" "<<b[1]<<" "<<a[0]<<" "<<b[0]<<std::endl;
+//    res.print();
+    for (int i = 0; i < k; i++)
+        for (int j = 0; j < k; j++)
+        {
+            (res[i + j] += 1ll * a[i] * b[j] % P) %= P;
+//            res.print();
+        }
+    for (int i = 2 * k - 2; i >= k; res[i--] = 0)
+        for (int j = 1; j <= k; j++)
+        {
+            (res[i - j] += 1ll * res[i] * f[j] % P) %= P;
+//            res.print();
+        }
+//
+    res.print();
+    return res;
+}
 
+Polynomial ksm(Polynomial a, long long f[],int k, long long P, int b)
+{
+    Polynomial res(20);
+    res.coefficient[0] = 1;
+    for (; b; b >>= 1)
+    {
+        if (b & 1)
+        {
+//            a.print();
+            res = linear_re(res, a, k, f, P);
+        }
+        printf("1\n");
+        a = linear_re(a, a, k, f, P);
+        a.print();
+        std::cout<<2<<std::endl;
+    }
+    return res;
+}
+
+long long linear_res(int n, int k, long long f[], long long h[], long long P)
+{
+    for (int i = 1; i <= k; i++)
+        f[i] = f[i] > 0 ? f[i] : f[i] + P;
+    for (int i = 0; i < k; i++)
+        h[i] = h[i] > 0 ? h[i] : h[i] + P;
+    if (n < k)
+    {
+        return h[n];
+    }
+    Polynomial res(20);
+    res[1] = 1;
+    long long ans = 0;
+    res = ksm(res, f, k, P, n);
+    for (int i = 0; i < k; i++)
+        ans = (ans + 1ll * res[i] * h[i] % P) % P;
+    return ans;
+}
+
+/*
+Polynomial Polynomial::inverse()
+{
+
+}
+*/
