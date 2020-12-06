@@ -8,6 +8,7 @@
 using namespace std;
 
 enum operator_type {
+    other = -1,
     none = 0,
     addition = 5,
     sub = 4,
