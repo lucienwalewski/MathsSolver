@@ -28,7 +28,6 @@ SOURCES += \
     main.cpp \
 
 
-
 FORMS += \
     MainWindow/mainwindow.ui
 
