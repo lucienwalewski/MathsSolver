@@ -2,6 +2,7 @@
 #define DIV 10000
 
 double integral(double f(double), double a, double b){
+    // compute numerical value of the integral
     double h = (b-a)/DIV;
     double T=0;
     double x=a;
