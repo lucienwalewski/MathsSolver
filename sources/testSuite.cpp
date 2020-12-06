@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 
 // add necessary includes here
-#include "testingFiles/sampleTestClass.hpp"
+#include "testingFiles/sampleTestClass/sampleTestClass.hpp"
 
 int main(int argc, char *argv[]) {
     int status = 0;
