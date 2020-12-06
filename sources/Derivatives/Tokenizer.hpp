@@ -40,7 +40,7 @@ vector <string> constants{"pi", "e"};
 
 vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "ln"};
 
-vector <string> str_operators{"+", "-", "/", "^", "sqrt"};
+vector <string> str_operators{"+", "-", "/", "^", "sqrt", "(", ")"};
 
 
 class Token {
