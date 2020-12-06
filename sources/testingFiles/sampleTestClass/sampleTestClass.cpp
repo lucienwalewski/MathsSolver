@@ -1,4 +1,4 @@
-#include "testclass.hpp"
+#include "sampleTestClass.hpp"
 #include <QtTest>
 #include <QCoreApplication>
 
@@ -28,4 +28,10 @@ void testClass::cleanupTestCase()
 void testClass::test_case1()
 {
     QVERIFY(true);
+}
+
+void testClass::test_case2()
+{
+    int a = 1, b = 1;
+    QVERIFY(a == b);
 }

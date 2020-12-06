@@ -1,0 +1,1 @@
+This week I finished implementing testing files and discussed with Sergio Mover how to advance with the neural network implementation. It was decided that the network would be trained in Python (lifted from another repository) and deployed in C++. The C++ deployment will be the major focus of this week.

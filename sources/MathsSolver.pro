@@ -10,29 +10,47 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Derivatives/Tokenizer.cpp \
-    Derivatives/derivatives.cpp \
-#    ImageRecognition/imagePreprocessing.cpp \
-#    ImageRecognition/cnn.cpp \
-#    ImageRecognition/util.cpp \
-    main.cpp \
-    MainWindow/mainwindow.cpp
+#     ImageRecognition/imagePreprocessing.cpp \
+#     ImageRecognition/cnn.cpp \
+#     ImageRecognition/util.cpp \
+     Derivatives/Tokenizer.cpp \
+     Derivatives/derivatives.cpp \
+     Equations/fft.cpp \
+     Equations/gaussin.cpp \
+     Equations/matrix.cpp \
+     Equations/numbers.cpp \
+     Equations/polynomial.cpp \
+     Equations/step.cpp \
+     NumericalSolver/num_derivation.cpp \
+     NumericalSolver/num_integration.cpp \
+     main.cpp \
+     MainWindow/mainwindow.cpp
 
 HEADERS += \
-    Derivatives/Tokenizer.hpp \
-    Derivatives/derivatives.hpp \
-#    ImageRecognition/imagePreprocessing.hpp \
-#    ImageRecognition/cnn.hpp \
-#    ImageRecognition/util.hpp \
-    MainWindow/mainwindow.h
+#     ImageRecognition/imagePreprocessing.hpp \
+#     ImageRecognition/cnn.hpp \
+#     ImageRecognition/util.hpp \
+     Derivatives/Tokenizer.hpp \
+     Derivatives/derivatives.hpp \
+     Equations/fft.hpp \
+     Equations/gaussin.hpp \
+     Equations/matrix.hpp \
+     Equations/numbers.hpp \
+     Equations/polynomial.hpp \
+     Equations/step.hpp \
+     MainWindow/mainwindow.h \
+     NumericalSolver/num_derivation.hpp \
+     NumericalSolver/num_integration.hpp
+
 
 FORMS += \
     MainWindow/mainwindow.ui
 
 
+# Eigen path
 
-INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
@@ -67,15 +85,3 @@ LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-# Outdated instructions
-
-# For opencv use:
-# Go to projects, build steps, qmake, additional arguments and enter:
-# "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4"
-# where root is the path to opencv on your machine. Uncomment lines
-# 20,27,37-38.
-
-# For Eigen use:
-# Same as for opencv, add:
-# "OPENCV_LIBRARY_INCLUDE=root/eigen-3.3.8"
