@@ -20,7 +20,7 @@
 
 
 using namespace std;
-//using namespace cv;
+using namespace cv;
 
 /*double F(double x){
     return sin(2*x-2.1)/(x*x+1);

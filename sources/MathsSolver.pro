@@ -77,7 +77,7 @@ LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_
 
 # Lazar :
 #
-
+#"EIGEN_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\eigen-3.3.8\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\opencv\release\install\include" "OPENCV_LIBRARY_PATH=C:\Users\Korisnik\Downloads\opencv\release\bin"
 # ...
 
 # Default rules for deployment.
