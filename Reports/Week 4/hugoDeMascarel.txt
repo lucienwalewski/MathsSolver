@@ -1,0 +1,1 @@
+This week I worked on slots and calling of functions in order to output equations in string format to the console, and output the file path to the console. I am working on the merging of the input box to be used in parallel with the upload file box.
