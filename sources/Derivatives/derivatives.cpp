@@ -31,6 +31,11 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
         *left = AbstractFunction(l);*right = AbstractFunction(r);
     }
     left = nullptr;right = nullptr;
+    string str="";
+        for (vector<Token>::iterator i =fun.begin();i<fun.end();i++){
+            str+=i->get_value();
+        }
+        str_label = str;
 
     }
 }
@@ -128,8 +133,7 @@ SinFunction::SinFunction(Token val){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
-
-    str_label= "sin";
+    str_label = "sin("+val.get_value()+")";
     value = val;
 }
 
@@ -148,7 +152,7 @@ CosFunction::CosFunction(Token val){
     right = nullptr;
     operation = Operator(none);
 
-    str_label= "cos";
+    str_label= "cos("+val.get_value()+")";
     value = val;
 }
 Token CosFunction::get_value(){
@@ -170,7 +174,7 @@ ExponentialFunction::ExponentialFunction(Token base){
     right = nullptr;
     operation = Operator(none);
 
-    str_label="log(";
+    str_label=base.get_value()+"^x";
 }
 Token ExponentialFunction::get_base(){
     return base;
@@ -210,7 +214,7 @@ LogarithmicFunction::LogarithmicFunction(Token val, Token base){
     right = nullptr;
     operation = Operator(none);
 
-    str_label = "log";
+    str_label ="log_"+base.get_value()+"("+val.get_value()+")";
 }
 Token LogarithmicFunction::get_base(){
     return base;
@@ -238,7 +242,7 @@ PolynomialFunction::PolynomialFunction(Token base, Token exponent){
     right = nullptr;
     operation = Operator(none);
 
-    str_label = "";
+    str_label = base.get_value()+"^"+exponent.get_value();
 }
 Token PolynomialFunction::get_exponent(){
     return exponent;
