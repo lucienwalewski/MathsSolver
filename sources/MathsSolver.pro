@@ -19,7 +19,6 @@ HEADERS += \
 #    MainWindow/mainwindow.h
 
 SOURCES += \
-
 #     ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
@@ -37,7 +36,7 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePreprocessing.hpp \
+     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
@@ -58,13 +57,13 @@ FORMS += \
 
 # Eigen path
 
-#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
@@ -87,7 +86,7 @@ FORMS += \
 
 # Lazar :
 #
-
+#"EIGEN_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\eigen-3.3.8\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\opencv\release\install\include" "OPENCV_LIBRARY_PATH=C:\Users\Korisnik\Downloads\opencv\release\bin"
 # ...
 
 # Default rules for deployment.

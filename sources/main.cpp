@@ -4,7 +4,7 @@
 //#include "MainWindow/mainwindow.h"
 //#include "Derivatives/derivatives.hpp"
 #include "ImageRecognition/imagePreprocessing.hpp"
-//#include "Derivatives/Tokenizer.hpp"
+#include "Derivatives/Tokenizer.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 //#include "Derivatives/derivatives.hpp"
@@ -14,12 +14,13 @@
 #include<iostream>
 #include<string>
 #include<math.h>
-//#include<opencv2/opencv.hpp>
+#include<vector>
+#include<opencv2/opencv.hpp>
 
 
 
 using namespace std;
-//using namespace cv;
+using namespace cv;
 
 /*double F(double x){
     return sin(2*x-2.1)/(x*x+1);
@@ -29,23 +30,23 @@ int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
 
-    //string f;
+    string f;
 
-    //cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
-    //cin>>f;
-    //cout<<"The function is: "<<f<<"\n";
+    cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
+    cin>>f;
+    cout<<"The function is: "<<f<<"\n";
 
     //cout<<"Hello the result of the integral is "<<integral(F, 1.2, 1.6)<<"\n";
     //cout<<"Hello the result of the derivative is "<<derivative(F, 1)<<"\n";
 
-    //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference2.jpg";
+    //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference.jpg";
     //display_prepocessing(path);
 
-    long long f[5] = {0, 3, -1, 0, 4};
-    long long h[5] = {-2, 3, 1, 5, 0};
-    long long ans = linear_res(6, 4, f, h, 998244353);
-    printf("%lld\n",ans);
+    vector<Token> v;
+    v= simplify(f, 'x');
 
+    for(int i=0; i<(int)v.size(); i++)
+        cout<<v[i].get_value()<<" "<<"\n";
 
 //    MainWindow w;
 //    w.show();
