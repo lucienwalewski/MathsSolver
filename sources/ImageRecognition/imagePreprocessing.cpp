@@ -129,7 +129,9 @@ void extract_contours(Mat image){
        for (int i=0;i<(int)contours_poly.size();i++){
 
            Rect r = boundingRect(Mat(contours_poly[i]));
-           if(r.area()<250)continue;  //to be checked how can be improved
+           if(r.area()<200)
+               continue;  //to be checked how can be improved
+
            bool inside = false;
            for(int j=0;j<(int)contours_poly.size();j++){
                if(j==i)continue;
@@ -142,7 +144,8 @@ void extract_contours(Mat image){
                    inside = true;
                }
            }
-           if(inside)continue;
+           if(inside)
+                continue;
            validContours.push_back(contours_poly[i]);
        }
 
@@ -181,7 +184,7 @@ void extract_contours(Mat image){
 
            Mat image=resizedPic.clone();
 
-           resize(image, image, Size(56,56), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
+           resize(image, image, Size(28,28), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
 
            //Show image
            imshow("image",image);
