@@ -1,1 +1,0 @@
-This week, I implemented the function that computes the roots of an input function.
