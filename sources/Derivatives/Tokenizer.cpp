@@ -1,18 +1,5 @@
 #include "Tokenizer.hpp"
 
-//bool is_letter(char s){
-//    if ((s>='0' && s<='9') or  ( (s>='A' && s<='Z'))){
-//        return true;
-//    }
-//    return false;
-//};
-
-//bool is_number(char s){
-//    if ((s>='0' && s<='9')){
-//        return true;
-//    }
-//    return false;
-//};
 
 bool is_in_vector(vector< string > v, string elem){
     return (find(v.begin(), v.end(), elem) != v.end());
@@ -23,11 +10,13 @@ vector <string> constants{"pi", "e"};
 
 vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "ln"};
 
-vector <string> str_operators{"+", "-", "/", "^", "sqrt", "(", ")"};
+
+vector <string> str_operators{"+", "-", "*" , "/", "^", "sqrt", "(", ")"};
 
 
 Token::Token(){
     value = "";
+    type = other;
 }
 
 Token::Token(string s){
@@ -49,26 +38,28 @@ Operator::Operator(string t): Token(t){
     if (t == "+"){
         type = addition;
 
-    };
+    }
     if (t == "-"){
         type = sub;
-    };
+    }
     if (t == "*"){
         type = mul;
-    };
+    }
     if (t == "/"){
         type = divi;
-    };
+    }
     if (t == "^"){
         type = power;
 
-    };
+    }
     if (t == "~"){
             type = comp;
-        };
+
+
+    }
     if (t == "(" or t == ")"){
         type = pare;
-    };
+    }
     if (t == ""){
         type = none;
     }
@@ -83,6 +74,7 @@ operator_type Operator::get_type(){
 }
 
 
+
 vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
     string current;
@@ -90,6 +82,7 @@ vector<Token> simplify(string s, char variable){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }
+
         else if ((s[i] == variable) || !isalpha(s[i])){
             if (is_in_vector(constants, current)){
                 new_vector.push_back(Num(current));
@@ -123,3 +116,5 @@ vector<Token> simplify(string s, char variable){
 }
     return new_vector;
 };
+
+

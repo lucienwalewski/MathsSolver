@@ -1,2 +1,0 @@
-This week I fixed compiling errors with Constance and uploaded all of our code and hers to github. (Only the constructor and 
-sporadic edits are mine). This week we will implement a test file for the derivatives calculator to see how we are faring.

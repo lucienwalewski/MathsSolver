@@ -2,14 +2,19 @@
 #include "Tokenizer.hpp"
 
 AbstractFunction::AbstractFunction(vector<Token> fun){
-
-
+    str_label = vect_to_str(fun);
+    // parentheses(&fun);
     operation =  Operator();
-
+    int counter = 0;
     vector<Token>::iterator j = fun.begin();
     for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
         if (i->get_type() > 0){
-            if (i -> get_type() > operation.get_type()){
+            if (i -> get_type() == 7){
+                if (i -> get_value() == "("){
+                    counter += 1;}
+                else {counter -= 1;}}
+
+            else if (i -> get_type() > operation.get_type() and counter == 0){
                 operation = Operator(i->get_value());
 
                 j = i;
@@ -64,7 +69,16 @@ AbstractFunction AbstractFunction:: get_right(){
 void AbstractFunction::set_right(AbstractFunction *right){
     this->right = right;
 }
-
+string AbstractFunction::get_string_operation(){
+    return operation.get_value();
+}
+string vect_to_str(vector<Token> fun){
+    string sfun = "";
+    for (int i = 0; int(fun.size());i++){
+        sfun += fun[i].get_value();
+    }
+    return sfun;
+}
 Operator AbstractFunction::get_operation(){
     return operation;
 }
@@ -142,10 +156,8 @@ template <typename Function1> Function1 SinFunction::solve(){
 
 }
 
-
-
-
 CosFunction::CosFunction(Token val){
+
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
@@ -168,6 +180,7 @@ template <typename Function1> Function1 CosFunction::solve(){
 
 
 ExponentialFunction::ExponentialFunction(Token base, Token val){
+
     this->base = base;
     left = nullptr;
     right = nullptr;
@@ -212,8 +225,8 @@ template <typename Function1> Function1 ConstantFunction::solve(){
 
 
 
-
 LogarithmicFunction::LogarithmicFunction(Token val, Token base){
+
     this->base = base;
     value = val;
     left = nullptr;
@@ -248,6 +261,7 @@ template <typename Function1> Function1 LogarithmicFunction::solve(){
 
 
 PolynomialFunction::PolynomialFunction(Token val, Token exponent){
+
     this->exponent = exponent;
     this->value = val;
     left = nullptr;
@@ -267,26 +281,6 @@ template <typename Function1> Function1 PolynomialFunction::solve(){
     return AbstractFunction(ConstantFunction(exponent), PolynomialFunction(value, Token(new_exponent)), Operator(mul));
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\
-
-
-
-
 
 
 

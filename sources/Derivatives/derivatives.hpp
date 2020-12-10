@@ -24,6 +24,7 @@ public:
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
     ~AbstractFunction(){};
 
+
     AbstractFunction();
 
     void op_to_enum(char op,Operator &operation);
@@ -169,21 +170,6 @@ private:
     string str_label;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+string vect_to_str(vector<Token> fun);
 
 #endif // DERIVATIVES_HPP

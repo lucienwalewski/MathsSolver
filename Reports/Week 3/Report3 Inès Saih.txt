@@ -1,1 +1,0 @@
-This week, we tested the two function that we implemented in the past weeks that give the value of the derivative at a point and that computes the value of the integral on an interval. We tried to solved some bugs in our code.
