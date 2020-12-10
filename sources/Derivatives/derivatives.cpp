@@ -133,7 +133,9 @@ SinFunction::SinFunction(Token val){
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
-    str_label = "sin("+val.get_value()+")";
+
+    str_label= "sin(" + value.get_value() +")";
+
     value = val;
 }
 
@@ -152,7 +154,9 @@ CosFunction::CosFunction(Token val){
     right = nullptr;
     operation = Operator(none);
 
-    str_label= "cos("+val.get_value()+")";
+
+    str_label= "cos(" + value.get_value() +")";
+
     value = val;
 }
 Token CosFunction::get_value(){
@@ -167,20 +171,30 @@ template <typename Function1> Function1 CosFunction::solve(){
 
 
 
-ExponentialFunction::ExponentialFunction(Token base){
 
+
+ExponentialFunction::ExponentialFunction(Token base, Token val){
     this->base = base;
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
+    this->value = val;
 
-    str_label=base.get_value()+"^x";
+
+    str_label = base.get_value() + "^" + value.get_value();
+
 }
 Token ExponentialFunction::get_base(){
     return base;
 }
 
+Token ExponentialFunction::get_value(){
+    return value;
+}
 template <typename Function1> Function1 ExponentialFunction::solve(){
+    if(base.get_value() == "e"){
+        return ExponentialFunction(base, value);
+    }
     return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), Operator(mul));
 
 }
@@ -215,6 +229,11 @@ LogarithmicFunction::LogarithmicFunction(Token val, Token base){
     operation = Operator(none);
 
     str_label ="log_"+base.get_value()+"("+val.get_value()+")";
+    str_label= "log_" + base.get_value() + "(" +value.get_value() + ")";
+    if(base.get_value() == "e"){
+        str_label = "ln(" + value.get_value() + ")";
+    }
+
 }
 Token LogarithmicFunction::get_base(){
     return base;
@@ -224,6 +243,9 @@ Token LogarithmicFunction::get_value(){
 }
 template <typename Function1> Function1 LogarithmicFunction::solve(){
     Token base = this->get_base();
+    if(base.get_value() == "e"){
+        return AbstractFunction(ConstantFunction(Token("1")), PolynomialFunction(value, Token("1")), Operator(divi));
+    }
     return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), Operator(mul)), Operator(divi));
 
 }
@@ -234,10 +256,10 @@ template <typename Function1> Function1 LogarithmicFunction::solve(){
 
 
 
-PolynomialFunction::PolynomialFunction(Token base, Token exponent){
 
+PolynomialFunction::PolynomialFunction(Token val, Token exponent){
     this->exponent = exponent;
-    this->base = base;
+    this->value = val;
     left = nullptr;
     right = nullptr;
     operation = Operator(none);
@@ -247,13 +269,12 @@ PolynomialFunction::PolynomialFunction(Token base, Token exponent){
 Token PolynomialFunction::get_exponent(){
     return exponent;
 }
-Token PolynomialFunction::get_base(){
-    return base;
+Token PolynomialFunction::get_value(){
+    return value;
 }
 template <typename Function1> Function1 PolynomialFunction::solve(){
-    Token c = this->get_exponent();
-    string new_exponent = c.get_value() + "-1";
-    return AbstractFunction(ConstantFunction(c), PolynomialFunction(base, Token(new_exponent)), Operator(mul));
+    string new_exponent = exponent.get_value() + "-1";
+    return AbstractFunction(ConstantFunction(exponent), PolynomialFunction(value, Token(new_exponent)), Operator(mul));
 
 }
 
