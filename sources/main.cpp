@@ -8,7 +8,6 @@
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
-
 //#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"

@@ -9,12 +9,19 @@
 using namespace std;
 using namespace cv;
 
+/** Uploads the image for a given path
+ *
+ * @param path The pathname for the image
+ * @return Mat The image
+ *
+ * @throw CustomError Thrown if image requested is not found
+ */
 Mat upload_img(string path){
     //uploading the image for the given path
     Mat image = imread(path, IMREAD_COLOR);
 
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
     return image;
@@ -26,7 +33,7 @@ Mat binarisation(Mat image){
     Mat final;
 
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
     cvtColor(image, gray_image, COLOR_BGR2GRAY);
@@ -39,7 +46,7 @@ Mat binarisation(Mat image){
 Mat noise_removal(Mat image){
     // remove the potential noise form the image
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
     Mat final_img;
 
@@ -55,7 +62,7 @@ Mat noise_removal(Mat image){
 Mat crop(Mat image){
     // crop and rotate the image to the smallest horizontal rectangle
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
      Mat output=image.clone();
@@ -102,11 +109,8 @@ class comparator{
     //comprator for sorting to be made as a function
 public:
     bool operator()(vector<Point> c1,vector<Point>c2){
-
         return boundingRect( Mat(c1)).x<boundingRect( Mat(c2)).x;
-
     }
-
 };
 
 void extract_contours(Mat image){

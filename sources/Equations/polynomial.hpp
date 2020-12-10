@@ -2,7 +2,7 @@
 #define POLYNOMIAL_HPP
 
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 class Polynomial
 {
 public:
