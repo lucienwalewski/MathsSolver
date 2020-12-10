@@ -24,6 +24,7 @@ SOURCES += \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
+     NumericalSolver/num_roots.cpp \
      main.cpp \
      MainWindow/mainwindow.cpp
 
@@ -41,7 +42,8 @@ HEADERS += \
      Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
-     NumericalSolver/num_integration.hpp
+     NumericalSolver/num_integration.hpp \
+     NumericalSolver/num_roots.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui
@@ -54,8 +56,8 @@ FORMS += \
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
