@@ -138,34 +138,14 @@ public:
 
 };
 
-double Legendre(int n,double x){
-    if (n==0){
-        return x*0+1.0;
-    }
-    else if (n==1){
-        return x;
-    }
-    else{
-        return (x*Legendre(n-1,x)*(2*n-1)-Legendre(n-2,x)*(n-1))/n;
-    }
-};
+double Legendre(int n,double x);
 
-//#################################################################
-
-// Derivative of the Legendre polynomials
 double DLegendre(int n,double x);
 
-// Roots of the polynomial obtained using Newton-Raphson method
 vector<double> LegendreRoots(int polyorder);
 
-//Weight coefficients
 Xarray GaussLegendreWeights(int polyorder);
 
-// The integral value
-// func 		: the integrand
-// a, b 		: lower and upper limits of the integral
-// polyorder 	: order of the Legendre polynomial to be used
-//
-double GaussLegendreQuadrature(double func(double), int polyorder, double a, double b);
+double GaussLegendreQuadrature(double func(double), double a, double b);
 
 #endif // NUM_INTEGRATION_HPP
