@@ -13,20 +13,23 @@ using namespace std;
 using namespace cv;
 using namespace Eigen;
 
-
-Mat binarisation(Mat image);
-
+/// Uploads image and returns it
 Mat upload_img(string path);
 
+/// Binarises the image
+Mat binarisation(Mat image);
+
+/// Removes noise from the image
 Mat noise_removal(Mat image);
 
+/// Crops the image
 Mat crop(Mat image);
 
+///
 void extract_contours(Mat image);
 
+/// Applies all the preprocessing techniques
 void display_prepocessing(string path);
 
-void process_mnist_images(const char* path, std::vector<std::unique_ptr<MatrixXd> > &Xtrain,
-    std::vector<std::unique_ptr<std::vector<double> > > &Ytrain, unsigned int nr_images=100);
 
 #endif // IMAGEPREPROCESSING_HPP
