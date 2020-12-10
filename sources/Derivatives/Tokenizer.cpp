@@ -28,6 +28,7 @@ vector <string> str_operators{"+", "-", "/", "^", "sqrt", "(", ")"};
 
 Token::Token(){
     value = "";
+    type = other;
 }
 
 Token::Token(string s){
@@ -66,9 +67,9 @@ Operator::Operator(string t): Token(t){
     if (t == "~"){
             type = comp;
         };
-    if (t == "(" or t == ")"){
-        type = pare;
-    };
+    //if (t == "(" or t == ")"){
+        //type = pare;
+    //};
     if (t == ""){
         type = none;
     }
