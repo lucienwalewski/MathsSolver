@@ -11,11 +11,11 @@ CONFIG += c++11
 
 
 SOURCES += \
-#     ImageRecognition/imagePreprocessing.cpp \
+     ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
-     Derivatives/Tokenizer.cpp \
-     Derivatives/derivatives.cpp \
+#     Derivatives/Tokenizer.cpp \
+#     Derivatives/derivatives.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
@@ -31,8 +31,8 @@ HEADERS += \
      ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
-     Derivatives/Tokenizer.hpp \
-     Derivatives/derivatives.hpp \
+#     Derivatives/Tokenizer.hpp \
+#     Derivatives/derivatives.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \

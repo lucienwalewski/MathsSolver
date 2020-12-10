@@ -4,7 +4,7 @@
 //#include "MainWindow/mainwindow.h"
 //#include "Derivatives/derivatives.hpp"
 #include "ImageRecognition/imagePreprocessing.hpp"
-#include "Derivatives/Tokenizer.hpp"
+//#include "Derivatives/Tokenizer.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 //#include "Derivatives/derivatives.hpp"
@@ -31,14 +31,17 @@ int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
 
-    string f;
+     string f;
 
-    cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
-    cin>>f;
+     cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
+     cin>>f;
+     cout<<"The function is: "<<f<<"\n";
+
+//    cout<<"Hello the result is "<<derivative(f, 9.99)<<"\n";
+
+//    cout<<"Newton"<<Newton(f,9.99,1e-6,100)<<"\n";
 
     //the main process for solving the problem
-
-    if
 
 
   //  cout<<"The function is: "<<f<<"\n";
@@ -49,13 +52,11 @@ int main(int argc, char *argv[])
     //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference.jpg";
     //display_prepocessing(path);
 
-  /*  vector<Token> v;
+/*    vector<Token> v;
     v= simplify(f, 'x');
 
     for(int i=0; i<(int)v.size(); i++)
         cout<<v[i].get_value()<<" "<<"\n";*/
-
-
 
 //    MainWindow w;
 //    w.show();
