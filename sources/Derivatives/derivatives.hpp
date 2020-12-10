@@ -22,7 +22,7 @@ public:
 
 
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
-    ~AbstractFunction();
+    ~AbstractFunction(){};
 
     AbstractFunction();
 
