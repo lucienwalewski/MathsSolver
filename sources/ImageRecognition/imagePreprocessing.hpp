@@ -6,12 +6,12 @@
 
 #include<opencv2/opencv.hpp>
 #include<opencv2/highgui/highgui.hpp>
-#include<Eigen/Dense>
+//#include<Eigen/Dense>
 
 
 using namespace std;
 using namespace cv;
-using namespace Eigen;
+//using namespace Eigen;
 
 /// Uploads image and returns it
 Mat upload_img(string path);
