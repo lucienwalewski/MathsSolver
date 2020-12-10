@@ -9,22 +9,30 @@
 using namespace std;
 using namespace cv;
 
+/** Uploads the image for a given path
+ *
+ * @param path The pathname for the image
+ * @return Mat The image
+ *
+ * @throw CustomError Thrown if image requested is not found
+ */
 Mat upload_img(string path){
     Mat image = imread(path, IMREAD_COLOR);
 
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
     return image;
 }
 
 Mat binarisation(Mat image){
+    //set image to be black and white
     Mat gray_image;
     Mat final;
 
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
     cvtColor(image, gray_image, COLOR_BGR2GRAY);
@@ -35,8 +43,9 @@ Mat binarisation(Mat image){
 }
 
 Mat noise_removal(Mat image){
+    // remove the potential noise form the image
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
     Mat final_img;
 
@@ -50,8 +59,9 @@ Mat noise_removal(Mat image){
 }
 
 Mat crop(Mat image){
+    // crop and rotate the image to the smallest horizontal rectangle
     if(!image.data){
-        cout<<"Image path is not valid\n";
+        throw "Image path is not valid\n";
     }
 
      Mat output=image.clone();
@@ -95,16 +105,15 @@ Mat crop(Mat image){
 }
 
 class comparator{
+    //comprator for sorting to be made as a function
 public:
     bool operator()(vector<Point> c1,vector<Point>c2){
-
         return boundingRect( Mat(c1)).x<boundingRect( Mat(c2)).x;
-
     }
-
 };
 
 void extract_contours(Mat image){
+    //extarcting and preparing the signs to be read
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
 
@@ -123,7 +132,9 @@ void extract_contours(Mat image){
        for (int i=0;i<(int)contours_poly.size();i++){
 
            Rect r = boundingRect(Mat(contours_poly[i]));
-           if(r.area()<100)continue;
+           if(r.area()<200)
+               continue;  //to be checked how can be improved
+
            bool inside = false;
            for(int j=0;j<(int)contours_poly.size();j++){
                if(j==i)continue;
@@ -136,7 +147,8 @@ void extract_contours(Mat image){
                    inside = true;
                }
            }
-           if(inside)continue;
+           if(inside)
+                continue;
            validContours.push_back(contours_poly[i]);
        }
 
@@ -175,9 +187,11 @@ void extract_contours(Mat image){
 
            Mat image=resizedPic.clone();
 
+           resize(image, image, Size(28,28), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
+
            //Show image
            imshow("image",image);
-           char ch  = waitKey(0);
+           waitKey(0);
            stringstream searchMask;
            searchMask<<i<<".jpg";
            imwrite(searchMask.str(),resizedPic);
@@ -188,13 +202,15 @@ void extract_contours(Mat image){
 }
 
 void display_prepocessing(string path){
+    // dispalay the extracting process, for testing and debugging
     Mat image= upload_img(path);
     //image = noise_removal(image);
     image = binarisation(image);
     image = crop(image);
     //image = noise_removal(image);
 
- /*   int dilation_size=0.5;
+    // improvement of dilation if possible
+ /*  int dilation_size=0.5;
     Mat element = getStructuringElement(  MORPH_RECT,
                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
                          Point( dilation_size, dilation_size ) );

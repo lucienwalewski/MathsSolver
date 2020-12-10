@@ -1,0 +1,2 @@
+I was working on finishing the image preprocessing part. I have manged to create a functions for cropping and extracting contours of the images with equations, which complites the
+image preporcessing part of the program. Next week, we are going to implement machine learning algorithms.

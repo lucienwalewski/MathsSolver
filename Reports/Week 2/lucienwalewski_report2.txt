@@ -1,4 +1,0 @@
-This week I again spent a lot of time managing Git, adding instructions on how to build the project. With Lazar we also
-finished up on image preprocessing and wrote some code for character segmentation. I also wrote some basic utility functions 
-which will be required for our network and began working on our forward pass, although there is still progress to be made in
-this area which will be the focus of next week's coding. 
