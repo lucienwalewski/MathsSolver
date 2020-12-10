@@ -109,8 +109,10 @@ vector<Token> simplify(string s, char variable){
          }
         else {
              current+=s[i];
+        }
     }
-}
+
+
     return new_vector;
 };
 

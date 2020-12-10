@@ -25,6 +25,7 @@ SOURCES += \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
      NumericalSolver/num_roots.cpp \
+    functionPreprocessing.cpp \
      main.cpp \
      MainWindow/mainwindow.cpp
 
@@ -43,7 +44,8 @@ HEADERS += \
      MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
-     NumericalSolver/num_roots.hpp
+     NumericalSolver/num_roots.hpp \
+    functionPreprocessing.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui

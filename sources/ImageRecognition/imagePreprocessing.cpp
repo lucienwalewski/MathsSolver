@@ -10,7 +10,7 @@ using namespace std;
 using namespace cv;
 
 Mat upload_img(string path){
-    // uploading the image for the given path
+    //uploading the image for the given path
     Mat image = imread(path, IMREAD_COLOR);
 
     if(!image.data){
