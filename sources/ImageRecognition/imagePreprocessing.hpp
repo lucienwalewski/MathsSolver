@@ -6,12 +6,12 @@
 
 #include<opencv2/opencv.hpp>
 #include<opencv2/highgui/highgui.hpp>
-#include<Eigen/Dense>
+//#include<Eigen/Dense>
 
 
 using namespace std;
 using namespace cv;
-using namespace Eigen;
+//using namespace Eigen;
 
 
 Mat binarisation(Mat image);
@@ -26,7 +26,5 @@ void extract_contours(Mat image);
 
 void display_prepocessing(string path);
 
-void process_mnist_images(const char* path, std::vector<std::unique_ptr<MatrixXd> > &Xtrain,
-    std::vector<std::unique_ptr<std::vector<double> > > &Ytrain, unsigned int nr_images=100);
 
 #endif // IMAGEPREPROCESSING_HPP
