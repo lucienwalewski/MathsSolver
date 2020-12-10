@@ -8,22 +8,25 @@
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
+
 //#include "Derivatives/derivatives.hpp"
+#include "Equations/polynomial.hpp"
 
 
 #include<iostream>
 #include<string>
-//#include<opencv2/opencv.hpp>
-//#include<tensorflow/c/c_api.h>
+#include<math.h>
+#include<vector>
+#include<opencv2/opencv.hpp>
 
 
 
 using namespace std;
-//using namespace cv;
+using namespace cv;
 
-double f(double x){
-    return pow(x,7);
-}
+/*double F(double x){
+    return sin(2*x-2.1)/(x*x+1);
+}*/
 
 int main(int argc, char *argv[])
 {
@@ -57,19 +60,21 @@ int main(int argc, char *argv[])
 
 //    list<double> roots = rootfinding(f);for (std::list<double>::iterator i=roots.begin(); i!= roots.end(); i++){cout<<*i<<"\n";};
 
-    return a.exec();
+    //cout<<"Hello the result of the integral is "<<integral(F, 1.2, 1.6)<<"\n";
+    //cout<<"Hello the result of the derivative is "<<derivative(F, 1)<<"\n";
 
 
+    //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference.jpg";
+    //display_prepocessing(path);
 
-//    printf("Hello from TensorFlow C library version %s\n", TF_Version());
-//    return 0;
+    vector<Token> v;
+    v= simplify(f, 'x');
 
-//    string path= "/Users/lucienwalewski/OneDrive/Polytechnique/Work/Year 2/CSE201/Project/MathsSolver/sources/ImageRecognition/Images/reference2.jpg";
-//    display_prepocessing(path);
+    for(int i=0; i<(int)v.size(); i++)
+        cout<<v[i].get_value()<<" "<<"\n";
 
-//    QApplication a(argc, argv);
 //    MainWindow w;
 //    w.show();
-//    return a.exec();
+    return a.exec();
 
 }

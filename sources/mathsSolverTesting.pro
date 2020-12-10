@@ -21,7 +21,7 @@ SOURCES += \
 #    tstFunc.cpp
 
 HEADERS += \
-    testingFiles/sampleTestClass/sampleTestClass.hpp
+    testingFiles/sampleTestClass/sampleTestClass.hpp \
 #    Derivatives/Tokenizer.hpp \
 #    Derivatives/derivatives.hpp \
 #    ImageRecognition/imagePreprocessing.hpp \
