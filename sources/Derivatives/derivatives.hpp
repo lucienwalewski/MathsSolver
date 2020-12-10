@@ -22,7 +22,7 @@ public:
 
 
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
-    ~AbstractFunction();
+    ~AbstractFunction(){};
 
 
     AbstractFunction();
@@ -169,6 +169,6 @@ private:
     string str_label;
 };
 
-
+string vect_to_str(vector<Token> fun);
 
 #endif // DERIVATIVES_HPP
