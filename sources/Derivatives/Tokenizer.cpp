@@ -10,6 +10,7 @@ vector <string> constants{"pi", "e"};
 
 vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "ln"};
 
+
 vector <string> str_operators{"+", "-", "*" , "/", "^", "sqrt", "(", ")"};
 
 
@@ -35,6 +36,7 @@ Operator::Operator():Token(){
 Operator::Operator(string t): Token(t){
     if (t == "+"){
         type = addition;
+
     }
     if (t == "-"){
         type = sub;
@@ -77,7 +79,8 @@ vector<Token> simplify(string s, char variable){
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
             continue;
         }
-        else if ((s[i] == variable) || isdigit(s[i]) || !isalpha(s[i])){
+
+        else if ((s[i] == variable) || !isalpha(s[i])){
             if (is_in_vector(constants, current)){
                 new_vector.push_back(Num(current));
                 current = "";
@@ -106,8 +109,9 @@ vector<Token> simplify(string s, char variable){
          }
         else {
              current+=s[i];
-        }
     }
-
+}
     return new_vector;
 };
+
+

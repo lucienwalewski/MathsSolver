@@ -1,0 +1,1 @@
+This week we implemented the function that finds all the roots of an inputted function, and we have been testing this function.

@@ -19,10 +19,6 @@ enum operator_type {
     pare = 7};
 
 
-bool is_letter(char s);
-
-bool is_number(char s);
-
 bool is_in_vector(vector< string > v, string elem);
 
 
