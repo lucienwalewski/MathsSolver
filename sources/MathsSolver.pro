@@ -14,7 +14,7 @@ SOURCES += \
      ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
-#     Derivatives/Tokenizer.cpp \
+     Derivatives/Tokenizer.cpp \
 #     Derivatives/derivatives.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
@@ -24,6 +24,7 @@ SOURCES += \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
+     NumericalSolver/num_roots.cpp \
      main.cpp \
      MainWindow/mainwindow.cpp
 
@@ -31,7 +32,7 @@ HEADERS += \
      ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
-#     Derivatives/Tokenizer.hpp \
+     Derivatives/Tokenizer.hpp \
 #     Derivatives/derivatives.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
@@ -41,7 +42,8 @@ HEADERS += \
      Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
-     NumericalSolver/num_integration.hpp
+     NumericalSolver/num_integration.hpp \
+     NumericalSolver/num_roots.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui
@@ -49,8 +51,8 @@ FORMS += \
 
 # Eigen path
 
-#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 

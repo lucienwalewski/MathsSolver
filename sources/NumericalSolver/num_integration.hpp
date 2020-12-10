@@ -10,5 +10,4 @@ using namespace std;
 
 double integral(double f(double), double a, double b);
 
-
 #endif // NUM_INTEGRATION_HPP
