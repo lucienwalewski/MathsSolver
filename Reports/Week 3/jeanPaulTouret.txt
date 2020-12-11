@@ -1,0 +1,3 @@
+In this week we focus mainly on the testing of the code already written.We identify the main problems with the code and fixed them.
+I in particular worked on the fixing of mistakes in the str_label private member i.e the string representation of the tree, 
+and started planing the loop that will( if possible) become the step by step solution.

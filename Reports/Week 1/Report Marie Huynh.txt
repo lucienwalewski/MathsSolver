@@ -1,8 +1,0 @@
-# Week 1 report (to be completed by Sunday)
-
-This week, we worked with the derivative team on coming up with the whole structure we want to base our “derivative step by step solver” on. We came up with a class Abstract function having three attributes (left, right, a main operator) that will have a method solve to solve the derivative based on recursion. 
-
-Concerning my part, I read articles on already existing algorithms to solve derivation step by step and focused on a format that would facilitate the use of the input (function under the form of a string) into our Abstract function Class. I also looked on how to implement the constructor of our Abstract function Class (and wrote a draft). I read that we can build a lexical analyser which creates tokens from the sequence of the input characters. Therefore, I worked on implementing a class Token which has two attributes; one element type (operator, constant, variable and base function)  and the second, an element definition (values for constants,  operator_types for the operators, or none for the others).
-
-I am working on a function simplify that converts our string in a vector of tokens  (ex : ‘5 sin(e^x) + 4’ would become [Token(5), Token(sin), Token(exp), Token(x), Token(+), Token(4)]. 
-(Elements to be careful about : considering parenthesis, adding * operators, suppressing spaces, converting sqrt() to ^ (1/2), …) Next week, I ll finish my draft of the constructor and simplify  and I’ll help Constance work on the Template implementation of the structure.

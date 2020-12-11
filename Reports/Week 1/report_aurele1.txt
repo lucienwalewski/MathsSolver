@@ -1,7 +1,0 @@
-This week, I have implemented a class for matrices. 
-I implemented methods for equality, addition, substraction, multiplication by a matrix or a scalar, extraction of a column or a row, determinants.
-I hesitated for the algorithm to use to compute a product of matrices, but I chose a naive one as it appeared that DAC algorithm were not a lot more efficient,
-and other algorithm had lower complexity but in practice were only more efficient for inputs that were so big that it didn't seem pertinent.
-I still have to test everything, and to implement adjacent matrices as well as inversion. Maybe transposition if it is necessary.
-
-Aurèle Bohbot

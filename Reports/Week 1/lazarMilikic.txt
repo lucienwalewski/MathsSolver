@@ -1,0 +1,3 @@
+This week, as a team leader, I was involved in creating the team's long-term plan for working on the project. I was working on insstallation of the library OpenCV (necessary 
+for the beginning of the machine learning part) and connecting it to the QT project. 
+I have implmented fuctions for converting images into the greyscale, for uploading images, and for removing noise from the images.

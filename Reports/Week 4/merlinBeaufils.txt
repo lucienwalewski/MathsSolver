@@ -1,0 +1,4 @@
+This week as a group we successfully got the project up and running. Our function now compiles and we will see how
+it performs once the tests are fully functional. My contribution was to adapt the constructor to the Tokens. I also 
+spent a few hours debugging all of the code in derivatives to make it compile properly.(my goal was originally to make a 
+test file but this took much longer than expected).

@@ -9,12 +9,13 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+
 SOURCES += \
-#     ImageRecognition/imagePreprocessing.cpp \
+     ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
-     Derivatives/Tokenizer.cpp \
-     Derivatives/derivatives.cpp \
+#     Derivatives/Tokenizer.cpp \
+#     Derivatives/derivatives.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
@@ -23,15 +24,16 @@ SOURCES += \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
+     NumericalSolver/num_roots.cpp \
      main.cpp \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePreprocessing.hpp \
+     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
-     Derivatives/Tokenizer.hpp \
-     Derivatives/derivatives.hpp \
+#     Derivatives/Tokenizer.hpp \
+#     Derivatives/derivatives.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
@@ -40,7 +42,8 @@ HEADERS += \
      Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
-     NumericalSolver/num_integration.hpp
+     NumericalSolver/num_integration.hpp \
+     NumericalSolver/num_roots.hpp
 
 FORMS += \
     MainWindow/mainwindow.ui
@@ -77,7 +80,7 @@ FORMS += \
 
 # Lazar :
 #
-
+#"EIGEN_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\eigen-3.3.8\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\opencv\release\install\include" "OPENCV_LIBRARY_PATH=C:\Users\Korisnik\Downloads\opencv\release\bin"
 # ...
 
 # Default rules for deployment.

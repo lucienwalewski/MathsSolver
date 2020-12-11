@@ -1,0 +1,6 @@
+This week I worked on updating the main branch of the project by merging  (fixing bugs, errors, making code more compact) the files of different teams, so everybody can download up 
+to date working project from git. After this have been working on improving the image preprocessing part. I wrote the new/clearer and precise function for numerically  
+solving the integral of the function. With Marie I have fixed Tokenizer file which is now working. With Lucien we I was working on fining the model which can be used for  
+prediction in Machine learning. 
+
+Next week, implementing prediction for Image Recognition and try to wrap everything together (at least the basics) 

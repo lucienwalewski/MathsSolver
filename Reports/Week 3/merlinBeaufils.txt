@@ -1,0 +1,4 @@
+For week three, as a group we had to do a total restructuring of the code around a token class and vectors instead of strings
+written by Marie. All the necessary code hasnt been fully uploaded so I rewrote a new version of the constructor following
+the new setup but I cannot upload it yet. Secondly I wrote a form new file to test the structure of our trees and for the 
+same reason, it lacks specific keywords to be uploaded and thus I will upload both next week.

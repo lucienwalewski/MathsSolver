@@ -1,0 +1,3 @@
+In these week we focus mainly in fixing and testing functions.I in particular focused to fix the get str_label method in order to compute the result as a string.
+we had to restructure it , due to the introduction of the tokens in the constructor.I also advance in the creation of a testing file ,
+ which will be completed this week and will provide some way to test the function.Thi

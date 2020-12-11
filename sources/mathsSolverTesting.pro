@@ -10,8 +10,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TEMPLATE = app
 
 SOURCES += \
-    sampleTestClass.cpp \
-    testSuite.cpp \
+     testingFiles/derivativesTest/testSolve.cpp \
+    testingFiles/derivativesTest/testStr.cpp \
+     testingFiles/sampleTestClass/sampleTestClass.cpp \
+     testingFiles/derivativesTest/testderivative.cpp \
+     testSuite.cpp \
+
 #    Derivatives/Tokenizer.cpp \
 #    Derivatives/derivatives.cpp \
 #    ImageRecognition/imagePreprocessing.cpp \
@@ -21,7 +25,12 @@ SOURCES += \
 #    tstFunc.cpp
 
 HEADERS += \
-    sampleTestClass.hpp
+    testingFiles/derivativesTest/testSolve.hpp \
+    testingFiles/derivativesTest/testStr.hpp \
+    testingFiles/derivativesTest/testderivative.hpp \
+
+    testingFiles/sampleTestClass/sampleTestClass.hpp \
+
 #    Derivatives/Tokenizer.hpp \
 #    Derivatives/derivatives.hpp \
 #    ImageRecognition/imagePreprocessing.hpp \
