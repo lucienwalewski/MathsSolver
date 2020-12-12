@@ -59,3 +59,17 @@ long long add_with_mod(long long x, long long y, long long p)
 {
     return x + y > p? x + y - p : x + y;
 }
+
+std::vector<int> factorization(int n)
+{
+    std::vector<int> ans;
+    ans.push_back(1);
+    for (int i = 2; i <= n; i++)
+    {
+        if (is_prime(i) && n % i == 0)
+        {
+            ans.push_back(i);
+        }
+    }
+    return ans;
+}

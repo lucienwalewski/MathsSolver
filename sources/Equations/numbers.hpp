@@ -1,6 +1,7 @@
 #ifndef NUMBERS_HPP
 #define NUMBERS_HPP
 
+#include <bits/stdc++.h>
 int gcd(int a, int b);
 
 class Complex
@@ -49,4 +50,5 @@ long long power(long long x, long long y, long long p);
 long long mul_with_mod(long long x, long long y, long long p);
 long long min_with_mod(long long x, long long y, long long p);
 long long add_with_mod(long long x, long long y, long long p);
+std::vector<int> factorization(int n);
 #endif
