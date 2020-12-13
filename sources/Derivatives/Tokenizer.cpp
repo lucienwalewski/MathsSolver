@@ -5,7 +5,6 @@ bool is_in_vector(vector< string > v, string elem){
     return (find(v.begin(), v.end(), elem) != v.end());
 };
 
-
 vector <string> functions{"cos", "sin", "exp", "tan", "sqrt", "log", "ln"};
 
 
@@ -14,6 +13,7 @@ vector <string> str_operators{"+", "-", "*" , "/", "^", "sqrt", "(", ")", "_", "
 
 Token::Token(){
     value = "";
+    type = other;
 }
 
 Token::Token(string s){
@@ -70,7 +70,6 @@ Operator::Operator(operator_type t){
 operator_type Operator::get_type(){
     return type;
 }
-
 
 //the following function checks if the substring is a given function
 bool is_function_(string s, string f){
@@ -138,3 +137,5 @@ vector<Token> simplify(string s, char variable){
 }
     return new_vector;
 };
+
+

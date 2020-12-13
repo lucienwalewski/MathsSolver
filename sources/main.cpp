@@ -3,17 +3,21 @@
 
 //#include "MainWindow/mainwindow.h"
 //#include "Derivatives/derivatives.hpp"
-#include "ImageRecognition/imagePreprocessing.hpp"
+//#include "ImageRecognition/imagePreprocessing.hpp"
 //#include "Derivatives/Tokenizer.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
+#include "NumericalSolver/num_roots.hpp"
 //#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
+#include "Equations/matrix.hpp"
+#include "functionPreprocessing.hpp"
 
 
 #include<iostream>
 #include<string>
 #include<math.h>
+#include<vector>
 //#include<opencv2/opencv.hpp>
 
 
@@ -29,26 +33,32 @@ int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
 
-    //string f;
+     string f;
+     cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
+     f = upload_function();
 
-    //cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
-    //cin>>f;
-    //cout<<"The function is: "<<f<<"\n";
+    long long c[4] = {-1,0,2,1};
+    Polynomial b(c, 3);
+    long long ce[2] = {1, 1};
+    Polynomial d(ce, 1);
+    Polynomial now = division(b, d);
+    std::vector<std::string> ans_s = solve(b);
 
-    //cout<<"Hello the result of the integral is "<<integral(F, 1.2, 1.6)<<"\n";
-    //cout<<"Hello the result of the derivative is "<<derivative(F, 1)<<"\n";
+    if (ans_s.empty())
+    {
+        std::cout<<"No Solution"<<std::endl;
+        return 0;
+    }
 
-    //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference2.jpg";
-    //display_prepocessing(path);
-
-    long long f[5] = {0, 3, -1, 0, 4};
-    long long h[5] = {-2, 3, 1, 5, 0};
-    long long ans = linear_res(6, 4, f, h, 998244353);
-    printf("%lld\n",ans);
-
-
+    printf("The roots are\n");
+    for (auto i : ans_s)
+    {
+        std::cout<<i<<std::endl;
+    }
+    for(int i=0; i<(int)v.size(); i++)
+        cout<<v[i].get_value()<<" "<<"\n";*/
 //    MainWindow w;
-//    w.show();
+//    w.show();*/
     return a.exec();
 
 }

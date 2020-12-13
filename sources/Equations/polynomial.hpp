@@ -2,7 +2,7 @@
 #define POLYNOMIAL_HPP
 
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 class Polynomial
 {
 public:
@@ -51,11 +51,14 @@ Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod); // return 
 Polynomial linear_re(Polynomial a, long long *f, int k, long long P, int b);
 Polynomial ksm(Polynomial a, long long *f, int k, long long P, int b);
 
+Polynomial division(Polynomial a, Polynomial b);
+
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
 
 void NTT(long long *cp,long long cnt,long long inv,long long mod);
 
 long long CRT(long long r1,long long r2,long long r3,long long mod);
 
+std::vector<std::string> solve(Polynomial a);
 
 #endif // POLYNOMIAL_HPP

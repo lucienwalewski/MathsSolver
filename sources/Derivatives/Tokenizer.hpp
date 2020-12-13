@@ -10,11 +10,11 @@ using namespace std;
 enum operator_type {
     other = -1,
     none = 0,
-    addition = 5,
-    sub = 4,
-    mul = 3,
+    addition = 6,
+    sub = 5,
+    mul = 4,
     divi = 2,
-    power = 6,
+    power = 3,
     comp = 1,
     pare = 7,
     base = 8};
@@ -25,6 +25,7 @@ bool is_in_vector(vector< string > v, string elem);
 bool is_function_(string s, string f);
 
 string find_function(string s);
+
 
 //definition of the Token class with its four subclasses : Operator, Num, Function, Variable
 class Token {
