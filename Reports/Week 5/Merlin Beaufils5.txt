@@ -1,0 +1,3 @@
+This week I implemented a quick display function to test the constructor in main. I made necessary adjustments to my part
+worked with my group to deal with certain complicated cases such as the effect of parentheses on the precedence of operations
+the tree structure. Overall a small adjustment week with much organisational progress.
