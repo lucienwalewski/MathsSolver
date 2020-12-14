@@ -1,0 +1,1 @@
+This week, I finished implementing the function that computes the roots of an input function and search on how to implement a function that solves numerically differential equations.
