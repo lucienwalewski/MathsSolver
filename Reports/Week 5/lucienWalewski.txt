@@ -1,1 +1,1 @@
-This week I did not do anything.
+This week I continued to try to build Tensorflow to no avail. I will reach out to the TA's again for help with this. 
