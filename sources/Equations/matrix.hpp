@@ -33,11 +33,12 @@ public:
     };
 
     void print_mat() {
-        //Matrix printer
+        //Clean Matrix printer
         for (int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                std::cout << elements[i][j] << std::endl;
+            for (int j = 0; j < m; j++) {
+                cout << this->get_element(i, j) << " ";
             }
+            cout << "" << endl;
         }
     }
 
@@ -45,7 +46,7 @@ public:
         elements[i][j] = element;
     };
 
-    void copy(Matrix<T> a) {
+    void copy(Matrix<T> &a) {
         //Copies a matrix into another one.
         for (int i = 0; i < n; i ++) {
             for (int j =0; j < m; j++) {
@@ -55,6 +56,7 @@ public:
     }
 
     void id() {
+        //Sets the identity matrix.
         for (int i = 0; i < n; i++) {
             this->set_element(i, i, 1);
         }
@@ -78,25 +80,19 @@ public:
         return res;
     };
 
-    Matrix<T> mult_row(int i, T k) {
+    void mult_row(int i, T k) {
         //Multiplifies a row of the matrix by a scalar k. Useful for the gaussian elimination.
-        Matrix<T> res(n, m);
-        this->copy(res);
         for (int j = 0; j < m; j++) {
-            res.set_element(i, j, k * elements[i][j]);
+            elements[i][j] *= k;
         }
     }
 
-    Matrix<T> sub_row(int i, int j) {
+    void sub_row(int i, int j) {
         //Substarct a row j from a row i. Useful for gaussian eliminaton.
-        Matrix<T> res(n, m);
-        this->copy(res);
         for (int k = 0; k < m; k++) {
-            res.set_element(i, k, elements[i][k] - elements[j][k]);
+            elements[i][k] -= elements[j][k];
         }
     }
-
-    Matrix<T> operator()(T i,T j) {return elements[i][j];}; //A member function that makes the matrices more user friendly.
 
     Matrix<T> operator + (const Matrix& a) {
         //An operator for the additions between two matrices.
@@ -185,8 +181,7 @@ public:
         } else {
             T d = 0;
             for (int i = 0; i < n; i++) {
-                Matrix cropped = this->crop(i, 0);
-                cropped.print_mat();
+                Matrix cropped = this->crop(i);
                 d += pow(-1, i) * cropped.det() * this->get_element(i, 0);
             }
             return d;
@@ -195,33 +190,43 @@ public:
 
     Matrix<T> gaussian() {
         //A gaussian implementation for matrix inversion, determinant assumed to be non nul.
-        Matrix<T> A(n, m), B(n, m);
+        Matrix<T> A(n, m), I(n, m);
         this->copy(A);
-        B.id();
-        T C[n];
-            for (int k = 0; k < n - 1; k++)
-            {
-                for (int i = k + 1; i < n; i++)
-                    C[i] = A[i][k] / A[k][k];
-                for (int i = k + 1; i < n; i++)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        A[i][j] = A[i][j] - C[i] * A[k][j];
-                    }
-                    B.mult_row(k, C[i]);
-                    B.sub_row(i, k);
-                    //B[i] = B[i] - C[i] * B[k];
+        I.id();
+        for (int j = 0; j < m-1; j++) {
+            for(int i = j+1; i < n; i++) {
+                if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                    double k = A.get_element(i, j)/A.get_element(j, j);
+                    A.mult_row(j, k);
+                    I.mult_row(j, k);
+                    A.sub_row(i, j);
+                    I.sub_row(i, j);
                 }
             }
-        return B;
+        }
+        for (int j = m-1; j > 0; j--) {
+            for (int i = j-1; i >= 0; i--) {
+                if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                    double k = A.get_element(i, j)/A.get_element(j, j);
+                    A.mult_row(j, k);
+                    I.mult_row(j, k);
+                    A.sub_row(i, j);
+                    I.sub_row(i, j);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            I.mult_row(i, 1/A.get_element(i, i));
+        }
+
+        return I;
     }
 
     Matrix<T> inverse(){
-    //Computes the inverse of a matrix, assuming it is a square matrix.
+    //Computes the inverse of a matrix, assuming it is a square matrix. If the matrix is not invertible, then it returns the null matrix.
        int d = this->det();
        if (d == 0) {
-           return 0;
+           return Matrix<T> (n, m);
        } else {
            return this->gaussian();
        }
