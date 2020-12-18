@@ -1,6 +1,6 @@
 #include "Tokenizer.hpp"
 
-
+map<string, int> type_map = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 bool is_in_vector(vector< string > v, string elem){
     return (find(v.begin(), v.end(), elem) != v.end());
 };
@@ -13,7 +13,7 @@ vector <string> str_operators{"+", "-", "*" , "/", "^", "sqrt", "(", ")", "_", "
 
 Token::Token(){
     value = "";
-    type = other;
+    type = -1;
 }
 
 Token::Token(string s){
@@ -24,50 +24,22 @@ string Token::get_value(){
         return value;
     }
 
-operator_type Token::get_type(){
+int Token::get_type(){
     return type;
 }
 
 Operator::Operator():Token(){
-    type = none;
+    type = -1;
 }
 Operator::Operator(string t): Token(t){
-    if (t == "+"){
-        type = addition;
-
-    }
-    if (t == "-"){
-        type = sub;
-    }
-    if (t == "*"){
-        type = mul;
-    }
-    if (t == "/"){
-        type = divi;
-    }
-    if (t == "^"){
-        type = power;
-
-    }
-    if (t == "~"){
-            type = comp;
-    }
-    if (t == "(" or t == ")"){
-        type = pare;
-    }
-    if (t == ""){
-        type = none;
-    }
-    if (t == "_"){
-        type = base;
-    }
+    type = type_map[t];
 };
 
-Operator::Operator(operator_type t){
-    type = t;
-}
+//Operator::Operator(int t){
+//    type = t;
+//}
 
-operator_type Operator::get_type(){
+int Operator::get_type(){
     return type;
 }
 

@@ -1,22 +1,23 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
+map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 AbstractFunction::AbstractFunction(vector<Token> fun){
-    str_label = vect_to_str(fun);
+    vect_label = fun;
+    in_str_label = vect_to_str(fun);
+    cout << in_str_label << '\n';
     // parentheses(&fun);
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
     for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
         if (i->get_type() > 0){
-            if (i -> get_type() == 7){
-                if (i -> get_value() == "("){
-                    counter += 1;}
-                else {counter -= 1;}}
-
-            else if (i -> get_type() > operation.get_type() and counter == 0){
+            int val = type_m[i->get_value()];
+            cout << val<< "  " << i-> get_value()<<'\n';
+            if ( val == 7){counter += 1;}
+            else if (val == 8){counter -= 1;}
+            else if (val > type_m[operation.get_value()] and counter == 0){
                 operation = Operator(i->get_value());
-
                 j = i;
             }
 
@@ -24,20 +25,42 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
 
 
     }
-    if (operation.get_type() > 0){
-        vector<Token> l; vector<Token> r;
+    cout << "string is " << in_str_label<<'\n';
+    cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
+    if (type_m[operation.get_value()] > 0){
+        cout << "Im here" << in_str_label<<'\n';
+        vector<Token> l, r;
         for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
             if (i<j){
                 l.push_back(*i);
             }
-            if (i>j){
-                r.push_back(*j);
+            else if (i>j){
+                r.push_back(*i);
+
             }
-        *left = AbstractFunction(l);*right = AbstractFunction(r);
+        }
+        cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
+
+        if (int(l.size())>0){
+
+            *left = AbstractFunction(l);
+            cout << "whyyyyy";
+        }
+        if (int(r.size())>0){
+
+            *right = AbstractFunction(r);
+        }
+
+        str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
+
+
+    } else {
+        cout << "still here"<<'\n';
+        *this-> left = AbstractFunction();
+        cout << "am I?";
+        *this-> right = AbstractFunction();
     }
-
-
-    } else {left = nullptr;right = nullptr;}
+    cout << "success!" << in_str_label <<'\n';
 }
 
 
@@ -50,6 +73,7 @@ AbstractFunction::AbstractFunction(){
 
     this->operation = Operator();
     this->str_label = "";
+    this->in_str_label = "";
 
 }
 
@@ -74,7 +98,7 @@ string AbstractFunction::get_string_operation(){
 }
 string vect_to_str(vector<Token> fun){
     string sfun = "";
-    for (int i = 0; int(fun.size());i++){
+    for (int i = 0; i< int(fun.size());i++){
         sfun += fun[i].get_value();
     }
     return sfun;
@@ -91,7 +115,17 @@ void AbstractFunction::set_operation(Operator operation){
 string AbstractFunction::get_str_label(){
     return str_label;
 }
-
+string AbstractFunction::get_in_str_label(){
+    return in_str_label;
+}
+string AbstractFunction::display(){
+    if (this->left == nullptr and this->right == nullptr){
+        cout << get_in_str_label() << '\n';
+        return get_in_str_label();
+    }else{
+        return get_left().display() + operation.get_value() + get_right().display();
+    }
+}
 
 
 
@@ -121,19 +155,19 @@ template <typename Function1> Function1 AbstractFunction::solve(){
 
 
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::multiply(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(function1.solve(), function2, Operator(mul)), AbstractFunction(function2.solve(), function1, Operator(mul)), Operator(addition));
+    return AbstractFunction(AbstractFunction(function1.solve(), function2, Operator("*")), AbstractFunction(function2.solve(), function1, Operator("*")), Operator("+"));
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::divide(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(AbstractFunction(function1.solve(), function2, mul), AbstractFunction(function1, function2.solve(), mul), sub), AbstractFunction(PolynomialFunction(Token(get_str_label()), Token("2")), function2, comp), divi);
+    return AbstractFunction(AbstractFunction(AbstractFunction(function1.solve(), function2, Operator("*")), AbstractFunction(function1, function2.solve(), Operator("*")), Operator("-")), AbstractFunction(PolynomialFunction(Token(get_str_label()), Token("2")), function2, Operator("~")), Operator("/"));
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::add(Function1 function1, Function2 function2){
-    return AbstractFunction(function1.solve(), function2.solve(), addition);
+    return AbstractFunction(function1.solve(), function2.solve(), "+");
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::subtract(Function1 function1, Function2 function2){
-    return AbstractFunction(function1.solve(), function2.solve(), sub);
+    return AbstractFunction(function1.solve(), function2.solve(), "-");
 };
 template <typename Function1, typename Function2> AbstractFunction AbstractFunction::chain_rule(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(function1.solve(), function2, comp), function2.solve(), mul);
+    return AbstractFunction(AbstractFunction(function1.solve(), function2, "~"), function2.solve(), "*");
 
 };
 
@@ -141,7 +175,7 @@ template <typename Function1, typename Function2> AbstractFunction AbstractFunct
 SinFunction::SinFunction(Token val){
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
 
     str_label= "sin(" + value.get_value() +")";
     value = val;
@@ -160,7 +194,7 @@ CosFunction::CosFunction(Token val){
 
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
 
     str_label= "cos(" + value.get_value() +")";
     value = val;
@@ -170,7 +204,7 @@ Token CosFunction::get_value(){
 }
 
 template <typename Function1> Function1 CosFunction::solve(){
-    return AbstractFunction(ConstantFunction(Token("-1")), SinFunction(value), Operator(mul));
+    return AbstractFunction(ConstantFunction(Token("-1")), SinFunction(value), Operator("*"));
 
 }
 
@@ -184,7 +218,7 @@ ExponentialFunction::ExponentialFunction(Token base, Token val){
     this->base = base;
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
     this->value = val;
 
     str_label = base.get_value() + "^" + value.get_value();
@@ -200,7 +234,7 @@ template <typename Function1> Function1 ExponentialFunction::solve(){
     if(base.get_value() == "e"){
         return ExponentialFunction(base, value);
     }
-    return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), Operator(mul));
+    return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), Operator("*"));
 
 }
 
@@ -211,7 +245,7 @@ ConstantFunction::ConstantFunction(Token c){
     this->c = c;
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
 
     str_label = "";
 }
@@ -231,7 +265,7 @@ LogarithmicFunction::LogarithmicFunction(Token val, Token base){
     value = val;
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
 
     str_label= "log_" + base.get_value() + "(" +value.get_value() + ")";
     if(base.get_value() == "e"){
@@ -248,9 +282,9 @@ Token LogarithmicFunction::get_value(){
 template <typename Function1> Function1 LogarithmicFunction::solve(){
     Token base = this->get_base();
     if(base.get_value() == "e"){
-        return AbstractFunction(ConstantFunction(Token("1")), PolynomialFunction(value, Token("1")), Operator(divi));
+        return AbstractFunction(ConstantFunction(Token("1")), PolynomialFunction(value, Token("1")), Operator("/"));
     }
-    return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), Operator(mul)), Operator(divi));
+    return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), Operator("*")), Operator("/"));
 
 }
 
@@ -266,7 +300,7 @@ PolynomialFunction::PolynomialFunction(Token val, Token exponent){
     this->value = val;
     left = nullptr;
     right = nullptr;
-    operation = Operator(none);
+    operation = Operator();
 
     str_label = "";
 }
@@ -278,7 +312,7 @@ Token PolynomialFunction::get_value(){
 }
 template <typename Function1> Function1 PolynomialFunction::solve(){
     string new_exponent = exponent.get_value() + "-1";
-    return AbstractFunction(ConstantFunction(exponent), PolynomialFunction(value, Token(new_exponent)), Operator(mul));
+    return AbstractFunction(ConstantFunction(exponent), PolynomialFunction(value, Token(new_exponent)), Operator("*"));
 
 }
 

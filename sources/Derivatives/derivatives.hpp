@@ -39,7 +39,8 @@ public:
     string get_string_operation();
 
     string get_str_label();
-
+    string get_in_str_label();
+    string display();
     bool is_none();
 
 
@@ -62,6 +63,8 @@ private:
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
+    string in_str_label;
+    vector<Token> vect_label;
 
 };
 
@@ -93,6 +96,7 @@ private:
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
+    string in_str_label;
     Token value;
 };
 
@@ -111,6 +115,7 @@ private:
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
+    string in_str_label;
     string str_label;
 };
 
@@ -130,6 +135,7 @@ private:
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
+    string in_str_label;
     string str_label;
 };
 
@@ -150,6 +156,7 @@ private:
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
+    string in_str_label;
     string str_label;
 };
 
@@ -167,6 +174,7 @@ private:
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
+    string in_str_label;
     string str_label;
 };
 

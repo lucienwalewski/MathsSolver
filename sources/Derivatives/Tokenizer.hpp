@@ -4,20 +4,22 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
-enum operator_type {
-    other = -1,
-    none = 0,
-    addition = 6,
-    sub = 5,
-    mul = 4,
-    divi = 2,
-    power = 3,
-    comp = 1,
-    pare = 7,
-    base = 8};
+//enum operator_type {
+//    other = 0,
+//    none,
+//    comp,
+//    divi,
+//    power,
+//    mul,
+//    sub,
+//    addition,
+//    pare,
+//    base,};
+
 
 
 bool is_in_vector(vector< string > v, string elem);
@@ -30,47 +32,53 @@ string find_function(string s);
 //definition of the Token class with its four subclasses : Operator, Num, Function, Variable
 class Token {
 protected :
-    operator_type type;
+    int type;
     string value;
 public :
     Token(string s);
     Token();
     string get_value();
-    operator_type get_type();
+    int get_type();
 };
 
 
 
 class Operator: public Token{
 private :
-    operator_type type;
+    int type;
 
 public :
     Operator();
     Operator(string t);
-    Operator(operator_type t);
-    operator_type get_type();
+//    Operator(int t);
+    int get_type();
 };
 
 
 class Num: public Token {
 public :
 
-    Num(string t):Token(t){};
+    Num(string t):Token(t){
+        type = -1;
+    };
 
 };
 
 class Function: public Token{
 public :
 
-    Function(string t): Token(t){};
+    Function(string t): Token(t){
+        type = -1;
+    };
 
 };
 
 class Variable: public Token{
 public:
 
-    Variable(string t): Token(t){};
+    Variable(string t): Token(t){
+        type = -1;
+    };
 };
 
 vector<Token> simplify(string s, char variable);
