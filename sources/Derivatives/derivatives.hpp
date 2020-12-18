@@ -60,15 +60,15 @@ public:
 
 private:
     Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
+    AbstractFunction* left;
+    AbstractFunction* right;
     string str_label;
     string in_str_label;
     vector<Token> vect_label;
 
 };
 
-
+5
 
 
 class SinFunction : public AbstractFunction{
