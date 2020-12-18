@@ -11,6 +11,7 @@
 //#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
+#include "Equations/gaussin.hpp"
 #include "functionPreprocessing.hpp"
 
 
@@ -31,34 +32,21 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    QApplication  a(argc, argv);
+    Matrix A(3, 3), Y(3, 1);
+    A.set_element(0, 0, 2);
+    A.set_element(0, 1, 5);
+    A.set_element(0, 2, 2);
+    A.set_element(1, 0, 3);
+    A.set_element(1, 1, -2);
+    A.set_element(1, 2, 4);
+    A.set_element(2, 0, -6);
+    A.set_element(2, 1, 1);
+    A.set_element(2, 2, -7);
+    Y.set_element(0, 0, -38);
+    Y.set_element(1, 0, 17);
+    Y.set_element(2, 0, -12);
 
-     string f;
-     cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
-     f = upload_function();
+    gaussian(A, Y);
 
-    long long c[4] = {-1,0,2,1};
-    Polynomial b(c, 3);
-    long long ce[2] = {1, 1};
-    Polynomial d(ce, 1);
-    Polynomial now = division(b, d);
-    std::vector<std::string> ans_s = solve(b);
-
-    if (ans_s.empty())
-    {
-        std::cout<<"No Solution"<<std::endl;
-        return 0;
-    }
-
-    printf("The roots are\n");
-    for (auto i : ans_s)
-    {
-        std::cout<<i<<std::endl;
-    }
-    for(int i=0; i<(int)v.size(); i++)
-        cout<<v[i].get_value()<<" "<<"\n";*/
-//    MainWindow w;
-//    w.show();*/
-    return a.exec();
-
+    return 0;
 }

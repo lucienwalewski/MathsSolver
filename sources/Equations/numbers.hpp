@@ -1,7 +1,7 @@
 #ifndef NUMBERS_HPP
 #define NUMBERS_HPP
 
-#include <bits/stdc++.h>
+#include <iostream>
 int gcd(int a, int b);
 
 class Complex

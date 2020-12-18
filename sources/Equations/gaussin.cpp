@@ -1,61 +1,65 @@
 #include<iostream>
 #include "gaussin.hpp"
+#include "matrix.hpp"
 \
 using namespace std;
 
-void gaussin(int n)
-{
-    double a[n][n];
-    double b[n];
-    double xin;
-    for (int i=0;i<n;i++)
-    {
-        for (int j=0; j<n;j++)
-        {
-            std::cin>>xin;
-            a[i][j]=xin;
-        }
-        std::cin>>xin;
-        b[i]=xin;
-    }
-
-
-    int i, j, k;
-    double c[n];
-
-    for (k = 0; k < n - 1; k++)
-    {
-
-        for (i = k + 1; i < n; i++)
-            c[i] = a[i][k] / a[k][k];
-
-
-        for (i = k + 1; i < n; i++)
-        {
-            for (j = 0; j < n; j++)
-            {
-                a[i][j] = a[i][j] - c[i] * a[k][j];
+void gaussian(Matrix A, Matrix Y) {
+    int n = A.height();
+    int m = A.width();
+    cout << "Solving ";
+    display_system(A, Y);
+    for (int j = 0; j < m-1; j++) {
+        for(int i = j+1; i < n; i++) {
+            if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                double k = A.get_element(i, j)/A.get_element(j, j);
+                A.mult_row(j, k);
+                Y.mult_row(j, k);
+                A.sub_row(i, j);
+                Y.sub_row(i, j);
             }
-            b[i] = b[i] - c[i] * b[k];
+            display_system(A, Y);
         }
     }
-
-
-    double x[n];
-    x[n - 1] = b[n - 1] / a[n - 1][n - 1];
-    for (i = n - 2; i >= 0; i--)
-    {
-        double sum = 0;
-        for (j = i + 1; j < n; j++)
-        {
-            sum += a[i][j] * x[j];
+    for (int j = m-1; j > 0; j--) {
+        for (int i = j-1; i >= 0; i--) {
+            if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                double k = A.get_element(i, j)/A.get_element(j, j);
+                A.mult_row(j, k);
+                Y.mult_row(j, k);
+                A.sub_row(i, j);
+                Y.sub_row(i, j);
+            }
+            display_system(A, Y);
         }
-        x[i] = (b[i] - sum) / a[i][i];
     }
-
-    std::cout << "The solution of the equations is:" << std::endl;
-    for (i = 0; i < n; i++)
-        std::cout <<"x"<<i+1<<"="<< x[i] << std::endl;
+    for (int i = 0; i < n; i++) {
+        Y.mult_row(i, 1/A.get_element(i, i));
+    }
+    cout << "Solutions:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+    }
 }
 
-
+void display_system(Matrix A, Matrix Y) {
+    int n = A.width();
+    cout << "System of size " << n << ":" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Equation " << i+1 << ": ";
+        int cache = 0;
+        for (int j = 0; j < n; j++) {
+            if (A.get_element(i, j) != 0) {
+                if (A.get_element(i, j) < 0 || (A.get_element(i, j) > 0 && cache ==  0)) {
+                    cout << A.get_element(i, j) << "x" << j << " ";
+                    cache = 1;
+                } else {
+                    cout << " + " << A.get_element(i, j) << "x" << j << " ";
+                    cache = 1;
+                }
+            }
+        }
+        cout << " = " << Y.get_element(i, 0) << endl;
+    }
+    cout << endl;
+}
