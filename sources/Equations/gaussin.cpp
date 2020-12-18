@@ -4,25 +4,62 @@
 \
 using namespace std;
 
-void gaussian(int n) {
-
-    Matrix<double> A(n, n), Y(n, 1);
-    double xin;
-    for (int i=0;i<n;i++)
-    {
-        for (int j=0; j<n;j++)
-        {
-            std::cin>>xin;
-            A.set_element(i, j, xin);
+void gaussian(Matrix A, Matrix Y) {
+    int n = A.height();
+    int m = A.width();
+    cout << "Solving ";
+    display_system(A, Y);
+    for (int j = 0; j < m-1; j++) {
+        for(int i = j+1; i < n; i++) {
+            if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                double k = A.get_element(i, j)/A.get_element(j, j);
+                A.mult_row(j, k);
+                Y.mult_row(j, k);
+                A.sub_row(i, j);
+                Y.sub_row(i, j);
+            }
+            display_system(A, Y);
         }
-        std::cin>>xin;
-        Y.set_element(i, 0, xin);
     }
-    Matrix<double> X(n, 1);
-    X = A.inverse() * Y;
-    std::cout << "The solution of the equations is:" << std::endl;
+    for (int j = m-1; j > 0; j--) {
+        for (int i = j-1; i >= 0; i--) {
+            if (A.get_element(j, j) != 0 && A.get_element(i, j) != 0) {
+                double k = A.get_element(i, j)/A.get_element(j, j);
+                A.mult_row(j, k);
+                Y.mult_row(j, k);
+                A.sub_row(i, j);
+                Y.sub_row(i, j);
+            }
+            display_system(A, Y);
+        }
+    }
     for (int i = 0; i < n; i++) {
-        cout <<"x"<<i+1<<"="<< X.get_element(i, 0) << endl;
+        Y.mult_row(i, 1/A.get_element(i, i));
     }
+    cout << "Solutions:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+    }
+}
 
+void display_system(Matrix A, Matrix Y) {
+    int n = A.width();
+    cout << "System of size " << n << ":" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Equation " << i+1 << ": ";
+        int cache = 0;
+        for (int j = 0; j < n; j++) {
+            if (A.get_element(i, j) != 0) {
+                if (A.get_element(i, j) < 0 || (A.get_element(i, j) > 0 && cache ==  0)) {
+                    cout << A.get_element(i, j) << "x" << j << " ";
+                    cache = 1;
+                } else {
+                    cout << " + " << A.get_element(i, j) << "x" << j << " ";
+                    cache = 1;
+                }
+            }
+        }
+        cout << " = " << Y.get_element(i, 0) << endl;
+    }
+    cout << endl;
 }
