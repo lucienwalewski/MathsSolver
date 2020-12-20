@@ -66,9 +66,8 @@ public :
 
 class Function: public Token{
 public :
-
     Function(string t): Token(t){
-        type = -1;
+        type = -2;
     };
 
 };
@@ -77,7 +76,7 @@ class Variable: public Token{
 public:
 
     Variable(string t): Token(t){
-        type = -1;
+        type = -3;
     };
 };
 
