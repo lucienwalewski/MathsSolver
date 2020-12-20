@@ -19,8 +19,8 @@ SOURCES += \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
-     Equations/numbers.cpp \
-     Equations/polynomial.cpp \
+   #  Equations/numbers.cpp \
+  #   Equations/polynomial.cpp \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
@@ -38,8 +38,8 @@ HEADERS += \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
-     Equations/numbers.hpp \
-     Equations/polynomial.hpp \
+   #  Equations/numbers.hpp \
+  #   Equations/polynomial.hpp \
      Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \

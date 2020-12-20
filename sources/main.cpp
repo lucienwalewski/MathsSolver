@@ -11,6 +11,7 @@
 #include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
+#include "Equations/gaussin.hpp"
 #include "functionPreprocessing.hpp"
 
 
@@ -26,6 +27,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+
     QApplication  a(argc, argv);
     AbstractFunction Fun = AbstractFunction({Variable("x")});
     cout << Fun.display()<<'\n';
@@ -36,5 +38,23 @@ int main(int argc, char *argv[])
 //    cout << Fun.display()<<'\n';
 //    MainWindow w;
 //    w.show();*/
-    return a.exec();
+
+    Matrix A(3, 3), Y(3, 1);
+    A.set_element(0, 0, 2);
+    A.set_element(0, 1, 5);
+    A.set_element(0, 2, 2);
+    A.set_element(1, 0, 3);
+    A.set_element(1, 1, -2);
+    A.set_element(1, 2, 4);
+    A.set_element(2, 0, -6);
+    A.set_element(2, 1, 1);
+    A.set_element(2, 2, -7);
+    Y.set_element(0, 0, -38);
+    Y.set_element(1, 0, 17);
+    Y.set_element(2, 0, -12);
+
+    gaussian(A, Y);
+
+    return 0;
+
 }
