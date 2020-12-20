@@ -67,7 +67,7 @@ string find_function(string s){
 //the following function takes as input a function under the form of a string and outputs a vector of tokens
 vector<Token> simplify(string s, char variable){
     vector <Token> new_vector;
-    int i=0;
+    int i = 0;
     while (i < int(s.size())){
         //we ignore spaces of all types
         if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
@@ -80,7 +80,7 @@ vector<Token> simplify(string s, char variable){
             string potential_function = find_function(s1);
             //if it is the beginning of a function we add the corresponding token function to the new_vector
             if (potential_function != ""){
-                new_vector.push_back(potential_function);
+                new_vector.push_back(Function(potential_function));
                 i += int(potential_function.size())-1;
             }
             //case 2 : variable
@@ -93,7 +93,6 @@ vector<Token> simplify(string s, char variable){
                 string c(1, s[i]);
                 new_vector.push_back(Num(c));
             }
-
         }
         //then we consider operators
         if (is_in_vector(str_operators, string(1,s[i]))){

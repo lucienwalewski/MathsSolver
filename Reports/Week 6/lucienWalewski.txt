@@ -1,0 +1,2 @@
+This week I finally built TF with the help of Mr Mover. I still need to figure out how to correctly add the library
+to the project now and then deplot the trained model.

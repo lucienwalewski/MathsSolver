@@ -1,0 +1,2 @@
+This week, I have tested integraly my class on matrix, it works perfectly. Besides, I implemented some methods for dispaying matrices.
+I also worked on "gaussin": I fixed bugs, worked on the cohesion betwenn this file and the with the others.
