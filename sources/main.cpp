@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QtTest>
+#include "mainwindow.h"
 
 //#include "MainWindow/mainwindow.h"
 #include "Derivatives/derivatives.hpp"
@@ -29,6 +30,9 @@ int main(int argc, char *argv[])
 {
 
     QApplication  a(argc, argv);
+    MainWindow w;
+    w.setWindowState(Qt::WindowMaximized);
+    w.setWindowTitle("Math Solver");
     AbstractFunction Fun = AbstractFunction({Variable("x")});
     cout << Fun.display()<<'\n';
     cout << "yes";
@@ -55,6 +59,7 @@ int main(int argc, char *argv[])
 
     gaussian(A, Y);
 
-    return 0;
+    w.show();
+    return a.exec();
 
 }
