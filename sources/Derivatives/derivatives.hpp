@@ -22,7 +22,7 @@ public:
 
 
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
-    ~AbstractFunction();
+    ~AbstractFunction(){};
 
 
     AbstractFunction();
@@ -100,13 +100,14 @@ private:
 
 class ExponentialFunction : public AbstractFunction{
 public:
-    ExponentialFunction(Token base);
+    ExponentialFunction(Token base, Token val);
     template <typename Function1> Function1 solve();
 
     Token get_base();
+    Token get_value();
 private:
     Token base;
-
+    Token value;
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
@@ -137,14 +138,14 @@ private:
 
 class PolynomialFunction : public AbstractFunction{
 public:
-    PolynomialFunction(Token base, Token exponent);
+    PolynomialFunction(Token val, Token exponent);
     template <typename Function1> Function1 solve();
 
     Token get_exponent();
-    Token get_base();
+    Token get_value();
 private:
     Token exponent;
-    Token base;
+    Token value;
 
     Operator operation;
     AbstractFunction *left;
@@ -169,6 +170,6 @@ private:
     string str_label;
 };
 
-
+string vect_to_str(vector<Token> fun);
 
 #endif // DERIVATIVES_HPP

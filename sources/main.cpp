@@ -3,11 +3,11 @@
 
 //#include "MainWindow/mainwindow.h"
 //#include "ImageRecognition/imagePreprocessing.hpp"
-#include "Derivatives/Tokenizer.hpp"
+//#include "Derivatives/Tokenizer.hpp"
+//#include "Derivatives/derivatives.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
-//#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
 #include "functionPreprocessing.hpp"
@@ -27,9 +27,6 @@ int main(int argc, char *argv[])
      string f;
      cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
      f = upload_function();
-     long long h[5] = {1, -1, -2, 1, 1};
-     int d = 4;
-     Polynomial p(h, d);
 
 
 

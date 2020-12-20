@@ -6,6 +6,9 @@ const ll MAXN = 4e5 + 51, G = 3;
 const ll MOD1 = 469762049, MOD2 = 998244353, MOD3 = 1004535809;
 const ll MOD = 468937312667959297;
 
+#include<bits/stdc++.h>
+using namespace std;
+
 Polynomial::Polynomial(long long c[], int d)
 {
     deg = d;
@@ -28,9 +31,9 @@ Polynomial::Polynomial(const Polynomial &b)
 
 Polynomial Polynomial::operator+(const Polynomial&b)const
 {
-    int l = std::max(deg, b.deg);
+    int l = max(deg, b.deg);
     long long a[l];
-    for (int i = 0; i <= std::min(deg, b.deg); i++)
+    for (int i = 0; i <= min(deg, b.deg); i++)
         a[i] = coefficient[i] + b.coefficient[i];
     if (deg < l)
     {

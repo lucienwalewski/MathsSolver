@@ -17,18 +17,11 @@ string upload_function(){
 bool check_derivative(string f){
     /*check if program should perform derivation: potential idea - checking multiple derivation*/
     return ((int)f.size()>=3 && f[0]=='(' && f[(int)f.size()-1]=='\'' && f[(int)f.size()-2]==')');
-
-    /*vector<Token> v;
-    v= simplify(f, 'x');
-
-    for(int i=0; i<(int)v.size(); i++)
-        cout<<v[i].get_value()<<" "<<"\n";*/
 }
 
-bool check_equation(string &f){
+bool check_equation(string f){
     /*checking if equation solving should be performed*/
     bool find=false;
-    string s;
 
     for(int i=0; i<(int)f.size(); i++){
         if(!find && f[i]=='=')
@@ -36,30 +29,41 @@ bool check_equation(string &f){
         else if(find && f[i]=='='){
             cout<<"Error\n";
             find=false;
-            s="";
             break;
         }
-        else if(find){
-            if(f[i]=='+')
-                s+='-';
-            else if(f[i]=='-')
-                s+='+';
-            else
-                s+=f[i];
-
-        }
-        else
-            s+=f[i];
     }
-
-    f=s;
 
     return find;
 }
 
 bool check_integral(string f){
+    /*checking if integral solving should be performed*/
     if(f.size()<5)
         return false;
     if(f.substr(0,4)=="/int")
         return true;
+    else
+        return false;
 }
+
+void start_process(){
+    string f= upload_function();
+    vector<bool (*)()> v;
+    int cnt=0;
+
+    if(check_derivative(f))
+        cnt++;
+    if(check_equation(f))
+        cnt++;
+    if(check_integral(f))
+        cnt++;
+
+    if(cnt>1){
+        cout<<"Invalid input";
+        return;
+    }
+
+
+}
+
+
