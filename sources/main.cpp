@@ -2,13 +2,13 @@
 #include <QtTest>
 
 //#include "MainWindow/mainwindow.h"
-//#include "Derivatives/derivatives.hpp"
+#include "Derivatives/derivatives.hpp"
 //#include "ImageRecognition/imagePreprocessing.hpp"
-//#include "Derivatives/Tokenizer.hpp"
+#include "Derivatives/Tokenizer.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
-//#include "Derivatives/derivatives.hpp"
+#include "Derivatives/derivatives.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
 #include "Equations/gaussin.hpp"
@@ -24,14 +24,21 @@
 
 
 using namespace std;
-//using namespace cv;
-
-/*double F(double x){
-    return sin(2*x-2.1)/(x*x+1);
-}*/
 
 int main(int argc, char *argv[])
 {
+
+    QApplication  a(argc, argv);
+    AbstractFunction Fun = AbstractFunction({Variable("x")});
+    cout << Fun.display()<<'\n';
+    cout << "yes";
+//    vector<Token> easy_example = {Variable("x"),Operator("+"),Num("5"),Operator("*"),Variable("x"),Operator("^"),Num("3")};
+//    AbstractFunction Fun = AbstractFunction(easy_example);
+//    cout << "bruh" << '\n';
+//    cout << Fun.display()<<'\n';
+//    MainWindow w;
+//    w.show();*/
+
     Matrix A(3, 3), Y(3, 1);
     A.set_element(0, 0, 2);
     A.set_element(0, 1, 5);
@@ -49,4 +56,5 @@ int main(int argc, char *argv[])
     gaussian(A, Y);
 
     return 0;
+
 }
