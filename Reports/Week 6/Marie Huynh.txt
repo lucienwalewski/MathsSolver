@@ -1,0 +1,5 @@
+This week I started thinking about some of the issues Merlin and Constance told me about 
+and how to implement them. I created a file to add characteristics 
+Merlin needs in his constructor : I created a function that inserts omitted multiplication signs 
+(ex : 5x -> 5*x) and am working on algorithms to deal with parentheses and represent composition. 
+I will continue testing in the coming week and we will meet with the derivative team to discuss about all of this. 
