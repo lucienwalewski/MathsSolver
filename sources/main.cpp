@@ -10,6 +10,7 @@
 #include "NumericalSolver/num_roots.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
+#include "Equations/gaussin.hpp"
 #include "functionPreprocessing.hpp"
 
 
@@ -20,18 +21,15 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     QApplication  a(argc, argv);
 
      string f;
      cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
      f = upload_function();
+     cout<< f;
 
 
-
-//    MainWindow w;
-//    w.show();*/
     return a.exec();
 
 }

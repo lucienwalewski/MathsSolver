@@ -35,9 +35,9 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
             }
         *left = AbstractFunction(l);*right = AbstractFunction(r);
     }
-    left = nullptr;right = nullptr;
 
-    }
+
+    } else {left = nullptr;right = nullptr;}
 }
 
 

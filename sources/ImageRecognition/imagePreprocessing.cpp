@@ -18,8 +18,12 @@ using namespace cv;
  */
 Mat upload_img(string path){
 <<<<<<< HEAD
+<<<<<<< HEAD
     //uploading the image for the given path
 =======
+>>>>>>> main
+=======
+    //uploading the image for the given path
 >>>>>>> main
     Mat image = imread(path, IMREAD_COLOR);
 

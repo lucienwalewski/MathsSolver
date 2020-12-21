@@ -1,0 +1,1 @@
+This week I finished the two main buttons of the page, getting their outputs in the correct format to serve as inputs for the rest of the algorithms. I worked on creating a main layout with QGroupBox, but I am struggling on vertical and horizontal centering, which I will work on this week.

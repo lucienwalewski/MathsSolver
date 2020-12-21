@@ -160,7 +160,7 @@ Polynomial mul_with_armod(Polynomial x, Polynomial y, long long mod)
 Polynomial linear_re(Polynomial a, Polynomial b, int k, long long f[], long long P)
 {
     Polynomial res(20);
-    std::cout<<a[1]<<" "<<b[1]<<" "<<a[0]<<" "<<b[0]<<std::endl;
+//    std::cout<<a[1]<<" "<<b[1]<<" "<<a[0]<<" "<<b[0]<<std::endl;
 //    res.print();
     for (int i = 0; i < k; i++)
         for (int j = 0; j < k; j++)
@@ -175,7 +175,7 @@ Polynomial linear_re(Polynomial a, Polynomial b, int k, long long f[], long long
 //            res.print();
         }
 //
-    res.print();
+//    res.print();
     return res;
 }
 
@@ -190,10 +190,10 @@ Polynomial ksm(Polynomial a, long long f[],int k, long long P, int b)
 //            a.print();
             res = linear_re(res, a, k, f, P);
         }
-        printf("1\n");
+//        printf("1\n");
         a = linear_re(a, a, k, f, P);
-        a.print();
-        std::cout<<2<<std::endl;
+//        a.print();
+//        std::cout<<2<<std::endl;
     }
     return res;
 }
@@ -214,6 +214,104 @@ long long linear_res(int n, int k, long long f[], long long h[], long long P)
     res = ksm(res, f, k, P, n);
     for (int i = 0; i < k; i++)
         ans = (ans + 1ll * res[i] * h[i] % P) % P;
+    return ans;
+}
+
+Polynomial division(Polynomial a, Polynomial b)
+{
+    int n = a.deg, k = b.deg;
+    long long coea[n];
+    for (int i = 0; i <= n - 1; i++)
+    {
+        coea[i] = 0;
+    }
+    for (int i = n; i >= k; i--)
+    {
+        if (a[i])
+        {
+            a[i - k] = a[i - k] - a[i] * b[0];
+            coea[i - 1] = a[i];
+            a[i] = 0;
+        }
+    }
+    if (a[0] == 0)
+    {
+        return Polynomial(coea, n - 1);
+    }
+    long long coe[2] = {9999999, 0};
+    return Polynomial(coe, 1);
+}
+
+std::vector<std::string> solve(Polynomial a)
+{
+    std::vector<std::string> ans;
+    if (a.deg == 2)
+    {
+        ans.push_back("frac{-"+std::to_string(a[1]) + "+sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
+        ans.push_back("frac{-"+std::to_string(a[1]) + "-sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
+        return ans;
+    }
+    if (a.deg == 1)
+    {
+        ans.push_back("-"+std::to_string(a[0])+"/"+std::to_string(a[1]));
+        return ans;
+    }
+    if (a.deg == 0)
+    {
+        return ans;
+    }
+
+    std::vector<int> f = factorization(abs(a[0]));
+    for (auto i : f)
+    {
+        long long coe[2] = {i, 1};
+        Polynomial now = division(a, Polynomial(coe,1));
+        if (now[0] == 9999999)
+        {
+            continue;
+        }
+        if (now.deg == 0)
+        {
+            ans.push_back(std::to_string(-i));
+            return ans;
+        }
+        ans = solve(now);
+        if (ans.empty())
+        {
+            return ans;
+        }
+        ans.push_back(std::to_string(-i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
+        return ans;
+    }
+    for (auto i : f)
+    {
+        long long coe[2] = {-i, 1};
+        Polynomial now = division(a, Polynomial(coe,1));
+        if (now[0] == 9999999)
+        {
+            continue;
+        }
+        if (now.deg == 0)
+        {
+            ans.push_back(std::to_string(i));
+            return ans;
+        }
+        ans = solve(now);
+        if (ans.empty())
+        {
+            return ans;
+        }
+        ans.push_back(std::to_string(i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
+        return ans;
+    }
     return ans;
 }
 

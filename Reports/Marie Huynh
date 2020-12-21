@@ -1,0 +1,7 @@
+This week, with the derivative team, we made a lot of organizational decisions 
+(we verified we were all working on the same lines, expected input/output, token class characteritics, ...).
+Constance needs a way to represent the composition operator and Merlin needs a way to sort out the different types
+of parentheses (ones that stand for multiplication or composition or useless ones). 
+Personally, I fixed some bugs I had in my simplify function and added some precisions in the Token subclasses
+(common letters between variables and functions (ex: 'x' in 'exp' vs 'x' variable), recognition of constants as letters). 
+For next week, I will try to think of ways to implement what Merlin and Constance need in order to link our parts together. 
