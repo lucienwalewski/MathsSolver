@@ -98,4 +98,17 @@ void testDerivatives::test_logarithmic_ln()
     QVERIFY(abstr.get_str_label() == "1/x");
 }
 
+void testDerivatives::test_addition(){
+    Token x = Token("x");
+    SinFunction s = SinFunction(x);
+    Token base = Token("e");
+    LogarithmicFunction ln = LogarithmicFunction(x, base);
+
+    CosFunction abstr = s.solve<CosFunction>();
+}
+void testDerivatives::test_subtraction(){}
+void testDerivatives::test_multiplication(){}
+void testDerivatives::test_division(){}
+void testDerivatives::test_composition(){}
+
 

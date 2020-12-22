@@ -30,11 +30,15 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-     ImageRecognition/imagePreprocessing.hpp \
+#     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
+<<<<<<< HEAD
     Derivatives/derivatives.hpp \
+=======
+     Derivatives/derivatives.hpp \
+>>>>>>> main
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
