@@ -46,6 +46,16 @@ int main(int argc, char *argv[])
     Y.set_element(1, 0, 17);
     Y.set_element(2, 0, -12);
 
+    Matrix D(2, 2);
+
+    D.set_element(0,0, 1);
+    D.set_element(0,1,2);
+    D.set_element(1,0, 3);
+    D.set_element(1,1,4);
+
+    D.power(2).print_mat();
+    D.power(3).print_mat();
+
     gaussian(A, Y);
 
     return 0;
