@@ -120,11 +120,12 @@ public:
         end = true;
         this->str_label = "";
         this->in_str_label = "";
+        this->leaf = SF();
     };
 
     AF(AF left, AF right, Operator operation);
     AF(int type, Token end_token);
-    ~AF(){};
+    ~AF(){delete left;delete right;};
 
     void op_to_enum(char op,Operator &operation);
 
@@ -144,15 +145,17 @@ public:
 
     int get_type();
     void set_type(int type);
-
-
+    SF get_leaf(){return leaf;}
+    void set_leaf(SF leaf){this->leaf = leaf;}
+    bool get_end(){return end;}
+    void set_end(bool end){this->end = end;}
 
 
 
 private:
     Operator operation;
-    AF *left;
-    AF *right;
+    class AF *left;
+    class AF *right;
     string str_label;
     string in_str_label;
     vector<Token> vect_label;
@@ -163,10 +166,9 @@ private:
 
 
 };
-
-
+AF solve(AF func);
+void build_tree(vector<Token>);
 void assign(Token fun,SF &leaf);
-
 
 class CosF{
 public:

@@ -32,6 +32,10 @@ int main(int argc, char *argv[])
     QApplication  a(argc, argv);
     vector<Token> vect = {Variable("x"),Operator("^"),Num("5"),Operator("+"),Num("3")};
     AF af = AF(vect);
+    cout << af.display()<<'\n';
+    cout << af.get_type();
+    cout << solve(af).display()<<'\n';
+
     //w.show();
     return a.exec();
 
