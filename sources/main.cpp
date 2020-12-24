@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
     AF af = AF(vect);
     cout << af.display()<<'\n';
     cout << af.get_type();
-    cout << solve(af).display()<<'\n';
 
     //w.show();
     return a.exec();

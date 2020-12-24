@@ -121,6 +121,7 @@ public:
         this->str_label = "";
         this->in_str_label = "";
         this->leaf = SF();
+        this->type = 1;
     };
 
     AF(AF left, AF right, Operator operation);

@@ -13,6 +13,7 @@
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 AF::AF(vector<Token> fun){
+    type = 1;
     vect_label = fun;
     in_str_label = vect_to_str(fun);
     cout << in_str_label << '\n';
