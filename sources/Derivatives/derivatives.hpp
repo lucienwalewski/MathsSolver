@@ -4,8 +4,109 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 using namespace std;
 
+
+class SF{
+public:
+    SF(Token Fun){fun = Fun;}
+    ~SF(){}
+    SF(){};
+private:
+    Token fun;
+};
+class Fvar : public  SF{
+public:
+    Fvar(string str);
+    Fvar(Token leaf){value = leaf.get_value();}
+    ~Fvar(){}
+private:
+    string value;
+    int type;
+};
+class Fcons : public SF{
+public:
+    Fcons(string str){value = str;}
+    Fcons(Token leaf){value = leaf.get_value();}
+    ~Fcons(){}
+private:
+    string value;
+};
+class Fnum : public SF{
+public:
+    Fnum(string str){value = str;}
+    Fnum(Token leaf){value = leaf.get_value(); stringstream new_num(value);new_num >> num;}
+    ~Fnum(){}
+private:
+    string value;
+    int num;
+};
+class Fexp : public SF {
+public:
+    Fexp(string str){value = str;}
+    Fexp(Token leaf){value = leaf.get_value();}
+    ~Fexp(){};
+private:
+    string value;
+    //special exponent stuff.
+};
+class Flog : public SF {
+public:
+    Flog(string str){value = str;}
+    Flog(Token leaf){value = leaf.get_value();}
+    ~Flog(){};
+private:
+    string value;
+};
+class Fcos : public SF {
+public:
+    Fcos(string str){value = str;}
+    Fcos(Token leaf){value = leaf.get_value();}
+    ~Fcos(){};
+private:
+    string value;
+};
+class Fsin : public SF {
+public:
+    Fsin(string str){value = str;}
+    Fsin(Token leaf){value = leaf.get_value();}
+    ~Fsin(){};
+private:
+    string value;
+};
+class Ftan : public SF {
+public:
+    Ftan(string str){value = str;}
+    Ftan(Token leaf){value = leaf.get_value();}
+    ~Ftan(){};
+private:
+    string value;
+};
+class Fln : public SF {
+public:
+    Fln(string str){value = str;}
+    Fln(Token leaf){value = leaf.get_value();}
+    ~Fln(){};
+private:
+    string value;
+};
+class Fsqrt : public SF {
+public:
+    Fsqrt(string str){value = str;}
+    Fsqrt(Token leaf){value = leaf.get_value();}
+    ~Fsqrt(){};
+private:
+    string value;
+};
+class Fcomp : public SF {
+public:
+    Fcomp(string str){value = str;}
+    Fcomp(Token leaf){value = leaf.get_value();}
+    ~Fcomp(){};
+private:
+    string value;
+};
 
 
 class AF {
@@ -57,13 +158,14 @@ private:
     vector<Token> vect_label;
     int type;
     bool end;
+    SF leaf;
     Token end_token;
 
 
 };
 
 
-
+void assign(Token fun,SF &leaf);
 
 
 class CosF{
@@ -156,7 +258,6 @@ private:
 
 
 
-
 class Poly{
 public:
     Poly(Token val, Token exponent);
@@ -203,7 +304,6 @@ private:
 
 AF solve();
 string vect_to_str(vector<Token> fun);
-
 
 
 #endif // DERIVATIVES_HPP

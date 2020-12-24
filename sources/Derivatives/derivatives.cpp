@@ -1,10 +1,11 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
-#include "MainWindow/mainwindow.h"
+//#include "MainWindow/mainwindow.h"
 
 
 #include <QApplication>
 #include <QtTest>
+#include <sstream>
 
 
 
@@ -16,6 +17,18 @@ AF::AF(vector<Token> fun){
     in_str_label = vect_to_str(fun);
     cout << in_str_label << '\n';
     // parentheses(&fun);
+
+    if (int(fun.size()) == 1){
+        end = true;
+        assign(fun[0],leaf);
+        left = nullptr;right = nullptr;
+        return;
+    } else if (int(fun.size()) == 3) {
+        operation = Operator(fun[1].get_value());
+        *left = AF({fun[0]});
+        *right = AF({fun[2]});
+        return;
+    }
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
@@ -50,6 +63,7 @@ AF::AF(vector<Token> fun){
         }
         cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
 
+
         if (int(l.size())>0){
 
             *left = AF(l);
@@ -64,17 +78,48 @@ AF::AF(vector<Token> fun){
 
 
     } else {
-        cout << "still here"<<'\n';
-        *this-> left = AF();
-        cout << "am I?";
-        *this-> right = AF();
+        cout << "not a success" << in_str_label <<'\n';
     }
     cout << "success!" << in_str_label <<'\n';
+    }
+
+void assign(Token fun,SF &leaf){
+    int val = fun.get_type();
+    if (val == -1){
+        leaf = Fnum(fun);
+    }
+    if (val == -2){
+        string function = fun.get_value();
+        if (function == "exp"){
+            leaf = Fexp(fun);
+        }
+        if (function == "ln"){
+            leaf = Fln(fun);
+        }
+        if (function == "log"){
+            leaf = Flog(fun);
+        }
+        if (function == "cos"){
+            leaf = Fcos(fun);
+        }
+        if (function == "sin"){
+            leaf = Fsin(fun);
+        }
+        if (function == "tan"){
+            leaf = Ftan(fun);
+        }
+        if (function == "sqrt"){
+            leaf = Fsqrt(fun);
+        }
+    }
+    if (val == -3){
+        leaf = Fvar(fun);
+    }
+    if (val == -4){
+        leaf = Fcomp(fun);
+    }
+
 }
-
-
-
-
 
 
 AF::AF(AF left, AF right, Operator operation){

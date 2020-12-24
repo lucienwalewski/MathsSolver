@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QtTest>
-#include "mainwindow.h"
+//#include "mainwindow.h"
 
 //#include "MainWindow/mainwindow.h"
 #include "Derivatives/derivatives.hpp"
@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
 {
 
     QApplication  a(argc, argv);
-
-
-    w.show();
+    vector<Token> vect = {Variable("x"),Operator("^"),Num("5"),Operator("+"),Num("3")};
+    AF af = AF(vect);
+    //w.show();
     return a.exec();
 
 }
