@@ -1,4 +1,5 @@
 #include "Tokenizer.hpp"
+#include "derivatives.hpp"
 
 map<string, int> type_map = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 bool is_in_vector(vector< string > v, string elem){
@@ -42,6 +43,8 @@ Operator::Operator(string t): Token(t){
 int Operator::get_type(){
     return type;
 }
+
+
 
 //the following function checks if the substring is a given function
 bool is_function_(string s, string f){
@@ -108,5 +111,6 @@ vector<Token> simplify(string s, char variable){
 }
     return new_vector;
 };
+
 
 

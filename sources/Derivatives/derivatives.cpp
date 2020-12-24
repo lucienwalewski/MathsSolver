@@ -1,10 +1,11 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
-#include "MainWindow/mainwindow.h"
+//#include "MainWindow/mainwindow.h"
 
 
 #include <QApplication>
 #include <QtTest>
+#include <sstream>
 
 
 
@@ -12,17 +13,29 @@
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 AF::AF(vector<Token> fun){
+    type = 1;
     vect_label = fun;
     in_str_label = vect_to_str(fun);
     cout << in_str_label << '\n';
     // parentheses(&fun);
+
+    if (int(fun.size()) == 1){
+        end = true;
+        assign(fun[0],leaf);
+        left = nullptr;right = nullptr;
+        //cout << "fun has size 1:  " << in_str_label<<'\n';
+    } else if (int(fun.size()) == 3) {
+        operation = Operator(fun[1].get_value());
+        left = new AF({fun[0]});
+         right = new AF({fun[2]});
+    }else{
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
     for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
-            cout << val<< "  " << i-> get_value()<<'\n';
+            //cout << val<< "  " << i-> get_value()<<'\n';
             if ( val == 7){counter += 1;}
             else if (val == 8){counter -= 1;}
             else if (val > type_m[operation.get_value()] and counter == 0){
@@ -34,10 +47,10 @@ AF::AF(vector<Token> fun){
 
 
     }
-    cout << "string is " << in_str_label<<'\n';
-    cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
+    //cout << "string is " << in_str_label<<'\n';
+    //cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
     if (type_m[operation.get_value()] > 0){
-        cout << "Im here" << in_str_label<<'\n';
+        //cout << "Im here" << in_str_label<<'\n';
         vector<Token> l, r;
         for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
             if (i<j){
@@ -48,33 +61,62 @@ AF::AF(vector<Token> fun){
 
             }
         }
-        cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
+        //cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
+
 
         if (int(l.size())>0){
 
-            *left = AF(l);
-            cout << "whyyyyy";
+            left = new AF(l);
+            //cout << "whyyyyy";
         }
         if (int(r.size())>0){
 
-            *right = AF(r);
+            right = new AF(r);
         }
 
         str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
 
 
     } else {
-        cout << "still here"<<'\n';
-        *this-> left = AF();
-        cout << "am I?";
-        *this-> right = AF();
+        //cout << "not a success" << in_str_label <<'\n';
     }
-    cout << "success!" << in_str_label <<'\n';
+    //cout << "success!" << in_str_label <<'\n';
+    }}
+
+void assign(Token fun,SF &leaf){
+    int val = fun.get_type();
+    if (val == -1){
+        leaf = Fnum(fun);
+    } else if (val == -2){
+        string function = fun.get_value();
+        if (function == "exp"){
+            leaf = Fexp(fun);
+        }
+        if (function == "ln"){
+            leaf = Fln(fun);
+        }
+        if (function == "log"){
+            leaf = Flog(fun);
+        }
+        if (function == "cos"){
+            leaf = Fcos(fun);
+        }
+        if (function == "sin"){
+            leaf = Fsin(fun);
+        }
+        if (function == "tan"){
+            leaf = Ftan(fun);
+        }
+        if (function == "sqrt"){
+            leaf = Fsqrt(fun);
+        }
+    }else if (val == -3){
+        leaf = Fvar(fun);
+    }else if (val == -4){
+        leaf = Fcomp(fun);
+    }
+
 }
-
-
-
-
 
 
 AF::AF(AF left, AF right, Operator operation){
@@ -147,7 +189,6 @@ string AF::get_in_str_label(){
 
 string AF::display(){
     if (this->left == nullptr and this->right == nullptr){
-        cout << get_in_str_label() << '\n';
         return get_in_str_label();
     }else{
         return get_left().display() + operation.get_value() + get_right().display();

@@ -21,7 +21,6 @@ using namespace std;
 //    base,};
 
 
-
 bool is_in_vector(vector< string > v, string elem);
 
 bool is_function_(string s, string f);
@@ -31,9 +30,10 @@ string find_function(string s);
 
 //definition of the Token class with its four subclasses : Operator, Num, Function, Variable
 class Token {
-protected :
+protected:
     int type;
     string value;
+
 public :
     Token(string s);
     Token();
@@ -61,7 +61,7 @@ public :
     Num(string t):Token(t){
         type = -1;
     };
-
+private:
 };
 
 class Function: public Token{
@@ -69,7 +69,6 @@ public :
     Function(string t): Token(t){
         type = -2;
     };
-
 };
 
 class Variable: public Token{
@@ -78,7 +77,11 @@ public:
     Variable(string t): Token(t){
         type = -3;
     };
+private:
 };
+
+
+
 
 vector<Token> simplify(string s, char variable);
 
