@@ -22,13 +22,12 @@ AF::AF(vector<Token> fun){
         end = true;
         assign(fun[0],leaf);
         left = nullptr;right = nullptr;
-        return;
+        cout << "fun has size 1:  " << in_str_label<<'\n';
     } else if (int(fun.size()) == 3) {
         operation = Operator(fun[1].get_value());
         *left = AF({fun[0]});
         *right = AF({fun[2]});
-        return;
-    }
+    }else{
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
@@ -82,13 +81,13 @@ AF::AF(vector<Token> fun){
     }
     cout << "success!" << in_str_label <<'\n';
     }
+}
 
 void assign(Token fun,SF &leaf){
     int val = fun.get_type();
     if (val == -1){
         leaf = Fnum(fun);
-    }
-    if (val == -2){
+    } else if (val == -2){
         string function = fun.get_value();
         if (function == "exp"){
             leaf = Fexp(fun);
@@ -111,11 +110,9 @@ void assign(Token fun,SF &leaf){
         if (function == "sqrt"){
             leaf = Fsqrt(fun);
         }
-    }
-    if (val == -3){
+    }else if (val == -3){
         leaf = Fvar(fun);
-    }
-    if (val == -4){
+    }else if (val == -4){
         leaf = Fcomp(fun);
     }
 

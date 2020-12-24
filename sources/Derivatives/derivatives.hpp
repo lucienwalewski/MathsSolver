@@ -19,7 +19,7 @@ private:
 class Fvar : public  SF{
 public:
     Fvar(string str);
-    Fvar(Token leaf){value = leaf.get_value();}
+    Fvar(Token leaf){value = leaf.get_value();cout << "SF string is " << value << ""<<'\n';}
     ~Fvar(){}
 private:
     string value;
