@@ -68,38 +68,38 @@ This file will not compile on Mac. The fix for this is as follows:
 3. Create the file `stdc++.h` by entering `touch stdc++.h`. 
 4. Open the file in Xcode by entering `open stdc++.h`
 5. Copy and paste into the file the following lines of code. Save and close the file. 
-  // C++ includes used for precompiling -*- C++ -*-
 
-  // Copyright (C) 2003-2013 Free Software Foundation, Inc.
-  //
-  // This file is part of the GNU ISO C++ Library.  This library is free
-  // software; you can redistribute it and/or modify it under the
-  // terms of the GNU General Public License as published by the
-  // Free Software Foundation; either version 3, or (at your option)
-  // any later version.
+    // C++ includes used for precompiling -*- C++ -*-
 
-  // This library is distributed in the hope that it will be useful,
-  // but WITHOUT ANY WARRANTY; without even the implied warranty of
-  // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  // GNU General Public License for more details.
+    // Copyright (C) 2003-2013 Free Software Foundation, Inc.
+    //
+    // This file is part of the GNU ISO C++ Library.  This library is free
+    // software; you can redistribute it and/or modify it under the
+    // terms of the GNU General Public License as published by the
+    // Free Software Foundation; either version 3, or (at your option)
+    // any later version.
 
-  // Under Section 7 of GPL version 3, you are granted additional
-  // permissions described in the GCC Runtime Library Exception, version
-  // 3.1, as published by the Free Software Foundation.
+    // This library is distributed in the hope that it will be useful,
+    // but WITHOUT ANY WARRANTY; without even the implied warranty of
+    // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    // GNU General Public License for more details.
 
-  // You should have received a copy of the GNU General Public License and
-  // a copy of the GCC Runtime Library Exception along with this program;
-  // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-  // <http://www.gnu.org/licenses/>.
+    // Under Section 7 of GPL version 3, you are granted additional
+    // permissions described in the GCC Runtime Library Exception, version
+    // 3.1, as published by the Free Software Foundation.
 
-  /** @file stdc++.h
-   *  This is an implementation file for a precompiled header.
-    */
+    // You should have received a copy of the GNU General Public License and
+    // a copy of the GCC Runtime Library Exception along with this program;
+    // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+    // <http://www.gnu.org/licenses/>.
 
-  // Also writing "using namespace std;" here so that you dont need to write it everytime you start a cpp file
+    /** @file stdc++.h
+     *  This is an implementation file for a precompiled header.
+      */
 
-  using namespace std;
+    // Also writing "using namespace std;" here so that you dont need to write it everytime you start a cpp file
 
+    using namespace std;
 
     // 17.4.1.2 Headers
 
