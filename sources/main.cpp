@@ -53,8 +53,8 @@ int main(int argc, char *argv[])
     D.set_element(1,0, 3);
     D.set_element(1,1,4);
 
-    D.power(2).print_mat();
-    D.power(3).print_mat();
+    //D.power(2).print_mat();
+    //D.power(3).print_mat();
 
     gaussian(A, Y);
 
