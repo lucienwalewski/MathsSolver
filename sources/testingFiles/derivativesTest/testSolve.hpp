@@ -26,6 +26,13 @@ private slots:
     void test_logarithmic_ln();
     void test_polynomial();
 
+    void test_addition();
+    void test_subtraction();
+    void test_multiplication();
+    void test_division();
+    void test_composition();
+
+
 
 
 

@@ -1,0 +1,7 @@
+This week, I was much more efficient in testing my code. I found many different subtle errors and adjusted parts of my
+colleagues' code to fit my needs. One example is the enum type we use to describe the precedence of operators. I changed it 
+to a map which was much more transparent for our needs. One bug which I do not undestand is that our enum type was giving 
+values in the millions and changing it to a map only solved certain cases, still giving billions and trillions for some. 
+I am struggling with a recursive issue in the constructor and Marie and I are still dealing with special cases of 
+compositions and parentheses but these are our last challenges.
+

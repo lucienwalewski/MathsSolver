@@ -129,6 +129,24 @@ Matrix Matrix::operator * (const Matrix& a) {
     return res;
 };
 
+Matrix Matrix::power(int k) {
+    //A method that raises a matrix to the power k.
+    Matrix res(n, m);
+    this->copy(res);
+    if(k == 1) {
+        return res;
+    }
+    if (k == 2) {
+        return res*res;
+    }
+    if (k % 2 == 0) {
+        return res.power(k/2).power(2);
+    }
+    if (k % 2 == 1) {
+        return res.power((k-1)/2).power(2) * res;
+    }
+};
+
 bool Matrix::operator == (const Matrix& a) {
     //Equality operator.
     for (int i = 0; i < n; i++){

@@ -1,19 +1,44 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
+//#include "MainWindow/mainwindow.h"
+
+
+#include <QApplication>
+#include <QtTest>
+#include <sstream>
+#include <iostream>
+
+
+
+
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
-AbstractFunction::AbstractFunction(vector<Token> fun){
+AF::AF(vector<Token> fun){
+    end = false;
+    type = 1;
     vect_label = fun;
     in_str_label = vect_to_str(fun);
     cout << in_str_label << '\n';
     // parentheses(&fun);
+
+    if (int(fun.size()) == 1 && (fun[0].is_super_token() == false)){
+        end = true;
+        assign(fun[0],leaf);
+        left = nullptr;right = nullptr;
+
+
+
+    }else{
+     if (int(fun.size()) == 1 && fun[0].is_super_token()){
+                fun = simplify(fun[0].get_value(),'x');
+     }
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
     for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
-            cout << val<< "  " << i-> get_value()<<'\n';
+            //cout << val<< "  " << i-> get_value()<<'\n';
             if ( val == 7){counter += 1;}
             else if (val == 8){counter -= 1;}
             else if (val > type_m[operation.get_value()] and counter == 0){
@@ -25,10 +50,10 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
 
 
     }
-    cout << "string is " << in_str_label<<'\n';
-    cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
+    //cout << "string is " << in_str_label<<'\n';
+    //cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
     if (type_m[operation.get_value()] > 0){
-        cout << "Im here" << in_str_label<<'\n';
+        //cout << "Im here" << in_str_label<<'\n';
         vector<Token> l, r;
         for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
             if (i<j){
@@ -39,172 +64,236 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
 
             }
         }
-        cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
+        //cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
 
-        if (int(l.size())>0){
 
-            *left = AbstractFunction(l);
-            cout << "whyyyyy";
+        if (fun[0].is_super_token()){
+            l = simplify(fun[0].get_value(),'x');
         }
-        if (int(r.size())>0){
-
-            *right = AbstractFunction(r);
+        if (fun[2].is_super_token()){
+            r = simplify(fun[2].get_value(),'x');
         }
+        left = new AF(l);
+        right = new AF(r);
 
         str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
 
 
     } else {
-        cout << "still here"<<'\n';
-        *this-> left = AbstractFunction();
-        cout << "am I?";
-        *this-> right = AbstractFunction();
+        //cout << "not a success" << in_str_label <<'\n';
     }
-    cout << "success!" << in_str_label <<'\n';
+    //cout << "success!" << in_str_label <<'\n';
+    }}
+
+void assign(Token fun,SF &leaf){
+    int val = fun.get_type();
+    if (val == -1){
+        leaf = Fnum(fun);
+    } else if (val == -2){
+        string function = fun.get_value();
+        if (function == "exp"){
+            leaf = Fexp(fun);
+        }
+        if (function == "ln"){
+            leaf = Fln(fun);
+        }
+        if (function == "log"){
+            leaf = Flog(fun);
+        }
+        if (function == "cos"){
+            leaf = Fcos(fun);
+        }
+        if (function == "sin"){
+            leaf = Fsin(fun);
+        }
+        if (function == "tan"){
+            leaf = Ftan(fun);
+        }
+        if (function == "sqrt"){
+            leaf = Fsqrt(fun);
+        }
+    }else if (val == -3){
+        leaf = Fvar(fun);
+    }else if (val == -4){
+        leaf = Fcomp(fun);
+    }
+
 }
 
 
-
-
-
-AbstractFunction::AbstractFunction(){
-    this->left = nullptr;
-    this->right = nullptr;
-
-    this->operation = Operator();
+AF::AF(AF left, AF right, Operator operation){
+    this->left = &left;
+    this->right = &right;
+    end = false;
+    this->operation = operation;
     this->str_label = "";
     this->in_str_label = "";
 
 }
 
+AF::AF(int type, Token end_token){
+    this->left = nullptr;
+    this->right = nullptr;
+    this->operation = Operator();
+    end = true;
+    this->type = type;
+    this->end_token = end_token;
+}
 
-AbstractFunction AbstractFunction:: get_left(){
+
+
+AF AF:: get_left(){
     return *left;
 }
 
-void AbstractFunction::set_left(AbstractFunction *left){
+
+
+void AF::set_left(AF *left){
     this->left = left;
 }
 
-AbstractFunction AbstractFunction:: get_right(){
+AF AF:: get_right(){
     return *right;
 }
 
-void AbstractFunction::set_right(AbstractFunction *right){
+void AF::set_right(AF *right){
     this->right = right;
 }
-string AbstractFunction::get_string_operation(){
+
+string AF::get_string_operation(){
     return operation.get_value();
 }
+
 string vect_to_str(vector<Token> fun){
     string sfun = "";
     for (int i = 0; i< int(fun.size());i++){
         sfun += fun[i].get_value();
+        if (i != int(fun.size())-1){
+            sfun += " ";
+        }
     }
     return sfun;
 }
-Operator AbstractFunction::get_operation(){
+
+Operator AF::get_operation(){
     return operation;
 }
 
-void AbstractFunction::set_operation(Operator operation){
+void AF::set_operation(Operator operation){
     this->operation = operation;
 
 }
 
-string AbstractFunction::get_str_label(){
+string AF::get_str_label(){
     return str_label;
 }
-string AbstractFunction::get_in_str_label(){
+
+string AF::get_in_str_label(){
     return in_str_label;
 }
-string AbstractFunction::display(){
+
+string AF::display(){
     if (this->left == nullptr and this->right == nullptr){
-        cout << get_in_str_label() << '\n';
         return get_in_str_label();
     }else{
-        return get_left().display() + operation.get_value() + get_right().display();
+        return "(" +get_left().display() + " " + operation.get_value() + " " + get_right().display() + ")";
     }
 }
 
 
-
-template <typename Function1> Function1 AbstractFunction::solve(){
-
-    if(this->get_operation().get_type() == 5){
-        return add(this->get_left(), this->get_right());
-    }
-    if(this->get_operation().get_type() == 4){
-        return subtract(this->get_left(), this->get_right());
-    }
-    if(this->get_operation().get_type() == 3){
-        return multiply(this->get_left(), this->get_right());
-    }
-    if(this->get_operation().get_type() == 2){
-        return divide(this->get_left(), this->get_right());
-    }
-    if(this->get_operation().get_type() == 1){
-
-        return chain_rule(this->get_left(), this->get_right());
-    }
-
-
-    return nullptr;
-
+int SinF::get_type(){
+    return type;
+}
+int CosF::get_type(){
+    return type;
+}
+int Cons::get_type(){
+    return type;
+}
+int Poly::get_type(){
+    return type;
+}
+int Exp::get_type(){
+    return type;
+}
+int Loga::get_type(){
+    return type;
+}
+int AF::get_type(){
+    return type;
+}
+void AF::set_type(int type){
+    this->type = type;
 }
 
 
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::multiply(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(function1.solve(), function2, Operator("*")), AbstractFunction(function2.solve(), function1, Operator("*")), Operator("+"));
-};
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::divide(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(AbstractFunction(function1.solve(), function2, Operator("*")), AbstractFunction(function1, function2.solve(), Operator("*")), Operator("-")), AbstractFunction(PolynomialFunction(Token(get_str_label()), Token("2")), function2, Operator("~")), Operator("/"));
-};
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::add(Function1 function1, Function2 function2){
-    return AbstractFunction(function1.solve(), function2.solve(), "+");
-};
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::subtract(Function1 function1, Function2 function2){
-    return AbstractFunction(function1.solve(), function2.solve(), "-");
-};
-template <typename Function1, typename Function2> AbstractFunction AbstractFunction::chain_rule(Function1 function1, Function2 function2){
-    return AbstractFunction(AbstractFunction(function1.solve(), function2, "~"), function2.solve(), "*");
-
-};
+AF sf_derivatives(SF &leaf){
+    if (leaf.get_type() == 1){
+        return AF({Num("1")});
+    }else if (leaf.get_type() == 2 || leaf.get_type() == 3){
+        return AF({Num("0")});
+    }else{
+        cout <<leaf.get_type()<< "wtf"<<'\n';return AF();/*else if (leaf.get_type() == 4){
+        return AF({Function("exp")});
+    }else if (leaf.get_type() == 5){
+        return AF({Function("")});
+    }*/}
+}
 
 
-SinFunction::SinFunction(Token val){
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
 
+SinF::SinF(Token val){
+    value = val;
     str_label= "sin(" + value.get_value() +")";
-    value = val;
-}
 
-Token SinFunction::get_value(){
+}
+SinF::SinF(){
+    value = Token("x");
+    str_label= "sin(" + value.get_value() +")";
+
+}
+AF SinF::to_AF(){
+    return AF(2, Token());
+}
+Token SinF::get_value(){
     return value;
 }
-template <typename Function1> Function1 SinFunction::solve(){
+string SinF::get_str_label(){
+    return str_label;
+}
 
-    return CosFunction(value);
+AF SinF::solve(){
+
+    return CosF(value).to_AF();
 
 }
 
-CosFunction::CosFunction(Token val){
-
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
-
+CosF::CosF(Token val){
+    value = val;
     str_label= "cos(" + value.get_value() +")";
-    value = val;
+
 }
-Token CosFunction::get_value(){
+
+CosF::CosF(){
+
+    value = Token("x");
+    str_label= "cos(" + value.get_value() +")";
+
+}
+AF CosF::to_AF(){
+    return AF(1, Token());
+}
+Token CosF::get_value(){
     return value;
 }
+string CosF::get_str_label(){
+    return str_label;
+}
 
-template <typename Function1> Function1 CosFunction::solve(){
-    return AbstractFunction(ConstantFunction(Token("-1")), SinFunction(value), Operator("*"));
+AF CosF::solve(){
+    AF l = Cons(Token("-1")).to_AF();
+    AF r = SinF(value).to_AF();
+    return AF(l, r, Operator("*"));
 
 }
 
@@ -213,59 +302,65 @@ template <typename Function1> Function1 CosFunction::solve(){
 
 
 
-ExponentialFunction::ExponentialFunction(Token base, Token val){
+Exp::Exp(Token base, Token val){
 
     this->base = base;
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
+
     this->value = val;
 
     str_label = base.get_value() + "^" + value.get_value();
 }
-Token ExponentialFunction::get_base(){
+AF Exp::to_AF(){
+    return AF(3, get_base());
+}
+Token Exp::get_base(){
     return base;
 }
 
-Token ExponentialFunction::get_value(){
+Token Exp::get_value(){
     return value;
 }
-template <typename Function1> Function1 ExponentialFunction::solve(){
+string Exp::get_str_label(){
+    return str_label;
+}
+AF Exp::solve(){
     if(base.get_value() == "e"){
-        return ExponentialFunction(base, value);
+        return Exp(base, value).to_AF();
     }
-    return AbstractFunction(this, LogarithmicFunction(Token(base), Token("e")), Operator("*"));
+    AF r = Loga(Token(base), Token("e")).to_AF();
+    return AF(to_AF(), r, Operator("*"));
 
 }
 
 
 
 
-ConstantFunction::ConstantFunction(Token c){
+Cons::Cons(Token c){
     this->c = c;
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
-
     str_label = "";
 }
-Token ConstantFunction::get_c(){
+
+AF Cons::to_AF(){
+    return AF(6, get_c());
+}
+Token Cons::get_c(){
     return c;
 }
-template <typename Function1> Function1 ConstantFunction::solve(){
-    return ConstantFunction(Token("0"));
+string Cons::get_str_label(){
+    return str_label;
+}
+AF Cons::solve(){
+    return Cons(Token("0")).to_AF();
 }
 
 
 
 
-LogarithmicFunction::LogarithmicFunction(Token val, Token base){
+Loga::Loga(Token val, Token base){
 
     this->base = base;
     value = val;
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
+
 
     str_label= "log_" + base.get_value() + "(" +value.get_value() + ")";
     if(base.get_value() == "e"){
@@ -273,18 +368,30 @@ LogarithmicFunction::LogarithmicFunction(Token val, Token base){
     }
 
 }
-Token LogarithmicFunction::get_base(){
+AF Loga::to_AF(){
+    return AF(4, get_base());
+}
+Token Loga::get_base(){
     return base;
 }
-Token LogarithmicFunction::get_value(){
+Token Loga::get_value(){
     return value;
 }
-template <typename Function1> Function1 LogarithmicFunction::solve(){
+string Loga::get_str_label(){
+    return str_label;
+}
+AF Loga::solve(){
     Token base = this->get_base();
     if(base.get_value() == "e"){
-        return AbstractFunction(ConstantFunction(Token("1")), PolynomialFunction(value, Token("1")), Operator("/"));
+        AF l = Cons(Token("1")).to_AF();
+        AF r = Poly(value, Token("1")).to_AF();
+        return AF(l, r, Operator("/"));
     }
-    return AbstractFunction(ConstantFunction(Token("1")), AbstractFunction(LogarithmicFunction(base, Token("e")), PolynomialFunction(value, Token("1")), Operator("*")), Operator("/"));
+    AF l = Loga(base, Token("e")).to_AF();
+    AF r = Poly(value, Token("1")).to_AF();
+    AF step = AF(l, r, Operator("*"));
+    AF c = Cons(Token("1")).to_AF();
+    return AF(c, step, Operator("/"));
 
 }
 
@@ -294,27 +401,103 @@ template <typename Function1> Function1 LogarithmicFunction::solve(){
 
 
 
-PolynomialFunction::PolynomialFunction(Token val, Token exponent){
+Poly::Poly(Token val, Token exponent){
 
     this->exponent = exponent;
     this->value = val;
-    left = nullptr;
-    right = nullptr;
-    operation = Operator();
+
 
     str_label = "";
 }
-Token PolynomialFunction::get_exponent(){
+AF Poly::to_AF(){
+    return AF(5, get_exponent());
+}
+Token Poly::get_exponent(){
     return exponent;
 }
-Token PolynomialFunction::get_value(){
+Token Poly::get_value(){
     return value;
 }
-template <typename Function1> Function1 PolynomialFunction::solve(){
+string Poly::get_str_label(){
+    return str_label;
+}
+AF Poly::solve(){
     string new_exponent = exponent.get_value() + "-1";
-    return AbstractFunction(ConstantFunction(exponent), PolynomialFunction(value, Token(new_exponent)), Operator("*"));
+    return AF(Cons(exponent).to_AF(), Poly(value, Token(new_exponent)).to_AF(), Operator("*"));
 
 }
+
+
+AF solve(AF Func){
+    cout << "Current depth is: " <<Func.get_in_str_label() << '\n';
+    if (Func.get_end() == false){
+
+    int val = type_m[Func.get_operation().get_value()];
+    if(val == 6){
+        return AF(solve(Func.get_left()), solve(Func.get_right()), Operator("+"));
+
+    }
+    if(val == 5){
+        return AF(solve(Func.get_left()), solve(Func.get_right()), Operator("-"));
+    }
+    if(val == 4){
+        AF l= AF(solve(Func.get_left()), Func.get_right(), Operator("*"));
+        AF r = AF(solve(Func.get_right()), Func.get_left(), Operator("*"));
+        return AF(l, r, Operator("+"));
+
+    }
+    if(val == 3){
+        AF l1= AF(solve(Func.get_left()), Func.get_right(), Operator("*"));
+        AF r2 = AF(Func.get_left(), solve(Func.get_right()), Operator("*"));
+        AF l2 = Poly(Token("x"), Token("2")).to_AF();
+        return AF(AF(l1, r2, Operator("-")), AF(l2, Func.get_right(), Operator("~")), Operator("/"));
+    }
+    if(val == 2){
+        // assuming no x in exponent
+        AF left = AF(solve(Func.get_left()),Func.get_right(),Operator("*"));
+        AF exponent = AF(Func.get_right(),AF({Num("1")}),Operator("-"));
+        AF right = AF(Func.get_left(),exponent,Operator("^"));
+        return  AF(left,right,Operator("*"));
+
+    }
+    if(val == 1){
+        AF l = AF(solve(Func.get_left()), Func.get_right(), Operator("~"));
+        return AF(l ,solve(Func.get_right()), Operator("*"));
+    }else {cout << "couldn't find the right path"<<'\n';return AF();}
+    } else {
+        cout << "currently at the leaf: "<<Func.get_in_str_label()<<'\n';
+        SF leaf = Func.get_leaf();
+        return sf_derivatives(leaf);
+        if(Func.get_type() == 1){
+            CosF c = CosF();
+            return c.solve();
+        }
+        if(Func.get_type() == 2){
+            SinF s = SinF();
+            return s.solve();
+        }
+        if(Func.get_type() == 3){
+            return AF();
+        }
+        if(Func.get_type() == 4){
+            return AF();
+        }
+        if(Func.get_type() == 5){
+            return AF();
+        }
+        if(Func.get_type() == 6){
+            return AF();
+        }else return AF();
+
+}
+
+//map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
+}
+
+
+
+
+
 
 
 
