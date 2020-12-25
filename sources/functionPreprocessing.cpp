@@ -1,5 +1,8 @@
 #include "functionPreprocessing.hpp"
 
+// matrix, inversion, multiplication, power, transponse and determinantes
+// check for multiplications of the polynomials
+
 string upload_function(){
     /*uploading of the given function*/
     string f, s="";
@@ -17,18 +20,11 @@ string upload_function(){
 bool check_derivative(string f){
     /*check if program should perform derivation: potential idea - checking multiple derivation*/
     return ((int)f.size()>=3 && f[0]=='(' && f[(int)f.size()-1]=='\'' && f[(int)f.size()-2]==')');
-
-    /*vector<Token> v;
-    v= simplify(f, 'x');
-
-    for(int i=0; i<(int)v.size(); i++)
-        cout<<v[i].get_value()<<" "<<"\n";*/
 }
 
-bool check_equation(string &f){
+bool check_equation(string f){
     /*checking if equation solving should be performed*/
     bool find=false;
-    string s;
 
     for(int i=0; i<(int)f.size(); i++){
         if(!find && f[i]=='=')
@@ -36,30 +32,80 @@ bool check_equation(string &f){
         else if(find && f[i]=='='){
             cout<<"Error\n";
             find=false;
-            s="";
             break;
         }
-        else if(find){
-            if(f[i]=='+')
-                s+='-';
-            else if(f[i]=='-')
-                s+='+';
-            else
-                s+=f[i];
-
-        }
-        else
-            s+=f[i];
     }
-
-    f=s;
 
     return find;
 }
 
-bool check_integral(string f){
-    if(f.size()<5)
+bool check_system(string f){
+    /*checking if system of equations solving should be performed*/
+    if (f.size()<6)
         return false;
-    if(f.substr(0,4)=="/int")
+    if (f.substr(0,3) == "sys")
         return true;
+    else
+        return false;
 }
+
+bool check_divisonPolynomials(string f){
+    /*checking if divison of the polynomials should be performed*/
+    if (f[0] != '(')
+        return false;
+
+    int i=1;
+    for (; i < (int)f.size(); i++)
+        if (f[i]==')')
+            break;
+    if (i == (int)f.size())
+        return false;
+
+    i++;
+    if ((i == (int)f.size()) || (i < (int)f.size() && f[i] != ':'))
+        return false;
+
+    i++;
+    if ((i == (int)f.size()) || (i < (int)f.size() && f[i] != '('))
+        return false;
+
+    for (; i < (int)f.size(); i++)
+        if (f[i]==')')
+            return true;
+
+    return false;
+}
+
+bool check_integral(string f){
+    /*checking if integral solving should be performed*/
+    if (f.size()<6)
+        return false;
+    if (f.substr(0,3) == "int")
+        return true;
+    else
+        return false;
+}
+
+void start_process(){
+    string f= upload_function();
+    vector<bool (*)()> v;
+    int cnt=0;
+
+    if(check_derivative(f))
+        cnt++;
+    if(check_equation(f))
+        cnt++;
+    if(check_system(f))
+        cnt++;
+    if (check_divisonPolynomials(f))
+        cnt++;
+    if(check_integral(f))
+        cnt++;
+
+    if(cnt>1 || cnt == 0){
+        cout<<"Invalid input.\n";
+        return;
+    }
+}
+
+

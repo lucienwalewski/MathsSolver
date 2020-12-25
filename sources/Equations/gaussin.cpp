@@ -1,7 +1,7 @@
 #include<iostream>
 #include "gaussin.hpp"
 #include "matrix.hpp"
-\
+
 using namespace std;
 
 void gaussian(Matrix A, Matrix Y) {
