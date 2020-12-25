@@ -1,27 +1,19 @@
 #include <QApplication>
 #include <QtTest>
-#include "mainwindow.h"
+//#include "mainwindow.h"
 
 //#include "MainWindow/mainwindow.h"
-<<<<<<< HEAD
-//#include "ImageRecognition/imagePreprocessing.hpp"
-//#include "Derivatives/Tokenizer.hpp"
-//#include "Derivatives/derivatives.hpp"
-#include "NumericalSolver/num_derivation.hpp"
-#include "NumericalSolver/num_integration.hpp"
-#include "NumericalSolver/num_roots.hpp"
-=======
-#include "Derivatives/derivatives.hpp"
-//#include "ImageRecognition/imagePreprocessing.hpp"
+#include "ImageRecognition/imagePreprocessing.hpp"
 #include "Derivatives/Tokenizer.hpp"
+#include "Derivatives/derivatives.hpp"
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
-#include "Derivatives/derivatives.hpp"
->>>>>>> main
+#include "Equations/numbers.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
 #include "Equations/gaussin.hpp"
+#include "Equations/step.hpp"
 #include "functionPreprocessing.hpp"
 
 
@@ -35,26 +27,50 @@ using namespace std;
 int main(int argc, char *argv[]){
     QApplication  a(argc, argv);
 
-     string f;
+     /*string f;
      cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
      f = upload_function();
-     cout<< f;
+     cout<< f;*/
 
+     Rational c[6] = {Rational(-280, 1), Rational(634, 1), Rational(-357, 1), Rational(46, 1), Rational(14, 1), Rational(-3, 1)};
+     Rational c1[3] = {Rational(-1, 1), Rational(1, 1), Rational(-1, 1)};
+     PolynomialRational P(c, 5);
+     PolynomialRational P1(c1, 2);
 
-    return a.exec();
+     //divisionR(P, P1, true);
 
-<<<<<<< HEAD
-=======
-using namespace std;
+    //P.print();
+     //cout<<P.get_value(Rational(4, 1))<<"\n";
 
-int main(int argc, char *argv[])
-{
+     solutionPolynomial res = solveRational(P);
 
-    QApplication  a(argc, argv);
+     if (res.roots.empty())
+     {
+         std::cout<<"No Solution"<<std::endl;
+         return 0;
+     }
 
+     printf("The roots are\n");
+     for (auto i : res.roots)
+     {
+         std::cout<<i<<std::endl;
+     }
 
-    w.show();
-    return a.exec();
+     printf("The complex roots are\n");
+     for (auto i : res.complex){
+         cout<<i<<"\n";
+     }
 
->>>>>>> main
+     string s = "";
+     for (auto i : res.factors){
+         s += i.first;
+         if(i.second > 1){
+             s += "^"+ to_string(i.second);
+         }
+     }
+
+     cout<<s<<"\n";
+
+     //w.show();
+     return a.exec();
 }

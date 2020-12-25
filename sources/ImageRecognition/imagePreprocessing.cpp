@@ -17,14 +17,7 @@ using namespace cv;
  * @throw CustomError Thrown if image requested is not found
  */
 Mat upload_img(string path){
-<<<<<<< HEAD
-<<<<<<< HEAD
     //uploading the image for the given path
-=======
->>>>>>> main
-=======
-    //uploading the image for the given path
->>>>>>> main
     Mat image = imread(path, IMREAD_COLOR);
 
     if(!image.data){

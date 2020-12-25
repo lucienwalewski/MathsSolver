@@ -5,6 +5,10 @@ int gcd(int a, int b)
     return b > 0 ? gcd(b, a % b) : a;
 }
 
+double Rational::get_value(){
+    return (double)a/(double)b;
+}
+
 long long mul_with_mod(long long x, long long y, long long p)
 {
     x %= p,y %= p;
@@ -73,3 +77,25 @@ std::vector<int> factorization(int n)
     }
     return ans;
 }
+
+vector<int> divisors(int n){
+    vector<int> ans;
+
+    for (int i = 1; i <= sqrt(n); i++){
+        if (n % i == 0){
+            ans.push_back(i);
+            ans.push_back(-i);
+        }
+    }
+
+    for (int i = (int)ans.size() - 1; i >= 0; i-=2){
+        ans.push_back(n/ans[i-1]);
+        ans.push_back(n/ans[i]);
+    }
+
+    return ans;
+}
+
+
+
+

@@ -1,6 +1,6 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
-#include "MainWindow/mainwindow.h"
+//#include "MainWindow/mainwindow.h"
 
 
 #include <QApplication>

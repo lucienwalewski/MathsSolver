@@ -11,7 +11,7 @@ CONFIG += c++11
 
 
 SOURCES += \
-#     ImageRecognition/imagePreprocessing.cpp \
+     ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
      Derivatives/Tokenizer.cpp \
@@ -19,33 +19,29 @@ SOURCES += \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
-   #  Equations/numbers.cpp \
-  #   Equations/polynomial.cpp \
+     Equations/numbers.cpp \
+     Equations/polynomial.cpp \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
      NumericalSolver/num_roots.cpp \
      functionPreprocessing.cpp \
      main.cpp \
-     MainWindow/mainwindow.cpp
+#     MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePreprocessing.hpp \
+     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
-<<<<<<< HEAD
-    Derivatives/derivatives.hpp \
-=======
      Derivatives/derivatives.hpp \
->>>>>>> main
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
-   #  Equations/numbers.hpp \
-  #   Equations/polynomial.hpp \
+     Equations/numbers.hpp \
+     Equations/polynomial.hpp \
      Equations/step.hpp \
-     MainWindow/mainwindow.h \
+#     MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \

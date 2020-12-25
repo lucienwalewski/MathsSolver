@@ -1,5 +1,8 @@
 #include "functionPreprocessing.hpp"
 
+// matrix, inversion, multiplication, power, transponse and determinantes
+// check for multiplications of the polynomials
+
 string upload_function(){
     /*uploading of the given function*/
     string f, s="";
@@ -36,11 +39,48 @@ bool check_equation(string f){
     return find;
 }
 
+bool check_system(string f){
+    /*checking if system of equations solving should be performed*/
+    if (f.size()<6)
+        return false;
+    if (f.substr(0,3) == "sys")
+        return true;
+    else
+        return false;
+}
+
+bool check_divisonPolynomials(string f){
+    /*checking if divison of the polynomials should be performed*/
+    if (f[0] != '(')
+        return false;
+
+    int i=1;
+    for (; i < (int)f.size(); i++)
+        if (f[i]==')')
+            break;
+    if (i == (int)f.size())
+        return false;
+
+    i++;
+    if ((i == (int)f.size()) || (i < (int)f.size() && f[i] != ':'))
+        return false;
+
+    i++;
+    if ((i == (int)f.size()) || (i < (int)f.size() && f[i] != '('))
+        return false;
+
+    for (; i < (int)f.size(); i++)
+        if (f[i]==')')
+            return true;
+
+    return false;
+}
+
 bool check_integral(string f){
     /*checking if integral solving should be performed*/
-    if(f.size()<5)
+    if (f.size()<6)
         return false;
-    if(f.substr(0,4)=="/int")
+    if (f.substr(0,3) == "int")
         return true;
     else
         return false;
@@ -55,15 +95,17 @@ void start_process(){
         cnt++;
     if(check_equation(f))
         cnt++;
+    if(check_system(f))
+        cnt++;
+    if (check_divisonPolynomials(f))
+        cnt++;
     if(check_integral(f))
         cnt++;
 
-    if(cnt>1){
-        cout<<"Invalid input";
+    if(cnt>1 || cnt == 0){
+        cout<<"Invalid input.\n";
         return;
     }
-
-
 }
 
 
