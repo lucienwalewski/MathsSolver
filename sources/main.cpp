@@ -30,10 +30,15 @@ int main(int argc, char *argv[])
 {
 
     QApplication  a(argc, argv);
-    vector<Token> vect = {Variable("x"),Operator("^"),Num("5"),Operator("+"),Num("3")};
-    AF af = AF(vect);
-    cout << af.display()<<'\n';
-    cout << af.get_type();
+    string function = "";
+    //uncomment next line and make your own (simple for now) equation
+    //function = "sin(x+5)^3 + 3";
+    vector<Token> function_ex = simplify(function,'x');
+    AF Function = AF(function_ex);
+    //uncomment next line to get a back to string representation of your function tree
+    cout << "Function: "<<Function.display() << '\n';
+
+
 
     //w.show();
     return a.exec();

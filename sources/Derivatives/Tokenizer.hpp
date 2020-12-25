@@ -39,6 +39,7 @@ public :
     Token();
     string get_value();
     int get_type();
+    bool is_super_token(){return false;}
 };
 
 
@@ -78,6 +79,13 @@ public:
         type = -3;
     };
 private:
+};
+class SuperToken : public Token {
+public:
+    SuperToken(string t):Token(t){
+        type = -4;
+    }
+    bool is_super_token(){return true;}
 };
 
 

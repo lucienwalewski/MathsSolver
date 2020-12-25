@@ -13,13 +13,15 @@ public:
     SF(Token Fun){fun = Fun;}
     ~SF(){}
     SF(){};
+    int get_type(){return type;}
 private:
     Token fun;
+    int type = 0;
 };
 class Fvar : public  SF{
 public:
     Fvar(string str);
-    Fvar(Token leaf){value = leaf.get_value();cout << "SF string is " << value << ""<<'\n';}
+    Fvar(Token leaf){value = leaf.get_value();cout << "SF string is " << value << ""<<'\n';type = 1;}
     ~Fvar(){}
 private:
     string value;
@@ -28,84 +30,94 @@ private:
 class Fcons : public SF{
 public:
     Fcons(string str){value = str;}
-    Fcons(Token leaf){value = leaf.get_value();}
+    Fcons(Token leaf){value = leaf.get_value();type = 2;}
     ~Fcons(){}
 private:
     string value;
+    int type;
 };
 class Fnum : public SF{
 public:
     Fnum(string str){value = str;}
-    Fnum(Token leaf){value = leaf.get_value(); stringstream new_num(value);new_num >> num;}
+    Fnum(Token leaf){value = leaf.get_value(); stringstream new_num(value);new_num >> num;type = 3;}
     ~Fnum(){}
 private:
     string value;
     int num;
+    int type;
 };
 class Fexp : public SF {
 public:
     Fexp(string str){value = str;}
-    Fexp(Token leaf){value = leaf.get_value();}
+    Fexp(Token leaf){value = leaf.get_value();type = 4;}
     ~Fexp(){};
 private:
     string value;
+    int type;
     //special exponent stuff.
 };
 class Flog : public SF {
 public:
     Flog(string str){value = str;}
-    Flog(Token leaf){value = leaf.get_value();}
+    Flog(Token leaf){value = leaf.get_value();type = 5;}
     ~Flog(){};
 private:
     string value;
+    int type;
 };
 class Fcos : public SF {
 public:
     Fcos(string str){value = str;}
-    Fcos(Token leaf){value = leaf.get_value();}
+    Fcos(Token leaf){value = leaf.get_value();type = 6;}
     ~Fcos(){};
 private:
     string value;
+    int type;
 };
 class Fsin : public SF {
 public:
     Fsin(string str){value = str;}
-    Fsin(Token leaf){value = leaf.get_value();}
+    Fsin(Token leaf){value = leaf.get_value();type = 7;}
     ~Fsin(){};
 private:
     string value;
+    int type;
 };
 class Ftan : public SF {
 public:
     Ftan(string str){value = str;}
-    Ftan(Token leaf){value = leaf.get_value();}
+    Ftan(Token leaf){value = leaf.get_value();type = 8;}
     ~Ftan(){};
 private:
     string value;
+    int type;
 };
 class Fln : public SF {
 public:
     Fln(string str){value = str;}
-    Fln(Token leaf){value = leaf.get_value();}
+    Fln(Token leaf){value = leaf.get_value();type = 9;}
     ~Fln(){};
 private:
     string value;
+    int type;
 };
 class Fsqrt : public SF {
 public:
     Fsqrt(string str){value = str;}
-    Fsqrt(Token leaf){value = leaf.get_value();}
+    Fsqrt(Token leaf){value = leaf.get_value();type = 10;}
     ~Fsqrt(){};
 private:
     string value;
+    int type;
 };
 class Fcomp : public SF {
 public:
     Fcomp(string str){value = str;}
-    Fcomp(Token leaf){value = leaf.get_value();}
+    Fcomp(Token leaf){value = leaf.get_value();type = 11;}
     ~Fcomp(){};
 private:
     string value;
+    int type;
 };
 
 
@@ -121,7 +133,7 @@ public:
         this->str_label = "";
         this->in_str_label = "";
         this->leaf = SF();
-        this->type = 1;
+        this->type = 10;
     };
 
     AF(AF left, AF right, Operator operation);
@@ -131,6 +143,7 @@ public:
     void op_to_enum(char op,Operator &operation);
 
     AF get_left();
+    vector<Token> get_vect_label(){return vect_label;}
     void set_left(AF *left);
     AF get_right();
     void set_right(AF *right);
@@ -150,7 +163,7 @@ public:
     void set_leaf(SF leaf){this->leaf = leaf;}
     bool get_end(){return end;}
     void set_end(bool end){this->end = end;}
-
+    void assign_type();
 
 
 private:
@@ -304,7 +317,7 @@ private:
     string str_label;
     int type = 6;
 };
-
+AF sf_derivatives(SF &leaf);
 AF solve();
 string vect_to_str(vector<Token> fun);
 
