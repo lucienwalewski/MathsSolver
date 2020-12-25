@@ -29,6 +29,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 
+
     QApplication  a(argc, argv);
     string function = "";
     //uncomment next line and make your own (simple for now) equation
