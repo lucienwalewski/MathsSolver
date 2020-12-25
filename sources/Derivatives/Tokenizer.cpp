@@ -73,42 +73,50 @@ vector<Token> simplify(string s, char variable){
     int i = 0;
     while (i < int(s.size())){
         //we ignore spaces of all types
-        if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\n')){
-            continue;
-        }
-        //first we consider the case of a letter
-        if (isalpha(s[i])){
-            //case 1 : we first check if it is the beginning of a function
-            string s1 = s.substr(i, i+5);
-            string potential_function = find_function(s1);
-            //if it is the beginning of a function we add the corresponding token function to the new_vector
-            if (potential_function != ""){
-                new_vector.push_back(Function(potential_function));
-                i += int(potential_function.size())-1;
-            }
-            //case 2 : variable
-            if (s[i] == variable){
-                string c(1, s[i]);
-                new_vector.push_back(Variable(c));
-            }
-            //otherwise : any constant
-            else {
-                string c(1, s[i]);
-                new_vector.push_back(Num(c));
-            }
-        }
-        //then we consider operators
-        if (is_in_vector(str_operators, string(1,s[i]))){
-                string c(1, s[i]);
-                new_vector.push_back(Operator(c));
-            }
-        //then digits
-        if (isdigit(s[i])){
-                string c(1, s[i]);
-                new_vector.push_back(Num(c));
-            }
-        i++;
-}
+        if ((s[i] != ' ') && (s[i] != '\t') && (s[i] != '\n')){
+            //first we consider the case of a letter
+
+            if (isalpha(s[i])){
+                //case 1 : we first check if it is the beginning of a function
+                string s1 = s.substr(i, i+5);
+                string potential_function = find_function(s1);
+                //if it is the beginning of a function we add the corresponding token function to the new_vector
+                if (potential_function != ""){
+                    new_vector.push_back(Function(potential_function));
+                    i += int(potential_function.size());
+                    new_vector.push_back(Operator("~"));
+                    i ++;
+                    string supertoken = "";
+                    while (s[i] != ')'){
+                        supertoken += s[i];
+                        i++;
+                    }
+                    cout << i << " " << supertoken<< '\n';
+                    new_vector.push_back(SuperToken(supertoken));
+                } else
+                //case 2 : variable
+                if (s[i] == variable){
+                    string c(1, s[i]);
+                    new_vector.push_back(Variable(c));
+                }
+                //otherwise : any constant
+                else {
+                    string c(1, s[i]);
+                    new_vector.push_back(Num(c));
+                }
+            }else
+            //then we consider operators
+            if (is_in_vector(str_operators, string(1,s[i]))){
+                    string c(1, s[i]);
+                    new_vector.push_back(Operator(c));
+                } else
+            //then digits
+            if (isdigit(s[i])){
+                    string c(1, s[i]);
+                    new_vector.push_back(Num(c));
+                }
+    }i++;
+    }
     return new_vector;
 };
 
