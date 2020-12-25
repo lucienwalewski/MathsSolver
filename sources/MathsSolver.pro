@@ -15,7 +15,7 @@ SOURCES += \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
      Derivatives/Tokenizer.cpp \
-#     Derivatives/derivatives.cpp \
+     Derivatives/derivatives.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
@@ -27,21 +27,21 @@ SOURCES += \
      NumericalSolver/num_roots.cpp \
      functionPreprocessing.cpp \
      main.cpp \
-     MainWindow/mainwindow.cpp
+#     MainWindow/mainwindow.cpp
 
 HEADERS += \
-     ImageRecognition/imagePreprocessing.hpp \
+#     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
-#     Derivatives/derivatives.hpp \
+     Derivatives/derivatives.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
    #  Equations/numbers.hpp \
   #   Equations/polynomial.hpp \
      Equations/step.hpp \
-     MainWindow/mainwindow.h \
+#     MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \
