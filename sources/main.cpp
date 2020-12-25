@@ -58,5 +58,29 @@ int main(int argc, char *argv[])
 
     gaussian(A, Y);
 
+    Matrix B(4, 4), X(4, 1);
+    B.set_element(0, 0, -1);
+    B.set_element(0, 1, 1);
+    B.set_element(0, 2, -1);
+    B.set_element(0, 3, 1);
+    B.set_element(1, 0, -2);
+    B.set_element(1, 1, 1);
+    B.set_element(1, 2, 1);
+    B.set_element(1, 3, -3);
+    B.set_element(2, 0, 1);
+    B.set_element(2, 1, 2);
+    B.set_element(2, 2, -3);
+    B.set_element(2, 3, 1);
+    B.set_element(3, 0, 2);
+    B.set_element(3, 1, 3);
+    B.set_element(3, 2, 4);
+    B.set_element(3, 3, -1);
+    X.set_element(0, 0, 0);
+    X.set_element(1, 0, 0);
+    X.set_element(2, 0, 0);
+    X.set_element(3, 0, 0);
+
+    gaussian(B, X);
+
     return 0;
 }

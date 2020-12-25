@@ -40,7 +40,17 @@ void gaussian(Matrix A, Matrix Y) {
     }
     cout << "Solutions:" << endl;
     for (int i = 0; i < n; i++) {
-        cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+        if (Y.get_element(i, 0) == 0) {
+            cout << "x" << i << " = " << 0 << endl;
+        } else {
+            cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+        }
+    }
+    if (is_not_round(Y)) {
+        cout << "It is likely that there were a mistake of computations, these are the correct solutions:" << endl;
+        for (int i = 0; i < n; i++) {
+            cout << "x" << i << " = " << round(Y.get_element(i, 0)) << endl;
+        }
     }
 }
 
@@ -77,4 +87,14 @@ void display_system(Matrix A, Matrix Y) {
         cout << "= " << Y.get_element(i, 0) << endl;
     }
     cout << endl;
+}
+
+bool is_not_round(Matrix Y) {
+    for (int i = 0; i < Y.height(); i++) {
+        double diff = abs(round(Y.get_element(i, 0)) - Y.get_element(i, 0));
+        if (diff < pow(10, -7) && Y.get_element(i, 0) != Y.get_element(i, 0)) {
+            return true;
+        }
+    }
+    return false;
 }
