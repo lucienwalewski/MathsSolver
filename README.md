@@ -70,9 +70,10 @@ This file will not compile on Mac. The fix for this is as follows:
 4. Open the file in Xcode by entering `open stdc++.h`
 5. Copy and paste into the file the following lines of code. Save and close the file. 
 
+Copy this:
+
 
     // C++ includes used for precompiling -*- C++ -*-
-
     // Copyright (C) 2003-2013 Free Software Foundation, Inc.
     //
     // This file is part of the GNU ISO C++ Library.  This library is free
