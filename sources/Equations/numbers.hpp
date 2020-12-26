@@ -29,6 +29,9 @@ public:
             this->a = abs(this->a);
             this->b = abs(this->b);
         }
+
+        if (this->a == 0)
+            this->b = 1;
     }
     Rational(const Rational& c)
     {
@@ -62,6 +65,31 @@ public:
         else
             return Rational(- a * c.b / gcd(abs(a * c.b), abs(b * c.a)), abs(b * c.a) / gcd(abs(a * c.b), abs(b * c.a)));
     }
+    double operator * (const double c){
+        return c*get_value();
+    }
+    bool operator == (Rational &c){
+        return  this->get_value() == c.get_value() ;
+    }
+    bool operator != (Rational &c){
+        return this->get_value() != c.get_value() ;
+    }
+    bool operator > (Rational &c){
+        return get_value() > c.get_value();
+    }
+    bool operator >= (Rational &c){
+        return get_value() >= c.get_value();
+    }
+    bool operator < (Rational &c){
+        return get_value() < c.get_value();
+    }
+    bool operator <= (Rational &c){
+        return get_value() <= c.get_value();
+    }
+    operator double () {
+        return (double)a/(double)b;
+    }
+
     double get_value();
     void operator = (const Rational &c)
     {
