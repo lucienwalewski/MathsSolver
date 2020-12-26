@@ -46,6 +46,8 @@ public:
 
     Matrix operator * (const Matrix& a);
 
+    Matrix power(int k);
+
     bool operator == (const Matrix& a);
 
     Matrix crop(int r);

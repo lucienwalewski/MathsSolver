@@ -17,8 +17,9 @@ void gaussian(Matrix A, Matrix Y) {
                 Y.mult_row(j, k);
                 A.sub_row(i, j);
                 Y.sub_row(i, j);
+                cout << "We have multiplied equation " << j+1 << " by " << k << ", and have substracted equation " << j+1 << " to equation " << i+1 << ", we obtain this ";
+                display_system(A, Y);
             }
-            display_system(A, Y);
         }
     }
     for (int j = m-1; j > 0; j--) {
@@ -29,8 +30,9 @@ void gaussian(Matrix A, Matrix Y) {
                 Y.mult_row(j, k);
                 A.sub_row(i, j);
                 Y.sub_row(i, j);
+                cout << "We have multiplied equation " << j+1 << " by " << k << ", and have substracted equation " << j+1 << " to equation " << i+1 << ", we obtain this ";
+                display_system(A, Y);
             }
-            display_system(A, Y);
         }
     }
     for (int i = 0; i < n; i++) {
@@ -38,7 +40,17 @@ void gaussian(Matrix A, Matrix Y) {
     }
     cout << "Solutions:" << endl;
     for (int i = 0; i < n; i++) {
-        cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+        if (Y.get_element(i, 0) == 0) {
+            cout << "x" << i << " = " << 0 << endl;
+        } else {
+            cout << "x" << i << " = " << Y.get_element(i, 0) << endl;
+        }
+    }
+    if (is_not_round(Y)) {
+        cout << "It is likely that there were a mistake of computations, these are the correct solutions:" << endl;
+        for (int i = 0; i < n; i++) {
+            cout << "x" << i << " = " << round(Y.get_element(i, 0)) << endl;
+        }
     }
 }
 
@@ -50,16 +62,39 @@ void display_system(Matrix A, Matrix Y) {
         int cache = 0;
         for (int j = 0; j < n; j++) {
             if (A.get_element(i, j) != 0) {
-                if (A.get_element(i, j) < 0 || (A.get_element(i, j) > 0 && cache ==  0)) {
-                    cout << A.get_element(i, j) << "x" << j << " ";
-                    cache = 1;
+                if (A.get_element(i, j) == 1 || A.get_element(i, j) == -1) {
+                    if (A.get_element(i, j) == -1) {
+                        cout << "-" << "x" << j << " ";
+                        cache = 1;
+                    } else if (cache ==  0) {
+                        cout << "x" << j << " ";
+                        cache = 1;
+                    } else {
+                        cout << "+" << "x" << j << " ";
+                        cache = 1;
+                    }
                 } else {
-                    cout << " + " << A.get_element(i, j) << "x" << j << " ";
-                    cache = 1;
+                    if (A.get_element(i, j) < 0 || (A.get_element(i, j) > 0 && cache ==  0)) {
+                        cout << A.get_element(i, j) << "x" << j << " ";
+                        cache = 1;
+                    } else {
+                        cout << "+" << A.get_element(i, j) << "x" << j << " ";
+                        cache = 1;
+                    }
                 }
             }
         }
-        cout << " = " << Y.get_element(i, 0) << endl;
+        cout << "= " << Y.get_element(i, 0) << endl;
     }
     cout << endl;
+}
+
+bool is_not_round(Matrix Y) {
+    for (int i = 0; i < Y.height(); i++) {
+        double diff = abs(round(Y.get_element(i, 0)) - Y.get_element(i, 0));
+        if (diff < pow(10, -7) && Y.get_element(i, 0) != Y.get_element(i, 0)) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -5,6 +5,8 @@
 
 #include <QApplication>
 #include <QtTest>
+#include <sstream>
+#include <iostream>
 
 
 
@@ -12,17 +14,31 @@
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 AF::AF(vector<Token> fun){
+    end = false;
+    type = 1;
     vect_label = fun;
     in_str_label = vect_to_str(fun);
     cout << in_str_label << '\n';
     // parentheses(&fun);
+
+    if (int(fun.size()) == 1 && (fun[0].is_super_token() == false)){
+        end = true;
+        assign(fun[0],leaf);
+        left = nullptr;right = nullptr;
+
+
+
+    }else{
+     if (int(fun.size()) == 1 && fun[0].is_super_token()){
+                fun = simplify(fun[0].get_value(),'x');
+     }
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
     for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
-            cout << val<< "  " << i-> get_value()<<'\n';
+            //cout << val<< "  " << i-> get_value()<<'\n';
             if ( val == 7){counter += 1;}
             else if (val == 8){counter -= 1;}
             else if (val > type_m[operation.get_value()] and counter == 0){
@@ -34,10 +50,10 @@ AF::AF(vector<Token> fun){
 
 
     }
-    cout << "string is " << in_str_label<<'\n';
-    cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
+    //cout << "string is " << in_str_label<<'\n';
+    //cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
     if (type_m[operation.get_value()] > 0){
-        cout << "Im here" << in_str_label<<'\n';
+        //cout << "Im here" << in_str_label<<'\n';
         vector<Token> l, r;
         for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
             if (i<j){
@@ -48,33 +64,61 @@ AF::AF(vector<Token> fun){
 
             }
         }
-        cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
+        //cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
 
-        if (int(l.size())>0){
 
-            *left = AF(l);
-            cout << "whyyyyy";
+        if (fun[0].is_super_token()){
+            l = simplify(fun[0].get_value(),'x');
         }
-        if (int(r.size())>0){
-
-            *right = AF(r);
+        if (fun[2].is_super_token()){
+            r = simplify(fun[2].get_value(),'x');
         }
+        left = new AF(l);
+        right = new AF(r);
 
         str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
 
 
     } else {
-        cout << "still here"<<'\n';
-        *this-> left = AF();
-        cout << "am I?";
-        *this-> right = AF();
+        //cout << "not a success" << in_str_label <<'\n';
     }
-    cout << "success!" << in_str_label <<'\n';
+    //cout << "success!" << in_str_label <<'\n';
+    }}
+
+void assign(Token fun,SF &leaf){
+    int val = fun.get_type();
+    if (val == -1){
+        leaf = Fnum(fun);
+    } else if (val == -2){
+        string function = fun.get_value();
+        if (function == "exp"){
+            leaf = Fexp(fun);
+        }
+        if (function == "ln"){
+            leaf = Fln(fun);
+        }
+        if (function == "log"){
+            leaf = Flog(fun);
+        }
+        if (function == "cos"){
+            leaf = Fcos(fun);
+        }
+        if (function == "sin"){
+            leaf = Fsin(fun);
+        }
+        if (function == "tan"){
+            leaf = Ftan(fun);
+        }
+        if (function == "sqrt"){
+            leaf = Fsqrt(fun);
+        }
+    }else if (val == -3){
+        leaf = Fvar(fun);
+    }else if (val == -4){
+        leaf = Fcomp(fun);
+    }
+
 }
-
-
-
-
 
 
 AF::AF(AF left, AF right, Operator operation){
@@ -124,6 +168,9 @@ string vect_to_str(vector<Token> fun){
     string sfun = "";
     for (int i = 0; i< int(fun.size());i++){
         sfun += fun[i].get_value();
+        if (i != int(fun.size())-1){
+            sfun += " ";
+        }
     }
     return sfun;
 }
@@ -147,10 +194,9 @@ string AF::get_in_str_label(){
 
 string AF::display(){
     if (this->left == nullptr and this->right == nullptr){
-        cout << get_in_str_label() << '\n';
         return get_in_str_label();
     }else{
-        return get_left().display() + operation.get_value() + get_right().display();
+        return "(" +get_left().display() + " " + operation.get_value() + " " + get_right().display() + ")";
     }
 }
 
@@ -181,7 +227,18 @@ void AF::set_type(int type){
 }
 
 
-
+AF sf_derivatives(SF &leaf){
+    if (leaf.get_type() == 1){
+        return AF({Num("1")});
+    }else if (leaf.get_type() == 2 || leaf.get_type() == 3){
+        return AF({Num("0")});
+    }else{
+        cout <<leaf.get_type()<< "wtf"<<'\n';return AF();/*else if (leaf.get_type() == 4){
+        return AF({Function("exp")});
+    }else if (leaf.get_type() == 5){
+        return AF({Function("")});
+    }*/}
+}
 
 
 
@@ -372,54 +429,69 @@ AF Poly::solve(){
 
 
 AF solve(AF Func){
+    cout << "Current depth is: " <<Func.get_in_str_label() << '\n';
+    if (Func.get_end() == false){
 
-    if(Func.get_type() == 1){
-        CosF c = CosF();
-        return c.solve();
-    }
-    if(Func.get_type() == 2){
-        SinF s = SinF();
-        return s.solve();
-    }
-    if(Func.get_type() == 3){
-        return AF();
-    }
-    if(Func.get_type() == 4){
-        return AF();
-    }
-    if(Func.get_type() == 5){
-        return AF();
-    }
-    if(Func.get_type() == 6){
-        return AF();
-    }
-
-    if(Func.get_operation().get_type() == 5){
+    int val = type_m[Func.get_operation().get_value()];
+    if(val == 6){
         return AF(solve(Func.get_left()), solve(Func.get_right()), Operator("+"));
 
     }
-    if(Func.get_operation().get_type() == 4){
+    if(val == 5){
         return AF(solve(Func.get_left()), solve(Func.get_right()), Operator("-"));
     }
-    if(Func.get_operation().get_type() == 3){
+    if(val == 4){
         AF l= AF(solve(Func.get_left()), Func.get_right(), Operator("*"));
         AF r = AF(solve(Func.get_right()), Func.get_left(), Operator("*"));
         return AF(l, r, Operator("+"));
 
     }
-    if(Func.get_operation().get_type() == 2){
+    if(val == 3){
         AF l1= AF(solve(Func.get_left()), Func.get_right(), Operator("*"));
         AF r2 = AF(Func.get_left(), solve(Func.get_right()), Operator("*"));
         AF l2 = Poly(Token("x"), Token("2")).to_AF();
         return AF(AF(l1, r2, Operator("-")), AF(l2, Func.get_right(), Operator("~")), Operator("/"));
     }
-    if(Func.get_operation().get_type() == 1){
-        AF l = AF(solve(Func.get_left()), solve(Func.get_right()), Operator("~"));
-        return AF(l ,solve(Func.get_right()), Operator("*"));
+    if(val == 2){
+        // assuming no x in exponent
+        AF left = AF(solve(Func.get_left()),Func.get_right(),Operator("*"));
+        AF exponent = AF(Func.get_right(),AF({Num("1")}),Operator("-"));
+        AF right = AF(Func.get_left(),exponent,Operator("^"));
+        return  AF(left,right,Operator("*"));
+
     }
-    return AF();
+    if(val == 1){
+        AF l = AF(solve(Func.get_left()), Func.get_right(), Operator("~"));
+        return AF(l ,solve(Func.get_right()), Operator("*"));
+    }else {cout << "couldn't find the right path"<<'\n';return AF();}
+    } else {
+        cout << "currently at the leaf: "<<Func.get_in_str_label()<<'\n';
+        SF leaf = Func.get_leaf();
+        return sf_derivatives(leaf);
+        if(Func.get_type() == 1){
+            CosF c = CosF();
+            return c.solve();
+        }
+        if(Func.get_type() == 2){
+            SinF s = SinF();
+            return s.solve();
+        }
+        if(Func.get_type() == 3){
+            return AF();
+        }
+        if(Func.get_type() == 4){
+            return AF();
+        }
+        if(Func.get_type() == 5){
+            return AF();
+        }
+        if(Func.get_type() == 6){
+            return AF();
+        }else return AF();
 
+}
 
+//map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 }
 
 
