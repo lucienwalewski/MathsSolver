@@ -11,11 +11,11 @@ CONFIG += c++11
 
 
 SOURCES += \
-     ImageRecognition/imagePreprocessing.cpp \
+#     ImageRecognition/imagePreprocessing.cpp \
 #     ImageRecognition/cnn.cpp \
 #     ImageRecognition/util.cpp \
      Derivatives/Tokenizer.cpp \
-#     Derivatives/derivatives.cpp \
+     Derivatives/derivatives.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
@@ -27,21 +27,21 @@ SOURCES += \
      NumericalSolver/num_roots.cpp \
      functionPreprocessing.cpp \
      main.cpp \
-     MainWindow/mainwindow.cpp
+#     MainWindow/mainwindow.cpp
 
 HEADERS += \
-     ImageRecognition/imagePreprocessing.hpp \
+#     ImageRecognition/imagePreprocessing.hpp \
 #     ImageRecognition/cnn.hpp \
 #     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
-#     Derivatives/derivatives.hpp \
+     Derivatives/derivatives.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
      Equations/numbers.hpp \
      Equations/polynomial.hpp \
      Equations/step.hpp \
-     MainWindow/mainwindow.h \
+#     MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \
@@ -54,13 +54,13 @@ FORMS += \
 
 # Eigen path
 
-INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH

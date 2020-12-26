@@ -21,11 +21,10 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-
-  QApplication  a(argc, argv);
+     QApplication  a(argc, argv);
 
      string f;
-     cout<<"Hello MathSolver!"<<" Enter the function we are solving: ";
+     cout<<"Hello MathSolver!"<<" Enter the problem we are solving: ";
      f = upload_function();
      cout<< f;
 
