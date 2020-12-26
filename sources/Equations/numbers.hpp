@@ -6,6 +6,8 @@ using namespace std;
 
 int gcd(int a, int b);
 
+//double to rational don't forget to implement
+
 class Rational
 {
 public:
