@@ -27,7 +27,7 @@ SOURCES += \
      NumericalSolver/num_roots.cpp \
      functionPreprocessing.cpp \
      main.cpp \
-#     MainWindow/mainwindow.cpp
+     MainWindow/mainwindow.cpp
 
 HEADERS += \
 #     ImageRecognition/imagePreprocessing.hpp \
@@ -41,7 +41,7 @@ HEADERS += \
      Equations/numbers.hpp \
      Equations/polynomial.hpp \
      Equations/step.hpp \
-#     MainWindow/mainwindow.h \
+     MainWindow/mainwindow.h \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \

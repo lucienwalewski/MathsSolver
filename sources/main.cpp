@@ -2,7 +2,10 @@
 #include <QtTest>
 //#include "mainwindow.h"
 
-//#include "MainWindow/mainwindow.h"
+
+#include <QApplication>
+#include <QPushButton>
+#include "MainWindow/mainwindow.h"
 //#include "ImageRecognition/imagePreprocessing.hpp"
 #include "Derivatives/Tokenizer.hpp"
 #include "Derivatives/derivatives.hpp"
@@ -23,10 +26,16 @@ using namespace std;
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
 
-     string f;
+     MainWindow w;
+     w.setWindowState(Qt::WindowMaximized);
+     w.setWindowTitle("Math Solver");
+     w.show();
+
+
+    /* string f;
      cout<<"Hello MathSolver!"<<" Enter the problem we are solving: ";
      f = upload_function();
-     cout<< f;
+     cout<< f<< "\n"; */
 
      //w.show();
      return a.exec();
