@@ -5,10 +5,6 @@ int gcd(int a, int b)
     return b > 0 ? gcd(b, a % b) : a;
 }
 
-double Rational::get_value(){
-    return (double)a/(double)b;
-}
-
 long long mul_with_mod(long long x, long long y, long long p)
 {
     x %= p,y %= p;
@@ -78,24 +74,47 @@ std::vector<int> factorization(int n)
     return ans;
 }
 
-vector<int> divisors(int n){
-    vector<int> ans;
-
-    for (int i = 1; i <= sqrt(n); i++){
-        if (n % i == 0){
-            ans.push_back(i);
-            ans.push_back(-i);
+ContinuedFraction::ContinuedFraction(double a)
+{
+    if (a < 1e-12)
+    {
+        nums.push_back(0);
+        return;
+    }
+    double esp = 1e-12;
+    for (int i = 0; m == -1 || i <= 2 * (m + 5); i++)
+    {
+        unsigned tr = (unsigned)a;
+        nums.push_back(tr);
+        a -= tr;
+        if (a < 1e-12)
+        {
+            if (m == -1)
+            {
+                m = i;
+            }
+            return;
         }
+        while (tr > 0)
+        {
+            tr /= 10;
+            esp *= 10;
+        }
+        if (m == -1 && a < esp)
+        {
+            m = i;
+        }
+        a = 1 / a;
     }
-
-    for (int i = (int)ans.size() - 1; i >= 0; i-=2){
-        ans.push_back(n/ans[i-1]);
-        ans.push_back(n/ans[i]);
-    }
-
-    return ans;
 }
 
-
-
-
+double ContinuedFraction::toDouble()
+{
+    double a = nums.back();
+    for (auto it = nums.rbegin() + 1; it != nums.rend(); it++)
+    {
+        a = 1 / a;
+        a += *it;
+    }
+    return a;
+}
