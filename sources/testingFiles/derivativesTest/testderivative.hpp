@@ -15,8 +15,11 @@ public:
 private slots:
     void initTestCase();
     void cleanupTestCase();
-    void test_tokenizer();
-    void test_case2();
+    void test_find_function();
+    void test_simplify();
+    void test_corresponding_pare();
+    void test_del_useless_parentheses();
+    void test_add_multiplication();
 
 };
 

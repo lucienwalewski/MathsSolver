@@ -11,7 +11,7 @@ TEMPLATE = app
 
 SOURCES += \
      testingFiles/derivativesTest/testSolve.cpp \
-    testingFiles/derivativesTest/testStr.cpp \
+     testingFiles/derivativesTest/testStr.cpp \
      testingFiles/sampleTestClass/sampleTestClass.cpp \
      testingFiles/derivativesTest/testderivative.cpp \
      testSuite.cpp \
