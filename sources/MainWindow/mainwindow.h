@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include "inputbox.h"
 #include <QFileDialog>
 #include <QGroupBox>
 #include <QLabel>
@@ -36,7 +35,6 @@ private:
     QPushButton* enter;
 //InputBox input_box;
     QLabel * question;
-    QLineEdit * equation_input;
     QFileDialog * input_file;
 };
 #endif // MAINWINDOW_H
