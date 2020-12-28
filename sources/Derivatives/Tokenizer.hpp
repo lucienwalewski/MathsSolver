@@ -8,19 +8,6 @@
 
 using namespace std;
 
-//enum operator_type {
-//    other = 0,
-//    none,
-//    comp,
-//    divi,
-//    power,
-//    mul,
-//    sub,
-//    addition,
-//    pare,
-//    base,};
-
-
 bool is_in_vector(vector< string > v, string elem);
 
 bool is_function_(string s, string f);
@@ -65,12 +52,14 @@ public :
 private:
 };
 
+
 class Function: public Token{
 public :
     Function(string t): Token(t){
         type = -2;
     };
 };
+
 
 class Variable: public Token{
 public:
@@ -80,6 +69,8 @@ public:
     };
 private:
 };
+
+
 class SuperToken : public Token {
 public:
     SuperToken(string t):Token(t){
@@ -89,7 +80,8 @@ public:
 };
 
 
-
+string find_function(string s);
+bool is_function_(string s, string f);
 
 vector<Token> simplify(string s, char variable);
 
