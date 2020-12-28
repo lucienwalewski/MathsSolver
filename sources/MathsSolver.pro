@@ -12,10 +12,9 @@ CONFIG += c++11
 
 SOURCES += \
      ImageRecognition/imagePreprocessing.cpp \
-#     ImageRecognition/cnn.cpp \
-#     ImageRecognition/util.cpp \
      Derivatives/Tokenizer.cpp \
      Derivatives/derivatives.cpp \
+     Derivatives/Operators.cpp \
      Equations/fft.cpp \
      Equations/gaussin.cpp \
      Equations/matrix.cpp \
@@ -31,10 +30,9 @@ SOURCES += \
 
 HEADERS += \
      ImageRecognition/imagePreprocessing.hpp \
-#     ImageRecognition/cnn.hpp \
-#     ImageRecognition/util.hpp \
      Derivatives/Tokenizer.hpp \
      Derivatives/derivatives.hpp \
+     Derivatives/Operators.hpp \
      Equations/fft.hpp \
      Equations/gaussin.hpp \
      Equations/matrix.hpp \
@@ -46,8 +44,6 @@ HEADERS += \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \
      functionPreprocessing.hpp
-
-
 FORMS += \
     MainWindow/mainwindow.ui
 

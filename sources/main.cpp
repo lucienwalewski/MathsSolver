@@ -14,7 +14,6 @@
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"
 #include "Equations/gaussin.hpp"
-#include "Equations/step.hpp"
 #include "functionPreprocessing.hpp"
 
 #include<iostream>
@@ -23,16 +22,17 @@ using namespace std;
 
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
-     /*string f;
-     cout<<"Hello MathSolver!"<<" Enter the problem we are solving: ";
-     f = upload_function();
-     cout<< f;*/
 
-     MainWindow w;
-     w.setWindowState(Qt::WindowMaximized);
-     w.setWindowTitle("Math Solver");
-     w.show();
+//     MainWindow w;
+//     w.setWindowState(Qt::WindowMaximized);
+//     w.setWindowTitle("Maths Solver");
+//     w.show();
 
-     //w.show();
+     cout<<"x^2 +5/2x - 5 -9/4 \n";
+     vector<Token> v = simplify("x^2 +5/2x - 5 -9/4 ", 'x');
+     for (auto i : v){
+         cout<<i.get_value() << ' '<< i.get_type() << "\n";
+     }
+
      return a.exec();
 }

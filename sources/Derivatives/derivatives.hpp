@@ -2,11 +2,14 @@
 #define DERIVATIVES_HPP
 #include "Tokenizer.hpp"
 
+#include <QApplication>
+#include <QtTest>
+#include <sstream>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <sstream>
-using namespace std;
 
+using namespace std;
 
 class SF{
 public:

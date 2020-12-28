@@ -20,7 +20,6 @@ class Token {
 protected:
     int type;
     string value;
-
 public :
     Token(string s);
     Token();
@@ -32,9 +31,6 @@ public :
 
 
 class Operator: public Token{
-private :
-    int type;
-
 public :
     Operator();
     Operator(string t);
@@ -44,8 +40,7 @@ public :
 
 
 class Num: public Token {
-public :
-
+public:
     Num(string t):Token(t){
         type = -1;
     };

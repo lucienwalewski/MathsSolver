@@ -6,14 +6,31 @@ using namespace std;
 
 int gcd(int a, int b);
 
-//double to rational don't forget to implement
+class ContinuedFraction
+{
+private:
+    std::vector<unsigned> nums;
+    int m = -1;
+    const double eps = 1e-12;
+public:
+    ContinuedFraction(double a);
+    double toDouble();
+    friend class Rational;
+};
 
 class Rational
 {
+private:
+    bool sign = true;
+    unsigned z = 0, m = 1;
+    const double eps = 1e-12;
+
 public:
     int a, b;
     Rational()
     {
+        z = 0;
+        m = 1;
         a = 0;
         b = 1;
     }
@@ -37,6 +54,67 @@ public:
     {
         a = c.a;
         b = c.b;
+    }
+    Rational(ContinuedFraction frac) : m(1), sign(false)
+    {
+        z = frac.nums.back();
+        for (auto it = frac.nums.rbegin() + 1; it != frac.nums.rend(); it++)
+        {
+            Invert();
+            z += m * *it;
+        }
+        a = sign ? -z : z;
+        b = m;
+    }
+    void Invert()
+    {
+        std::swap(m,z);
+        std::swap(a,b);
+    }
+    Rational(double c)
+    {
+        sign = c < 0;
+        if (sign)
+            c = -c;
+        if (c < eps)
+        {
+            a = 0;
+            b = 1;
+            z = 0;
+            m = 1;
+            sign = 0;
+            return ;
+        }
+        ContinuedFraction frac(c);
+        std::vector<unsigned> nums = frac.nums;
+        int m_now = frac.m - 4 >= 0 ? frac.m - 4 : 0;
+        frac.nums.resize(m_now);
+
+        std::vector<Rational> vfr;
+        std::vector<double> vesp;
+        for (size_t i = m_now; i < nums.size(); i++)
+        {
+            frac.nums.push_back(nums[i]);
+            Rational fr(frac);
+            double d = fr.get_value();
+            vfr.push_back(fr);
+            vesp.push_back(abs(d - c));
+        }
+        int min_pos = 0;
+        double min_eps = 1e100;
+        for (size_t i = 0; i < vesp.size(); i++)
+        {
+            if (vesp[i] < min_eps)
+            {
+                min_pos = i;
+                min_eps = vesp[i];
+            }
+        }
+        this -> z = vfr[min_pos].a;
+        this -> m = vfr[min_pos].b;
+        this -> a = sign ? -z : z;
+        this -> b = this -> m;
+        return;
     }
     double get_a()
     {
@@ -171,6 +249,6 @@ long long power(long long x, long long y, long long p);
 long long mul_with_mod(long long x, long long y, long long p);
 long long min_with_mod(long long x, long long y, long long p);
 long long add_with_mod(long long x, long long y, long long p);
-std::vector<int> factorization(int n);
+vector<int> factorization(int n);
 vector<int> divisors(int n);
 #endif

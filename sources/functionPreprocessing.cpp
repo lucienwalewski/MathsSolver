@@ -3,10 +3,9 @@
 // matrix, inversion, multiplication, power, transponse and determinantes
 // check for multiplications of the polynomials
 
-string upload_function(){
+string upload_function(string f){
     /*uploading of the given function*/
-    string f, s="";
-    getline(cin, f);
+    string s="";
 
     for(int i=0; i<(int)f.size(); i++){
         if(f[i]==' ' || f[i]=='\t' || f[i]=='\n')
@@ -27,10 +26,9 @@ bool check_equation(string f){
     bool find=false;
 
     for(int i=0; i<(int)f.size(); i++){
-        if(!find && f[i]=='=')
+        if(!find && f[i]=='=' && (i+1)<(int)f.size())
             find = true;
         else if(find && f[i]=='='){
-            cout<<"Error\n";
             find=false;
             break;
         }
@@ -86,26 +84,78 @@ bool check_integral(string f){
         return false;
 }
 
-string start_process(string f){
-    //string f= upload_function();
-    vector<bool (*)()> v;
-    int cnt=0;
+vector<string> derivative(string f){
+    return vector<string>();
+}
 
-    if(check_derivative(f))
-        cnt++;
-    if(check_equation(f))
-        cnt++;
-    if(check_system(f))
-        cnt++;
-    if (check_divisonPolynomials(f))
-        cnt++;
-    if(check_integral(f))
-        cnt++;
+vector<string> equation(string f){
+    bool find = false;
+    string solve = "";
+    for (int i = 0; i< (int)f.size(); i++){
+        if (f[i] == '='){
+            find = true;
+            if (f[i+1] == '0')
+                break;
+            else if (f[i+1] != '-')
+                solve += '-';
+        }
+        else if (find && (f[i] == '+'))
+            solve += '-';
+        else if (find && (f[i] == '-'))
+            solve += '+';
+        else
+            solve += f[i];
+    }
+
+    solve += "=0";
+    cout<< solve;
+
+    return vector<string>();
+}
+vector<string> inetgral(string f){
+    return vector<string>();
+}
+vector<string> system(string f){
+    return vector<string>();
+}
+vector<string> division(string f){
+    return vector<string>();
+}
+
+bool (*checkProcess[])(string) = {
+        check_derivative,
+        check_equation,
+        check_integral,
+        check_system,
+        check_divisonPolynomials
+};
+
+vector<string> (*solve_problem[])(string){
+    derivative,
+    equation,
+    inetgral,
+    system,
+    division,
+};
+
+vector<string> start_process(string f){
+    f = upload_function(f);
+    int cnt=0;
+    for (int i = 0; i < 5; i++)
+        if (checkProcess[i](f))
+            cnt++;
 
     if(cnt>1 || cnt == 0){
         cout<<"Invalid input.\n";
-        return "";
+        return vector<string>();
     }
+
+    vector<string> res;
+    for (int i = 0; i < 5; i++)
+        if (checkProcess[i](f))
+            res = solve_problem[i](f);
+
+    return res;
 }
 
 
