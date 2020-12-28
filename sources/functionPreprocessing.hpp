@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 //class could be implemented
 
 string upload_function();
@@ -18,6 +19,13 @@ bool check_integral(string f);
 bool check_system(string f);
 bool check_divisonPolynomials(string f);
 
-string start_process(string f);
+vector<string> derivative(string f);
+vector<string> equation(string f);
+vector<string> inetgral(string f);
+vector<string> system(string f);
+vector<string> division(string f);
+
+
+vector<string> start_process(string f);
 
 #endif // FUNCTIONPREPROCESSING_HPP

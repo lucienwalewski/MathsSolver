@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "functionPreprocessing.hpp"
+
 #include <QLabel>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -9,7 +11,6 @@
 #include <QDebug>
 #include <QFont>
 #include <QWidget>
-
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -254,7 +255,9 @@ void MainWindow::enter_equation(){
     QString equation = equation_input->text();
 
     if (!equation.isEmpty()) {
-        std::cout<<equation.toStdString()<<std::endl;
+        //std::cout<<equation.toStdString()<<std::endl;
+        string f = equation.toStdString();
+        start_process(f);
     } else {
         // do nothing
     }

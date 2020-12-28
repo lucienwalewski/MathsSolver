@@ -64,7 +64,7 @@ long long add_with_mod(long long x, long long y, long long p)
     return x + y > p? x + y - p : x + y;
 }
 
-std::vector<int> factorization(int n)
+vector<int> factorization(int n)
 {
     std::vector<int> ans;
     ans.push_back(1);
@@ -94,6 +94,51 @@ vector<int> divisors(int n){
     }
 
     return ans;
+}
+
+ContinuedFraction::ContinuedFraction(double a)
+{
+    if (a < 1e-12)
+    {
+        nums.push_back(0);
+        return;
+    }
+    double esp = 1e-12;
+    for (int i = 0; m == -1 || i <= 2 * (m + 5); i++)
+    {
+        unsigned tr = (unsigned)a;
+        nums.push_back(tr);
+        a -= tr;
+        if (a < 1e-12)
+        {
+            if (m == -1)
+            {
+                m = i;
+            }
+            return;
+        }
+        while (tr > 0)
+        {
+            tr /= 10;
+            esp *= 10;
+        }
+        if (m == -1 && a < esp)
+        {
+            m = i;
+        }
+        a = 1 / a;
+    }
+}
+
+double ContinuedFraction::toDouble()
+{
+    double a = nums.back();
+    for (auto it = nums.rbegin() + 1; it != nums.rend(); it++)
+    {
+        a = 1 / a;
+        a += *it;
+    }
+    return a;
 }
 
 

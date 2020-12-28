@@ -20,11 +20,11 @@ Token::Token(){
 
 Token::Token(string s){
     value = s;
- }
+}
 
 string Token::get_value(){
         return value;
-    }
+}
 
 int Token::get_type(){
     return type;
@@ -93,7 +93,7 @@ vector<Token> simplify(string s, char variable){
                        while (i != closing_pare(s, opening_index)){
                             supertoken += s[i];
                             i++;
-                            }
+                       }
                      //cout << i << " " << supertoken<< '\n';
                      new_vector.push_back(SuperToken(supertoken));
                      }
@@ -115,12 +115,12 @@ vector<Token> simplify(string s, char variable){
               if (is_in_vector(str_operators, string(1,s[i]))){
                      string c(1, s[i]);
                      new_vector.push_back(Operator(c));
-                    }
+               }
            //then digits
               else if (isdigit(s[i])){
                         string c(1, s[i]);
                         new_vector.push_back(Num(c));
-                    }
+              }
         }
     }
         i++;

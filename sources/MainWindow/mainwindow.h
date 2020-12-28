@@ -13,6 +13,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+using namespace std;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -57,8 +59,6 @@ private:
     QGroupBox *group_result();
 //6. Main Layout
     QVBoxLayout* main_layout;
-
-
 };
 #endif // MAINWINDOW_H
 
