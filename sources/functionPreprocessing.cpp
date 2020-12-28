@@ -86,8 +86,8 @@ bool check_integral(string f){
         return false;
 }
 
-void start_process(){
-    string f= upload_function();
+string start_process(string f){
+    //string f= upload_function();
     vector<bool (*)()> v;
     int cnt=0;
 
@@ -104,7 +104,7 @@ void start_process(){
 
     if(cnt>1 || cnt == 0){
         cout<<"Invalid input.\n";
-        return;
+        return "";
     }
 }
 

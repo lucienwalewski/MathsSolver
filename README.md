@@ -63,15 +63,17 @@ Then, scroll down to line 34 in MathsSolver.pro and follow the instructions. Hav
 
 This file will not compile on Mac. The fix for this is as follows:
 
+
 1. Open the terminal and paste the following line: `cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/` to navigate to the directory.
 2. Create a folder named `bits` by entering `mkdir bits` and then enter the directory with `cd bits`.
 3. Create the file `stdc++.h` by entering `touch stdc++.h`. 
 4. Open the file in Xcode by entering `open stdc++.h`
 5. Copy and paste into the file the following lines of code. Save and close the file. 
 
+Copy this:
+
 
     // C++ includes used for precompiling -*- C++ -*-
-
     // Copyright (C) 2003-2013 Free Software Foundation, Inc.
     //
     // This file is part of the GNU ISO C++ Library.  This library is free
@@ -190,6 +192,7 @@ This file will not compile on Mac. The fix for this is as follows:
     #include <unordered_map>
     #include <unordered_set>
     #endif
+
 
 
 ## Current Build Issues
