@@ -21,6 +21,7 @@ private:
     Token fun;
     int type = 0;
 };
+
 class Fvar : public  SF{
 public:
     Fvar(string str);
@@ -39,6 +40,7 @@ private:
     string value;
     int type;
 };
+
 class Fnum : public SF{
 public:
     Fnum(string str){value = str;}
@@ -49,6 +51,7 @@ private:
     int num;
     int type;
 };
+
 class Fexp : public SF {
 public:
     Fexp(string str){value = str;}
@@ -59,6 +62,7 @@ private:
     int type;
     //special exponent stuff.
 };
+
 class Flog : public SF {
 public:
     Flog(string str){value = str;}
@@ -68,6 +72,7 @@ private:
     string value;
     int type;
 };
+
 class Fcos : public SF {
 public:
     Fcos(string str){value = str;}
@@ -77,6 +82,7 @@ private:
     string value;
     int type;
 };
+
 class Fsin : public SF {
 public:
     Fsin(string str){value = str;}
@@ -86,6 +92,7 @@ private:
     string value;
     int type;
 };
+
 class Ftan : public SF {
 public:
     Ftan(string str){value = str;}
@@ -95,6 +102,7 @@ private:
     string value;
     int type;
 };
+
 class Fln : public SF {
 public:
     Fln(string str){value = str;}
@@ -104,6 +112,7 @@ private:
     string value;
     int type;
 };
+
 class Fsqrt : public SF {
 public:
     Fsqrt(string str){value = str;}
@@ -113,6 +122,7 @@ private:
     string value;
     int type;
 };
+
 class Fcomp : public SF {
 public:
     Fcomp(string str){value = str;}
@@ -180,8 +190,6 @@ private:
     bool end;
     SF leaf;
     Token end_token;
-
-
 };
 AF solve(AF func);
 void build_tree(vector<Token>);
@@ -221,11 +229,6 @@ private:
     Token value;
     int type = 2;
 };
-
-
-
-
-
 
 
 class Exp{
