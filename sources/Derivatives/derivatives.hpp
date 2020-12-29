@@ -17,7 +17,7 @@ public:
     ~SF(){}
     SF(){};
     int get_type(){return type;}
-private:
+protected:
     Token fun;
     int type = 0;
 };
@@ -28,7 +28,6 @@ public:
     ~Fvar(){}
 private:
     string value;
-    int type;
 };
 class Fcons : public SF{
 public:
@@ -37,7 +36,6 @@ public:
     ~Fcons(){}
 private:
     string value;
-    int type;
 };
 class Fnum : public SF{
 public:
@@ -47,7 +45,6 @@ public:
 private:
     string value;
     int num;
-    int type;
 };
 class Fexp : public SF {
 public:
@@ -56,7 +53,6 @@ public:
     ~Fexp(){};
 private:
     string value;
-    int type;
     //special exponent stuff.
 };
 class Flog : public SF {
@@ -66,7 +62,6 @@ public:
     ~Flog(){};
 private:
     string value;
-    int type;
 };
 class Fcos : public SF {
 public:
@@ -75,7 +70,6 @@ public:
     ~Fcos(){};
 private:
     string value;
-    int type;
 };
 class Fsin : public SF {
 public:
@@ -84,7 +78,6 @@ public:
     ~Fsin(){};
 private:
     string value;
-    int type;
 };
 class Ftan : public SF {
 public:
@@ -93,7 +86,6 @@ public:
     ~Ftan(){};
 private:
     string value;
-    int type;
 };
 class Fln : public SF {
 public:
@@ -102,7 +94,6 @@ public:
     ~Fln(){};
 private:
     string value;
-    int type;
 };
 class Fsqrt : public SF {
 public:
@@ -111,7 +102,6 @@ public:
     ~Fsqrt(){};
 private:
     string value;
-    int type;
 };
 class Fcomp : public SF {
 public:
@@ -120,7 +110,6 @@ public:
     ~Fcomp(){};
 private:
     string value;
-    int type;
 };
 
 
@@ -134,13 +123,12 @@ public:
         this->operation = Operator();
         end = true;
         this->str_label = "";
-        this->in_str_label = "";
         this->leaf = SF();
-        this->type = 10;
+        this->base_type = 10;
     };
 
     AF(AF left, AF right, Operator operation);
-    AF(int type, Token end_token);
+    AF(int type, string str);
     ~AF(){delete left;delete right;};
 
     void op_to_enum(char op,Operator &operation);
@@ -156,12 +144,11 @@ public:
     string get_string_operation();
 
     string get_str_label();
-    string get_in_str_label();
     string display();
     bool is_none();
 
-    int get_type();
-    void set_type(int type);
+    int get_base_type();
+    void set_base_type(int type);
     SF get_leaf(){return leaf;}
     void set_leaf(SF leaf){this->leaf = leaf;}
     bool get_end(){return end;}
@@ -174,155 +161,137 @@ private:
     class AF *left;
     class AF *right;
     string str_label;
-    string in_str_label;
     vector<Token> vect_label;
-    int type;
+    int base_type;
     bool end;
     SF leaf;
     Token end_token;
 
 
 };
+
+
 AF solve(AF func);
 void build_tree(vector<Token>);
 void assign(Token fun,SF &leaf);
 
-class CosF{
+
+
+
+
+
+
+class LeafFunc{
+public:
+    LeafFunc(string func);
+    LeafFunc(){};
+    ~LeafFunc(){};
+    AF solve();
+    int get_base_type();
+    string get_str_label();
+    AF to_AF();
+protected:
+    string str_label;
+    int base_type = 0;
+};
+
+class VarF : public LeafFunc{
+public:
+    VarF(string var);
+    ~VarF(){};
+    AF solve();
+    AF to_AF();
+};
+
+class ConsF : public LeafFunc{
+public:
+    ConsF(string cons);
+    ~ConsF(){};
+    AF solve();
+    AF to_AF();
+};
+
+
+class NumF : public LeafFunc{
+public:
+    NumF(string c);
+    ~NumF(){};
+    AF solve();
+    AF to_AF();
+};
+
+class ExpF : public LeafFunc{
+public:
+    ExpF();
+    ~ExpF(){};
+    AF solve();
+    AF to_AF();
+};
+
+class LogaF : public LeafFunc{
+public:
+    LogaF();
+    ~LogaF(){};
+    AF solve();
+    AF to_AF();
+};
+
+class CosF : public LeafFunc{
 public:
     CosF();
     ~CosF(){};
-    CosF(Token val);
     AF solve();
-    Token get_value();
-    int get_type();
-    string get_str_label();
     AF to_AF();
-private:
-
-    string str_label;
-    string in_str_label;
-    Token value;
-    int type = 1;
 };
 
-
-class SinF{
+class SinF : public LeafFunc{
 public:
     SinF();
     ~SinF(){};
-    SinF(Token val);
     AF solve();
-    Token get_value();
-    int get_type();
-    string get_str_label();
     AF to_AF();
-private:
-    string str_label;
-    Token value;
-    int type = 2;
 };
 
-
-
-
-
-
-
-class Exp{
+class TanF : public LeafFunc{
 public:
-    Exp(Token base, Token val);
-    Exp();
-    ~Exp(){};
+    TanF();
+    ~TanF(){};
     AF solve();
-
-    Token get_base();
-    Token get_value();
-    int get_type();
-    string get_str_label();
-
     AF to_AF();
-private:
-
-    Token base;
-    Token value;
-
-    string in_str_label;
-    string str_label;
-    int type = 3;
 };
 
-
-
-class Loga {
+class LnF : public LeafFunc{
 public:
-    Loga(Token val, Token base);
-    Loga();
-    ~Loga(){};
+    LnF();
+    ~LnF(){};
     AF solve();
-
-    Token get_base();
-    Token get_value();
-    int get_type();
-    string get_str_label();
-
     AF to_AF();
-private:
-    Token base;
-    Token value;
-
-    string in_str_label;
-    string str_label;
-    int type = 4;
 };
 
-
-
-class Poly{
+class SqrtF : public LeafFunc{
 public:
-    Poly(Token val, Token exponent);
-    Poly();
-    ~Poly(){};
+    SqrtF();
+    ~SqrtF(){};
     AF solve();
-
-    Token get_exponent();
-    Token get_value();
-    int get_type();
-    string get_str_label();
-
     AF to_AF();
-private:
-    Token exponent;
-    Token value;
-
-    string in_str_label;
-    string str_label;
-    int type = 5;
 };
 
-
-
-class Cons{
+class SubF : public LeafFunc{
 public:
-    Cons(Token c);
-    Cons();
-    ~Cons(){};
+    SubF(string func);
+    ~SubF(){};
     AF solve();
-
-    Token get_c();
-    int get_type();
-    string get_str_label();
-
     AF to_AF();
-private:
-    Token c;
-
-    string in_str_label;
-    string str_label;
-    int type = 6;
 };
+
+
+
+
 AF sf_derivatives(SF &leaf);
-AF solve();
+AF derive(AF Func);
 string vect_to_str(vector<Token> fun);
+
+
 
 
 #endif // DERIVATIVES_HPP
