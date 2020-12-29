@@ -1,15 +1,5 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
-//#include "MainWindow/mainwindow.h"
-
-
-#include <QApplication>
-#include <QtTest>
-#include <sstream>
-#include <iostream>
-
-
-
 
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
@@ -25,17 +15,17 @@ AF::AF(vector<Token> fun){
         end = true;
         assign(fun[0],leaf);
         left = nullptr;right = nullptr;
+    }
+    else{
 
-
-
-    }else{
-     if (int(fun.size()) == 1 && fun[0].is_super_token()){
+        if (int(fun.size()) == 1 && fun[0].is_super_token()){
                 fun = simplify(fun[0].get_value(),'x');
-     }
+         }
+
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
-    for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
+    for (vector<Token>::iterator i = fun.begin(); i<fun.end(); i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
             //cout << val<< "  " << i-> get_value()<<'\n';
@@ -84,6 +74,7 @@ AF::AF(vector<Token> fun){
     }
     //cout << "success!" << str_label <<'\n';
     }}
+
 
 void assign(Token fun, SF &leaf){
     int val = fun.get_type();
@@ -310,6 +301,7 @@ AF CosF::solve(){
 
 
 
+
 SinF::SinF():LeafFunc(){
     str_label= "sin";
     base_type = 7;
@@ -342,11 +334,11 @@ AF TanF::solve(){
 LnF::LnF():LeafFunc(){
     str_label= "ln";
     base_type = 9;
+
 }
 AF LnF::to_AF(){
     return AF(9, str_label);
 }
-
 AF LnF::solve(){
     AF l = ConsF("1").to_AF();
     AF r = VarF("x").to_AF();
@@ -391,6 +383,7 @@ AF SubF::to_AF(){
 //     AF r = Loga(Token(base), Token("e")).to_AF();
 //     return AF(to_AF(), r, Operator("*"));
 // }
+
 
 
 

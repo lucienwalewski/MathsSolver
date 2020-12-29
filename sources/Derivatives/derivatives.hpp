@@ -21,6 +21,7 @@ protected:
     Token fun;
     int type = 0;
 };
+
 class Fvar : public  SF{
 public:
     Fvar(string str);
@@ -37,6 +38,7 @@ public:
 private:
     string value;
 };
+
 class Fnum : public SF{
 public:
     Fnum(string str){value = str;}
@@ -46,6 +48,7 @@ private:
     string value;
     int num;
 };
+
 class Fexp : public SF {
 public:
     Fexp(string str){value = str;}
@@ -55,6 +58,7 @@ private:
     string value;
     //special exponent stuff.
 };
+
 class Flog : public SF {
 public:
     Flog(string str){value = str;}
@@ -63,6 +67,7 @@ public:
 private:
     string value;
 };
+
 class Fcos : public SF {
 public:
     Fcos(string str){value = str;}
@@ -71,6 +76,7 @@ public:
 private:
     string value;
 };
+
 class Fsin : public SF {
 public:
     Fsin(string str){value = str;}
@@ -79,6 +85,7 @@ public:
 private:
     string value;
 };
+
 class Ftan : public SF {
 public:
     Ftan(string str){value = str;}
@@ -87,6 +94,7 @@ public:
 private:
     string value;
 };
+
 class Fln : public SF {
 public:
     Fln(string str){value = str;}
@@ -95,6 +103,7 @@ public:
 private:
     string value;
 };
+
 class Fsqrt : public SF {
 public:
     Fsqrt(string str){value = str;}
@@ -103,6 +112,7 @@ public:
 private:
     string value;
 };
+
 class Fcomp : public SF {
 public:
     Fcomp(string str){value = str;}
@@ -166,8 +176,6 @@ private:
     bool end;
     SF leaf;
     Token end_token;
-
-
 };
 
 

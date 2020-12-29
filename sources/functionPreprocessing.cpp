@@ -2,6 +2,8 @@
 
 // matrix, inversion, multiplication, power, transponse and determinantes
 // check for multiplications of the polynomials
+// checking if sign * is missing
+// adding var varibale as mandatory in the code
 
 string upload_function(string f){
     /*uploading of the given function*/
@@ -108,7 +110,40 @@ vector<string> equation(string f){
     }
 
     solve += "=0";
-    cout<< solve;
+    cout<< solve << "\n";
+    vector<Token> tokens = simplify(solve, 'x');
+    //AF function(tokens);
+    Rational c[6] = {Rational(-280, 1), Rational(634, 1), Rational(-357, 1), Rational(46, 1), Rational(14, 1), Rational(-3, 1)};
+    PolynomialRational P(c, 5);
+
+         solutionPolynomial res = solveRational(P);
+         for(auto i : res.step_solution)
+             cout<< i<< "\n";
+         if (res.roots.empty())
+         {
+             std::cout<<"No Solution"<<std::endl;
+         }
+
+         printf("The roots are\n");
+         for (auto i : res.roots)
+         {
+             std::cout<<i<<std::endl;
+         }
+
+         printf("The complex roots are\n");
+         for (auto i : res.complex){
+             cout<<i<<"\n";
+         }
+
+         string s = "";
+         for (auto i : res.factors){
+             s += i.first;
+             if(i.second > 1){
+                 s += "^"+ to_string(i.second);
+             }
+          }
+
+         cout<<s << "\n";
 
     return vector<string>();
 }

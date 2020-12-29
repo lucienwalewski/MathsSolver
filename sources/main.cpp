@@ -15,10 +15,10 @@ using namespace std;
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
 
-//     MainWindow w;
-//     w.setWindowState(Qt::WindowMaximized);
-//     w.setWindowTitle("Maths Solver");
-//     w.show();
+     MainWindow w;
+     w.setWindowState(Qt::WindowMaximized);
+     w.setWindowTitle("MathsSolver");
+     w.show();
 
      cout<<"x^2 \n";
      vector<Token> v = simplify("x^2", 'x');
@@ -28,6 +28,7 @@ int main(int argc, char *argv[]){
      AF derivation = derive(func);
      //cout<<"passed derivation";
      //cout<<derivation.get_str_label();
+
 
 
      return a.exec();
