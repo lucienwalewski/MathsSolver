@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QPushButton>
 #include "MainWindow/mainwindow.h"
-#include "ImageRecognition/imagePreprocessing.hpp"
+//#include "ImageRecognition/imagePreprocessing.hpp"
 #include "Derivatives/Tokenizer.hpp"
 #include "Derivatives/derivatives.hpp"
 #include "NumericalSolver/num_derivation.hpp"
@@ -23,18 +23,21 @@ using namespace std;
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
 
-     MainWindow w;
+     /*MainWindow w;
      w.setWindowState(Qt::WindowMaximized);
      w.setWindowTitle("MathsSolver");
-     w.show();
+     w.show();*/
 
-    /* string s = "x^3 - 2*x^2 + 4*x^2 - 5*x +2";
+     string s = "3*x^5+4*x^4+x^3-7*x^2-4*x-2";
      vector<Token> v = simplify(s, 'x');
-     for (auto i : v)
+     /*for (auto i : v)
          cout<< i.get_value() << " " <<i.get_type() << '\n';
-     cout<< "--------\n";
+     cout<< "--------\n";*/
      AF f(v);
-     cout<< f.display()<< "\n";*/
+     cout<<f.get_str_label()<<"\n";
+     //VarAF e = VarAF(Variable("x"));
+     //cout<< e.get_value(1);
+     cout<<"Value: "<< f.get_value(2)<<"\n";
 
      return a.exec();
 }
