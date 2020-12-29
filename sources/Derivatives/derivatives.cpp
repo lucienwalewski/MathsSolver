@@ -25,7 +25,7 @@ AF::AF(vector<Token> fun){
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
-    for (vector<Token>::iterator i = fun.begin(); i<fun.end(); i++){
+    for (vector<Token>::iterator i = fun.begin(); i < fun.end(); i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
             //cout << val<< "  " << i-> get_value()<<'\n';
@@ -37,7 +37,6 @@ AF::AF(vector<Token> fun){
             }
 
         }
-
 
     }
     //cout << "string is " << in_str_label<<'\n';
