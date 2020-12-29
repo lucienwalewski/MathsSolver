@@ -23,16 +23,18 @@ using namespace std;
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
 
-//     MainWindow w;
-//     w.setWindowState(Qt::WindowMaximized);
-//     w.setWindowTitle("Maths Solver");
-//     w.show();
+     MainWindow w;
+     w.setWindowState(Qt::WindowMaximized);
+     w.setWindowTitle("MathsSolver");
+     w.show();
 
-     cout<<"x^2 +5/2x - 5 -9/4 \n";
-     vector<Token> v = simplify("x^2 +5/2x - 5 -9/4 ", 'x');
-     for (auto i : v){
-         cout<<i.get_value() << ' '<< i.get_type() << "\n";
-     }
+    /* string s = "x^3 - 2*x^2 + 4*x^2 - 5*x +2";
+     vector<Token> v = simplify(s, 'x');
+     for (auto i : v)
+         cout<< i.get_value() << " " <<i.get_type() << '\n';
+     cout<< "--------\n";
+     AF f(v);
+     cout<< f.display()<< "\n";*/
 
      return a.exec();
 }

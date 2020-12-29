@@ -101,6 +101,7 @@ struct solutionPolynomial{
     map<string, int> factors;
     vector<double> roots;
     vector< string > complex;
+    vector< string > step_solution;
 };
 
 struct divPolynomial{

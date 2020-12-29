@@ -1,15 +1,5 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
-//#include "MainWindow/mainwindow.h"
-
-
-#include <QApplication>
-#include <QtTest>
-#include <sstream>
-#include <iostream>
-
-
-
 
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
@@ -25,17 +15,17 @@ AF::AF(vector<Token> fun){
         end = true;
         assign(fun[0],leaf);
         left = nullptr;right = nullptr;
+    }
+    else{
 
-
-
-    }else{
-     if (int(fun.size()) == 1 && fun[0].is_super_token()){
+        if (int(fun.size()) == 1 && fun[0].is_super_token()){
                 fun = simplify(fun[0].get_value(),'x');
-     }
+         }
+
     operation =  Operator();
     int counter = 0;
     vector<Token>::iterator j = fun.begin();
-    for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
+    for (vector<Token>::iterator i = fun.begin(); i<fun.end(); i++){
         if (i->get_type() > 0){
             int val = type_m[i->get_value()];
             //cout << val<< "  " << i-> get_value()<<'\n';
@@ -83,7 +73,8 @@ AF::AF(vector<Token> fun){
         //cout << "not a success" << in_str_label <<'\n';
     }
     //cout << "success!" << in_str_label <<'\n';
-    }}
+    }
+}
 
 void assign(Token fun,SF &leaf){
     int val = fun.get_type();
@@ -298,10 +289,6 @@ AF CosF::solve(){
 }
 
 
-
-
-
-
 Exp::Exp(Token base, Token val){
 
     this->base = base;
@@ -332,9 +319,6 @@ AF Exp::solve(){
 
 }
 
-
-
-
 Cons::Cons(Token c){
     this->c = c;
     str_label = "";
@@ -352,9 +336,6 @@ string Cons::get_str_label(){
 AF Cons::solve(){
     return Cons(Token("0")).to_AF();
 }
-
-
-
 
 Loga::Loga(Token val, Token base){
 
@@ -394,10 +375,6 @@ AF Loga::solve(){
     return AF(c, step, Operator("/"));
 
 }
-
-
-
-
 
 
 
