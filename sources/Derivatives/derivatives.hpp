@@ -8,120 +8,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 using namespace std;
-
-class SF{
-public:
-    SF(Token Fun){fun = Fun;}
-    ~SF(){}
-    SF(){};
-    int get_type(){return type;}
-protected:
-    Token fun;
-    int type = 0;
-};
-
-class Fvar : public  SF{
-public:
-    Fvar(string str);
-    Fvar(Token leaf){value = leaf.get_value();cout << "SF string is " << value << ""<<'\n';type = 1;}
-    ~Fvar(){}
-private:
-    string value;
-};
-class Fcons : public SF{
-public:
-    Fcons(string str){value = str;}
-    Fcons(Token leaf){value = leaf.get_value();type = 2;}
-    ~Fcons(){}
-private:
-    string value;
-};
-
-class Fnum : public SF{
-public:
-    Fnum(string str){value = str;}
-    Fnum(Token leaf){value = leaf.get_value(); stringstream new_num(value);new_num >> num;type = 3;}
-    ~Fnum(){}
-private:
-    string value;
-    int num;
-};
-
-class Fexp : public SF {
-public:
-    Fexp(string str){value = str;}
-    Fexp(Token leaf){value = leaf.get_value();type = 4;}
-    ~Fexp(){};
-private:
-    string value;
-    //special exponent stuff.
-};
-
-class Flog : public SF {
-public:
-    Flog(string str){value = str;}
-    Flog(Token leaf){value = leaf.get_value();type = 5;}
-    ~Flog(){};
-private:
-    string value;
-};
-
-class Fcos : public SF {
-public:
-    Fcos(string str){value = str;}
-    Fcos(Token leaf){value = leaf.get_value();type = 6;}
-    ~Fcos(){};
-private:
-    string value;
-};
-
-class Fsin : public SF {
-public:
-    Fsin(string str){value = str;}
-    Fsin(Token leaf){value = leaf.get_value();type = 7;}
-    ~Fsin(){};
-private:
-    string value;
-};
-
-class Ftan : public SF {
-public:
-    Ftan(string str){value = str;}
-    Ftan(Token leaf){value = leaf.get_value();type = 8;}
-    ~Ftan(){};
-private:
-    string value;
-};
-
-class Fln : public SF {
-public:
-    Fln(string str){value = str;}
-    Fln(Token leaf){value = leaf.get_value();type = 9;}
-    ~Fln(){};
-private:
-    string value;
-};
-
-class Fsqrt : public SF {
-public:
-    Fsqrt(string str){value = str;}
-    Fsqrt(Token leaf){value = leaf.get_value();type = 10;}
-    ~Fsqrt(){};
-private:
-    string value;
-};
-
-class Fcomp : public SF {
-public:
-    Fcomp(string str){value = str;}
-    Fcomp(Token leaf){value = leaf.get_value();type = 11;}
-    ~Fcomp(){};
-private:
-    string value;
-};
-
 
 class AF {
 public:
@@ -133,13 +22,13 @@ public:
         this->operation = Operator();
         end = true;
         this->str_label = "";
-        this->leaf = SF();
-        this->base_type = 10;
+        this->in_str_label = "";
+        this->type = 10;
     };
 
     AF(AF left, AF right, Operator operation);
-    AF(int type, string str);
-    ~AF(){delete left;delete right;};
+    AF(int type, Token end_token);
+   // ~AF(){delete left;delete right;};
 
     void op_to_enum(char op,Operator &operation);
 
@@ -154,152 +43,117 @@ public:
     string get_string_operation();
 
     string get_str_label();
-    string display();
+    string get_in_str_label();
+    string display(int i);
     bool is_none();
 
-    int get_base_type();
-    void set_base_type(int type);
-    SF get_leaf(){return leaf;}
-    void set_leaf(SF leaf){this->leaf = leaf;}
+    int get_type();
+    void set_type(int type);
     bool get_end(){return end;}
     void set_end(bool end){this->end = end;}
     void assign_type();
-
-
-private:
-    Operator operation;
-    class AF *left;
-    class AF *right;
-    string str_label;
-    vector<Token> vect_label;
-    int base_type;
-    bool end;
-    SF leaf;
-    Token end_token;
-};
-
-
-AF solve(AF func);
-void build_tree(vector<Token>);
-void assign(Token fun,SF &leaf);
-
-
-
-
-
-
-
-class LeafFunc{
-public:
-    LeafFunc(string func);
-    LeafFunc(){};
-    ~LeafFunc(){};
-    AF solve();
-    int get_base_type();
-    string get_str_label();
-    AF to_AF();
+    virtual double get_value(double x, bool  neg = false, bool div = false);
+    double get_leaf_value(double x, int n, string value);
+   // virtual string get_derivative(); return can be string or Token
+    int leaf_mark;
 protected:
+    Operator operation;
+    AF *left;
+    AF *right;
     string str_label;
-    int base_type = 0;
+    string in_str_label;
+    vector<Token> vect_label;
+    int type;
+    bool end;
+    Token end_token;
+
 };
 
-class VarF : public LeafFunc{
+class ExpAF: public AF{
 public:
-    VarF(string var);
-    ~VarF(){};
-    AF solve();
-    AF to_AF();
+    ExpAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class ConsF : public LeafFunc{
+class LnAF: public AF{
 public:
-    ConsF(string cons);
-    ~ConsF(){};
-    AF solve();
-    AF to_AF();
+    LnAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-
-class NumF : public LeafFunc{
+class LogAF: public AF{
 public:
-    NumF(string c);
-    ~NumF(){};
-    AF solve();
-    AF to_AF();
+    LogAF(double a);
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+    double get_base();
+private:
+    Token value;
+    double base;
 };
 
-class ExpF : public LeafFunc{
+class CosAF: public AF{
 public:
-    ExpF();
-    ~ExpF(){};
-    AF solve();
-    AF to_AF();
+    CosAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class LogaF : public LeafFunc{
+class SinAF: public AF{
 public:
-    LogaF();
-    ~LogaF(){};
-    AF solve();
-    AF to_AF();
+    SinAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class CosF : public LeafFunc{
+class TanAF: public AF{
 public:
-    CosF();
-    ~CosF(){};
-    AF solve();
-    AF to_AF();
+    TanAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class SinF : public LeafFunc{
+class SqrtAF: public AF{
 public:
-    SinF();
-    ~SinF(){};
-    AF solve();
-    AF to_AF();
+    SqrtAF();
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class TanF : public LeafFunc{
+class NumAF: public AF{
 public:
-    TanF();
-    ~TanF(){};
-    AF solve();
-    AF to_AF();
+    NumAF(Token T);
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class LnF : public LeafFunc{
+class VarAF: public AF{
 public:
-    LnF();
-    ~LnF(){};
-    AF solve();
-    AF to_AF();
+    VarAF(Token T);
+    string get_derivative();
+    double get_value(double x, bool  neg = false, bool div = false);
+private:
+    Token value;
 };
 
-class SqrtF : public LeafFunc{
-public:
-    SqrtF();
-    ~SqrtF(){};
-    AF solve();
-    AF to_AF();
-};
-
-class SubF : public LeafFunc{
-public:
-    SubF(string func);
-    ~SubF(){};
-    AF solve();
-    AF to_AF();
-};
-
-
-
-
-AF sf_derivatives(SF &leaf);
-AF derive(AF Func);
+AF* assign(Token fun);
 string vect_to_str(vector<Token> fun);
-
-
 
 
 #endif // DERIVATIVES_HPP

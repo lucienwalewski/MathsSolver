@@ -1,114 +1,104 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
 
+//bring back AbstractFunction as a name
+
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 AF::AF(vector<Token> fun){
     end = false;
-    base_type = 1;
+    type = 1;
     vect_label = fun;
-    str_label = vect_to_str(fun);
-    cout << str_label << '\n';
+    in_str_label = vect_to_str(fun);
     // parentheses(&fun);
-
-    if (int(fun.size()) == 1 && (fun[0].is_super_token() == false)){
+    if((int)fun.size() == 1 && !fun[0].is_super_token()){
+        this->left = nullptr;
+        this->right = nullptr;
+        this->operation = Operator();
         end = true;
-        assign(fun[0],leaf);
-        left = nullptr;right = nullptr;
+        this->str_label = fun[0].get_value();
+        this->type = fun[0].get_type();
+        this->in_str_label = fun[0].get_value();
+        // setting leaf_mark
     }
     else{
 
-        if (int(fun.size()) == 1 && fun[0].is_super_token()){
-                fun = simplify(fun[0].get_value(),'x');
+        if ((int)fun.size() == 1 && fun[0].is_super_token()){
+            fun = simplify(fun[0].get_value(),'x');
+            type = fun[0].get_type();
+        }
+
+         operation =  Operator();
+         int counter = 0;
+         int j = 0;
+         for (int i = 0; i < (int)fun.size(); i++){
+             if (fun[i].get_type() > 0){
+                 if (fun[i].get_type() == 7)
+                     counter++;
+                 else if (fun[i].get_type() == 8)
+                     counter++;
+                 else if (fun[i].get_type() > operation.get_type() && counter == 0){
+                     operation = Operator(fun[i].get_value());
+                     j = i;
+                 }
+             }
          }
 
-    operation =  Operator();
-    int counter = 0;
-    vector<Token>::iterator j = fun.begin();
-    for (vector<Token>::iterator i = fun.begin(); i<fun.end(); i++){
-        if (i->get_type() > 0){
-            int val = type_m[i->get_value()];
-            //cout << val<< "  " << i-> get_value()<<'\n';
-            if ( val == 7){counter += 1;}
-            else if (val == 8){counter -= 1;}
-            else if (val > type_m[operation.get_value()] and counter == 0){
-                operation = Operator(i->get_value());
-                j = i;
-            }
+         if (operation.get_type() > 0){
+             vector<Token> l, r;
 
-        }
+             for (int i = 0; i < (int)fun.size(); i++){
+                 if(i < j)
+                     l.push_back(fun[i]);
+                 else if (i > j)
+                     r.push_back(fun[i]);
+             }
 
+             //explanation needed??? insert??? no need for this line?
+           /*  if (fun[0].is_super_token()){
+                 l = simplify(fun[0].get_value(),'x');
+             }
+             if (fun[2].is_super_token()){
+                 r = simplify(fun[2].get_value(),'x');
+             }*/
 
+             if ((int)l.size() == 1 && !l[0].is_super_token())
+                 left = assign(l[0]);
+             else
+                 left = new AF(l);
+
+             if ((int)r.size() == 1 && !r[0].is_super_token())
+                 right = assign(r[0]);
+             else
+                 right = new AF(r);
+
+             str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
+             //cout<< "Const: "<< str_label<< "\n";
+         }
     }
-    //cout << "string is " << str_label<<'\n';
-    //cout << "Operation: " << operation.get_value()<< " and val "<<operation.get_type() << '\n';
-    if (type_m[operation.get_value()] > 0){
-        //cout << "Im here" << str_label<<'\n';
-        vector<Token> l, r;
-        for (vector<Token>::iterator i = fun.begin();i<fun.end();i++){
-            if (i<j){
-                l.push_back(*i);
-            }
-            else if (i>j){
-                r.push_back(*i);
+}
 
-            }
-        }
-        //cout << "left: "<< vect_to_str(l)<<" O: "<<j->get_value() << ". right: " << vect_to_str(r)<<'\n';
-
-
-        if (fun[0].is_super_token()){
-            l = simplify(fun[0].get_value(),'x');
-        }
-        if (fun[2].is_super_token()){
-            r = simplify(fun[2].get_value(),'x');
-        }
-        left = new AF(l);
-        right = new AF(r);
-
-        str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
-
-
-    } else {
-        //cout << "not a success" << str_label <<'\n';
+AF* assign(Token fun){
+    switch (fun.get_type()) {
+        case -1: return new NumAF(fun); break;
+        case -2:
+            if (fun.get_value() == "exp")
+                return new ExpAF();
+            else if (fun.get_value() == "ln")
+                return new LnAF();
+            else if (fun.get_value() == "log")
+                return new LogAF(10);
+            else if (fun.get_value() == "cos")
+                return new CosAF();
+            else if (fun.get_value() == "sin")
+                return new SinAF();
+            else if (fun.get_value() == "tan")
+                return new TanAF();
+            else if (fun.get_value() == "sqrt")
+                return new SqrtAF();
+            break;
+        case -3: return new VarAF(fun); break;
     }
-    //cout << "success!" << str_label <<'\n';
-    }}
-
-
-void assign(Token fun, SF &leaf){
-    int val = fun.get_type();
-    if (val == -1){
-        leaf = Fnum(fun);
-    } else if (val == -2){
-        string function = fun.get_value();
-        if (function == "exp"){
-            leaf = Fexp(fun);
-        }
-        if (function == "ln"){
-            leaf = Fln(fun);
-        }
-        if (function == "log"){
-            leaf = Flog(fun);
-        }
-        if (function == "cos"){
-            leaf = Fcos(fun);
-        }
-        if (function == "sin"){
-            leaf = Fsin(fun);
-        }
-        if (function == "tan"){
-            leaf = Ftan(fun);
-        }
-        if (function == "sqrt"){
-            leaf = Fsqrt(fun);
-        }
-    }else if (val == -3){
-        leaf = Fvar(fun);
-    }else if (val == -4){
-        leaf = Fcomp(fun);
-    }
-
 }
 
 
@@ -118,16 +108,17 @@ AF::AF(AF left, AF right, Operator operation){
     end = false;
     this->operation = operation;
     this->str_label = "";
+    this->in_str_label = "";
 
 }
 
-AF::AF(int type, string str){
+AF::AF(int type, Token end_token){
     this->left = nullptr;
     this->right = nullptr;
     this->operation = Operator();
     end = true;
-    this->base_type = type;
-    this->str_label = str;
+    this->type = type;
+    this->end_token = end_token;
 }
 
 
@@ -135,7 +126,6 @@ AF::AF(int type, string str){
 AF AF:: get_left(){
     return *left;
 }
-
 
 void AF::set_left(AF *left){
     this->left = left;
@@ -153,16 +143,6 @@ string AF::get_string_operation(){
     return operation.get_value();
 }
 
-string vect_to_str(vector<Token> fun){
-    string sfun = "";
-    for (int i = 0; i< int(fun.size());i++){
-        sfun += fun[i].get_value();
-        if (i != int(fun.size())-1){
-            sfun += " ";
-        }
-    }
-    return sfun;
-}
 
 Operator AF::get_operation(){
     return operation;
@@ -177,335 +157,230 @@ string AF::get_str_label(){
     return str_label;
 }
 
+string AF::get_in_str_label(){
+    return in_str_label;
+}
 
-string AF::display(){
-    if (this->left == nullptr and this->right == nullptr){
+string AF::display(int i){
+
+    if (this->left == nullptr && this->right == nullptr){
         return get_str_label();
-    }else{
-        return "(" +get_left().display() + " " + operation.get_value() + " " + get_right().display() + ")";
+    }
+    else{
+        //cout<< i << " " << operation.get_value() << "\n";
+        //string s = "(" +get_left().display(i+1) + " " + operation.get_value() + " " + get_right().display(i+1) + ")";
+        string s1 = get_left().display(i+1);
+        if (i == 0){
+            cout <<"OK\n";
+        }
+        string s2 = get_right().display(i+1);
+        if (i == 0){
+            cout <<"OKK\n";
+        }
+        string s = "("+s1+operation.get_value()+s2+")";
+        cout<<i<<" "<< s << "\n";
+        if (i == 1){
+            cout<<"k\n";
+        }
+        return s;
+    }
+}
+
+double AF::get_value(double x, bool neg, bool div){
+    switch (operation.get_type()) {
+        case -1: return get_leaf_value(x, leaf_mark, get_str_label()); break;
+        case 1: return get_left().get_value(get_right().get_value(x, false, false), false, false); break;
+        case 2: return pow(get_left().get_value(x, false, false), get_right().get_value(x, false, true)); break;
+        case 3:
+            return get_left().get_value(x, false, false)/get_right().get_value(x, false, true);
+            break;
+        case 4: return get_left().get_value(x, false, false)*get_right().get_value(x, false, false); break;
+        case 5:
+            if (neg)
+                return get_left().get_value(x, false, false)+get_right().get_value(x, true, false);
+            else
+                return get_left().get_value(x, false, false)-get_right().get_value(x, true, false);
+
+            break;
+        case 6:
+            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false);
+        default: return 0;
     }
 }
 
 
-int AF::get_base_type(){
-    return base_type;
+double AF::get_leaf_value(double x, int n, string val){
+    switch (n) {
+        case 0: return NumAF(Num(val)).get_value(x); break;
+        case 1: return ExpAF().get_value(x); break;
+        case 2: return LnAF().get_value(x); break;
+        case 3: return LogAF(10).get_value(x); break;
+        case 4: return CosAF().get_value(x); break;
+        case 5: return SinAF().get_value(x); break;
+        case 6: return TanAF().get_value(x); break;
+        case 7: return SqrtAF().get_value(x); break;
+        case 8: return VarAF(Variable(val)).get_value(x);
+        default: return 0;
+    }
 }
-void AF::set_base_type(int type){
-    this->base_type = type;
+
+
+ExpAF::ExpAF():AF(){
+  value = Function("exp");
+  str_label = value.get_value();
+  in_str_label = value.get_value();
+  type = value.get_type();
+  leaf_mark = 1;
 }
 
-
-
-
-LeafFunc::LeafFunc(string func){
-    str_label = func;
-}
-string LeafFunc::get_str_label(){
+string ExpAF::get_derivative(){
     return str_label;
 }
-int LeafFunc::get_base_type(){
-    return base_type;
+
+double ExpAF::get_value(double x, bool neg, bool div){
+    return exp(x);
 }
 
-
-VarF::VarF(string var):LeafFunc(var){
-    str_label= var;
-    base_type = 1;
-}
-AF VarF::to_AF(){
-    return AF(1, str_label);
-}
-AF VarF::solve(){
-    return ConsF("1").to_AF();
+LnAF::LnAF():AF(){
+    value = Function("ln");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 2;
 }
 
-
-
-ConsF::ConsF(string cons):LeafFunc(cons){
-    str_label= cons;
-    base_type = 2;
-}
-AF ConsF::to_AF(){
-    return AF(2, str_label);
-}
-AF ConsF::solve(){
-    return ConsF("0").to_AF();
+string LnAF::get_derivative(){
+    return "1/";
 }
 
-
-
-
-NumF::NumF(string c):LeafFunc(c){
-    str_label= c;
-    base_type = 3;
-}
-AF NumF::to_AF(){
-    return AF(3, str_label);
-}
-AF NumF::solve(){
-    return AF();
+double LnAF::get_value(double x, bool neg, bool div){
+    return log(x);
 }
 
-
-
-
-ExpF::ExpF():LeafFunc(){
-    str_label= "exp";
-    base_type = 4;
-}
-AF ExpF::to_AF(){
-    return AF(4, str_label);
-}
-AF ExpF::solve(){
-    return ExpF().to_AF();
+LogAF::LogAF(double a):AF(){
+    value = Function("log");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    base = a;
+    leaf_mark = 3;
 }
 
-
-
-
-
-LogaF::LogaF():LeafFunc(){
-    str_label= "log_a";
-    base_type = 5;
-}
-AF LogaF::to_AF(){
-    return AF(5, str_label);
+double LogAF::get_base(){
+    return base;
 }
 
-AF LogaF::solve(){
-    AF l = ConsF("ln(a)").to_AF();
-    AF r = VarF("x").to_AF();
-    AF step = AF(l, r, Operator("*"));
-    AF c = ConsF("1").to_AF();
-    return AF(c, step, Operator("/"));
-
+string LogAF::get_derivative(){
+    return "(1/ln("+to_string(base)+")*1/";
 }
 
-
-
-
-CosF::CosF():LeafFunc(){
-    str_label= "cos";
-    base_type = 6;
-}
-AF CosF::to_AF(){
-    return AF(6, str_label);
-}
-AF CosF::solve(){
-    AF l = ConsF("-1").to_AF();
-    AF r = SinF().to_AF();
-    return AF(l, r, Operator("*"));
-
+double LogAF::get_value(double x, bool neg, bool div){
+    return log(x)/log(base);
 }
 
-
-
-
-
-SinF::SinF():LeafFunc(){
-    str_label= "sin";
-    base_type = 7;
-}
-AF SinF::to_AF(){
-    return AF(7, str_label);
-}
-AF SinF::solve(){
-    return CosF().to_AF();
+CosAF::CosAF():AF(){
+    value = Function("cos");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 4;
 }
 
-
-TanF::TanF():LeafFunc(){
-    str_label= "tan";
-    base_type = 8;
-}
-AF TanF::to_AF(){
-    return AF(8, str_label);
-}
-AF TanF::solve(){
-    AF l = ConsF("1").to_AF();
-    AF temp_l = CosF().to_AF();
-    AF temp_r = VarF("x").to_AF();
-    AF r = AF(temp_l, temp_r, Operator("^"));
-    return AF(l, r, Operator("/"));
+string CosAF::get_derivative(){
+    return "-sin";
 }
 
-
-
-LnF::LnF():LeafFunc(){
-    str_label= "ln";
-    base_type = 9;
-
-}
-AF LnF::to_AF(){
-    return AF(9, str_label);
-}
-AF LnF::solve(){
-    AF l = ConsF("1").to_AF();
-    AF r = VarF("x").to_AF();
-    return AF(l, r, Operator("/"));
+double CosAF::get_value(double x, bool neg, bool div){
+    return cos(x);
 }
 
-
-
-SqrtF::SqrtF():LeafFunc(){
-    str_label= "ln";
-    base_type = 10;
-}
-AF SqrtF::to_AF(){
-    return AF(10, str_label);
+SinAF::SinAF():AF(){
+    value = Function("sin");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 5;
 }
 
-AF SqrtF::solve(){
-    AF l = ConsF("1/2").to_AF();
-    AF temp_l = VarF("x").to_AF();
-    AF temp_r = ConsF("-1/2").to_AF();
-    AF r = AF(temp_l, temp_r, Operator("^"));
-    return AF(l, r, Operator("*"));
+string SinAF::get_derivative(){
+    return "cos";
 }
 
-
-
-SubF::SubF(string func):LeafFunc(func){
-    str_label = func;
-    base_type = 11;
-}
-AF SubF::to_AF(){
-    return AF(simplify(str_label, 'x'));
+double SinAF::get_value(double x, bool neg, bool div){
+    return sin(x);
 }
 
+TanAF::TanAF():AF(){
+    value = Function("tan");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 6;
+}
 
+string TanAF::get_derivative(){
+    return "1/cos^2";
+}
 
+double TanAF::get_value(double x, bool neg, bool div){
+    return tan(x);
+}
 
-// AF Exp::solve(){
-//     if(base.get_value() == "e"){
-//         return Exp(base, value).to_AF();
-//     }
-//     AF r = Loga(Token(base), Token("e")).to_AF();
-//     return AF(to_AF(), r, Operator("*"));
-// }
+SqrtAF::SqrtAF():AF(){
+    value = Function("sqrt");
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 7;
+}
 
+string SqrtAF::get_derivative(){
+    return "-(1/2)*1/sqrt";
+}
 
+double SqrtAF::get_value(double x, bool neg, bool div){
+    return sqrt(x);
+}
 
+NumAF::NumAF(Token T):AF() {
+    value = T;
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 0;
+}
 
+string NumAF::get_derivative(){
+    return "0";
+}
 
-AF derive(AF Func){
-    cout << "Current depth is: " <<Func.get_str_label() << '\n';
-    if (Func.get_end() == false){
+double NumAF::get_value(double x, bool neg, bool div){
+    return stod(value.get_value());
+}
 
-        int val = type_m[Func.get_operation().get_value()];
-        if(val == 6){
-            // addition
-            return AF(derive(Func.get_left()), derive(Func.get_right()), Operator("+"));
+VarAF::VarAF(Token T):AF() {
+    value = T;
+    str_label = value.get_value();
+    in_str_label = value.get_value();
+    type = value.get_type();
+    leaf_mark = 8;
+}
 
+string VarAF::get_derivative(){
+    return "1";
+}
+
+double VarAF::get_value(double x, bool neg, bool div){
+    return x;
+}
+
+string vect_to_str(vector<Token> fun){
+    string sfun = "";
+    for (int i = 0; i< (int)fun.size(); i++){
+        sfun += fun[i].get_value();
+        if (i != int(fun.size())-1){
+            sfun += " ";
         }
-        if(val == 5){
-            // subtraction
-            return AF(derive(Func.get_left()), derive(Func.get_right()), Operator("-"));
-        }
-        if(val == 4){
-            // multiplication
-            AF l= AF(derive(Func.get_left()), Func.get_right(), Operator("*"));
-            AF r = AF(derive(Func.get_right()), Func.get_left(), Operator("*"));
-            return AF(l, r, Operator("+"));
-
-        }
-        if(val == 3){
-            // division
-            AF l1= AF(derive(Func.get_left()), Func.get_right(), Operator("*"));
-            AF r2 = AF(Func.get_left(), derive(Func.get_right()), Operator("*"));
-            AF l2 = AF(VarF("x").to_AF(), ConsF("2").to_AF(), Operator("^"));
-            return AF(AF(l1, r2, Operator("-")), AF(l2, Func.get_right(), Operator("~")), Operator("/"));
-        }
-        if(val == 2){
-            // power
-            // do difference exp vs polynomial
-            // assuming no x in exponent
-            AF left = AF(derive(Func.get_left()),Func.get_right(),Operator("*"));
-            AF exponent = AF(Func.get_right(),AF({Num("1")}),Operator("-"));
-            AF right = AF(Func.get_left(),exponent,Operator("^"));
-            return  AF(left,right,Operator("*"));
-
-        }
-        if(val == 1){
-            // composition
-            AF l = AF(derive(Func.get_left()), Func.get_right(), Operator("~"));
-            return AF(l , derive(Func.get_right()), Operator("*"));
-        }
-        else {
-            cout << "couldn't find the right path"<<'\n';return AF();
-        }
-
     }
-    else {
-        cout << "currently at the leaf: "<<Func.get_str_label()<<'\n';
-        //SF leaf = Func.get_leaf();
-        //return sf_derivatives(leaf);
-        if(Func.get_base_type() == 1){
-            VarF v = VarF(Func.get_str_label());
-            return v.solve();
-        }
-        if(Func.get_base_type() == 2){
-            ConsF c = ConsF(Func.get_str_label());
-            return c.solve();
-        }
-        if(Func.get_base_type() == 3){
-            // num ??
-            return AF();
-        }
-        if(Func.get_base_type() == 4){
-            ExpF e = ExpF();
-            return e.solve();
-        }
-        if(Func.get_base_type() == 5){
-            LogaF l = LogaF();
-            return l.solve();
-        }
-        if(Func.get_base_type() == 6){
-            CosF  c = CosF();
-            return c.solve();
-        }
-        if(Func.get_base_type() == 7){
-            SinF  s = SinF();
-            return s.solve();
-        }
-        if(Func.get_base_type() == 8){
-            TanF  t = TanF();
-            return t.solve();
-        }
-        if(Func.get_base_type() == 9){
-            LnF l = LnF();
-            return l.solve();
-        }
-        if(Func.get_base_type() == 10){
-            SqrtF  s = SqrtF();
-            return s.solve();
-        }
-        if(Func.get_base_type() == 11){
-            return derive(AF(simplify(Func.get_str_label(), 'x')));
-        }
-        return AF();
-    }
-
-//map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
+    return sfun;
 }
-
-
-
-AF sf_derivatives(SF &leaf){
-    if (leaf.get_type() == 1){
-        return AF({Num("1")});
-    }else if (leaf.get_type() == 2 || leaf.get_type() == 3){
-        return AF({Num("0")});
-    }else{
-        cout <<leaf.get_type()<< "wtf"<<'\n';return AF();/*else if (leaf.get_type() == 4){
-        return AF({Function("exp")});
-    }else if (leaf.get_type() == 5){
-        return AF({Function("")});
-    }*/}
-}
-
-
-
-
-
-
