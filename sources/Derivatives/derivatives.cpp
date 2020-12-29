@@ -384,11 +384,3 @@ string vect_to_str(vector<Token> fun){
     }
     return sfun;
 }
-
-
-
-
-
-
-
-

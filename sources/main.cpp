@@ -16,6 +16,7 @@
 #include "Equations/gaussin.hpp"
 #include "functionPreprocessing.hpp"
 
+
 #include<iostream>
 
 using namespace std;
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]){
      //VarAF e = VarAF(Variable("x"));
      //cout<< e.get_value(1);
      cout<<"Value: "<< f.get_value(2)<<"\n";
+
 
      return a.exec();
 }
