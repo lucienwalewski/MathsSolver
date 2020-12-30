@@ -1,6 +1,7 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
 #include "Tokenizer.hpp"
+#include "Equations/polynomial.hpp"
 
 #include <QApplication>
 #include <QtTest>
@@ -47,6 +48,8 @@ public:
     string display(int i);
     bool is_none();
 
+    bool is_polynomial();
+    PolynomialRational get_polynomial(bool neg = false);
     int get_type();
     void set_type(int type);
     bool get_end(){return end;}
@@ -55,7 +58,7 @@ public:
     virtual double get_value(double x, bool  neg = false, bool div = false);
     double get_leaf_value(double x, int n, string value);
    // virtual string get_derivative(); return can be string or Token
-    int leaf_mark;
+    int leaf_mark = -1;
 protected:
     Operator operation;
     AF *left;

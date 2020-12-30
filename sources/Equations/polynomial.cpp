@@ -278,6 +278,38 @@ PolynomialRational PolynomialRational::operator-(const PolynomialRational&b)cons
     return PolynomialRational(a,l);
 }
 
+//Hector to update with better algorithm
+PolynomialRational PolynomialRational:: operator*(const PolynomialRational &b) const{
+    Rational c[deg + b.deg+1];
+    for (int i = 0; i <= (deg + b.deg); i++)
+        c[i] = Rational(0, 1);
+    for (int i = 0; i <= deg; i++)
+        for (int j = 0; j <= b.deg; j++)
+            c[i+j] = c[i+j] + coefficient[i]*b[j];
+
+    return PolynomialRational(c, deg + b.deg);
+}
+
+PolynomialRational PolynomialRational:: operator*(const Rational &b) const{
+    Rational c[deg+1];
+    for (int i = 0; i <= deg; i++)
+        c[i] = coefficient[i]*b;
+
+    return PolynomialRational(c, deg);
+}
+
+PolynomialRational PolynomialRational:: operator/(const PolynomialRational &b) const{
+    return divisionR(PolynomialRational(coefficient, deg), b);
+}
+
+PolynomialRational PolynomialRational:: operator/(const Rational &b) const{
+    Rational c[deg+1];
+    for (int i = 0; i <= deg; i++)
+        c[i] = coefficient[i]/b;
+
+    return PolynomialRational(c, deg);
+}
+
 
 void PolynomialRational::operator=(const PolynomialRational &c){
     if(deg != c.deg)
@@ -287,7 +319,7 @@ void PolynomialRational::operator=(const PolynomialRational &c){
         coefficient[i] = c.coefficient[i];
 }
 
-PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step=false)
+PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step)
 {
     if(step){
         cout<< " ("<<A.get_string() <<") : ("<< B.get_string() << ") = ";

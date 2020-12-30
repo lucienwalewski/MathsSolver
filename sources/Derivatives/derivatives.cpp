@@ -197,22 +197,29 @@ string AF::display(int i){
     }
 }
 
+// be careful when divion with 0
 double AF::get_value(double x, bool neg, bool div){
     //cout << get_str_label() << " " << operation.get_type()<< "\n";
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
         case 1: return get_left().get_value(get_right().get_value(x, false, false), false, false); break;
         case 2: return pow(get_left().get_value(x, false, false), get_right().get_value(x, false, true)); break;
-        case 3:
-            return get_left().get_value(x, false, false)/get_right().get_value(x, false, true);
+        case 3:{
+            double a = get_right().get_value(x, false, true);
+            if(a == 0){
+                cout << "Division with zero!\n";
+                return 1;
+            }
+            else
+                return get_left().get_value(x, false, false)/a;
             break;
+        }
         case 4: return get_left().get_value(x, false, false)*get_right().get_value(x, false, false); break;
         case 5:
             if (neg)
                 return get_left().get_value(x, false, false)+get_right().get_value(x, true, false);
             else
                 return get_left().get_value(x, false, false)-get_right().get_value(x, true, false);
-
             break;
         case 6:
             return get_left().get_value(x, false, false)+get_right().get_value(x, false, false); break;
@@ -234,6 +241,70 @@ double AF::get_leaf_value(double x, int n, string val){
         case 8: return VarAF(Variable(val)).get_value(x); break;
         default: return 0;
     }
+}
+
+
+bool AF::is_polynomial(){
+    //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
+    switch (operation.get_type()) {
+        case -1:
+            if (leaf_mark == 0 || leaf_mark == 8)
+                return true;
+            else
+                return false;
+            break;
+        case 1: return false; break;
+        // later update needed for power, since power has to be int>=0
+        case 2: return (get_left().leaf_mark == 8) && (get_right().leaf_mark == 0); break;
+        // this can be updated using divion function: if divion is polynomial than it's true
+        case 3: return (get_left().leaf_mark == 0) && (get_right().leaf_mark == 0); break;
+        case 4: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        case 5: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        case 6: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        default: return false;
+    }
+}
+
+
+PolynomialRational AF::get_polynomial(bool neg){
+    if (!is_polynomial())
+        return PolynomialRational();
+
+    switch (operation.get_type()) {
+        case -1:{
+            if (leaf_mark == 0){
+                Rational c[1];
+                c[0] = Rational((get_value(0)));
+                return PolynomialRational(c, 0);
+            }
+            else{
+                Rational c[2] = {};
+                c[1] = Rational(1,1);
+                return PolynomialRational(c, 1);
+            }
+            break;
+        }
+        case 2: {
+            int n = (int)get_right().get_value(0);
+            Rational c[n+1];
+            for (int i = 0; i <= n; i++)
+                c[i] = Rational(0, 1);
+            c[n] = Rational(1,1);
+            return PolynomialRational(c, n);
+            break;
+        }
+        case 3: return get_left().get_polynomial()/get_right().get_polynomial(); break;
+        case 4: return get_left().get_polynomial()*get_right().get_polynomial(); break;
+        case 5:
+            if (neg)
+                return get_left().get_polynomial() + get_right().get_polynomial(true);
+            else
+                return get_left().get_polynomial() - get_right().get_polynomial(true);
+            break;
+        case 6: return get_left().get_polynomial() + get_right().get_polynomial(); break;
+        default: return false;
+    }
+
 }
 
 

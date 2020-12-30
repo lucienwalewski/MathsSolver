@@ -91,6 +91,7 @@ vector<string> derivative(string f){
 }
 
 vector<string> equation(string f){
+    vector<string> solution;
     bool find = false;
     string solve = "";
     for (int i = 0; i< (int)f.size(); i++){
@@ -111,41 +112,45 @@ vector<string> equation(string f){
 
     solve += "=0";
     cout<< solve << "\n";
-    vector<Token> tokens = simplify(solve, 'x');
-    //AF function(tokens);
-    Rational c[6] = {Rational(-280, 1), Rational(634, 1), Rational(-357, 1), Rational(46, 1), Rational(14, 1), Rational(-3, 1)};
-    PolynomialRational P(c, 5);
-
-         solutionPolynomial res = solveRational(P);
-         for(auto i : res.step_solution)
-             cout<< i<< "\n";
-         if (res.roots.empty())
-         {
-             std::cout<<"No Solution"<<std::endl;
-         }
-
-         printf("The roots are\n");
-         for (auto i : res.roots)
-         {
-             std::cout<<i<<std::endl;
-         }
-
-         printf("The complex roots are\n");
-         for (auto i : res.complex){
-             cout<<i<<"\n";
-         }
-
-         string s = "";
-         for (auto i : res.factors){
-             s += i.first;
-             if(i.second > 1){
-                 s += "^"+ to_string(i.second);
+    vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
+    AF function(tokens);
+    if (function.is_polynomial()){
+        PolynomialRational P = function.get_polynomial();
+        solutionPolynomial res = solveRational(P);
+        solution = res.step_solution;
+        if (res.roots.empty())
+             {
+                 std::cout<<"No Solution"<<std::endl;
              }
-          }
 
-         cout<<s << "\n";
+             for (auto i : solution)
+                 cout << i << "\n";
 
-    return vector<string>();
+             printf("The roots are\n");
+             for (auto i : res.roots)
+             {
+                 std::cout<<i<<std::endl;
+             }
+
+             printf("The complex roots are\n");
+             for (auto i : res.complex){
+                 cout<<i<<"\n";
+             }
+
+             string s = "";
+             for (auto i : res.factors){
+                 s += i.first;
+                 if(i.second > 1){
+                     s += "^"+ to_string(i.second);
+                 }
+             }
+
+             cout<<s<<"\n";
+    }
+
+    //add numerical results
+
+    return solution;
 }
 vector<string> inetgral(string f){
     return vector<string>();
