@@ -32,7 +32,7 @@ int Token::get_type(){
 }
 
 Operator::Operator():Token(){
-    type = -5;
+    type = -1;
 }
 Operator::Operator(string t): Token(t){
     type = type_map[t];
@@ -71,7 +71,7 @@ string find_function(string s){
 
 //The following function takes as input a function under the form of a string and outputs a vector of tokens
 vector<Token> simplify(string s, char variable){
-    cout << s << endl;
+    //cout << s << endl;
     vector <Token> new_vector;
     int i = 0;
     string digits = "";
