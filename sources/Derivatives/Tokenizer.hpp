@@ -29,7 +29,6 @@ public :
 };
 
 
-
 class Operator: public Token{
 public :
     Operator();

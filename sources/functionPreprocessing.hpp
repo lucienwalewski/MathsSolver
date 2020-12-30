@@ -1,6 +1,11 @@
 #ifndef FUNCTIONPREPROCESSING_HPP
 #define FUNCTIONPREPROCESSING_HPP
 
+#include "Derivatives/Tokenizer.hpp"
+#include "Derivatives/derivatives.hpp"
+#include "Equations/numbers.hpp"
+#include "Equations/polynomial.hpp"
+
 #include<string>
 #include<iostream>
 #include<vector>

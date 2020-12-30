@@ -3,7 +3,8 @@
 
 #include <QApplication>
 #include <QPushButton>
-//#include "MainWindow/mainwindow.h"
+#include "MainWindow/mainwindow.h"
+
 //#include "ImageRecognition/imagePreprocessing.hpp"
 #include "Derivatives/Tokenizer.hpp"
 //#include "Derivatives/derivatives.hpp"
@@ -16,6 +17,7 @@
 //#include "Equations/matrix.hpp"
 //#include "Equations/gaussin.hpp"
 //#include "functionPreprocessing.hpp"
+
 
 #include<iostream>
 
@@ -36,6 +38,7 @@ int main(int argc, char *argv[]){
      for (int j=0; j < int(w.size()); j++){
         cout<< w[j].get_value() << ' '<< w[j].get_type() << "\n";
      }
+
 
      return a.exec();
 }

@@ -32,7 +32,7 @@ int Token::get_type(){
 }
 
 Operator::Operator():Token(){
-    type = -1;
+    type = -5;
 }
 Operator::Operator(string t): Token(t){
     type = type_map[t];
