@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 
-vector<Token> del_useless_parentheses(vector <Token> v);
+string del_exterior_parentheses(string v);
 
 int closing_pare(string t, int i);
 
