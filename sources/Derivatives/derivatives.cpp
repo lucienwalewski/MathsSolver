@@ -65,7 +65,7 @@ AF::AF(vector<Token> fun){
              if ((int)l.size() == 1 && !l[0].is_super_token())
                  left = assign(l[0]);
              else
-                 left = new AF(l);
+                 left =  new AF(l);
 
              if ((int)r.size() == 1 && !r[0].is_super_token())
                  right = assign(r[0]);
@@ -203,7 +203,7 @@ double AF::get_value(double x, bool neg, bool div){
 
             break;
         case 6:
-            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false);
+            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false); break;
         default: return 0;
     }
 }
@@ -219,7 +219,7 @@ double AF::get_leaf_value(double x, int n, string val){
         case 5: return SinAF().get_value(x); break;
         case 6: return TanAF().get_value(x); break;
         case 7: return SqrtAF().get_value(x); break;
-        case 8: return VarAF(Variable(val)).get_value(x);
+        case 8: return VarAF(Variable(val)).get_value(x); break;
         default: return 0;
     }
 }
