@@ -11,7 +11,12 @@ AF::AF(vector<Token> fun){
     vect_label = fun;
     in_str_label = vect_to_str(fun);
     // parentheses(&fun);
-    if((int)fun.size() == 1 && !fun[0].is_super_token()){
+    if ((int)fun.size() == 1 && (fun[0].get_type() == -4)){
+        fun = simplify(fun[0].get_value(),'x');
+        type = -4;
+    }
+
+    if((int)fun.size() == 1 && (fun[0].get_type() != -4)){
         this->left = nullptr;
         this->right = nullptr;
         this->operation = Operator();
@@ -19,16 +24,29 @@ AF::AF(vector<Token> fun){
         this->str_label = fun[0].get_value();
         this->type = fun[0].get_type();
         this->in_str_label = fun[0].get_value();
-        // setting leaf_mark
+        switch (type){
+            case -1: leaf_mark = 0;  break;
+            case -2:
+                if (str_label == "exp")
+                    leaf_mark = 1;
+                else if (str_label == "ln")
+                    leaf_mark = 2;
+                else if (str_label == "log")
+                    leaf_mark = 3;
+                else if (str_label == "cos")
+                    leaf_mark = 4;
+                else if (str_label == "sin")
+                    leaf_mark = 5;
+                else if (str_label == "tan")
+                    leaf_mark = 6;
+                else if (str_label == "sqrt")
+                    leaf_mark = 7;
+                break;
+            case -3: leaf_mark = 8;
+        }
     }
     else{
-
-        if ((int)fun.size() == 1 && fun[0].is_super_token()){
-            fun = simplify(fun[0].get_value(),'x');
-            type = fun[0].get_type();
-        }
-
-         operation =  Operator();
+     operation =  Operator();
          int counter = 0;
          int j = 0;
          for (int i = 0; i < (int)fun.size(); i++){
@@ -54,20 +72,13 @@ AF::AF(vector<Token> fun){
                      r.push_back(fun[i]);
              }
 
-             //explanation needed??? insert??? no need for this line?
-           /*  if (fun[0].is_super_token()){
-                 l = simplify(fun[0].get_value(),'x');
-             }
-             if (fun[2].is_super_token()){
-                 r = simplify(fun[2].get_value(),'x');
-             }*/
-
-             if ((int)l.size() == 1 && !l[0].is_super_token())
+             if ((int)l.size() == 1 && (l[0].get_type() != -4))
                  left = assign(l[0]);
              else
-                 left = new AF(l);
+                 left =  new AF(l);
 
-             if ((int)r.size() == 1 && !r[0].is_super_token())
+
+             if ((int)r.size() == 1 && (r[0].get_type() != -4))
                  right = assign(r[0]);
              else
                  right = new AF(r);
@@ -187,8 +198,9 @@ string AF::display(int i){
 }
 
 double AF::get_value(double x, bool neg, bool div){
+    //cout << get_str_label() << " " << operation.get_type()<< "\n";
     switch (operation.get_type()) {
-        case -1: return get_leaf_value(x, leaf_mark, get_str_label()); break;
+        case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
         case 1: return get_left().get_value(get_right().get_value(x, false, false), false, false); break;
         case 2: return pow(get_left().get_value(x, false, false), get_right().get_value(x, false, true)); break;
         case 3:
@@ -203,7 +215,7 @@ double AF::get_value(double x, bool neg, bool div){
 
             break;
         case 6:
-            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false);
+            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false); break;
         default: return 0;
     }
 }
@@ -219,7 +231,7 @@ double AF::get_leaf_value(double x, int n, string val){
         case 5: return SinAF().get_value(x); break;
         case 6: return TanAF().get_value(x); break;
         case 7: return SqrtAF().get_value(x); break;
-        case 8: return VarAF(Variable(val)).get_value(x);
+        case 8: return VarAF(Variable(val)).get_value(x); break;
         default: return 0;
     }
 }
