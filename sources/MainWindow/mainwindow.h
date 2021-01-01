@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QVBoxLayout>
+#include "functionPreprocessing.hpp"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
