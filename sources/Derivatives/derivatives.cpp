@@ -256,7 +256,6 @@ bool AF::is_polynomial(){
         case 1: return false; break;
         // later update needed for power, since power has to be int>=0
         case 2: return (get_left().leaf_mark == 8) && (get_right().leaf_mark == 0); break;
-        // this can be updated using divion function: if divion is polynomial than it's true
         case 3: return (get_left().leaf_mark == 0) && (get_right().leaf_mark == 0); break;
         case 4: return get_left().is_polynomial() && get_right().is_polynomial(); break;
         case 5: return get_left().is_polynomial() && get_right().is_polynomial(); break;
@@ -305,6 +304,60 @@ PolynomialRational AF::get_polynomial(bool neg){
         default: return false;
     }
 
+}
+
+double AF::regula_falsi(double a, double b){
+    double c;
+    for (int i=0; i < MAX_ITER; i++){
+        c = (a*get_value(b) - b*get_value(a))/ (get_value(b) - get_value(a));
+
+        if (abs(get_value(c))<=EPS)
+            return c;
+        else if (get_value(c)*get_value(a) < 0)
+            b = c;
+        else
+            a = c;
+    }
+    return c;
+}
+
+vector<double> AF::get_roots(double start, double end){
+    vector<double> critical_points;
+    vector<double> roots;
+    double i = start;
+    while (i <= end){
+        if (abs(get_value(i)*get_value(i+0.1)) <= EPS){
+            if (abs(get_value(i)) <= EPS)
+                roots.push_back(i);
+        }
+        else if (get_value(i)*get_value(i+0.1) < 0)
+            critical_points.push_back(i);
+
+        i += 0.1;
+    }
+
+    for(int i = 0; i < (int)critical_points.size(); i++)
+        roots.push_back(regula_falsi(i, i+0.1));
+
+    return roots;
+}
+
+double AF::get_integral_value(double a, double b){
+    double DIV = (b-a)*1100;
+    double h = (b-a)/DIV;
+    double T=0;
+    double x=a;
+
+    T=0.5*get_value(x);
+    for(int i=1; i<DIV; i++){
+        x+=h;
+        T+= get_value(x);
+    }
+    x+=h;
+    T+=0.5*get_value(x);
+    T*=h;
+
+    return T;
 }
 
 

@@ -257,7 +257,7 @@ void MainWindow::enter_equation(){
     if (!equation.isEmpty()) {
         //std::cout<<equation.toStdString()<<std::endl;
         string f = equation.toStdString();
-        start_process(f);
+        vector<string> reslut = start_process(f);
     } else {
         // do nothing
     }

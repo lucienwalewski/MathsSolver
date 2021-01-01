@@ -13,8 +13,8 @@ double Newton(double f(double),double x0,double eps,double K){
 };
 
 
-list<double> rootfinding(double f(double)){
-    std::vector<double> x0;
+vector<double> rootfinding(double f(double)){
+    vector<double> x0;
     double i=-10000;
     while (i<10000){
         if (f(i)*f(i+0.01) <= 0){
@@ -22,8 +22,8 @@ list<double> rootfinding(double f(double)){
         }
         i=i+0.01;
     }
-    std::list<double> roots;
-    for (std::vector<double>::iterator i=x0.begin(); i!= x0.end(); i++){
+    vector<double> roots;
+    for (vector<double>::iterator i=x0.begin(); i!= x0.end(); i++){
         if (abs(derivative(f,*i)) >1e-5){roots.push_back(Newton(*f,*i,1e-6,100));}
         else{
             roots.push_back((int)((*i)*1000000)/1000000);

@@ -1,9 +1,10 @@
 #include "functionPreprocessing.hpp"
 
 // matrix, inversion, multiplication, power, transponse and determinantes
-// check for multiplications of the polynomials
 // checking if sign * is missing
 // adding var varibale as mandatory in the code
+// is double integer
+// unary minus!!!!
 
 string upload_function(string f){
     /*uploading of the given function*/
@@ -12,7 +13,7 @@ string upload_function(string f){
     for(int i=0; i<(int)f.size(); i++){
         if(f[i]==' ' || f[i]=='\t' || f[i]=='\n')
             continue;
-        s+=f[i];
+        s += f[i];
     }
 
     return s;
@@ -47,6 +48,8 @@ bool check_system(string f){
         return true;
     else
         return false;
+
+    // more checkings needed
 }
 
 bool check_divisonPolynomials(string f){
@@ -78,7 +81,7 @@ bool check_divisonPolynomials(string f){
 
 bool check_integral(string f){
     /*checking if integral solving should be performed*/
-    if (f.size()<6)
+    if (f.size()<12)
         return false;
     if (f.substr(0,3) == "int")
         return true;
@@ -87,6 +90,8 @@ bool check_integral(string f){
 }
 
 vector<string> derivative(string f){
+    AF function(simplify(f.substr(1, (int)f.size() - 3), 'x'));
+    //return = function.get_derivative();
     return vector<string>();
 }
 
@@ -115,50 +120,196 @@ vector<string> equation(string f){
     vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
     AF function(tokens);
     if (function.is_polynomial()){
-        PolynomialRational P = function.get_polynomial();
-        solutionPolynomial res = solveRational(P);
+        solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;
         if (res.roots.empty())
-             {
-                 std::cout<<"No Solution"<<std::endl;
+         {
+             std::cout<<"No Solution"<<std::endl;
+         }
+
+         for (auto i : solution)
+             cout << i << "\n";
+
+         printf("The roots are\n");
+         for (auto i : res.roots)
+         {
+             std::cout<<i<<std::endl;
+         }
+
+         printf("The complex roots are\n");
+         for (auto i : res.complex){
+             cout<<i<<"\n";
+         }
+
+         string s = "";
+         for (auto i : res.factors){
+             s += i.first;
+             if(i.second > 1){
+                 s += "^"+ to_string(i.second);
              }
+         }
 
-             for (auto i : solution)
-                 cout << i << "\n";
 
-             printf("The roots are\n");
-             for (auto i : res.roots)
-             {
-                 std::cout<<i<<std::endl;
-             }
-
-             printf("The complex roots are\n");
-             for (auto i : res.complex){
-                 cout<<i<<"\n";
-             }
-
-             string s = "";
-             for (auto i : res.factors){
-                 s += i.first;
-                 if(i.second > 1){
-                     s += "^"+ to_string(i.second);
-                 }
-             }
-
-             cout<<s<<"\n";
+         cout<<s<<"\n";
     }
 
-    //add numerical results
+    vector<double> sol = function.get_roots();
+    for (auto i : sol)
+        cout<< i << " ";
+    cout << "\n";
 
     return solution;
 }
 vector<string> inetgral(string f){
-    return vector<string>();
+    f = f.substr(3, f.size() - 3);
+    int i =1;
+    string a = "";
+    while (f[i] != '}')
+        a += f[i++];
+
+    double down;
+    if (a == "-inf")
+        down = -10000;
+    else
+        down = AF(simplify(a, 'x')).get_value(0);
+
+    i++;
+    string b = "";
+    while (f[i] != '}')
+        b += f[i++];
+
+    double up;
+    if (b == "inf")
+        up = 10000;
+    else
+        up = AF(simplify(b, 'x')).get_value(0);
+    i++;
+
+    string res = to_string(AF(simplify(f.substr(i, f.size() - i - 1), 'x')).get_integral_value(down, up));
+    cout<< res<<"\n";
+
+    return vector<string>{res};
 }
 vector<string> system(string f){
+    f = f.substr(4, f.size() - 5);
+    vector< vector <Rational> > X;
+    vector< vector <Rational> > Y;
+    string num = "";
+    int x = 0;
+    int y = 0;
+    int op = 0;
+    bool eq = false;
+    X.push_back(vector<Rational>());
+    for (int i = 0; i < (int)f.size(); i++){
+        //maybe token
+        if (isdigit(f[i]) || (f[i] == '.') || (f[i] == '+') || (f[i] == '-'))
+            num += f[i];
+        else if (f[i] == '*'){
+            if (eq)
+                Y[x].push_back(Rational(stod(num)));
+            else
+                X[x].push_back(Rational(stod(num)));
+            op = 1;
+            num = "";
+        }
+        else if (f[i] == '/'){
+            if (eq)
+                Y[x].push_back(Rational(stod(num)));
+            else
+                X[x].push_back(Rational(stod(num)));
+            op = 2;
+            num = "";
+        }
+        else if (f[i] == ';'){
+            if (op == 1)
+                X[x][y] = X[x][y]*Rational(stod(num));
+            else if (op == 2)
+                X[x][y] = X[x][y]/Rational(stod(num));
+            else
+                X[x].push_back(Rational(stod(num)));
+
+            op = 0;
+            y++;
+            num = "";
+        }
+        else if (f[i] == '|'){
+            if (op == 1)
+                Y[x][0] = Y[x][0]*Rational(stod(num));
+            else if (op == 2)
+                Y[x][0] = Y[x][0]/Rational(stod(num));
+            else
+                Y[x].push_back(Rational(stod(num)));
+
+            op = 0;
+            y = 0;
+            x++;
+            X.push_back(vector<Rational>());
+            num = "";
+            eq = false;
+        }
+        else if (f[i] == '='){
+            if (op == 1)
+                X[x][y] = X[x][y]*Rational(stod(num));
+            else if (op == 2)
+                X[x][y] = X[x][y]/Rational(stod(num));
+            else
+                X[x].push_back(Rational(stod(num)));
+
+            op = 0;
+            Y.push_back(vector<Rational>());
+            eq = true;
+            num = "";
+        }
+        else{
+            cout << "Wrong input!\n";
+            return vector<string>();
+        }
+
+    }
+
+    if (op == 1)
+        Y[x][0] = Y[x][0]*Rational(stod(num));
+    else if (op == 2)
+        Y[x][0] = Y[x][0]/Rational(stod(num));
+    else
+        Y[x].push_back(Rational(stod(num)));
+
+    int m = X[0].size();
+    int n = X.size();
+
+    for (int i = 1; i < n; i++)
+        if ((int)X[i].size() != m){
+            cout<< n<<"\n";
+            cout << "Wrong size input\n";
+            return vector<string>();
+        }
+
+    gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
+
     return vector<string>();
 }
 vector<string> division(string f){
+    string make_poly[2];
+    make_poly[0] = "";
+    make_poly[1] = "";
+    int cnt = 0;
+    for (int i = 0; i < (int)f.size(); i++){
+        if(f[i] == '(' || f[i] == ')')
+            continue;
+        else if (f[i] == ':')
+            cnt++;
+        else
+            make_poly[cnt] += f[i];
+    }
+    AF P(simplify(make_poly[0], 'x'));
+    AF Q(simplify(make_poly[1], 'x'));
+
+    if (!P.is_polynomial() || !Q.is_polynomial()){
+        cout<< "Not division between rationals polynomials!\n";
+        return vector<string>();
+    }
+    divisionR(P.get_polynomial(), Q.get_polynomial(), true);
+
     return vector<string>();
 }
 

@@ -1,5 +1,7 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
+#define MAX_ITER 1000000
+#define EPS 0.00001
 #include "Tokenizer.hpp"
 #include "Equations/polynomial.hpp"
 
@@ -48,6 +50,9 @@ public:
     string display(int i);
     bool is_none();
 
+    vector<double> get_roots(double start = -100, double end = 100);
+    double regula_falsi(double a, double b);
+    double get_integral_value(double a, double b);
     bool is_polynomial();
     PolynomialRational get_polynomial(bool neg = false);
     int get_type();
