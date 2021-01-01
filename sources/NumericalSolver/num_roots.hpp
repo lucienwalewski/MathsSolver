@@ -4,12 +4,12 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
-#include <list>
 #include "num_derivation.hpp"
+
+using namespace std;
 
 double Newton(double f(double),double x0,double eps,double K);
 
-
-list<double> rootfinding(double f(double));
+vector<double> rootfinding(double f(double));
 
 #endif // NUM_ROOTS_HPP

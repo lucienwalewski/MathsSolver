@@ -197,22 +197,29 @@ string AF::display(int i){
     }
 }
 
+// be careful when divion with 0
 double AF::get_value(double x, bool neg, bool div){
     //cout << get_str_label() << " " << operation.get_type()<< "\n";
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
         case 1: return get_left().get_value(get_right().get_value(x, false, false), false, false); break;
         case 2: return pow(get_left().get_value(x, false, false), get_right().get_value(x, false, true)); break;
-        case 3:
-            return get_left().get_value(x, false, false)/get_right().get_value(x, false, true);
+        case 3:{
+            double a = get_right().get_value(x, false, true);
+            if(a == 0){
+                cout << "Division with zero!\n";
+                return 1;
+            }
+            else
+                return get_left().get_value(x, false, false)/a;
             break;
+        }
         case 4: return get_left().get_value(x, false, false)*get_right().get_value(x, false, false); break;
         case 5:
             if (neg)
                 return get_left().get_value(x, false, false)+get_right().get_value(x, true, false);
             else
                 return get_left().get_value(x, false, false)-get_right().get_value(x, true, false);
-
             break;
         case 6:
             return get_left().get_value(x, false, false)+get_right().get_value(x, false, false); break;
@@ -234,6 +241,123 @@ double AF::get_leaf_value(double x, int n, string val){
         case 8: return VarAF(Variable(val)).get_value(x); break;
         default: return 0;
     }
+}
+
+
+bool AF::is_polynomial(){
+    //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
+    switch (operation.get_type()) {
+        case -1:
+            if (leaf_mark == 0 || leaf_mark == 8)
+                return true;
+            else
+                return false;
+            break;
+        case 1: return false; break;
+        // later update needed for power, since power has to be int>=0
+        case 2: return (get_left().leaf_mark == 8) && (get_right().leaf_mark == 0); break;
+        case 3: return (get_left().leaf_mark == 0) && (get_right().leaf_mark == 0); break;
+        case 4: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        case 5: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        case 6: return get_left().is_polynomial() && get_right().is_polynomial(); break;
+        default: return false;
+    }
+}
+
+
+PolynomialRational AF::get_polynomial(bool neg){
+    if (!is_polynomial())
+        return PolynomialRational();
+
+    switch (operation.get_type()) {
+        case -1:{
+            if (leaf_mark == 0){
+                Rational c[1];
+                c[0] = Rational((get_value(0)));
+                return PolynomialRational(c, 0);
+            }
+            else{
+                Rational c[2] = {};
+                c[1] = Rational(1,1);
+                return PolynomialRational(c, 1);
+            }
+            break;
+        }
+        case 2: {
+            int n = (int)get_right().get_value(0);
+            Rational c[n+1];
+            for (int i = 0; i <= n; i++)
+                c[i] = Rational(0, 1);
+            c[n] = Rational(1,1);
+            return PolynomialRational(c, n);
+            break;
+        }
+        case 3: return get_left().get_polynomial()/get_right().get_polynomial(); break;
+        case 4: return get_left().get_polynomial()*get_right().get_polynomial(); break;
+        case 5:
+            if (neg)
+                return get_left().get_polynomial() + get_right().get_polynomial(true);
+            else
+                return get_left().get_polynomial() - get_right().get_polynomial(true);
+            break;
+        case 6: return get_left().get_polynomial() + get_right().get_polynomial(); break;
+        default: return false;
+    }
+
+}
+
+double AF::regula_falsi(double a, double b){
+    double c;
+    for (int i=0; i < MAX_ITER; i++){
+        c = (a*get_value(b) - b*get_value(a))/ (get_value(b) - get_value(a));
+
+        if (abs(get_value(c))<=EPS)
+            return c;
+        else if (get_value(c)*get_value(a) < 0)
+            b = c;
+        else
+            a = c;
+    }
+    return c;
+}
+
+vector<double> AF::get_roots(double start, double end){
+    vector<double> critical_points;
+    vector<double> roots;
+    double i = start;
+    while (i <= end){
+        if (abs(get_value(i)*get_value(i+0.1)) <= EPS){
+            if (abs(get_value(i)) <= EPS)
+                roots.push_back(i);
+        }
+        else if (get_value(i)*get_value(i+0.1) < 0)
+            critical_points.push_back(i);
+
+        i += 0.1;
+    }
+
+    for(int i = 0; i < (int)critical_points.size(); i++)
+        roots.push_back(regula_falsi(i, i+0.1));
+
+    return roots;
+}
+
+double AF::get_integral_value(double a, double b){
+    double DIV = (b-a)*1100;
+    double h = (b-a)/DIV;
+    double T=0;
+    double x=a;
+
+    T=0.5*get_value(x);
+    for(int i=1; i<DIV; i++){
+        x+=h;
+        T+= get_value(x);
+    }
+    x+=h;
+    T+=0.5*get_value(x);
+    T*=h;
+
+    return T;
 }
 
 

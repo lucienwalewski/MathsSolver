@@ -5,6 +5,8 @@
 #include "Derivatives/derivatives.hpp"
 #include "Equations/numbers.hpp"
 #include "Equations/polynomial.hpp"
+#include "Equations/matrix.hpp"
+#include "Equations/gaussin.hpp"
 
 #include<string>
 #include<iostream>

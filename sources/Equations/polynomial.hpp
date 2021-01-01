@@ -89,6 +89,10 @@ public:
     PolynomialRational operator - (const PolynomialRational& b) const;
     Rational operator [] (const int &i) const {return coefficient[i];}
     Rational& operator [] (const int &i) {return coefficient[i];}
+    PolynomialRational operator * (const PolynomialRational& b) const;
+    PolynomialRational operator * (const Rational& b) const;
+    PolynomialRational operator / (const PolynomialRational& b) const;
+    PolynomialRational operator / (const Rational& b) const;
     string get_string();
     void operator = (const PolynomialRational &c);
     void print(){
@@ -117,7 +121,7 @@ Polynomial linear_re(Polynomial a, long long *f, int k, long long P, int b);
 Polynomial ksm(Polynomial a, long long *f, int k, long long P, int b);
 
 Polynomial division(Polynomial a, Polynomial b);
-PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step);
+PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step = false);
 
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
 
