@@ -122,24 +122,30 @@ vector<string> equation(string f){
     if (function.is_polynomial()){
         solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;
-        if (res.roots.empty())
-         {
+        solution.push_back("r");
+        if (res.roots.empty() && res.complex.empty()){
+             solution.push_back("No Solution");
              std::cout<<"No Solution"<<std::endl;
-         }
+        }
+        else{
 
-         for (auto i : solution)
-             cout << i << "\n";
+            for (auto i : solution){
+                cout << i << "\n";
+            }
 
-         printf("The roots are\n");
-         for (auto i : res.roots)
-         {
-             std::cout<<i<<std::endl;
-         }
+            printf("The roots are\n");
+            for (auto i : res.roots){
+                std::cout<<i<<std::endl;
+                solution.push_back(to_string(i));
+            }
 
-         printf("The complex roots are\n");
-         for (auto i : res.complex){
-             cout<<i<<"\n";
-         }
+            printf("The complex roots are\n");
+            for (auto i : res.complex){
+                cout<<i<<"\n";
+                solution.push_back(i);
+            }
+        }
+
 
          string s = "";
          for (auto i : res.factors){
@@ -151,6 +157,7 @@ vector<string> equation(string f){
 
 
          cout<<s<<"\n";
+         solution.push_back(s);
     }
 
     vector<double> sol = function.get_roots();
