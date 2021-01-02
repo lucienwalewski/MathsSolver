@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Equations/polynomial.hpp"
 #include "functionPreprocessing.hpp"
-
 #include <QLabel>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -11,6 +11,10 @@
 #include <QDebug>
 #include <QFont>
 #include <QWidget>
+#include <QList>
+#include <QString>
+#include <QScrollArea>
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -53,28 +57,24 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 //STEPS
-
+/*
  label1 = new QLabel(this);
  label1->setText("Step 1:");
- step1 = new QLabel(this);
+ step1 = new QTextEdit(this);
  step1->setText("first do this");
+ gs1 = new QGroupBox(this);
 
  label2 = new QLabel(this);
  label2->setText("Step 2:");
- step2 = new QLabel(this);
+ step2 = new QTextEdit(this);
  step2->setText("then do this");
+ gs2 = new QGroupBox(this);
 
  label3 = new QLabel(this);
  label3->setText("Step 3:");
- step3 = new QLabel(this);
+ step3 = new QTextEdit(this);
  step3->setText("then do this");
-
- label1->setVisible(false);
- step1->setVisible(false);
- label2->setVisible(false);
- step2->setVisible(false);
- label3->setVisible(false);
- step3->setVisible(false);
+ gs3 = new QGroupBox(this);
 
 
 //FINAL RESULT
@@ -83,27 +83,43 @@ MainWindow::MainWindow(QWidget *parent)
  result = new QLabel(this);
  result->setText("result");
 
- //output->setVisible(false);
- //result->setVisible(false);
+*/
 
 
 
 
 //LAYOUT
 
-    QVBoxLayout *main_layout = new QVBoxLayout(this);
-    main_layout->addWidget(group_0());
-    main_layout->addWidget(first_group());
-    main_layout->addWidget(second_group());
-    main_layout->addWidget(group_step1());
-    main_layout->addWidget(group_step2());
-    main_layout->addWidget(group_step3());
-    main_layout->addWidget(group_result());
-    main_layout->addStretch();
+    main_layout = new QVBoxLayout(this);
+    top_layout = new QVBoxLayout(this);
+    steps_layout = new QVBoxLayout(this);
+    results_layout = new QHBoxLayout(this);
+
+    top_layout->addWidget(group_0());
+    top_layout->addWidget(first_group());
+    top_layout->addWidget(second_group());
+    //top_layout->addStretch();
+
+
+
+    QWidget *subwindow = new QWidget();
+    subwindow ->setLayout(steps_layout);
+
+    QScrollArea *scrollarea = new QScrollArea(this);
+    scrollarea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollarea->setWidgetResizable( true );
+    scrollarea->setWidget(subwindow);
+
+    main_layout->addLayout(top_layout);
+    main_layout->addWidget(scrollarea);
+    main_layout->addLayout(results_layout);
+
 
     QWidget *window = new QWidget(); //setting layout
     window->setLayout(main_layout);
     setCentralWidget(window); //setting layout for main window
+
+
 
 
 //FUNCTIONS
@@ -162,56 +178,7 @@ QGroupBox *MainWindow::second_group(){
 }
 
 
-QGroupBox *MainWindow::group_step1(){
 
-    QGroupBox *gs1 = new QGroupBox();
-    //gs1->setVisible(false);
-    gs1->setStyleSheet("background-color: white; border:none");
-
-    //label1->setVisible(true);
-    //step1->setVisible(true);
-
-    QHBoxLayout *gs1_layout = new QHBoxLayout;
-    gs1_layout->addWidget(label1);
-    gs1_layout->addWidget(step1);
-    gs1->setLayout(gs1_layout);
-
-    return gs1;
-}
-
-QGroupBox *MainWindow::group_step2(){
-
-    QGroupBox *gs2 = new QGroupBox();
-    //gs2->setVisible(false);
-    gs2->setStyleSheet("background-color: white; border:none");
-
-    //label2->setVisible(true);
-    //step2->setVisible(true);
-
-    QHBoxLayout *gs2_layout = new QHBoxLayout;
-    gs2_layout->addWidget(label2);
-    gs2_layout->addWidget(step2);
-    gs2->setLayout(gs2_layout);
-
-    return gs2;
-}
-
-QGroupBox *MainWindow::group_step3(){
-
-    QGroupBox *gs3 = new QGroupBox();
-    //gs3->setVisible(false);
-    gs3->setStyleSheet("background-color: white; border:none");
-
-    //label3->setVisible(true);
-    //step3->setVisible(true);
-
-    QHBoxLayout *gs3_layout = new QHBoxLayout;
-    gs3_layout->addWidget(label3);
-    gs3_layout->addWidget(step3);
-    gs3->setLayout(gs3_layout);
-
-    return gs3;
-}
 
 QGroupBox *MainWindow::group_result(){
 
@@ -252,34 +219,98 @@ void MainWindow::find_file(){
 
 void MainWindow::enter_equation(){
 
+    // Equation as input to function
     QString equation = equation_input->text();
-
     if (!equation.isEmpty()) {
-        //std::cout<<equation.toStdString()<<std::endl;
         string f = equation.toStdString();
-        vector<string> reslut = start_process(f);
-    } else {
-        // do nothing
+        vector<string> res = start_process(f);
+
+        QList<int> arr;
+        for (int j = 1; j<1000; j++){
+            arr.append(j);
+        }
+
+        size_t k = 0;
+        while (res[k] != "r"){
+            QLabel* number_step = new QLabel;
+            QString number = QString::number(arr[k]);
+            QString s = "Step "+number;
+            number_step->setText(s);
+
+            QLabel* step = new QLabel;
+            QString a = QString::fromStdString(res[k]);
+            step->setText(a);
+
+            QGroupBox* g = new QGroupBox;
+            g->setStyleSheet("background-color: white; border:none");
+            QHBoxLayout *g_layout = new QHBoxLayout;
+            g_layout->addWidget(number_step);
+            g_layout->addWidget(step);
+            g->setLayout(g_layout);
+
+            steps_layout->addWidget(g);
+
+            k += 1;
+        }
+
+        QLabel* infosol = new QLabel;
+        infosol->setText("The solution to your equation is");
+        results_layout->addWidget(infosol);
+
+
+        QGroupBox *gres = new QGroupBox();
+        gres->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
+
+        QHBoxLayout *gres_layout = new QHBoxLayout;
+        QVBoxLayout* sub_results = new QVBoxLayout;
+        for (size_t i=k+1 ; i < (res.size()) ; i++){
+            QLabel* part_res = new QLabel;
+            QString r2 = QString::fromStdString(res[i]);
+            part_res->setText(r2);
+            sub_results->addWidget(part_res);
+        gres_layout->addLayout(sub_results);
+        gres->setLayout(gres_layout);
+        results_layout->addWidget(gres);
+        }
+
+
+
+
+
+
+
+/*
+        for (size_t k=0 ; k < (result.size()) ; k++){
+            QLabel* number_step = new QLabel;
+            QString s = "Step";
+            s += k;
+            number_step->setText(s);
+
+            QLabel* step = new QLabel;
+            step->setText(QString::fromStdString(result[k]));
+
+            QGroupBox* g = new QGroupBox;
+            g->setStyleSheet("background-color: white; border:none");
+            QHBoxLayout *g_layout = new QHBoxLayout;
+            g_layout->addWidget(number_step);
+            g_layout->addWidget(step);
+            g->setLayout(g_layout);
+
+            main_layout->addWidget(g);
+        }
+*/
     }
-    //if step1 != empty
-    label1->setVisible(true);
-    step1->setVisible(true);
-
-    //if step2 != empty
-    label2->setVisible(true);
-    step2->setVisible(true);
-
-    //if step3 != empty
-    label3->setVisible(true);
-    step3->setVisible(true);
 }
 
 
-// for k in (1,max_steps)
-    //if step(k) not empty -> display step(k)
-// display result
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+//k = 0
+//for i in res.step_solution()
+    //stepk.settext(i)
+
