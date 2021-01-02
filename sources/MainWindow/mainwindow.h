@@ -8,14 +8,12 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTextEdit>
 #include "functionPreprocessing.hpp"
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
-using namespace std;
 
 class MainWindow : public QMainWindow
 {
@@ -49,18 +47,28 @@ private:
     QLabel* label1;
     QLabel* label2;
     QLabel* label3;
-    QLabel* step1;
-    QLabel* step2;
-    QLabel* step3;
+    QWidget* steps;
+    QTextEdit* step1;
+    QTextEdit* step2;
+    QTextEdit* step3;
+    /*
+    QGroupBox *gs1;
+    QGroupBox *gs2;
+    QGroupBox *gs3;
     QGroupBox *group_step1();
     QGroupBox *group_step2();
     QGroupBox *group_step3();
+    */
 //5. Final Result
     QLabel* output;
     QLabel* result;
     QGroupBox *group_result();
 //6. Main Layout
     QVBoxLayout* main_layout;
+    QVBoxLayout* top_layout;
+    QVBoxLayout* steps_layout;
+    QHBoxLayout* results_layout;
+
+
 };
 #endif // MAINWINDOW_H
-
