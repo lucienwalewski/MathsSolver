@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "functionPreprocessing.hpp"
 
 #include <QLabel>
 #include <QGroupBox>

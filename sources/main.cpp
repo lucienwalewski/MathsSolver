@@ -30,9 +30,10 @@ int main(int argc, char *argv[]){
      w.setWindowTitle("MathsSolver");
      w.show();
 
-     /*string s = "1/x";
+     /*//string s = "1/x";
      //string s = "x^5-14/3*x^4-46/3*x^3+357/3*x^2-634/3*x+280/3";
      //string s = "(cos(x) + 8986)";//works
+     //string s = "cos(6*x+ 5)";
      // but with  string s =  (8986 + cos(x)); it doesn't not even without the parentheses
      // or s = exp(x)-ln(x); we get nothing
      //cout<< s<< "\n";
