@@ -1,15 +1,17 @@
 #include "derivatives.hpp"
 #include "Tokenizer.hpp"
+#include "Operators.hpp"
 
 //bring back AbstractFunction as a name
 
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
+
 AF::AF(vector<Token> fun){
     end = false;
     type = 1;
     vect_label = fun;
-    in_str_label = vect_to_str(fun);
+    str_label = vect_to_str(fun);
     // parentheses(&fun);
     if ((int)fun.size() == 1 && (fun[0].get_type() == -4)){
         fun = simplify(fun[0].get_value(),'x');
@@ -23,7 +25,6 @@ AF::AF(vector<Token> fun){
         end = true;
         this->str_label = fun[0].get_value();
         this->type = fun[0].get_type();
-        this->in_str_label = fun[0].get_value();
         switch (type){
             case -1: leaf_mark = 0;  break;
             case -2:
@@ -113,13 +114,13 @@ AF* assign(Token fun){
 }
 
 
+
 AF::AF(AF left, AF right, Operator operation){
     this->left = &left;
     this->right = &right;
     end = false;
     this->operation = operation;
     this->str_label = "";
-    this->in_str_label = "";
 
 }
 
@@ -168,9 +169,6 @@ string AF::get_str_label(){
     return str_label;
 }
 
-string AF::get_in_str_label(){
-    return in_str_label;
-}
 
 string AF::display(int i){
 
@@ -265,7 +263,7 @@ bool AF::is_polynomial(){
 }
 
 
-PolynomialRational AF::get_polynomial(bool neg){
+/*PolynomialRational AF::get_polynomial(bool neg){
     if (!is_polynomial())
         return PolynomialRational();
 
@@ -304,7 +302,7 @@ PolynomialRational AF::get_polynomial(bool neg){
         default: return false;
     }
 
-}
+}*/
 
 double AF::regula_falsi(double a, double b){
     double c;
@@ -364,13 +362,13 @@ double AF::get_integral_value(double a, double b){
 ExpAF::ExpAF():AF(){
   value = Function("exp");
   str_label = value.get_value();
-  in_str_label = value.get_value();
+  str_label = value.get_value();
   type = value.get_type();
   leaf_mark = 1;
 }
 
 string ExpAF::get_derivative(){
-    return str_label;
+    return "exp";
 }
 
 double ExpAF::get_value(double x, bool neg, bool div){
@@ -380,7 +378,7 @@ double ExpAF::get_value(double x, bool neg, bool div){
 LnAF::LnAF():AF(){
     value = Function("ln");
     str_label = value.get_value();
-    in_str_label = value.get_value();
+    str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 2;
 }
@@ -396,7 +394,7 @@ double LnAF::get_value(double x, bool neg, bool div){
 LogAF::LogAF(double a):AF(){
     value = Function("log");
     str_label = value.get_value();
-    in_str_label = value.get_value();
+    str_label = value.get_value();
     type = value.get_type();
     base = a;
     leaf_mark = 3;
@@ -407,7 +405,7 @@ double LogAF::get_base(){
 }
 
 string LogAF::get_derivative(){
-    return "(1/ln("+to_string(base)+")*1/";
+    return "1/(ln(10)*";
 }
 
 double LogAF::get_value(double x, bool neg, bool div){
@@ -417,7 +415,7 @@ double LogAF::get_value(double x, bool neg, bool div){
 CosAF::CosAF():AF(){
     value = Function("cos");
     str_label = value.get_value();
-    in_str_label = value.get_value();
+    str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 4;
 }
@@ -433,7 +431,7 @@ double CosAF::get_value(double x, bool neg, bool div){
 SinAF::SinAF():AF(){
     value = Function("sin");
     str_label = value.get_value();
-    in_str_label = value.get_value();
+    str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 5;
 }
@@ -449,13 +447,13 @@ double SinAF::get_value(double x, bool neg, bool div){
 TanAF::TanAF():AF(){
     value = Function("tan");
     str_label = value.get_value();
-    in_str_label = value.get_value();
+    str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 6;
 }
 
 string TanAF::get_derivative(){
-    return "1/cos^2";
+    return "1/(cos^2";
 }
 
 double TanAF::get_value(double x, bool neg, bool div){
@@ -465,13 +463,12 @@ double TanAF::get_value(double x, bool neg, bool div){
 SqrtAF::SqrtAF():AF(){
     value = Function("sqrt");
     str_label = value.get_value();
-    in_str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 7;
 }
 
 string SqrtAF::get_derivative(){
-    return "-(1/2)*1/sqrt";
+    return "(-1/2)*(1/sqrt";
 }
 
 double SqrtAF::get_value(double x, bool neg, bool div){
@@ -481,7 +478,6 @@ double SqrtAF::get_value(double x, bool neg, bool div){
 NumAF::NumAF(Token T):AF() {
     value = T;
     str_label = value.get_value();
-    in_str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 0;
 }
@@ -497,7 +493,6 @@ double NumAF::get_value(double x, bool neg, bool div){
 VarAF::VarAF(Token T):AF() {
     value = T;
     str_label = value.get_value();
-    in_str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 8;
 }
@@ -520,3 +515,224 @@ string vect_to_str(vector<Token> fun){
     }
     return sfun;
 }
+
+
+string AF::get_derivative(){
+    switch (operation.get_type()) {
+        case -1:
+            return get_leaf_derivative(leaf_mark, get_str_label()); break;
+        // composition
+        case 1:{
+            string r1 = get_right().get_derivative();
+            if (r1 == "1"){
+                if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
+                    return get_left().get_derivative() + "(" + get_right().get_str_label() + "))";
+                }
+                else{
+                    return get_left().get_derivative() + "(" + get_right().get_str_label() + ")";
+                }
+
+
+            }
+            else{
+                if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().get_str_label() + "))", r1);
+                }
+                else{
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().get_str_label() + ")", r1);
+                }
+            }
+            break;
+        }
+        // power
+        case 2: {
+            // left is a num
+            if(get_left().leaf_mark == 0){
+                string t = mult_strings(get_str_label(), "ln(" + get_left().get_str_label() + ")");
+                return mult_strings(t, get_right().get_derivative());
+            }
+            // right is a num
+            if(get_right().leaf_mark == 0){
+                string new_exp = to_string(stoi(get_right().get_str_label()) - 1);
+                string l2 = add_strings(get_right().get_str_label(), pow_strings(get_left().get_str_label(), new_exp));
+                /*if (new_exp == "1"){
+                    l2 = get_right().get_str_label() + "(" + get_left().get_str_label() + ")";
+                }
+                else{
+                    l2 = get_right().get_str_label() + "(" + get_left().get_str_label() + ")^" + new_exp;
+                }*/
+                string r2 = get_left().get_derivative() ;
+                return mult_strings(l2, r2);
+                /*if (r2 != "1"){
+                    return l2 + "*(" + r2 + ")";
+                }
+                else{
+                    return l2;
+                }*/
+            }
+            break;
+        }
+        // division
+        case 3:{
+            string l3 = mult_strings(get_left().get_derivative(), get_right().get_str_label());
+            string r3 = mult_strings(get_right().get_derivative(), get_left().get_str_label());
+            string tog = add_strings(l3, r3);
+            string denom = pow_strings(get_right().get_str_label(), "2");
+            return div_strings(tog, denom);
+        }
+
+        // multiplication
+        case 4: {
+            string l4 = mult_strings(get_left().get_derivative(), get_right().get_str_label());
+            string r4 = mult_strings(get_right().get_derivative(), get_left().get_str_label());
+            return add_strings(l4, r4);
+            break;
+        }
+
+        // subtraction
+        case 5:{
+            return sub_strings(get_left().get_derivative(), get_right().get_derivative());
+            break;
+        }
+        // addition
+        case 6:{
+            return add_strings(get_left().get_derivative(), get_right().get_derivative());
+            break;
+        }
+        default: return "";
+    }
+}
+
+string add_strings(string l, string r){
+    l = del_exterior_parentheses(l);
+    r = del_exterior_parentheses(r);
+    if (l == "0"){
+        return r;
+    }
+    if (r == "0"){
+        return l;
+    }
+    if (l.length() <= 1 and r.length() <= 1){
+        return l + "+" + r;
+    }
+    if (l.length() <= 1){
+        return l + "+(" + r + ")";
+    }
+    if (r.length() <= 1){
+        return "(" + l + ")+" + r;
+    }
+    return "(" + l + ")+(" + r + ")";
+}
+string sub_strings(string l, string r){
+    l = del_exterior_parentheses(l);
+    r = del_exterior_parentheses(r);
+    if (l == "0"){
+        return r;
+    }
+    if (r == "0"){
+        return l;
+    }
+    if (l.length() <= 1 and r.length() <= 1){
+        return l + "-" + r;
+    }
+    if (l.length() <= 1){
+        return l + "-(" + r + ")";
+    }
+    if (r.length() <= 1){
+        return "(" + l + ")-" + r;
+    }
+    return "(" + l + ")-(" + r + ")";
+}
+string mult_strings(string l, string r){
+    l = del_exterior_parentheses(l);
+    r = del_exterior_parentheses(r);
+    if (l == "0"){
+        return "0";
+    }
+    if (r == "0"){
+        return "0";
+    }
+    if (l == "1"){
+        return r;
+    }
+    if (r == "1"){
+        return l;
+    }
+    if (l.length() <= 1 and r.length() <= 1){
+        return l + "*" + r;
+    }
+    if (l.length() <= 1){
+        return l + "*(" + r + ")";
+    }
+    if (r.length() <= 1){
+        return "(" + l + ")*" + r;
+    }
+    return "(" + l + ")*(" + r + ")";
+}
+string div_strings(string l, string r){
+    l = del_exterior_parentheses(l);
+    r = del_exterior_parentheses(r);
+    if (l == "0"){
+        return "0";
+    }
+    if (r == "0"){
+        return "division by 0 error";
+    }
+    if (r == "1"){
+        return l;
+    }
+    if (l.length() <= 1 and r.length() <= 1){
+        return l + "/" + r;
+    }
+    if (l.length() <= 1){
+        return l + "/(" + r + ")";
+    }
+    if (r.length() <= 1){
+        return "(" + l + ")/" + r;
+    }
+    return "(" + l + ")/(" + r + ")";
+}
+
+string pow_strings(string l, string r){
+    l = del_exterior_parentheses(l);
+    r = del_exterior_parentheses(r);
+    if (l == "0"){
+        return "0";
+    }
+    if (l == "1"){
+        return "1";
+    }
+    if (r == "0"){
+        return "1";
+    }
+    if (r == "1"){
+        return l;
+    }
+    if (l.length() <= 1 and r.length() <= 1){
+        return l + "^" + r;
+    }
+    if (l.length() <= 1){
+        return l + "^(" + r + ")";
+    }
+    if (r.length() <= 1){
+        return "(" + l + ")^" + r;
+    }
+    return "(" + l + ")^(" + r + ")";
+}
+
+
+string AF::get_leaf_derivative(int n, string val){
+    switch (n) {
+        case 0: return NumAF(Num(val)).get_derivative(); break;
+        case 1: return ExpAF().get_derivative(); break;
+        case 2: return LnAF().get_derivative(); break;
+        case 3: return LogAF(10).get_derivative(); break;
+        case 4: return CosAF().get_derivative(); break;
+        case 5: return SinAF().get_derivative(); break;
+        case 6: return TanAF().get_derivative(); break;
+        case 7: return SqrtAF().get_derivative(); break;
+        case 8: return VarAF(Variable(val)).get_derivative(); break;
+        default: return "";
+    }
+}
+

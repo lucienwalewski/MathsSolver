@@ -3,7 +3,7 @@
 #define MAX_ITER 1000000
 #define EPS 0.00001
 #include "Tokenizer.hpp"
-#include "Equations/polynomial.hpp"
+//#include "Equations/polynomial.hpp"
 
 #include <QApplication>
 #include <QtTest>
@@ -18,14 +18,12 @@ using namespace std;
 class AF {
 public:
     AF(vector<Token> fun);
-
     AF(){
         this->left = nullptr;
         this->right = nullptr;
         this->operation = Operator();
         end = true;
         this->str_label = "";
-        this->in_str_label = "";
         this->type = 10;
     };
 
@@ -46,7 +44,6 @@ public:
     string get_string_operation();
 
     string get_str_label();
-    string get_in_str_label();
     string display(int i);
     bool is_none();
 
@@ -54,7 +51,7 @@ public:
     double regula_falsi(double a, double b);
     double get_integral_value(double a, double b);
     bool is_polynomial();
-    PolynomialRational get_polynomial(bool neg = false);
+//    PolynomialRational get_polynomial(bool neg = false);
     int get_type();
     void set_type(int type);
     bool get_end(){return end;}
@@ -62,14 +59,15 @@ public:
     void assign_type();
     virtual double get_value(double x, bool  neg = false, bool div = false);
     double get_leaf_value(double x, int n, string value);
-   // virtual string get_derivative(); return can be string or Token
+    virtual string  get_derivative();
+    string  get_leaf_derivative(int n, string val);
     int leaf_mark = -1;
+
 protected:
     Operator operation;
     AF *left;
     AF *right;
     string str_label;
-    string in_str_label;
     vector<Token> vect_label;
     int type;
     bool end;
@@ -101,6 +99,7 @@ public:
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
     double get_base();
+
 private:
     Token value;
     double base;
@@ -138,6 +137,7 @@ public:
     SqrtAF();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
+
 private:
     Token value;
 };
@@ -163,5 +163,10 @@ private:
 AF* assign(Token fun);
 string vect_to_str(vector<Token> fun);
 
+string add_strings(string l, string r);
+string sub_strings(string l, string r);
+string mult_strings(string l, string r);
+string div_strings(string l, string r);
+string pow_strings(string l, string r);
 
 #endif // DERIVATIVES_HPP
