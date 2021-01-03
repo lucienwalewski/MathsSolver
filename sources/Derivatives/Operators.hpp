@@ -11,8 +11,9 @@ string del_exterior_parentheses(string v);
 
 int closing_pare(string t, int i);
 
-vector<Token> add_multiplication(vector<Token> v);
+string add_multiplication(string v);
 
+string inside_parentheses(string s, int i);
 
 #endif // OPERATORS_HPP
 
