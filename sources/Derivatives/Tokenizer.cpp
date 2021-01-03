@@ -70,16 +70,18 @@ string find_function(string s){
 }
 
 //The following function takes as input a function under the form of a string and outputs a vector of tokens
-vector<Token> simplify(string s, char variable){
-    //cout << s << endl;
+//The string is assumed to be valid.
+vector<Token> simplify(string v, char variable){
+    string w = del_exterior_parentheses(v);
+    string s = add_multiplication(w);
     vector <Token> new_vector;
     int i = 0;
     string digits = "";
     while (i < int(s.size())){
         //We ignore spaces of all types
-        if ((s[i] != ' ') && (s[i] != '\t') && (s[i] != '\n')){
+        //if ((s[i] != ' ') && (s[i] != '\t') && (s[i] != '\n')){
             //Case 1 : a digit
-            if (isdigit(s[i])){
+            if (isdigit(s[i]) or s[i] == '.'){
                 string c(1, s[i]);
                 digits += c;
                 }
@@ -91,7 +93,7 @@ vector<Token> simplify(string s, char variable){
                 //Case 2 : a letter
                 if (isalpha(s[i])){
                     //Case 2.a : beginning of a function
-                    string s1 = s.substr(i, i+5);
+                    string s1 = s.substr(i, i+4);
                     string potential_function = find_function(s1);
 
                     //If it is the beginning of a function, we add the corresponding
@@ -102,42 +104,30 @@ vector<Token> simplify(string s, char variable){
                            new_vector.push_back(Operator("~"));
                            i = int(potential_function.size());
                            int opening_index = i;
-                           i++;
-                           string supertoken = "";
-
-                           while (i != closing_pare(s, opening_index)){
-                               string c(1, s[i]);
-                               supertoken +=  c;
-                               i++;
-                           }
-                         //cout << i << " " << supertoken<< '\n';
-                         new_vector.push_back(SuperToken(supertoken));
+                           string supertoken = inside_parentheses(s, opening_index);
+                           i += int(supertoken.size()) + 1;
+                           new_vector.push_back(SuperToken(supertoken));
                          }
                     else {
                         //Case 3 : variable
                         if (s[i] == variable){
                             string c(1, s[i]);
                             new_vector.push_back(Variable(c));
-                        }
+                             }
                         //Case 4 : any constant
                         else {
                             string c(1, s[i]);
                             new_vector.push_back(Num(c));
+                             }
                         }
                     }
-                }
                else {
                //Case 5 : operators
                   if (is_in_vector(str_operators, string(1,s[i]))){
                          if (s[i] == '('){
-                            string supertoken = "";
                             int opening_index = i;
-                            i++;
-                            while (i != closing_pare(s,opening_index)){
-                                string c(1, s[i]);
-                                supertoken += c;
-                                i++;
-                                }
+                            string supertoken = inside_parentheses(s, opening_index);
+                            i += int(supertoken.size()) + 1;
                             new_vector.push_back(SuperToken(supertoken));
                          }
                          else {
@@ -147,9 +137,8 @@ vector<Token> simplify(string s, char variable){
                   }
                }
             }
+            i++;
         }
-        i++;
-    }
     if (digits != ""){
         new_vector.push_back(Num(digits));
     }
@@ -157,4 +146,8 @@ vector<Token> simplify(string s, char variable){
 };
 
 
-
+//If no variable is mentionned, the default variable is 'x'.
+vector<Token> simplify(string s){
+    char v = 'x';
+    return simplify(s, v);
+}
