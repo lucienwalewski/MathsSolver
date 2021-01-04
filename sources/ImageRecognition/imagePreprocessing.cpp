@@ -119,7 +119,7 @@ void extract_contours(Mat image){
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
 
-    findContours( image, contours, hierarchy, RETR_TREE, CHAIN_APPROX_TC89_KCOS, Point(0, 0));
+    findContours( image, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_TC89_KCOS, Point(0, 0));
 
     vector<vector<Point> > contours_poly( contours.size() );
     vector<Rect> boundRect( contours.size() );
@@ -196,7 +196,7 @@ void extract_contours(Mat image){
            waitKey(0);
            stringstream searchMask;
            searchMask<<i<<".jpg";
-           imwrite(searchMask.str(),resizedPic);
+           imwrite(searchMask.str(),image);
 
 
         }

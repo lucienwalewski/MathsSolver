@@ -1,7 +1,7 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
-#define MAX_ITER 1000000
-#define EPS 0.00001
+const int MAX_ITER =1000000;
+const double EPS =  0.00001;
 #include "Tokenizer.hpp"
 #include "Equations/polynomial.hpp"
 

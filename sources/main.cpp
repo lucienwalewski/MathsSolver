@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include "MainWindow/mainwindow.h"
 
-//#include "ImageRecognition/imagePreprocessing.hpp"
+#include "ImageRecognition/imagePreprocessing.hpp"
 #include "Derivatives/Tokenizer.hpp"
 #include "Derivatives/derivatives.hpp"
 #include "Derivatives/Operators.hpp"
@@ -25,10 +25,12 @@ using namespace std;
 int main(int argc, char *argv[]){
      QApplication  a(argc, argv);
 
-     MainWindow w;
+     /*MainWindow w;
      w.setWindowState(Qt::WindowMaximized);
      w.setWindowTitle("MathsSolver");
-     w.show();
+     w.show();*/
+
+     display_prepocessing("C:\\Users\\Korisnik\\Desktop\\reference.jpg");
 
      /*//string s = "1/x";
      //string s = "x^5-14/3*x^4-46/3*x^3+357/3*x^2-634/3*x+280/3";

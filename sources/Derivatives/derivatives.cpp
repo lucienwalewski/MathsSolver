@@ -318,6 +318,8 @@ double AF::regula_falsi(double a, double b){
         else
             a = c;
     }
+    if (abs(c) <= EPS)
+        return 0;
     return c;
 }
 
