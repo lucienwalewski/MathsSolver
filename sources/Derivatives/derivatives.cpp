@@ -7,7 +7,7 @@
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
 
-AF::AF(vector<Token> fun){
+AbstractFunction::AbstractFunction(vector<Token> fun){
     end = false;
     type = 1;
     vect_label = fun;
@@ -76,13 +76,13 @@ AF::AF(vector<Token> fun){
              if ((int)l.size() == 1 && (l[0].get_type() != -4))
                  left = assign(l[0]);
              else
-                 left =  new AF(l);
+                 left =  new AbstractFunction(l);
 
 
              if ((int)r.size() == 1 && (r[0].get_type() != -4))
                  right = assign(r[0]);
              else
-                 right = new AF(r);
+                 right = new AbstractFunction(r);
 
              str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
              //cout<< "Const: "<< str_label<< "\n";
@@ -90,32 +90,32 @@ AF::AF(vector<Token> fun){
     }
 }
 
-AF* assign(Token fun){
+AbstractFunction* assign(Token fun){
     switch (fun.get_type()) {
-        case -1: return new NumAF(fun); break;
+        case -1: return new NumAbstractFunction(fun); break;
         case -2:
             if (fun.get_value() == "exp")
-                return new ExpAF();
+                return new ExpAbstractFunction();
             else if (fun.get_value() == "ln")
-                return new LnAF();
+                return new LnAbstractFunction();
             else if (fun.get_value() == "log")
-                return new LogAF(10);
+                return new LogAbstractFunction(10);
             else if (fun.get_value() == "cos")
-                return new CosAF();
+                return new CosAbstractFunction();
             else if (fun.get_value() == "sin")
-                return new SinAF();
+                return new SinAbstractFunction();
             else if (fun.get_value() == "tan")
-                return new TanAF();
+                return new TanAbstractFunction();
             else if (fun.get_value() == "sqrt")
-                return new SqrtAF();
+                return new SqrtAbstractFunction();
             break;
-        case -3: return new VarAF(fun); break;
+        case -3: return new VarAbstractFunction(fun); break;
     }
 }
 
 
 
-AF::AF(AF left, AF right, Operator operation){
+AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation){
     this->left = &left;
     this->right = &right;
     end = false;
@@ -124,7 +124,7 @@ AF::AF(AF left, AF right, Operator operation){
 
 }
 
-AF::AF(int type, Token end_token){
+AbstractFunction::AbstractFunction(int type, Token end_token){
     this->left = nullptr;
     this->right = nullptr;
     this->operation = Operator();
@@ -135,68 +135,73 @@ AF::AF(int type, Token end_token){
 
 
 
-AF AF:: get_left(){
+AbstractFunction AbstractFunction:: get_left(){
     return *left;
 }
 
-void AF::set_left(AF *left){
+void AbstractFunction::set_left(AbstractFunction *left){
     this->left = left;
 }
 
-AF AF:: get_right(){
+AbstractFunction AbstractFunction:: get_right(){
     return *right;
 }
 
-void AF::set_right(AF *right){
+void AbstractFunction::set_right(AbstractFunction *right){
     this->right = right;
 }
 
-string AF::get_string_operation(){
+string AbstractFunction::get_string_operation(){
     return operation.get_value();
 }
 
 
-Operator AF::get_operation(){
+Operator AbstractFunction::get_operation(){
     return operation;
 }
 
-void AF::set_operation(Operator operation){
+void AbstractFunction::set_operation(Operator operation){
     this->operation = operation;
 
 }
 
-string AF::get_str_label(){
+string AbstractFunction::get_str_label(){
     return str_label;
 }
 
 
-string AF::display(int i){
+string AbstractFunction::display(){
 
     if (this->left == nullptr && this->right == nullptr){
         return get_str_label();
     }
     else{
-        //cout<< i << " " << operation.get_value() << "\n";
-        //string s = "(" +get_left().display(i+1) + " " + operation.get_value() + " " + get_right().display(i+1) + ")";
-        string s1 = get_left().display(i+1);
-        if (i == 0){
-            cout <<"OK\n";
+        string s1 = get_left().display();
+        string s2 = get_right().display();
+        if (operation.get_value() == "~"){
+            return s1 + "(" + s2 + ")";
         }
-        string s2 = get_right().display(i+1);
-        if (i == 0){
-            cout <<"OKK\n";
+        if (operation.get_value() == "+"){
+            return add_strings(s1, s2);
         }
-        string s = "("+s1+operation.get_value()+s2+")";
-        cout<<i<<" "<< s << "\n";
-        if (i == 1){
-            cout<<"k\n";
+        if (operation.get_value() == "-"){
+            return sub_strings(s1, s2);
         }
-        return s;
+        if (operation.get_value() == "*"){
+            return mult_strings(s1, s2);
+        }
+        if (operation.get_value() == "/"){
+            return div_strings(s1, s2);
+        }
+        if (operation.get_value() == "^"){
+            return pow_strings(s1, s2);
+        }
+        return "display() error!!";
     }
 }
 
 // be careful when divion with 0
-double AF::get_value(double x, bool neg, bool div){
+double AbstractFunction::get_value(double x, bool neg, bool div){
     //cout << get_str_label() << " " << operation.get_type()<< "\n";
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
@@ -226,23 +231,23 @@ double AF::get_value(double x, bool neg, bool div){
 }
 
 
-double AF::get_leaf_value(double x, int n, string val){
+double AbstractFunction::get_leaf_value(double x, int n, string val){
     switch (n) {
-        case 0: return NumAF(Num(val)).get_value(x); break;
-        case 1: return ExpAF().get_value(x); break;
-        case 2: return LnAF().get_value(x); break;
-        case 3: return LogAF(10).get_value(x); break;
-        case 4: return CosAF().get_value(x); break;
-        case 5: return SinAF().get_value(x); break;
-        case 6: return TanAF().get_value(x); break;
-        case 7: return SqrtAF().get_value(x); break;
-        case 8: return VarAF(Variable(val)).get_value(x); break;
+        case 0: return NumAbstractFunction(Num(val)).get_value(x); break;
+        case 1: return ExpAbstractFunction().get_value(x); break;
+        case 2: return LnAbstractFunction().get_value(x); break;
+        case 3: return LogAbstractFunction(10).get_value(x); break;
+        case 4: return CosAbstractFunction().get_value(x); break;
+        case 5: return SinAbstractFunction().get_value(x); break;
+        case 6: return TanAbstractFunction().get_value(x); break;
+        case 7: return SqrtAbstractFunction().get_value(x); break;
+        case 8: return VarAbstractFunction(Variable(val)).get_value(x); break;
         default: return 0;
     }
 }
 
 
-bool AF::is_polynomial(){
+bool AbstractFunction::is_polynomial(){
     //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
     switch (operation.get_type()) {
         case -1:
@@ -263,7 +268,7 @@ bool AF::is_polynomial(){
 }
 
 
-/*PolynomialRational AF::get_polynomial(bool neg){
+/*PolynomialRational AbstractFunction::get_polynomial(bool neg){
     if (!is_polynomial())
         return PolynomialRational();
 
@@ -304,7 +309,7 @@ bool AF::is_polynomial(){
 
 }*/
 
-double AF::regula_falsi(double a, double b){
+double AbstractFunction::regula_falsi(double a, double b){
     double c;
     for (int i=0; i < MAX_ITER; i++){
         c = (a*get_value(b) - b*get_value(a))/ (get_value(b) - get_value(a));
@@ -319,7 +324,7 @@ double AF::regula_falsi(double a, double b){
     return c;
 }
 
-vector<double> AF::get_roots(double start, double end){
+vector<double> AbstractFunction::get_roots(double start, double end){
     vector<double> critical_points;
     vector<double> roots;
     double i = start;
@@ -340,7 +345,7 @@ vector<double> AF::get_roots(double start, double end){
     return roots;
 }
 
-double AF::get_integral_value(double a, double b){
+double AbstractFunction::get_integral_value(double a, double b){
     double DIV = (b-a)*1100;
     double h = (b-a)/DIV;
     double T=0;
@@ -359,7 +364,7 @@ double AF::get_integral_value(double a, double b){
 }
 
 
-ExpAF::ExpAF():AF(){
+ExpAbstractFunction::ExpAbstractFunction():AbstractFunction(){
   value = Function("exp");
   str_label = value.get_value();
   str_label = value.get_value();
@@ -367,15 +372,15 @@ ExpAF::ExpAF():AF(){
   leaf_mark = 1;
 }
 
-string ExpAF::get_derivative(){
+string ExpAbstractFunction::get_derivative(){
     return "exp";
 }
 
-double ExpAF::get_value(double x, bool neg, bool div){
+double ExpAbstractFunction::get_value(double x, bool neg, bool div){
     return exp(x);
 }
 
-LnAF::LnAF():AF(){
+LnAbstractFunction::LnAbstractFunction():AbstractFunction(){
     value = Function("ln");
     str_label = value.get_value();
     str_label = value.get_value();
@@ -383,15 +388,15 @@ LnAF::LnAF():AF(){
     leaf_mark = 2;
 }
 
-string LnAF::get_derivative(){
+string LnAbstractFunction::get_derivative(){
     return "1/";
 }
 
-double LnAF::get_value(double x, bool neg, bool div){
+double LnAbstractFunction::get_value(double x, bool neg, bool div){
     return log(x);
 }
 
-LogAF::LogAF(double a):AF(){
+LogAbstractFunction::LogAbstractFunction(double a):AbstractFunction(){
     value = Function("log");
     str_label = value.get_value();
     str_label = value.get_value();
@@ -400,19 +405,19 @@ LogAF::LogAF(double a):AF(){
     leaf_mark = 3;
 }
 
-double LogAF::get_base(){
+double LogAbstractFunction::get_base(){
     return base;
 }
 
-string LogAF::get_derivative(){
+string LogAbstractFunction::get_derivative(){
     return "1/(ln(10)*";
 }
 
-double LogAF::get_value(double x, bool neg, bool div){
+double LogAbstractFunction::get_value(double x, bool neg, bool div){
     return log(x)/log(base);
 }
 
-CosAF::CosAF():AF(){
+CosAbstractFunction::CosAbstractFunction():AbstractFunction(){
     value = Function("cos");
     str_label = value.get_value();
     str_label = value.get_value();
@@ -420,15 +425,15 @@ CosAF::CosAF():AF(){
     leaf_mark = 4;
 }
 
-string CosAF::get_derivative(){
+string CosAbstractFunction::get_derivative(){
     return "-sin";
 }
 
-double CosAF::get_value(double x, bool neg, bool div){
+double CosAbstractFunction::get_value(double x, bool neg, bool div){
     return cos(x);
 }
 
-SinAF::SinAF():AF(){
+SinAbstractFunction::SinAbstractFunction():AbstractFunction(){
     value = Function("sin");
     str_label = value.get_value();
     str_label = value.get_value();
@@ -436,15 +441,15 @@ SinAF::SinAF():AF(){
     leaf_mark = 5;
 }
 
-string SinAF::get_derivative(){
+string SinAbstractFunction::get_derivative(){
     return "cos";
 }
 
-double SinAF::get_value(double x, bool neg, bool div){
+double SinAbstractFunction::get_value(double x, bool neg, bool div){
     return sin(x);
 }
 
-TanAF::TanAF():AF(){
+TanAbstractFunction::TanAbstractFunction():AbstractFunction(){
     value = Function("tan");
     str_label = value.get_value();
     str_label = value.get_value();
@@ -452,56 +457,56 @@ TanAF::TanAF():AF(){
     leaf_mark = 6;
 }
 
-string TanAF::get_derivative(){
+string TanAbstractFunction::get_derivative(){
     return "1/(cos^2";
 }
 
-double TanAF::get_value(double x, bool neg, bool div){
+double TanAbstractFunction::get_value(double x, bool neg, bool div){
     return tan(x);
 }
 
-SqrtAF::SqrtAF():AF(){
+SqrtAbstractFunction::SqrtAbstractFunction():AbstractFunction(){
     value = Function("sqrt");
     str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 7;
 }
 
-string SqrtAF::get_derivative(){
+string SqrtAbstractFunction::get_derivative(){
     return "(-1/2)*(1/sqrt";
 }
 
-double SqrtAF::get_value(double x, bool neg, bool div){
+double SqrtAbstractFunction::get_value(double x, bool neg, bool div){
     return sqrt(x);
 }
 
-NumAF::NumAF(Token T):AF() {
+NumAbstractFunction::NumAbstractFunction(Token T):AbstractFunction() {
     value = T;
     str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 0;
 }
 
-string NumAF::get_derivative(){
+string NumAbstractFunction::get_derivative(){
     return "0";
 }
 
-double NumAF::get_value(double x, bool neg, bool div){
+double NumAbstractFunction::get_value(double x, bool neg, bool div){
     return stod(value.get_value());
 }
 
-VarAF::VarAF(Token T):AF() {
+VarAbstractFunction::VarAbstractFunction(Token T):AbstractFunction() {
     value = T;
     str_label = value.get_value();
     type = value.get_type();
     leaf_mark = 8;
 }
 
-string VarAF::get_derivative(){
+string VarAbstractFunction::get_derivative(){
     return "1";
 }
 
-double VarAF::get_value(double x, bool neg, bool div){
+double VarAbstractFunction::get_value(double x, bool neg, bool div){
     return x;
 }
 
@@ -517,29 +522,29 @@ string vect_to_str(vector<Token> fun){
 }
 
 
-string AF::get_derivative(){
+string AbstractFunction::get_derivative(){
     switch (operation.get_type()) {
         case -1:
-            return get_leaf_derivative(leaf_mark, get_str_label()); break;
+            return get_leaf_derivative(leaf_mark, display()); break;
         // composition
         case 1:{
             string r1 = get_right().get_derivative();
             if (r1 == "1"){
                 if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
-                    return get_left().get_derivative() + "(" + get_right().get_str_label() + "))";
+                    return get_left().get_derivative() + "(" + get_right().display() + "))";
                 }
                 else{
-                    return get_left().get_derivative() + "(" + get_right().get_str_label() + ")";
+                    return get_left().get_derivative() + "(" + get_right().display() + ")";
                 }
 
 
             }
             else{
                 if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().get_str_label() + "))", r1);
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + "))", r1);
                 }
                 else{
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().get_str_label() + ")", r1);
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + ")", r1);
                 }
             }
             break;
@@ -548,13 +553,13 @@ string AF::get_derivative(){
         case 2: {
             // left is a num
             if(get_left().leaf_mark == 0){
-                string t = mult_strings(get_str_label(), "ln(" + get_left().get_str_label() + ")");
+                string t = mult_strings(display(), "ln(" + get_left().display() + ")");
                 return mult_strings(t, get_right().get_derivative());
             }
             // right is a num
             if(get_right().leaf_mark == 0){
-                string new_exp = to_string(stoi(get_right().get_str_label()) - 1);
-                string l2 = add_strings(get_right().get_str_label(), pow_strings(get_left().get_str_label(), new_exp));
+                string new_exp = to_string(stoi(get_right().display()) - 1);
+                string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
                 /*if (new_exp == "1"){
                     l2 = get_right().get_str_label() + "(" + get_left().get_str_label() + ")";
                 }
@@ -574,17 +579,17 @@ string AF::get_derivative(){
         }
         // division
         case 3:{
-            string l3 = mult_strings(get_left().get_derivative(), get_right().get_str_label());
-            string r3 = mult_strings(get_right().get_derivative(), get_left().get_str_label());
-            string tog = add_strings(l3, r3);
-            string denom = pow_strings(get_right().get_str_label(), "2");
+            string l3 = mult_strings(get_left().get_derivative(), get_right().display());
+            string r3 = mult_strings(get_right().get_derivative(), get_left().display());
+            string tog = sub_strings(l3, r3);
+            string denom = pow_strings(get_right().display(), "2");
             return div_strings(tog, denom);
         }
 
         // multiplication
         case 4: {
-            string l4 = mult_strings(get_left().get_derivative(), get_right().get_str_label());
-            string r4 = mult_strings(get_right().get_derivative(), get_left().get_str_label());
+            string l4 = mult_strings(get_left().get_derivative(), get_right().display());
+            string r4 = mult_strings(get_right().get_derivative(), get_left().display());
             return add_strings(l4, r4);
             break;
         }
@@ -627,7 +632,7 @@ string sub_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
     if (l == "0"){
-        return r;
+        return "-" + r;
     }
     if (r == "0"){
         return l;
@@ -721,17 +726,17 @@ string pow_strings(string l, string r){
 }
 
 
-string AF::get_leaf_derivative(int n, string val){
+string AbstractFunction::get_leaf_derivative(int n, string val){
     switch (n) {
-        case 0: return NumAF(Num(val)).get_derivative(); break;
-        case 1: return ExpAF().get_derivative(); break;
-        case 2: return LnAF().get_derivative(); break;
-        case 3: return LogAF(10).get_derivative(); break;
-        case 4: return CosAF().get_derivative(); break;
-        case 5: return SinAF().get_derivative(); break;
-        case 6: return TanAF().get_derivative(); break;
-        case 7: return SqrtAF().get_derivative(); break;
-        case 8: return VarAF(Variable(val)).get_derivative(); break;
+        case 0: return NumAbstractFunction(Num(val)).get_derivative(); break;
+        case 1: return ExpAbstractFunction().get_derivative(); break;
+        case 2: return LnAbstractFunction().get_derivative(); break;
+        case 3: return LogAbstractFunction(10).get_derivative(); break;
+        case 4: return CosAbstractFunction().get_derivative(); break;
+        case 5: return SinAbstractFunction().get_derivative(); break;
+        case 6: return TanAbstractFunction().get_derivative(); break;
+        case 7: return SqrtAbstractFunction().get_derivative(); break;
+        case 8: return VarAbstractFunction(Variable(val)).get_derivative(); break;
         default: return "";
     }
 }

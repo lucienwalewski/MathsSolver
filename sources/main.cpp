@@ -22,43 +22,48 @@ int main(int argc, char *argv[]){
      w.setWindowState(Qt::WindowMaximized);
      w.setWindowTitle("MathsSolver");
      w.show();*/
-     vector<Token> t = simplify("4*x", 'x');
-     AF ft = AF(t);
-     if(ft.get_operation().get_type() == -1){
-        cout<<"yes \n";
-     }
-     cout<< ft.get_derivative()<< "\n";
-     cout<<"done \n";
+
      string s;
      cin >> s;
      vector<Token> v = simplify(s, 'x');
-     AF f = AF(v);
+     AbstractFunction f = AbstractFunction(v);
      cout<<f.get_str_label()<<"\n";
+     cout<<f.display()<<"\n";
      cout<< f.get_derivative()<< "\n";
 
-     /*vector<Token> v = simplify("sin(x^2)", 'x');
-     AF f = AF(v);
-     cout<<f.get_str_label()<<"\n";
-     cout<< f.get_derivative()<< "\n";
+     string s1;
+     cin >> s1;
+     vector<Token> v1 = simplify(s1, 'x');
+     AbstractFunction f1 = AbstractFunction(v1);
+     cout<<f1.get_str_label()<<"\n";
+     cout<< f1.get_derivative()<< "\n";
 
-     vector<Token> v2 = simplify("exp(x^2)", 'x');
-     AF f2 = AF(v2);
+     string s2;
+     cin >> s2;
+     vector<Token> v2 = simplify(s2, 'x');
+     AbstractFunction f2 = AbstractFunction(v2);
      cout<<f2.get_str_label()<<"\n";
      cout<< f2.get_derivative()<< "\n";
 
-     vector<Token> v3 = simplify("ln(x^2)", 'x');
-     AF f3 = AF(v3);
+     string s3;
+     cin >> s3;
+     vector<Token> v3 = simplify(s3, 'x');
+     AbstractFunction f3 = AbstractFunction(v3);
      cout<<f3.get_str_label()<<"\n";
      cout<< f3.get_derivative()<< "\n";
 
-     vector<Token> v4 = simplify("log(x^2)", 'x');
-     AF f4 = AF(v4);
+     string s4;
+     cin >> s4;
+     vector<Token> v4 = simplify(s4, 'x');
+     AbstractFunction f4 = AbstractFunction(v4);
      cout<<f4.get_str_label()<<"\n";
      cout<< f4.get_derivative()<< "\n";
 
-     vector<Token> v5 = simplify("tan(x^2)", 'x');
-     AF f5 = AF(v5);
+     string s5;
+     cin >> s5;
+     vector<Token> v5 = simplify(s5, 'x');
+     AbstractFunction f5 = AbstractFunction(v5);
      cout<<f5.get_str_label()<<"\n";
      cout<< f5.get_derivative()<< "\n";
-     return a.exec();*/
+     return a.exec();
 }
