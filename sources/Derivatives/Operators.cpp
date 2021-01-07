@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
+#include <stack>
 
 //The following function deletes layers of exterior parentheses
 // ex : "((5x))" -> "5x"
@@ -44,31 +44,42 @@ int closing_pare(string t, int i){
 //The following function allows to add multiplication signs where they are ommittes
 //(ex : [Num("5"), Variable("x")] -> [Num("5"), Operator("*"), Variable("x")])
 
-vector <Token> add_multiplication(vector<Token> v){
-    vector <Token> new_vector;
-    for (int i = 0; i < int(v.size())-1; i += 2){
-        new_vector.push_back(v[i]);
+string add_multiplication(string v){
+    string new_string;
+    for (int i = 0; i < int(v.size())-1; i ++){
+        new_string.push_back(v[i]);
         //case 1 : num followed by "("
-        if ((v[i].get_type() == -1) || (v[i+1].get_type() == 7)){
-            new_vector.push_back(Operator("*"));
+        if ((isdigit(v[i]) && (v[i+1] == '('))){
+            new_string.push_back('*');
         }
-        //case 2 : num followed by function
-        else if ((v[i].get_type() == -1) || (v[i+1].get_type() == -2)){
-            new_vector.push_back(Operator("*"));
+        //case 2 : num followed by function, variable, constant, ...
+        else if ((isdigit(v[i])) && (isalpha(v[i+1]))){
+            new_string.push_back('*');
         }
-        //case 3 : num followed by variable
-        else if ((v[i].get_type() == -1) || (v[i+1].get_type() == -3)){
-            new_vector.push_back(Operator("*"));
+        //case 3 : ")" followed by "("
+        else if ((v[i] == '(') && (v[i+1] == '(')){
+            new_string.push_back('*');
         }
-        //case 4 : ")" followed by "("
-        else if ((v[i].get_type() == 8) || (v[i+1].get_type() == 7)){
-            new_vector.push_back(Operator("*"));
+        if (i== int(v.size()) -2){
+            new_string.push_back(v[i+1]);
         }
-        new_vector.push_back(v[i+1]);
     }
     v.clear();
     v.shrink_to_fit();
-    return new_vector;
+    return new_string;
+};
+
+//The following function returns the string inside parentheses
+string inside_parentheses(string s, int i){
+    string inside = "";
+    int opening_index = i;
+    i++;
+    while (i != int(closing_pare(s, opening_index))){
+        string c(1, s[i]);
+        inside += c;
+        i++;
+    }
+    return inside;
 };
 
 
