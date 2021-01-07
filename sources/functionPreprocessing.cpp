@@ -90,7 +90,7 @@ bool check_integral(string f){
 }
 
 vector<string> derivative(string f){
-    AF function(simplify(f.substr(1, (int)f.size() - 3), 'x'));
+    AbstractFunction function(simplify(f.substr(1, (int)f.size() - 3), 'x'));
     //return = function.get_derivative();
     return vector<string>();
 }
@@ -118,7 +118,7 @@ vector<string> equation(string f){
     solve += "=0";
     cout<< solve << "\n";
     vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
-    AF function(tokens);
+    AbstractFunction function(tokens);
     if (function.is_polynomial()){
         solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;
@@ -178,7 +178,7 @@ vector<string> inetgral(string f){
     if (a == "-inf")
         down = -10000;
     else
-        down = AF(simplify(a, 'x')).get_value(0);
+        down = AbstractFunction(simplify(a, 'x')).get_value(0);
 
     i++;
     string b = "";
@@ -189,10 +189,10 @@ vector<string> inetgral(string f){
     if (b == "inf")
         up = 10000;
     else
-        up = AF(simplify(b, 'x')).get_value(0);
+        up = AbstractFunction(simplify(b, 'x')).get_value(0);
     i++;
 
-    string res = to_string(AF(simplify(f.substr(i, f.size() - i - 1), 'x')).get_integral_value(down, up));
+    string res = to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1), 'x')).get_integral_value(down, up));
     cout<< res<<"\n";
 
     return vector<string>{res};
@@ -308,8 +308,8 @@ vector<string> division(string f){
         else
             make_poly[cnt] += f[i];
     }
-    AF P(simplify(make_poly[0], 'x'));
-    AF Q(simplify(make_poly[1], 'x'));
+    AbstractFunction P(simplify(make_poly[0], 'x'));
+    AbstractFunction Q(simplify(make_poly[1], 'x'));
 
     if (!P.is_polynomial() || !Q.is_polynomial()){
         cout<< "Not division between rationals polynomials!\n";

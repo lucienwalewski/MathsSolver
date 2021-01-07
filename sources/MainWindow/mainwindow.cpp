@@ -26,34 +26,42 @@ MainWindow::MainWindow(QWidget *parent)
 
     title0 = new QLabel(this);
     title0->setText("Welcome to the Handwritten Math Solver");
-    QFont f("Times New Roman", 20, QFont::Bold);
+    QFont f("Times New Roman", 40, QFont::Bold);
     title0->setFont(f);
     title0->setAlignment(Qt::AlignHCenter);
+    title0->setStyleSheet("border:none");
 
     title1 = new QLabel(this);
     title1->setText("developed by students of BX22");
+    title1->setStyleSheet("border:none");
 
 
 //MANUALLY INPUT EQUATION BUTTON
+    QFont f1("Arial", 20);
 
     question = new QLabel(this);
     question->setText("Manually input your equation:");
-    question->show();
+    question->setFont(f1);
 
     equation_input = new QLineEdit(this);
     equation_input-> setPlaceholderText("here");
+    equation_input->setFont(f1);
 
     enter = new QPushButton(this);
     enter->setText("Confirm");
+    enter->setFont(f1);
+    enter->setStyleSheet("background-color: rgb(216, 242, 196)");
 
 
 //UPLOAD FILE BUTTON
 
     info = new QLabel(this);
     info->setText("OR choose a picture of the equation you wish to solve:");
+    info->setFont(f1);
 
     upload_file = new QPushButton(this);
     upload_file->setText("Upload file");
+    upload_file->setFont(f1);
 
 
 //STEPS
@@ -134,7 +142,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 //DEFINITIONS FOR LAYOUT
 
-
 QGroupBox *MainWindow::group_0(){
 
     QGroupBox *group0 = new QGroupBox();
@@ -143,7 +150,9 @@ QGroupBox *MainWindow::group_0(){
     title_layout->addWidget(title0);
     title_layout->addWidget(title1);
     title_layout->addStretch();
-    title_layout->setAlignment(Qt::AlignCenter);
+    //title_layout->setAlignment(Qt::AlignCenter);
+    group0->setStyleSheet("background-color: white; border:1px solid grey");
+    group0->setAlignment(Qt::AlignCenter);
     group0->setLayout(title_layout);
 
     return group0;
@@ -253,24 +262,26 @@ void MainWindow::enter_equation(){
             k += 1;
         }
 
+        QGroupBox *gfinalres = new QGroupBox();
+        gfinalres->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
+
         QLabel* infosol = new QLabel;
         infosol->setText("The solution to your equation is");
-        results_layout->addWidget(infosol);
+        QFont f2("Arial", 20);
+        infosol->setFont(f2);
 
-
-        QGroupBox *gres = new QGroupBox();
-        gres->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
-
-        QHBoxLayout *gres_layout = new QHBoxLayout;
+        QHBoxLayout *gfinalres_layout = new QHBoxLayout;
+        gfinalres_layout->addWidget(infosol);
         QVBoxLayout* sub_results = new QVBoxLayout;
         for (size_t i=k+1 ; i < (res.size()) ; i++){
             QLabel* part_res = new QLabel;
             QString r2 = QString::fromStdString(res[i]);
             part_res->setText(r2);
+            part_res->setFont(f2);
             sub_results->addWidget(part_res);
-        gres_layout->addLayout(sub_results);
-        gres->setLayout(gres_layout);
-        results_layout->addWidget(gres);
+        gfinalres_layout->addLayout(sub_results);
+        gfinalres->setLayout(gfinalres_layout);
+        results_layout->addWidget(gfinalres);
         }
 
 

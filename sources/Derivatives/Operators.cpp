@@ -72,13 +72,20 @@ string add_multiplication(string v){
 //The following function returns the string inside parentheses
 string inside_parentheses(string s, int i){
     string inside = "";
-    int opening_index = i;
     i++;
-    while (i != int(closing_pare(s, opening_index))){
-        string c(1, s[i]);
-        inside += c;
+    int counter = 1;
+    while (counter > 0){
+        if (s[i] == '(')
+            counter++;
+        else if (s[i] == ')')
+            counter--;
+
+        if (counter > 0)
+            inside += s[i];
+
         i++;
     }
+
     return inside;
 };
 

@@ -15,10 +15,10 @@ const double EPS =  0.00001;
 
 using namespace std;
 
-class AF {
+class AbstractFunction {
 public:
-    AF(vector<Token> fun);
-    AF(){
+    AbstractFunction(vector<Token> fun);
+    AbstractFunction(){
         this->left = nullptr;
         this->right = nullptr;
         this->operation = Operator();
@@ -27,24 +27,25 @@ public:
         this->type = 10;
     };
 
-    AF(AF left, AF right, Operator operation);
-    AF(int type, Token end_token);
-   // ~AF(){delete left;delete right;};
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
+    AbstractFunction(int type, Token end_token);
+   // ~AbstractFunction(){delete left;delete right;};
 
     void op_to_enum(char op,Operator &operation);
 
-    AF get_left();
+    AbstractFunction get_left();
     vector<Token> get_vect_label(){return vect_label;}
-    void set_left(AF *left);
-    AF get_right();
-    void set_right(AF *right);
+    void set_left(AbstractFunction *left);
+    AbstractFunction get_right();
+    void set_right(AbstractFunction *right);
 
     Operator get_operation();
     void set_operation(Operator operation);
     string get_string_operation();
 
     string get_str_label();
-    string display(int i);
+
+    string display();
     bool is_none();
 
     vector<double> get_roots(double start = -100, double end = 100);
@@ -65,8 +66,8 @@ public:
 
 protected:
     Operator operation;
-    AF *left;
-    AF *right;
+    AbstractFunction *left;
+    AbstractFunction *right;
     string str_label;
     vector<Token> vect_label;
     int type;
@@ -75,27 +76,27 @@ protected:
 
 };
 
-class ExpAF: public AF{
+class ExpAbstractFunction: public AbstractFunction{
 public:
-    ExpAF();
+    ExpAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class LnAF: public AF{
+class LnAbstractFunction: public AbstractFunction{
 public:
-    LnAF();
+    LnAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class LogAF: public AF{
+class LogAbstractFunction: public AbstractFunction{
 public:
-    LogAF(double a);
+    LogAbstractFunction(double a);
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
     double get_base();
@@ -105,36 +106,36 @@ private:
     double base;
 };
 
-class CosAF: public AF{
+class CosAbstractFunction: public AbstractFunction{
 public:
-    CosAF();
+    CosAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class SinAF: public AF{
+class SinAbstractFunction: public AbstractFunction{
 public:
-    SinAF();
+    SinAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class TanAF: public AF{
+class TanAbstractFunction: public AbstractFunction{
 public:
-    TanAF();
+    TanAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class SqrtAF: public AF{
+class SqrtAbstractFunction: public AbstractFunction{
 public:
-    SqrtAF();
+    SqrtAbstractFunction();
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 
@@ -142,25 +143,25 @@ private:
     Token value;
 };
 
-class NumAF: public AF{
+class NumAbstractFunction: public AbstractFunction{
 public:
-    NumAF(Token T);
+    NumAbstractFunction(Token T);
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-class VarAF: public AF{
+class VarAbstractFunction: public AbstractFunction{
 public:
-    VarAF(Token T);
+    VarAbstractFunction(Token T);
     string get_derivative();
     double get_value(double x, bool  neg = false, bool div = false);
 private:
     Token value;
 };
 
-AF* assign(Token fun);
+AbstractFunction* assign(Token fun);
 string vect_to_str(vector<Token> fun);
 
 string add_strings(string l, string r);
