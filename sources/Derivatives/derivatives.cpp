@@ -268,7 +268,7 @@ bool AbstractFunction::is_polynomial(){
 }
 
 
-/*PolynomialRational AbstractFunction::get_polynomial(bool neg){
+PolynomialRational AbstractFunction::get_polynomial(bool neg){
     if (!is_polynomial())
         return PolynomialRational();
 
@@ -307,7 +307,7 @@ bool AbstractFunction::is_polynomial(){
         default: return false;
     }
 
-}*/
+}
 
 double AbstractFunction::regula_falsi(double a, double b){
     double c;

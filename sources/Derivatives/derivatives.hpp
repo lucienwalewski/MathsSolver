@@ -3,7 +3,8 @@
 #define MAX_ITER 1000000
 #define EPS 0.00001
 #include "Tokenizer.hpp"
-//#include "Equations/polynomial.hpp"
+#include "functionPreprocessing.hpp"
+#include "Equations/polynomial.hpp"
 
 #include <QApplication>
 #include <QtTest>
@@ -51,7 +52,7 @@ public:
     double regula_falsi(double a, double b);
     double get_integral_value(double a, double b);
     bool is_polynomial();
-//    PolynomialRational get_polynomial(bool neg = false);
+    PolynomialRational get_polynomial(bool neg = false);
     int get_type();
     void set_type(int type);
     bool get_end(){return end;}

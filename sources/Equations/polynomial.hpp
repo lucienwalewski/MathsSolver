@@ -7,7 +7,7 @@
 
 using namespace std;
 
-/*Think about setting up the specific variable, by default it should be x*/
+/*Think about setting up the specific variable, by default it should be x */
 
 class Polynomial
 {
