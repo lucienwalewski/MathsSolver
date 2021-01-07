@@ -8,29 +8,48 @@
 #include "NumericalSolver/num_derivation.hpp"
 #include "NumericalSolver/num_integration.hpp"
 #include "NumericalSolver/num_roots.hpp"
+#include "NumericalSolver/num_ODE.hpp"
 
 //#include "Derivatives/derivatives.hpp"
-#include "Equations/polynomial.hpp"
+//#include "Equations/polynomial.hpp"
 
 
 #include<iostream>
 #include<string>
 #include<math.h>
 #include<vector>
-#include<opencv2/opencv.hpp>
+//#include<opencv2/opencv.hpp>
 
 
 
 using namespace std;
-using namespace cv;
+//using namespace cv;
 
 /*double F(double x){
     return sin(2*x-2.1)/(x*x+1);
 }*/
 
+double f(double x, double y){
+    return (x-3)*(x-1);
+}
+
+double g(double x,double y,double dy){
+    return -3*y;
+}
+
+double h(double x,double y,double dy, double d2y){
+    return x;
+}
+
 int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
+
+    cout<<ODE_1st_order_solver(0,1,1,f)<<'\n';
+
+    cout<<ODE_2nd_order_solver(0, 1, 0, 1, g)<<'\n';
+
+    cout<<ODE_3rd_order_solver(0, 0, 0, 1, 1, h);
 
 //    string f;
 
@@ -42,7 +61,6 @@ int main(int argc, char *argv[])
 
 //    cout<<"Newton"<<Newton(f,9.99,1e-6,100)<<"\n";
 
-    cout<<"The area of f from -10 to 10 is " <<GaussLegendreQuadrature(f, -10, 10)<<"\n";
 
 //    vector<double> l = GaussLegendreWeights(10).array;
 
@@ -67,11 +85,6 @@ int main(int argc, char *argv[])
     //string path= "C:\\Users\\Korisnik\\Desktop\\Ecole Polytechnique\\CSE201 - Final project\\MathsSolver\\sources\\ImageRecognition\\Images\\reference.jpg";
     //display_prepocessing(path);
 
-    vector<Token> v;
-    v= simplify(f, 'x');
-
-    for(int i=0; i<(int)v.size(); i++)
-        cout<<v[i].get_value()<<" "<<"\n";
 
 //    MainWindow w;
 //    w.show();
