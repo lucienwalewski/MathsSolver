@@ -3,6 +3,7 @@
 const int MAX_ITER =1000000;
 const double EPS =  0.00001;
 #include "Tokenizer.hpp"
+#include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
 
 #include <QApplication>
@@ -13,6 +14,8 @@ const double EPS =  0.00001;
 #include <vector>
 #include <math.h>
 
+
+#include "Include_libraries.h"
 using namespace std;
 
 class AbstractFunction {

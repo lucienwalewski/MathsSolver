@@ -1,7 +1,7 @@
 #ifndef NUMBERS_HPP
 #define NUMBERS_HPP
 
-#include <bits/stdc++.h>
+#include "Include_libraries.h"
 using namespace std;
 
 int gcd(int a, int b);
