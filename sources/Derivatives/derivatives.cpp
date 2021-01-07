@@ -739,4 +739,3 @@ string AbstractFunction::get_leaf_derivative(int n, string val){
         default: return "";
     }
 }
-

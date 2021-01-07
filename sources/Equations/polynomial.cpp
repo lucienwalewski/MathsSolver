@@ -552,11 +552,11 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
                 ans.complex.insert(ans.complex.end(), res.complex.begin(), res.complex.end());
                 ans.roots.insert(ans.roots.end(), res.roots.begin(), res.roots.end());
-                for(auto i : res.factors){
+                for (auto i : res.factors){
                     if (ans.factors.find(i.first) == ans.factors.end())
-                        ans.factors[i.first] = 1;
+                        ans.factors[i.first] = i.second;
                     else
-                        ans.factors[i.first] += 1;
+                        ans.factors[i.first] += i.second;
                 }
                 ans.roots.push_back(x.get_value());
 

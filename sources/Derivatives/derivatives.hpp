@@ -1,10 +1,19 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
-#define MAX_ITER 1000000
-#define EPS 0.00001
+const int MAX_ITER =1000000;
+const double EPS =  0.00001;
 #include "Tokenizer.hpp"
 #include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
+
+#include <QApplication>
+#include <QtTest>
+#include <sstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <math.h>
+
 
 #include "Include_libraries.h"
 using namespace std;
@@ -38,6 +47,7 @@ public:
     string get_string_operation();
 
     string get_str_label();
+
     string display();
     bool is_none();
 

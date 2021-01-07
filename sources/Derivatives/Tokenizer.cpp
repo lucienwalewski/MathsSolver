@@ -50,22 +50,19 @@ int Operator::get_type(){
 
 //the following function checks if the substring is a given function
 bool is_function_(string s, string f){
-    for (int i= 0; i < int(f.size()); i++){
-        if (s[i] != f[i]){
+    for (int i= 0; i < (int)f.size(); i++)
+        if (s[i] != f[i])
             return false;
-        }
-    }
+
     return true;
 }
 
 //the following function checks if the substring contains any function
 string find_function(string s){
-    for (int j=0; j<(int(functions.size())); j++){
-        string elem = functions[j];
-        if (is_function_(s, elem)){
-            return elem;
-        }
-    }
+    for (int i=0; i<(int)functions.size(); i++)
+        if (is_function_(s, functions[i]))
+            return functions[i];
+
     return "";
 }
 
@@ -75,79 +72,72 @@ vector<Token> simplify(string v, char variable){
     string w = del_exterior_parentheses(v);
     string s = add_multiplication(w);
     vector <Token> new_vector;
-    int i = 0;
     string digits = "";
-    while (i < int(s.size())){
-        //We ignore spaces of all types
-        //if ((s[i] != ' ') && (s[i] != '\t') && (s[i] != '\n')){
-            //Case 1 : a digit
-            if (isdigit(s[i]) or s[i] == '.'){
-                string c(1, s[i]);
-                digits += c;
-                }
-            else {
-                if (digits != ""){
-                    new_vector.push_back(Num(digits));
-                    digits = "";
-                }
-                //Case 2 : a letter
-                if (isalpha(s[i])){
-                    //Case 2.a : beginning of a function
-                    string s1 = s.substr(i, i+4);
-                    string potential_function = find_function(s1);
+    for (int i = 0; i < (int)s.size(); i++){
+        //Case 1 : a digit
+        if (isdigit(s[i]) || s[i] == '.')
+            digits += s[i];
 
-                    //If it is the beginning of a function, we add the corresponding
-                    //token function to the new_vector
-                    if (potential_function != ""){
-                           new_vector.push_back(Function(potential_function));
-                           //We introduce a composition operator
-                           new_vector.push_back(Operator("~"));
-                           i = int(potential_function.size());
-                           int opening_index = i;
-                           string supertoken = inside_parentheses(s, opening_index);
-                           i += int(supertoken.size()) + 1;
-                           new_vector.push_back(SuperToken(supertoken));
-                         }
-                    else {
-                        //Case 3 : variable
-                        if (s[i] == variable){
-                            string c(1, s[i]);
-                            new_vector.push_back(Variable(c));
-                             }
-                        //Case 4 : any constant
-                        else {
-                            string c(1, s[i]);
-                            new_vector.push_back(Num(c));
-                             }
-                        }
-                    }
-               else {
-               //Case 5 : operators
-                  if (is_in_vector(str_operators, string(1,s[i]))){
-                         if (s[i] == '('){
-                            int opening_index = i;
-                            string supertoken = inside_parentheses(s, opening_index);
-                            i += int(supertoken.size()) + 1;
-                            new_vector.push_back(SuperToken(supertoken));
-                         }
-                         else {
-                             string c(1, s[i]);
-                             new_vector.push_back(Operator(c));
-                         }
-                  }
-               }
+        else {
+            if (digits != ""){
+                new_vector.push_back(Num(digits));
+                digits = "";
             }
-            i++;
+            //Case 2 : a letter
+            if (isalpha(s[i])){
+                //Case 2.a : beginning of a function
+                string s1 = s.substr(i, 4);
+                string potential_function = find_function(s1);
+
+                //If it is the beginning of a function, we add the corresponding
+                //token function to the new_vector
+                if (potential_function != ""){
+                       new_vector.push_back(Function(potential_function));
+                       //We introduce a composition operator
+                       new_vector.push_back(Operator("~"));
+                       i += (int)potential_function.size();
+                       string supertoken = inside_parentheses(s, i);
+                       i += (int)supertoken.size() + 1;
+                       new_vector.push_back(SuperToken(supertoken));
+                }
+                else {
+                    //Case 3 : variable
+                    if (s[i] == variable){
+                        string c(1, s[i]);
+                        new_vector.push_back(Variable(c));
+                    }
+                    //Case 4 : any constant
+                    else {
+                        string c(1, s[i]);
+                        new_vector.push_back(Num(c));
+                    }
+                }
+           }
+           else{
+            //Case 5 : operators
+                  if (is_in_vector(str_operators, string(1,s[i]))){
+                     if (s[i] == '('){
+                        string supertoken = inside_parentheses(s, i);
+                        i += int(supertoken.size()) + 1;
+                        new_vector.push_back(SuperToken(supertoken));
+                     }
+                     else {
+                         string c(1, s[i]);
+                         new_vector.push_back(Operator(c));
+                     }
+                  }
+            }
         }
-    if (digits != ""){
-        new_vector.push_back(Num(digits));
     }
+
+    if (digits != "")
+        new_vector.push_back(Num(digits));
+
     return new_vector;
 };
 
 
 //If no variable is mentionned, the default variable is 'x'.
 vector<Token> simplify(string s){
-    char v = 'x';
-    return simplify(s, v);
+    return simplify(s, 'x');
 }
