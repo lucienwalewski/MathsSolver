@@ -1,11 +1,7 @@
 #ifndef OPERATORS_HPP
 #define OPERATORS_HPP
 #include "Tokenizer.hpp"
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <map>
+#include "Include_libraries.h"
 
 string del_exterior_parentheses(string v);
 

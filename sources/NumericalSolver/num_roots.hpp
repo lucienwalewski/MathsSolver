@@ -1,9 +1,7 @@
 #ifndef NUM_ROOTS_HPP
 #define NUM_ROOTS_HPP
 
-#include <cmath>
-#include <iostream>
-#include <vector>
+#include "Include_libraries.h"
 #include "num_derivation.hpp"
 
 using namespace std;

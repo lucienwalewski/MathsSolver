@@ -4,10 +4,7 @@
 #include<iostream>
 #include<string>
 
-#include<opencv2/opencv.hpp>
-#include<opencv2/highgui/highgui.hpp>
-//#include<Eigen/Dense>
-
+#include "Include_OpenCV.h"
 
 using namespace std;
 using namespace cv;

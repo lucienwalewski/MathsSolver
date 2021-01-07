@@ -2,7 +2,6 @@
 #include "Tokenizer.hpp"
 #include "Operators.hpp"
 
-//bring back AbstractFunction as a name
 
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 

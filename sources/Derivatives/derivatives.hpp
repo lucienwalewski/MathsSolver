@@ -6,14 +6,7 @@
 #include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
 
-#include <QApplication>
-#include <QtTest>
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <math.h>
-
+#include "Include_libraries.h"
 using namespace std;
 
 class AbstractFunction {

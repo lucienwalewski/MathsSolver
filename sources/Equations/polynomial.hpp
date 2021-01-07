@@ -1,7 +1,6 @@
 #ifndef POLYNOMIAL_HPP
 #define POLYNOMIAL_HPP
-
-#include <bits/stdc++.h>
+#include "Include_libraries.h"
 #include "numbers.hpp"
 #define ZERO 0.000001
 
