@@ -116,7 +116,6 @@ vector<string> equation(string f){
     }
 
     solve += "=0";
-    cout<< solve << "\n";
     vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
     AbstractFunction function(tokens);
     vector<double> sol = function.get_roots();

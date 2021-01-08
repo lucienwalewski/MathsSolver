@@ -1,8 +1,14 @@
 #ifndef POLYNOMIAL_HPP
 #define POLYNOMIAL_HPP
-
-#include <bits/stdc++.h>
 #include "numbers.hpp"
+
+#include <math.h>
+#include<map>
+#include<vector>
+#include<string>
+#include<iostream>
+#include <string.h>
+
 #define ZERO 0.000001
 
 using namespace std;
