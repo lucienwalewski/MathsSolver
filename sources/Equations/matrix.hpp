@@ -1,11 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 #include "Equations/numbers.hpp"
-
-#include <vector>
-#include <iostream>
-#include <math.h>
-#include <string>
+#include "Include_libraries.h"
 
 using namespace std;
 

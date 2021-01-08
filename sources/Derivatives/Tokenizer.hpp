@@ -1,10 +1,6 @@
 #ifndef TOKENIZER_HPP
 #define TOKENIZER_HPP
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <map>
+#include "Include_libraries.h"
 
 using namespace std;
 
