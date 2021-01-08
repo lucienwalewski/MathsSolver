@@ -11,7 +11,7 @@ CONFIG += c++11
 
 
 SOURCES += \
-     #ImageRecognition/imagePreprocessing.cpp \
+#     ImageRecognition/imagePreprocessing.cpp \
      Derivatives/Tokenizer.cpp \
      Derivatives/derivatives.cpp \
      Derivatives/Operators.cpp \

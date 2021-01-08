@@ -74,6 +74,7 @@ string find_function(string s);
 bool is_function_(string s, string f);
 
 vector<Token> simplify(string s, char variable);
+vector<Token> simplify(string s);
 
 
 #endif // TOKENIZER_HPP

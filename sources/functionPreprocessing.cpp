@@ -1,9 +1,9 @@
 #include "functionPreprocessing.hpp"
 // matrix, inversion, multiplication, power, transponse and determinantes
-// checking if sign * is missing
 // adding var varibale as mandatory in the code
 // is double integer
-// unary minus!!!!
+// more dteialed checks
+// finish check polynomials
 
 string upload_function(string f){
     /*uploading of the given function*/
@@ -118,6 +118,7 @@ vector<string> equation(string f){
     cout<< solve << "\n";
     vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
     AbstractFunction function(tokens);
+    vector<double> sol = function.get_roots();
     if (function.is_polynomial()){
         solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;
@@ -128,41 +129,42 @@ vector<string> equation(string f){
         }
         else{
 
-            for (auto i : solution){
-                cout << i << "\n";
-            }
+            if (!res.roots.empty())
+                solution.push_back("The roots are:");
 
-            printf("The roots are\n");
-            for (auto i : res.roots){
-                std::cout<<i<<std::endl;
-                solution.push_back(to_string(i));
-            }
+            for (int i = 0; i < (int)res.roots.size(); i++)
+                solution.push_back(to_string(res.roots[i]));
 
-            printf("The complex roots are\n");
-            for (auto i : res.complex){
-                cout<<i<<"\n";
-                solution.push_back(i);
-            }
+            if(!res.complex.empty())
+                solution.push_back("The complex roots are:");
+
+            for (int i = 0; i < (int)res.complex.size(); i++)
+                solution.push_back(res.complex[i]);
         }
 
 
          string s = "";
-         for (auto i : res.factors){
-             s += i.first;
-             if(i.second > 1){
-                 s += "^"+ to_string(i.second);
+         for (map<string,int>::iterator it=res.factors.begin(); it != res.factors.end(); it++){
+             s += it->first;
+             if(it->second > 1){
+                 s += "^"+ to_string(it->second);
              }
          }
 
-
-         cout<<s<<"\n";
+         solution.push_back("Factorization:");
          solution.push_back(s);
     }
+    else
+        solution.push_back("r");
 
-    vector<double> sol = function.get_roots();
+
+    if (!sol.empty())
+        solution.push_back("Numerical roots obtained:");
+    else
+        solution.push_back("No numerical solution found");
+
     for (auto i : sol)
-        cout<< i << " ";
-    cout << "\n";
+        solution.push_back(to_string(i));
 
     return solution;
 }
