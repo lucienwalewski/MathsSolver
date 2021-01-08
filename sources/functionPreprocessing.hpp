@@ -1,6 +1,7 @@
 #ifndef FUNCTIONPREPROCESSING_HPP
 #define FUNCTIONPREPROCESSING_HPP
 
+#include "Include_libraries.h"
 #include "Derivatives/Tokenizer.hpp"
 #include "Derivatives/derivatives.hpp"
 #include "Equations/numbers.hpp"
@@ -8,9 +9,6 @@
 #include "Equations/matrix.hpp"
 #include "Equations/gaussin.hpp"
 
-#include<string>
-#include<iostream>
-#include<vector>
 
 using namespace std;
 

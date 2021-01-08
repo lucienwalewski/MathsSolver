@@ -1,5 +1,7 @@
 #ifndef POLYNOMIAL_HPP
 #define POLYNOMIAL_HPP
+
+#include "Include_libraries.h"
 #include "numbers.hpp"
 
 #include <math.h>
@@ -13,7 +15,7 @@
 
 using namespace std;
 
-/*Think about setting up the specific variable, by default it should be x*/
+/*Think about setting up the specific variable, by default it should be x */
 
 class Polynomial
 {

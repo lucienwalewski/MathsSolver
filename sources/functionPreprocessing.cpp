@@ -1,5 +1,4 @@
 #include "functionPreprocessing.hpp"
-
 // matrix, inversion, multiplication, power, transponse and determinantes
 // adding var varibale as mandatory in the code
 // is double integer

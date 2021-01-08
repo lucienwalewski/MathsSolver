@@ -1,7 +1,7 @@
 #ifndef GAUSSIN_HPP
 #define GAUSSIN_HPP
 
-#include <iostream>
+#include "Include_libraries.h"
 #include "matrix.hpp"
 
 using namespace std;

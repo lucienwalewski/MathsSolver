@@ -29,7 +29,9 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePreprocessing.hpp \
+     #ImageRecognition/imagePreprocessing.hpp \
+     #Include_OpenCV.h \
+     Include_libraries.h \
      Derivatives/Tokenizer.hpp \
      Derivatives/derivatives.hpp \
      Derivatives/Operators.hpp \

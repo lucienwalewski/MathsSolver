@@ -1,6 +1,7 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
 #include "Tokenizer.hpp"
+#include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
 
 #include <QApplication>
@@ -13,6 +14,8 @@
 
 const int MAX_ITER =1000000;
 const double EPS =  0.00001;
+
+#include "Include_libraries.h"
 
 using namespace std;
 
