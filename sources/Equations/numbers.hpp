@@ -1,7 +1,13 @@
 #ifndef NUMBERS_HPP
 #define NUMBERS_HPP
-
 #include "Include_libraries.h"
+
+#include <math.h>
+#include<map>
+#include<vector>
+#include<string>
+#include<iostream>
+
 using namespace std;
 
 int gcd(int a, int b);
