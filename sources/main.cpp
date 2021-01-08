@@ -23,11 +23,11 @@ int main(int argc, char *argv[]){
      //display_prepocessing("C:\\Users\\Korisnik\\Desktop\\reference.jpg");
 
      //string s = "sqrt(x)";
-     string s = "x^5-14/3*x^4-46/3*x^3+357/3*x^2-634/3*x+280/3";
+     //string s = "x^5-14/3*x^4-46/3*x^3+357/3*x^2-634/3*x+280/3";
      //string s = "(cos(x) + 8986)";
      //string s = "cos(6x+ 5)";
      //string s =  "(8986 + cos(x))";
-     //string s = "-exp(x+5)-x";
+     string s = "-x^2 + 5*x - 4*x^3";
      //string s = "exp(x)";
      //string s = "1/(2*sqrt(x))*(exp(x)+8*x^2)";
      //string s= "x/4";
@@ -46,10 +46,8 @@ int main(int argc, char *argv[]){
      cout<<f.get_str_label()<<"\n";
      cout<<f.display()<<"\n";
      cout<<f.get_value(1)<<"\n";
+     cout<<f.get_polynomial().get_string()<<"\n";
      cout<<f.get_derivative()<<"\n";
-
-
-
      /*string s5;
      cin >> s5;
      vector<Token> v5 = simplify(s5, 'x');

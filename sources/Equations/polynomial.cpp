@@ -269,7 +269,7 @@ PolynomialRational PolynomialRational::operator-(const PolynomialRational&b)cons
     if (deg < l)
     {
         for (int i = deg + 1; i <= l; i++)
-            a[i] = b.coefficient[i];
+            a[i] = -b.coefficient[i];
     }
     else
         for (int i = b.deg + 1; i <= l; i++)

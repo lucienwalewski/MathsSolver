@@ -162,7 +162,6 @@ string AbstractFunction::display(){
 
 // be careful when divion with 0
 double AbstractFunction::get_value(double x, bool neg){
-    cout << get_str_label() << " " << operation.get_type()<<" "<<leaf_mark<< "\n";
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
         case 1: return get_left().get_value(get_right().get_value(x, false), false); break;
@@ -180,7 +179,7 @@ double AbstractFunction::get_value(double x, bool neg){
         case 4: return get_left().get_value(x, false)*get_right().get_value(x, false); break;
         case 5:
             if (neg)
-                return get_left().get_value(x, false+get_right().get_value(x, true));
+                return get_left().get_value(x, false)+get_right().get_value(x, true);
             else
                 return get_left().get_value(x, false)-get_right().get_value(x, true);
             break;
@@ -209,7 +208,6 @@ double AbstractFunction::get_leaf_value(double x, int n, string val){
 
 
 bool AbstractFunction::is_polynomial(){
-    //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
     switch (operation.get_type()) {
         case -1:
             if (leaf_mark == 0 || leaf_mark == 8 || leaf_mark == 9)
@@ -235,7 +233,7 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
 
     switch (operation.get_type()) {
         case -1:{
-            if (leaf_mark == 0){
+            if (leaf_mark == 0 || leaf_mark == 9){
                 Rational c[1];
                 c[0] = Rational((get_value(0)));
                 return PolynomialRational(c, 0);
