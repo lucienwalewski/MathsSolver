@@ -45,27 +45,31 @@ int closing_pare(string t, int i){
 //(ex : [Num("5"), Variable("x")] -> [Num("5"), Operator("*"), Variable("x")])
 
 string add_multiplication(string v){
-    string new_string;
-    for (int i = 0; i < int(v.size())-1; i ++){
+    if ((int)v.size() <= 1)
+        return v;
+
+    string new_string = "";
+    for (int i = 0; i < (int)v.size()-1; i ++){
         new_string.push_back(v[i]);
         //case 1 : num followed by "("
-        if ((isdigit(v[i]) && (v[i+1] == '('))){
-            new_string.push_back('*');
-        }
+        if ((isdigit(v[i]) && (v[i+1] == '(')))
+            new_string.push_back('*');   
         //case 2 : num followed by function, variable, constant, ...
-        else if ((isdigit(v[i])) && (isalpha(v[i+1]))){
+        else if ((isdigit(v[i])) && (isalpha(v[i+1])))
             new_string.push_back('*');
-        }
         //case 3 : ")" followed by "("
-        else if ((v[i] == '(') && (v[i+1] == '(')){
+        else if ((v[i] == ')') && (v[i+1] == '('))
             new_string.push_back('*');
-        }
-        if (i== int(v.size()) -2){
+
+        if (i + 2 == (int)v.size()){
             new_string.push_back(v[i+1]);
         }
     }
     v.clear();
     v.shrink_to_fit();
+    if (new_string[0] == '*')
+        new_string = new_string.substr(1);
+
     return new_string;
 };
 

@@ -2,48 +2,30 @@
 #include "Tokenizer.hpp"
 #include "Operators.hpp"
 
-
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
-
 AbstractFunction::AbstractFunction(vector<Token> fun){
-    end = false;
     type = 1;
     vect_label = fun;
-    str_label = vect_to_str(fun);
-    // parentheses(&fun);
-    if ((int)fun.size() == 1 && (fun[0].get_type() == -4)){
+    while ((int)fun.size() == 1 && (fun[0].get_type() == -4)){
         fun = simplify(fun[0].get_value(),'x');
         type = -4;
     }
 
-    if((int)fun.size() == 1 && (fun[0].get_type() != -4)){
+    if ((int)fun.size() == 0){
         this->left = nullptr;
         this->right = nullptr;
         this->operation = Operator();
-        end = true;
+        str_label ="";
+        leaf_mark = 9;
+    }
+
+    if((int)fun.size() == 1){
+        this->left = nullptr;
+        this->right = nullptr;
+        this->operation = Operator();
         this->str_label = fun[0].get_value();
-        this->type = fun[0].get_type();
-        switch (type){
-            case -1: leaf_mark = 0;  break;
-            case -2:
-                if (str_label == "exp")
-                    leaf_mark = 1;
-                else if (str_label == "ln")
-                    leaf_mark = 2;
-                else if (str_label == "log")
-                    leaf_mark = 3;
-                else if (str_label == "cos")
-                    leaf_mark = 4;
-                else if (str_label == "sin")
-                    leaf_mark = 5;
-                else if (str_label == "tan")
-                    leaf_mark = 6;
-                else if (str_label == "sqrt")
-                    leaf_mark = 7;
-                break;
-            case -3: leaf_mark = 8;
-        }
+        leaf_mark = assign(fun[0]);
     }
     else{
      operation =  Operator();
@@ -72,43 +54,37 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
                      r.push_back(fun[i]);
              }
 
-             if ((int)l.size() == 1 && (l[0].get_type() != -4))
-                 left = assign(l[0]);
-             else
-                 left =  new AbstractFunction(l);
-
-
-             if ((int)r.size() == 1 && (r[0].get_type() != -4))
-                 right = assign(r[0]);
-             else
-                 right = new AbstractFunction(r);
+             left = new AbstractFunction(l);
+             right = new AbstractFunction(r);
 
              str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
-             //cout<< "Const: "<< str_label<< "\n";
          }
     }
 }
 
-AbstractFunction* assign(Token fun){
-    switch (fun.get_type()) {
-        case -1: return new NumAbstractFunction(fun); break;
+int assign(Token fun){
+    switch (fun.get_type()){
+        case -1: return 0;  break;
         case -2:
             if (fun.get_value() == "exp")
-                return new ExpAbstractFunction();
+                return 1;
             else if (fun.get_value() == "ln")
-                return new LnAbstractFunction();
+                return 2;
             else if (fun.get_value() == "log")
-                return new LogAbstractFunction(10);
+                return 3;
             else if (fun.get_value() == "cos")
-                return new CosAbstractFunction();
+                return 4;
             else if (fun.get_value() == "sin")
-                return new SinAbstractFunction();
+                return 5;
             else if (fun.get_value() == "tan")
-                return new TanAbstractFunction();
+                return 6;
             else if (fun.get_value() == "sqrt")
-                return new SqrtAbstractFunction();
+                return 7;
+            else
+                return -1;
             break;
-        case -3: return new VarAbstractFunction(fun); break;
+        case -3: return 8;
+        default: return -1;
     }
 }
 
@@ -117,21 +93,10 @@ AbstractFunction* assign(Token fun){
 AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation){
     this->left = &left;
     this->right = &right;
-    end = false;
     this->operation = operation;
     this->str_label = "";
 
 }
-
-AbstractFunction::AbstractFunction(int type, Token end_token){
-    this->left = nullptr;
-    this->right = nullptr;
-    this->operation = Operator();
-    end = true;
-    this->type = type;
-    this->end_token = end_token;
-}
-
 
 
 AbstractFunction AbstractFunction:: get_left(){
@@ -171,60 +136,57 @@ string AbstractFunction::get_str_label(){
 
 string AbstractFunction::display(){
 
-    if (this->left == nullptr && this->right == nullptr){
-        return get_str_label();
+    string par_left = "";
+    string par_right= "";
+
+    if (type == -4){
+        par_left = "(";
+        par_right= ")";
+    }
+
+    if (operation.get_type() == -1){
+        return par_left + get_str_label() + par_right;
     }
     else{
         string s1 = get_left().display();
         string s2 = get_right().display();
-        if (operation.get_value() == "~"){
-            return s1 + "(" + s2 + ")";
-        }
-        if (operation.get_value() == "+"){
-            return add_strings(s1, s2);
-        }
-        if (operation.get_value() == "-"){
-            return sub_strings(s1, s2);
-        }
-        if (operation.get_value() == "*"){
-            return mult_strings(s1, s2);
-        }
-        if (operation.get_value() == "/"){
-            return div_strings(s1, s2);
-        }
-        if (operation.get_value() == "^"){
-            return pow_strings(s1, s2);
-        }
-        return "display() error!!";
+        if (operation.get_value() == "~")
+            return par_left + s1  + s2 +par_right;
+
+        else
+            return par_left + s1  + operation.get_value() + s2 + par_right;
     }
+
+    return "display() error!!";
 }
 
 // be careful when divion with 0
-double AbstractFunction::get_value(double x, bool neg, bool div){
-    //cout << get_str_label() << " " << operation.get_type()<< "\n";
+double AbstractFunction::get_value(double x, bool neg){
+    cout << get_str_label() << " " << operation.get_type()<<" "<<leaf_mark<< "\n";
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
-        case 1: return get_left().get_value(get_right().get_value(x, false, false), false, false); break;
-        case 2: return pow(get_left().get_value(x, false, false), get_right().get_value(x, false, true)); break;
+        case 1: return get_left().get_value(get_right().get_value(x, false), false); break;
+        case 2: return pow(get_left().get_value(x, false), get_right().get_value(x, false)); break;
         case 3:{
-            double a = get_right().get_value(x, false, true);
+            double a = get_right().get_value(x, false);
             if(a == 0){
                 cout << "Division with zero!\n";
                 return 1;
             }
             else
-                return get_left().get_value(x, false, false)/a;
+                return get_left().get_value(x, false)/a;
             break;
         }
-        case 4: return get_left().get_value(x, false, false)*get_right().get_value(x, false, false); break;
+        case 4: return get_left().get_value(x, false)*get_right().get_value(x, false); break;
         case 5:
             if (neg)
-                return get_left().get_value(x, false, false)+get_right().get_value(x, true, false);
+                return get_left().get_value(x, false+get_right().get_value(x, true));
             else
-                return get_left().get_value(x, false, false)-get_right().get_value(x, true, false);
+                return get_left().get_value(x, false)-get_right().get_value(x, true);
             break;
         case 6:
-            return get_left().get_value(x, false, false)+get_right().get_value(x, false, false); break;
+            return get_left().get_value(x, false)+get_right().get_value(x, false); break;
+
         default: return 0;
     }
 }
@@ -232,15 +194,15 @@ double AbstractFunction::get_value(double x, bool neg, bool div){
 
 double AbstractFunction::get_leaf_value(double x, int n, string val){
     switch (n) {
-        case 0: return NumAbstractFunction(Num(val)).get_value(x); break;
-        case 1: return ExpAbstractFunction().get_value(x); break;
-        case 2: return LnAbstractFunction().get_value(x); break;
-        case 3: return LogAbstractFunction(10).get_value(x); break;
-        case 4: return CosAbstractFunction().get_value(x); break;
-        case 5: return SinAbstractFunction().get_value(x); break;
-        case 6: return TanAbstractFunction().get_value(x); break;
-        case 7: return SqrtAbstractFunction().get_value(x); break;
-        case 8: return VarAbstractFunction(Variable(val)).get_value(x); break;
+        case 0: return stod(val); break;
+        case 1: return exp(x); break;
+        case 2: return log(x); break;
+        case 3: return log(x)/log(10); break;
+        case 4: return cos(x); break;
+        case 5: return sin(x); break;
+        case 6: return tan(x); break;
+        case 7: return sqrt(x); break;
+        case 8: return x; break;
         default: return 0;
     }
 }
@@ -250,7 +212,7 @@ bool AbstractFunction::is_polynomial(){
     //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
     switch (operation.get_type()) {
         case -1:
-            if (leaf_mark == 0 || leaf_mark == 8)
+            if (leaf_mark == 0 || leaf_mark == 8 || leaf_mark == 9)
                 return true;
             else
                 return false;
@@ -344,6 +306,92 @@ vector<double> AbstractFunction::get_roots(double start, double end){
     return roots;
 }
 
+string AbstractFunction::get_derivative(){
+    switch (operation.get_type()) {
+        case -1:
+            return get_leaf_derivative(leaf_mark); break;
+        // composition
+        case 1:{
+            string r1 = get_right().get_derivative();
+            if (r1 == "0")
+                return  "0";
+            else if (r1 == "1"){
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 6 || get_left().leaf_mark == 7){
+                    return get_left().get_derivative() + get_right().display() + ")";
+                }
+                else{
+                    return get_left().get_derivative() + get_right().display();
+                }
+            }
+            else{
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 6 || get_left().leaf_mark == 7){
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + "))", r1);
+                }
+                else{
+                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + ")", r1);
+                }
+            }
+            break;
+        }
+        // power
+        case 2: {
+            // left is a num
+            if(get_left().leaf_mark == 0)
+                return mult_strings(mult_strings(display(), "ln(" + get_left().display() + ")"), get_right().get_derivative());
+
+            // right is a num
+            else if(get_right().leaf_mark == 0){
+                string new_exp = Rational(get_right().get_value(0) - 1).get_string();
+                string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
+                string r2 = get_left().get_derivative() ;
+                return mult_strings(l2, r2);
+            }
+            else
+                return mult_strings(display(), AbstractFunction(simplify(get_right().display()+"*ln("+get_left().display() +")" , 'x')).get_derivative());
+
+            break;
+        }
+        // division
+        case 3:{
+            if (get_right().get_operation().get_type() == -1 && get_right().leaf_mark == 0)
+                return div_strings(get_left().get_derivative(), get_right().display());
+
+            string l3 = mult_strings(get_left().get_derivative(), get_right().display());
+            string r3 = mult_strings(get_right().get_derivative(), get_left().display());
+            string tog = sub_strings(l3, r3);
+            string denom = pow_strings(get_right().display(), "2");
+            return div_strings(tog, denom);
+        }
+        // multiplication
+        case 4: {
+            string l4 = mult_strings(get_left().get_derivative(), get_right().display());
+            string r4 = mult_strings(get_right().get_derivative(), get_left().display());
+            return add_strings(l4, r4);
+            break;
+        }
+        // subtraction
+        case 5: return sub_strings(get_left().get_derivative(), get_right().get_derivative()); break;
+        // addition
+        case 6: return add_strings(get_left().get_derivative(), get_right().get_derivative()); break;
+        default: return "";
+    }
+}
+
+string AbstractFunction::get_leaf_derivative(int n){
+    switch (n) {
+        case 0: return "0"; break;
+        case 1: return "exp"; break;
+        case 2: return "1/"; break;
+        case 3: return "1/(ln(10)*"; break;
+        case 4: return "-sin"; break;
+        case 5: return "cos"; break;
+        case 6: return "1/cos^2"; break;
+        case 7: return "1/(2*sqrt"; break;
+        case 8: return "1"; break;
+        default: return "";
+    }
+}
+
 double AbstractFunction::get_integral_value(double a, double b){
     double DIV = (b-a)*1100;
     double h = (b-a)/DIV;
@@ -362,380 +410,113 @@ double AbstractFunction::get_integral_value(double a, double b){
     return T;
 }
 
-
-ExpAbstractFunction::ExpAbstractFunction():AbstractFunction(){
-  value = Function("exp");
-  str_label = value.get_value();
-  str_label = value.get_value();
-  type = value.get_type();
-  leaf_mark = 1;
-}
-
-string ExpAbstractFunction::get_derivative(){
-    return "exp";
-}
-
-double ExpAbstractFunction::get_value(double x, bool neg, bool div){
-    return exp(x);
-}
-
-LnAbstractFunction::LnAbstractFunction():AbstractFunction(){
-    value = Function("ln");
-    str_label = value.get_value();
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 2;
-}
-
-string LnAbstractFunction::get_derivative(){
-    return "1/";
-}
-
-double LnAbstractFunction::get_value(double x, bool neg, bool div){
-    return log(x);
-}
-
-LogAbstractFunction::LogAbstractFunction(double a):AbstractFunction(){
-    value = Function("log");
-    str_label = value.get_value();
-    str_label = value.get_value();
-    type = value.get_type();
-    base = a;
-    leaf_mark = 3;
-}
-
-double LogAbstractFunction::get_base(){
-    return base;
-}
-
-string LogAbstractFunction::get_derivative(){
-    return "1/(ln(10)*";
-}
-
-double LogAbstractFunction::get_value(double x, bool neg, bool div){
-    return log(x)/log(base);
-}
-
-CosAbstractFunction::CosAbstractFunction():AbstractFunction(){
-    value = Function("cos");
-    str_label = value.get_value();
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 4;
-}
-
-string CosAbstractFunction::get_derivative(){
-    return "-sin";
-}
-
-double CosAbstractFunction::get_value(double x, bool neg, bool div){
-    return cos(x);
-}
-
-SinAbstractFunction::SinAbstractFunction():AbstractFunction(){
-    value = Function("sin");
-    str_label = value.get_value();
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 5;
-}
-
-string SinAbstractFunction::get_derivative(){
-    return "cos";
-}
-
-double SinAbstractFunction::get_value(double x, bool neg, bool div){
-    return sin(x);
-}
-
-TanAbstractFunction::TanAbstractFunction():AbstractFunction(){
-    value = Function("tan");
-    str_label = value.get_value();
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 6;
-}
-
-string TanAbstractFunction::get_derivative(){
-    return "1/(cos^2";
-}
-
-double TanAbstractFunction::get_value(double x, bool neg, bool div){
-    return tan(x);
-}
-
-SqrtAbstractFunction::SqrtAbstractFunction():AbstractFunction(){
-    value = Function("sqrt");
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 7;
-}
-
-string SqrtAbstractFunction::get_derivative(){
-    return "(-1/2)*(1/sqrt";
-}
-
-double SqrtAbstractFunction::get_value(double x, bool neg, bool div){
-    return sqrt(x);
-}
-
-NumAbstractFunction::NumAbstractFunction(Token T):AbstractFunction() {
-    value = T;
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 0;
-}
-
-string NumAbstractFunction::get_derivative(){
-    return "0";
-}
-
-double NumAbstractFunction::get_value(double x, bool neg, bool div){
-    return stod(value.get_value());
-}
-
-VarAbstractFunction::VarAbstractFunction(Token T):AbstractFunction() {
-    value = T;
-    str_label = value.get_value();
-    type = value.get_type();
-    leaf_mark = 8;
-}
-
-string VarAbstractFunction::get_derivative(){
-    return "1";
-}
-
-double VarAbstractFunction::get_value(double x, bool neg, bool div){
-    return x;
-}
-
-string vect_to_str(vector<Token> fun){
-    string sfun = "";
-    for (int i = 0; i< (int)fun.size(); i++){
-        sfun += fun[i].get_value();
-        if (i != int(fun.size())-1){
-            sfun += " ";
-        }
-    }
-    return sfun;
-}
-
-
-string AbstractFunction::get_derivative(){
-    switch (operation.get_type()) {
-        case -1:
-            return get_leaf_derivative(leaf_mark, display()); break;
-        // composition
-        case 1:{
-            string r1 = get_right().get_derivative();
-            if (r1 == "1"){
-                if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
-                    return get_left().get_derivative() + "(" + get_right().display() + "))";
-                }
-                else{
-                    return get_left().get_derivative() + "(" + get_right().display() + ")";
-                }
-
-
-            }
-            else{
-                if (get_left().leaf_mark == 3 or get_left().leaf_mark == 6 or get_left().leaf_mark ==7){
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + "))", r1);
-                }
-                else{
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + ")", r1);
-                }
-            }
-            break;
-        }
-        // power
-        case 2: {
-            // left is a num
-            if(get_left().leaf_mark == 0){
-                string t = mult_strings(display(), "ln(" + get_left().display() + ")");
-                return mult_strings(t, get_right().get_derivative());
-            }
-            // right is a num
-            if(get_right().leaf_mark == 0){
-                string new_exp = to_string(stoi(get_right().display()) - 1);
-                string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
-                /*if (new_exp == "1"){
-                    l2 = get_right().get_str_label() + "(" + get_left().get_str_label() + ")";
-                }
-                else{
-                    l2 = get_right().get_str_label() + "(" + get_left().get_str_label() + ")^" + new_exp;
-                }*/
-                string r2 = get_left().get_derivative() ;
-                return mult_strings(l2, r2);
-                /*if (r2 != "1"){
-                    return l2 + "*(" + r2 + ")";
-                }
-                else{
-                    return l2;
-                }*/
-            }
-            break;
-        }
-        // division
-        case 3:{
-            string l3 = mult_strings(get_left().get_derivative(), get_right().display());
-            string r3 = mult_strings(get_right().get_derivative(), get_left().display());
-            string tog = sub_strings(l3, r3);
-            string denom = pow_strings(get_right().display(), "2");
-            return div_strings(tog, denom);
-        }
-
-        // multiplication
-        case 4: {
-            string l4 = mult_strings(get_left().get_derivative(), get_right().display());
-            string r4 = mult_strings(get_right().get_derivative(), get_left().display());
-            return add_strings(l4, r4);
-            break;
-        }
-
-        // subtraction
-        case 5:{
-            return sub_strings(get_left().get_derivative(), get_right().get_derivative());
-            break;
-        }
-        // addition
-        case 6:{
-            return add_strings(get_left().get_derivative(), get_right().get_derivative());
-            break;
-        }
-        default: return "";
-    }
-}
-
 string add_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
-    if (l == "0"){
+    if (l == "0")
         return r;
-    }
-    if (r == "0"){
+
+    if (r == "0")
         return l;
-    }
-    if (l.length() <= 1 and r.length() <= 1){
-        return l + "+" + r;
-    }
-    if (l.length() <= 1){
-        return l + "+(" + r + ")";
-    }
-    if (r.length() <= 1){
-        return "(" + l + ")+" + r;
-    }
-    return "(" + l + ")+(" + r + ")";
+
+    return  l + "+" + r ;
 }
 string sub_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
-    if (l == "0"){
-        return "-" + r;
-    }
-    if (r == "0"){
+
+    if (r == "0")
         return l;
-    }
-    if (l.length() <= 1 and r.length() <= 1){
-        return l + "-" + r;
-    }
-    if (l.length() <= 1){
-        return l + "-(" + r + ")";
-    }
-    if (r.length() <= 1){
-        return "(" + l + ")-" + r;
-    }
-    return "(" + l + ")-(" + r + ")";
+
+    if (l == "0")
+        return "-" + r;
+
+    return l + '-' + r;
 }
+
+bool check_par(vector<Token> v){
+    for (int i = 0; i < (int)v.size(); i++)
+        if (v[i].get_type() >= 5)
+            return false;
+
+    return true;
+}
+
 string mult_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
-    if (l == "0"){
+    if (l == "0" || r =="0")
         return "0";
-    }
-    if (r == "0"){
-        return "0";
-    }
-    if (l == "1"){
+
+    else if (l == "1")
         return r;
-    }
-    if (r == "1"){
+
+    else if (r == "1")
         return l;
-    }
-    if (l.length() <= 1 and r.length() <= 1){
+
+
+    bool left_side = check_par(simplify(l, 'x'));
+    bool right_side = check_par(simplify(r, 'x'));
+
+
+    if (left_side && right_side)
         return l + "*" + r;
-    }
-    if (l.length() <= 1){
+
+    else if (left_side)
         return l + "*(" + r + ")";
-    }
-    if (r.length() <= 1){
+
+    else if (right_side)
         return "(" + l + ")*" + r;
-    }
+
     return "(" + l + ")*(" + r + ")";
 }
 string div_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
-    if (l == "0"){
+    if (l == "0")
         return "0";
-    }
-    if (r == "0"){
+
+    else if (r == "0")
         return "division by 0 error";
-    }
-    if (r == "1"){
+
+    else if (r == "1")
         return l;
-    }
-    if (l.length() <= 1 and r.length() <= 1){
+
+    bool left_side = check_par(simplify(l, 'x'));
+
+    if (left_side)
         return l + "/" + r;
-    }
-    if (l.length() <= 1){
-        return l + "/(" + r + ")";
-    }
-    if (r.length() <= 1){
-        return "(" + l + ")/" + r;
-    }
-    return "(" + l + ")/(" + r + ")";
+
+    return "(" + l + ")/"+r;
 }
 
 string pow_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
-    if (l == "0"){
+    if (l == "0")
         return "0";
-    }
-    if (l == "1"){
+
+    else if (l == "1")
         return "1";
-    }
-    if (r == "0"){
+
+    else if (r == "0")
         return "1";
-    }
-    if (r == "1"){
+
+    else if (r == "1")
         return l;
-    }
-    if (l.length() <= 1 and r.length() <= 1){
+
+    int token_left = simplify(l, 'x').size();
+    int token_right = simplify(r, 'x').size();
+    if (token_left <= 1 and token_right <= 1)
         return l + "^" + r;
-    }
-    if (l.length() <= 1){
+
+    if (token_left <= 1)
         return l + "^(" + r + ")";
-    }
-    if (r.length() <= 1){
+
+    else if (token_right <= 1)
         return "(" + l + ")^" + r;
-    }
+
     return "(" + l + ")^(" + r + ")";
 }
 
 
-string AbstractFunction::get_leaf_derivative(int n, string val){
-    switch (n) {
-        case 0: return NumAbstractFunction(Num(val)).get_derivative(); break;
-        case 1: return ExpAbstractFunction().get_derivative(); break;
-        case 2: return LnAbstractFunction().get_derivative(); break;
-        case 3: return LogAbstractFunction(10).get_derivative(); break;
-        case 4: return CosAbstractFunction().get_derivative(); break;
-        case 5: return SinAbstractFunction().get_derivative(); break;
-        case 6: return TanAbstractFunction().get_derivative(); break;
-        case 7: return SqrtAbstractFunction().get_derivative(); break;
-        case 8: return VarAbstractFunction(Variable(val)).get_derivative(); break;
-        default: return "";
-    }
-}

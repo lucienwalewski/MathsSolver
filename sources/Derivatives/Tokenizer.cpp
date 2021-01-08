@@ -71,6 +71,7 @@ string find_function(string s){
 vector<Token> simplify(string v, char variable){
     string w = del_exterior_parentheses(v);
     string s = add_multiplication(w);
+
     vector <Token> new_vector;
     string digits = "";
     for (int i = 0; i < (int)s.size(); i++){
@@ -85,6 +86,7 @@ vector<Token> simplify(string v, char variable){
             }
             //Case 2 : a letter
             if (isalpha(s[i])){
+                //cout<< s[i] <<"\n";
                 //Case 2.a : beginning of a function
                 string s1 = s.substr(i, 4);
                 string potential_function = find_function(s1);
