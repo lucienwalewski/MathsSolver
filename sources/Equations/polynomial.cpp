@@ -418,11 +418,8 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
     solutionPolynomial ans;
 
     if (P.deg == 2){
-        //cout<<step<<". Solving a quadratic equation " << P.get_string() << " = 0\n";
         ans.step_solution.push_back("Solving a quadratic equation " + P.get_string() + " = 0");
-        //cout<<"Applying formula: (-b +/- sqrt{b^2-4ac})/(2a)\n";
         ans.step_solution.push_back("Applying formula: (-b +/- sqrt{b^2-4ac})/(2a)");
-        //cout << "Discriminate d = "<< P[1].get_string()<<"^2-4*"<<P[0].get_string()<< "*"<<P[2].get_string();
         string delta = "Discriminate d = "+ P[1].get_string()+"^2-4*" + P[0].get_string()+ "*" +P[2].get_string();
         Rational x = P[1];
         x.a = - x.a;
