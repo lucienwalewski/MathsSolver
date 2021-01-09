@@ -4,13 +4,6 @@
 #include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
 
-#include <QApplication>
-#include <QtTest>
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <math.h>
 
 const int MAX_ITER =1000000;
 const double EPS =  0.00001;
