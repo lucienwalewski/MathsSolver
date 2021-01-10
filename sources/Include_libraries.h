@@ -11,6 +11,6 @@
 #include <map>
 #include <cmath>
 #include <complex>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include <list>
 #endif // INCLUDE_LIBRARIES_H
