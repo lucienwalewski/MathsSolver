@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TEMPLATE = app
 
 SOURCES += \
+    testingFiles/numericalsolverTest/testnumericalsolver.cpp \
     testingFiles/sampleTestClass/sampleTestClass.cpp \
     testSuite.cpp \
 #    Derivatives/Tokenizer.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 #    tstFunc.cpp
 
 HEADERS += \
+    testingFiles/numericalsolverTest/testnumericalsolver.hpp \
     testingFiles/sampleTestClass/sampleTestClass.hpp \
 #    Derivatives/Tokenizer.hpp \
 #    Derivatives/derivatives.hpp \

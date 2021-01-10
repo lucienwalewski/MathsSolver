@@ -30,7 +30,7 @@ using namespace std;
 }*/
 
 double f(double x, double y){
-    return (x-3)*(x-1);
+    return 1/y;
 }
 
 double g(double x,double y,double dy){
@@ -45,11 +45,13 @@ int main(int argc, char *argv[])
 {
     QApplication  a(argc, argv);
 
-    cout<<ODE_1st_order_solver(0,1,1,f)<<'\n';
+    for (int i=1; i<5; i=i+0.5){
+        cout<<ODE_1st_order_solver(0,1,i,f)<<'\n';
+    }
 
-    cout<<ODE_2nd_order_solver(0, 1, 0, 1, g)<<'\n';
+//    cout<<ODE_2nd_order_solver(0, 1, 0, 1, g)<<'\n';
 
-    cout<<ODE_3rd_order_solver(0, 0, 0, 1, 1, h);
+//    cout<<ODE_3rd_order_solver(0, 0, 0, 1, 1, h);
 
 //    string f;
 
@@ -57,7 +59,7 @@ int main(int argc, char *argv[])
 //    cin>>f;
 //    cout<<"The function is: "<<f<<"\n";
 
-//    cout<<"Hello the result is "<<derivative(f, 9.99)<<"\n";
+//    cout<<"Hello the result is "<<derivative(f, 0)<<"\n";
 
 //    cout<<"Newton"<<Newton(f,9.99,1e-6,100)<<"\n";
 
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
 
 //    list<double> roots = rootfinding(f);for (std::list<double>::iterator i=roots.begin(); i!= roots.end(); i++){cout<<*i<<"\n";};
 
-    //cout<<"Hello the result of the integral is "<<integral(F, 1.2, 1.6)<<"\n";
+//    cout<<"Hello the result of the integral is "<<integral(f, 0, 1)<<"\n";
     //cout<<"Hello the result of the derivative is "<<derivative(F, 1)<<"\n";
 
 
