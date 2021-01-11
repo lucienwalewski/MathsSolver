@@ -23,6 +23,7 @@ SOURCES += \
      Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
+     NumericalSolver/num_ODE.cpp \
      NumericalSolver/num_roots.cpp \
      functionPreprocessing.cpp \
      main.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
      Equations/polynomial.hpp \
      Equations/step.hpp \
      MainWindow/mainwindow.h \
+     NumericalSolver/num_ODE.hpp \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
      NumericalSolver/num_roots.hpp \
@@ -52,13 +54,13 @@ FORMS += \
 
 # Eigen path
 
-INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
-LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
+#INCLUDEPATH += $${EIGEN_LIBRARY_INCLUDE}
+#LIBS += -L$${EIGEN_LIBRARY_PATH} -lcommon
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
