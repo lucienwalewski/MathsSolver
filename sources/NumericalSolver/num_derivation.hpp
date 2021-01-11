@@ -1,11 +1,8 @@
 #ifndef NUM_DERIVATION_HPP
 #define NUM_DERIVATION_HPP
 
+#include "Include_libraries.h"
 
-#include <cmath>
-#include <iostream>
-#include <vector>
-#include <list>
 
 using namespace std;
 

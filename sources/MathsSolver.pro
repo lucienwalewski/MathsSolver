@@ -12,41 +12,42 @@ CONFIG += c++11
 
 SOURCES += \
 #     ImageRecognition/imagePreprocessing.cpp \
-#     ImageRecognition/cnn.cpp \
-#     ImageRecognition/util.cpp \
-#     Derivatives/Tokenizer.cpp \
-#     Derivatives/derivatives.cpp \
-#     Equations/fft.cpp \
-#     Equations/gaussin.cpp \
-#     Equations/matrix.cpp \
-#     Equations/numbers.cpp \
-#     Equations/polynomial.cpp \
-#     Equations/step.cpp \
-     NumericalSolver/num_ODE.cpp \
+     Derivatives/Tokenizer.cpp \
+     Derivatives/derivatives.cpp \
+     Derivatives/Operators.cpp \
+     Equations/fft.cpp \
+     Equations/gaussin.cpp \
+     Equations/matrix.cpp \
+     Equations/numbers.cpp \
+     Equations/polynomial.cpp \
+     Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
+     NumericalSolver/num_ODE.cpp \
      NumericalSolver/num_roots.cpp \
+     functionPreprocessing.cpp \
      main.cpp \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePreprocessing.hpp \
-#     ImageRecognition/cnn.hpp \
-#     ImageRecognition/util.hpp \
-#     Derivatives/Tokenizer.hpp \
-#     Derivatives/derivatives.hpp \
-#     Equations/fft.hpp \
-#     Equations/gaussin.hpp \
-#     Equations/matrix.hpp \
-#     Equations/numbers.hpp \
-#     Equations/polynomial.hpp \
-#     Equations/step.hpp \
+     #ImageRecognition/imagePreprocessing.hpp \
+     #Include_OpenCV.h \
+     Include_libraries.h \
+     Derivatives/Tokenizer.hpp \
+     Derivatives/derivatives.hpp \
+     Derivatives/Operators.hpp \
+     Equations/fft.hpp \
+     Equations/gaussin.hpp \
+     Equations/matrix.hpp \
+     Equations/numbers.hpp \
+     Equations/polynomial.hpp \
+     Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_ODE.hpp \
      NumericalSolver/num_derivation.hpp \
      NumericalSolver/num_integration.hpp \
-     NumericalSolver/num_roots.hpp
-
+     NumericalSolver/num_roots.hpp \
+     functionPreprocessing.hpp
 FORMS += \
     MainWindow/mainwindow.ui
 

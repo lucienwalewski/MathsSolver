@@ -1,0 +1,6 @@
+I have been working on implementing a step-by-step solution of division between any two polynomials and then I have been working on implementing step by step solution of any
+polynomial equation with rational coefficients. I have   upgraded the class Matrix so now its compatible with work with Rationals (I had to update the class Rationals for that)
+and also a gaussian file, so now we have a step-by-step solution for any system of an equation that uses just rationals coefficients. In the end, I continued working on the main
+processes which are used at the beginning of the program. 
+
+Next week I am working on connecting graphics with the rest of the code and upgrading numerical solving of the equations, and finishing the main processes.

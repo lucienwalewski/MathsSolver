@@ -1,8 +1,7 @@
 #ifndef FFT_HPP
 #define FFT_HPP
 
-#include <cmath>
-#include <complex>
+#include "Include_libraries.h"
 
 extern void FFT(int *x,
     std::complex<double> *new_x,

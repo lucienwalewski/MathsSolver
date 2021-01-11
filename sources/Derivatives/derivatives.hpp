@@ -1,174 +1,74 @@
 #ifndef DERIVATIVES_HPP
 #define DERIVATIVES_HPP
 #include "Tokenizer.hpp"
+#include "functionPreprocessing.hpp"
+#include "Equations/polynomial.hpp"
 
-#include <string>
-#include <vector>
+
+const int MAX_ITER =1000000;
+const double EPS =  0.00001;
+
+#include "Include_libraries.h"
+
 using namespace std;
-
-
-
 
 class AbstractFunction {
 public:
     AbstractFunction(vector<Token> fun);
-
-    template <typename Function1, typename Function2> AbstractFunction(Function1 left, Function2 right, Operator operation){
-        this-> left = left;
-        this-> right = right;
-        this-> operation = operation;
-        this->str_label = left->str_label + get_string_operation()  + right->str_label;
+    AbstractFunction(){
+        this->left = nullptr;
+        this->right = nullptr;
+        this->operation = Operator();
+        this->str_label = "";
+        this->type = 0;
     };
 
-
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
-    ~AbstractFunction();
-
-
-    AbstractFunction();
-
-    void op_to_enum(char op,Operator &operation);
+   // ~AbstractFunction(){delete left;delete right;};
 
     AbstractFunction get_left();
+    vector<Token> get_vect_label(){return vect_label;}
     void set_left(AbstractFunction *left);
     AbstractFunction get_right();
     void set_right(AbstractFunction *right);
+    double operator () (const double &x);
 
     Operator get_operation();
     void set_operation(Operator operation);
     string get_string_operation();
 
     string get_str_label();
+    string display();
 
-    bool is_none();
-
-
-    template <typename Function1> Function1 solve();
-
-    template <typename Function1, typename Function2> AbstractFunction add(Function1 function1, Function2 function2);
-
-    template <typename Function1, typename Function2> AbstractFunction subtract(Function1 function1, Function2 function2);
-
-    template <typename Function1, typename Function2> AbstractFunction multiply(Function1 function1, Function2 function2);
-
-    template <typename Function1, typename Function2> AbstractFunction divide(Function1 function1, Function2 function2);
-
-    template <typename Function1, typename Function2> AbstractFunction chain_rule(Function1 function1, Function2 function2);
-
-
+    vector<double> get_roots(double start = -100, double end = 100);
+    double regula_falsi(double a, double b);
+    double get_integral_value(double a, double b);
+    bool is_polynomial();
+    PolynomialRational get_polynomial(bool neg = false);
+    int get_type();
+    void set_type(int type);
+    double get_value(double x, bool  neg = false);
+    double get_leaf_value(double x, int n, string value);
+    string  get_derivative();
+    string  get_leaf_derivative(int n);
+    int leaf_mark = -1;
 
 private:
     Operator operation;
     AbstractFunction *left;
     AbstractFunction *right;
     string str_label;
-
+    vector<Token> vect_label;
+    int type;
 };
 
 
-
-
-class SinFunction : public AbstractFunction{
-public:
-    SinFunction(Token val);
-    template <typename Function1> Function1 solve();
-    Token get_value();
-private:
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-    Token value;
-};
-
-
-
-class CosFunction : public AbstractFunction{
-public:
-    CosFunction(Token val);
-    template <typename Function1> Function1 solve();
-    Token get_value();
-private:
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-    Token value;
-};
-
-
-
-class ExponentialFunction : public AbstractFunction{
-public:
-    ExponentialFunction(Token base);
-    template <typename Function1> Function1 solve();
-
-    Token get_base();
-private:
-    Token base;
-
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-};
-
-
-
-class LogarithmicFunction : public AbstractFunction{
-public:
-    LogarithmicFunction(Token val, Token base);
-    template <typename Function1> Function1 solve();
-
-    Token get_base();
-    Token get_value();
-private:
-    Token base;
-    Token value;
-
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-};
-
-
-
-
-class PolynomialFunction : public AbstractFunction{
-public:
-    PolynomialFunction(Token base, Token exponent);
-    template <typename Function1> Function1 solve();
-
-    Token get_exponent();
-    Token get_base();
-private:
-    Token exponent;
-    Token base;
-
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-};
-
-
-
-class ConstantFunction : public AbstractFunction{
-public:
-    ConstantFunction(Token c);
-    template <typename Function1> Function1 solve();
-
-    Token get_c();
-private:
-    Token c;
-
-    Operator operation;
-    AbstractFunction *left;
-    AbstractFunction *right;
-    string str_label;
-};
-
-
+int assign(Token fun);
+string add_strings(string l, string r);
+string sub_strings(string l, string r);
+string mult_strings(string l, string r);
+string div_strings(string l, string r);
+string pow_strings(string l, string r);
+bool check_par(vector<Token> fun);
 
 #endif // DERIVATIVES_HPP

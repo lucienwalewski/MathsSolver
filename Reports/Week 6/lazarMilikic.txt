@@ -1,0 +1,2 @@
+Working on connection betweeen main function preprocessing and GUI. Helpping others in implemantation (derivatives and equations). Next week, finishing machine learning part fixing 
+bugs in derivatives part. Start of integralas.
