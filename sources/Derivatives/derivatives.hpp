@@ -31,6 +31,7 @@ public:
     void set_left(AbstractFunction *left);
     AbstractFunction get_right();
     void set_right(AbstractFunction *right);
+    double operator () (const double &x);
 
     Operator get_operation();
     void set_operation(Operator operation);

@@ -30,7 +30,6 @@ vector<string> inetgral(string f);
 vector<string> system(string f);
 vector<string> division(string f);
 
-
-vector<string> start_process(string f);
+vector<string> start_process(string f, char var = 'x');
 
 #endif // FUNCTIONPREPROCESSING_HPP
