@@ -1,5 +1,4 @@
 #include "functionPreprocessing.hpp"
-//matrix, inversion, multiplication, power, transponse and determinantes
 
 string upload_function(string f){
     /*uploading of the given function*/
@@ -174,10 +173,8 @@ vector<string> equation(string f, char var){
             solve += tokens[j].get_value();
     }
 
-    //cout<< solve <<"\n";
     AbstractFunction function(simplify(solve, var), var);
     vector<double> sol = function.get_roots();
-    cout << function.display() <<"\n";
     if (function.is_polynomial()){
         solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;

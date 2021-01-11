@@ -265,8 +265,7 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
         case 2: {
             int n = (int)get_right().get_value(0);
 //            PolynomialRational P = get_left().get_polynomial();
-//            PolynomialRational Q(P.deg, var);
-//            Q = P.copy();
+//            PolynomialRational Q = P.copy();
 //            for (int i = 1; i < n; i++)
 //                Q = Q * P;
 
