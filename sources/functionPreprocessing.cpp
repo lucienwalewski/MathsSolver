@@ -3,7 +3,6 @@
 // adding var varibale as mandatory in the code
 // is double integer
 // more dteialed checks
-// finish check polynomials
 
 string upload_function(string f){
     /*uploading of the given function*/
@@ -90,7 +89,7 @@ bool check_integral(string f){
 
 vector<string> derivative(string f){
     AbstractFunction function(simplify(f.substr(1, (int)f.size() - 3), 'x'));
-    //return = function.get_derivative();
+    //function.get_derivative();
     return vector<string>();
 }
 
@@ -115,17 +114,17 @@ vector<string> equation(string f){
     }
 
     solve += "=0";
-    vector<Token> tokens = simplify(solve.substr(0, solve.size()-2), 'x');
-    AbstractFunction function(tokens);
+    cout<< solve <<"\n";
+    AbstractFunction function(simplify(solve.substr(0, solve.size()-2), 'x'));
     vector<double> sol = function.get_roots();
+
     if (function.is_polynomial()){
         solutionPolynomial res = solveRational(function.get_polynomial());
         solution = res.step_solution;
         solution.push_back("r");
-        if (res.roots.empty() && res.complex.empty()){
+        if (res.roots.empty() && res.complex.empty())
              solution.push_back("No Solution");
-             std::cout<<"No Solution"<<std::endl;
-        }
+
         else{
 
             if (!res.roots.empty())
@@ -192,10 +191,11 @@ vector<string> inetgral(string f){
         up = AbstractFunction(simplify(b, 'x')).get_value(0);
     i++;
 
-    string res = to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1), 'x')).get_integral_value(down, up));
-    cout<< res<<"\n";
+    vector<string> res{"r"};
+    res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1), 'x')).get_integral_value(down, up)));
+    //cout<< res<<"\n";
 
-    return vector<string>{res};
+    return res;
 }
 vector<string> system(string f){
     f = f.substr(4, f.size() - 5);
@@ -291,9 +291,7 @@ vector<string> system(string f){
             return vector<string>();
         }
 
-    gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
-
-    return vector<string>();
+    return gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
 }
 vector<string> division(string f){
     string make_poly[2];
@@ -315,9 +313,18 @@ vector<string> division(string f){
         cout<< "Not division between rationals polynomials!\n";
         return vector<string>();
     }
-    divisionR(P.get_polynomial(), Q.get_polynomial(), true);
+    divPolynomial res =  divisionR(P.get_polynomial(), Q.get_polynomial());
+    res.step_solution.push_back("r");
+    res.step_solution.push_back("Quotient:");
+    res.step_solution.push_back(res.Quotient.get_string());
+    if (res.ReminderZero)
+        res.step_solution.push_back("Reminder is 0");
+    else{
+        res.step_solution.push_back("Reminder");
+        res.step_solution.push_back(res.Reminder.get_string());
+    }
 
-    return vector<string>();
+    return res.step_solution;
 }
 
 bool (*checkProcess[])(string) = {
@@ -336,7 +343,7 @@ vector<string> (*solve_problem[])(string){
     division,
 };
 
-vector<string> start_process(string f){
+vector<string> start_process(string f, char var){
     f = upload_function(f);
     int cnt=0;
     for (int i = 0; i < 5; i++)

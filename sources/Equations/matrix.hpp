@@ -53,20 +53,21 @@ public:
 
     T get_element(int i, int j) const {return elements[i][j];};
 
-
     string get_string(){
         //String representation of the matrix
         string s = "";
         for (int i = 0; i < n; i++) {
             s += "|";
-            for (int j = 0; j < m; j++)
-                s += to_str(this->get_element(i, j));
-
-            if (i+1 < n)
-                s += "\n";
+            for (int j = 0; j < m; j++){
+                if (this->get_element(i, j) >= 0)
+                    s += " " + to_str(this->get_element(i, j)) + " ";
+                else
+                    s += to_str(this->get_element(i, j)) + " ";
+            }
+            s += "|\n";
         }
 
-        return s;
+        return s.substr(0, s.size() - 1);
     }
 
     void print_mat(){

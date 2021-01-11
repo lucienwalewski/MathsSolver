@@ -299,7 +299,11 @@ PolynomialRational PolynomialRational:: operator*(const Rational &b) const{
 }
 
 PolynomialRational PolynomialRational:: operator/(const PolynomialRational &b) const{
-    return divisionR(PolynomialRational(coefficient, deg), b);
+    return divisionR(PolynomialRational(coefficient, deg), b).Quotient;
+}
+
+bool PolynomialRational::is_divisible(PolynomialRational P){
+    return divisionR(PolynomialRational(coefficient, deg), P).ReminderZero;
 }
 
 PolynomialRational PolynomialRational:: operator/(const Rational &b) const{
@@ -311,19 +315,19 @@ PolynomialRational PolynomialRational:: operator/(const Rational &b) const{
 }
 
 
-void PolynomialRational::operator=(const PolynomialRational &c){
-    if(deg != c.deg)
-        return;
-
+PolynomialRational PolynomialRational::copy(){
+    PolynomialRational P(deg);
     for (int i = 0; i<= deg; i++)
-        coefficient[i] = c.coefficient[i];
+        P.coefficient[i] = coefficient[i];
+
+    return P;
 }
 
-PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step)
+divPolynomial divisionR(PolynomialRational A, PolynomialRational B)
 {
-    if(step){
-        cout<< " ("<<A.get_string() <<") : ("<< B.get_string() << ") = ";
-    }
+    divPolynomial res;
+
+    res.step_solution.push_back(" (" + A.get_string() + ") : (" + B.get_string() + ") = ");
     string steps = "";
 
     int n = A.deg, k = B.deg;
@@ -343,9 +347,8 @@ PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool st
             for (int j = 0; j<=k; j++)
                 c[j+i-k] = B[j] * coea[i-k];
 
-            /*for (int j= 0; j< n-i; j++)
-                steps+=' ';*/
             steps += spacing;
+
             c[i+1] = Rational(0, 1);
             int size;
             if (i == n)
@@ -354,16 +357,19 @@ PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool st
                 size = i+1;
             PolynomialRational Q(c, size);
             steps +="-("+ Q.get_string()+")\n";
+
             PolynomialRational P = A-Q;
             steps += spacing;
+
             for (int j = 0; j< (int)Q.get_string().size()+3; j++)
                 steps += '-';
+
             steps+= "\n";
-            if (A[i].get_value() != 1){
-                for (int j=0; j < (int)A[i].get_string().size(); j++){
+            if (A[i].get_value() != 1)
+                for (int j=0; j < (int)A[i].get_string().size(); j++)
                     spacing += ' ';
-                }
-            }
+
+
 
             if (i != n && A[i].get_value()>0)
                 spacing += ' ';
@@ -388,38 +394,31 @@ PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool st
             break;
         }
 
-    /*divPolynomial res;
+
     PolynomialRational P(coea, n-k);
-    res.Quotient = P;
-    res.Reminder = A;*/
+
+    res.Quotient = P.copy();
+    res.Reminder = A.copy();
 
     if (zero){
-        if (step){
-            cout<< PolynomialRational(coea, n-k).get_string()<<"\n";
-            cout<< steps<<"\n";
-        }
-
-       //res.ReminderZero = true;
-        return PolynomialRational(coea, n-k);
+       res.step_solution[0] += P.get_string();
+       res.ReminderZero = true;
     }
-    else{
-        if (step){
-            cout<< PolynomialRational(coea, n-k).get_string() <<" with the reminder "<<A.get_string()<<"\n";
-            cout<<steps<<"\n";
-        }
+    else
+        res.step_solution[0] += P.get_string() + " with the reminder " + A.get_string();
 
-        return PolynomialRational(coea, n-k);
-    }
+    res.step_solution.push_back(steps.substr(0, steps.size()-1));
 
+    return res;
 }
 
 
-solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb, int step){
+solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb){
     solutionPolynomial ans;
 
     if (P.deg == 2){
         ans.step_solution.push_back("Solving a quadratic equation " + P.get_string() + " = 0");
-        ans.step_solution.push_back("Applying formula: (-b +/- sqrt{b^2-4ac})/(2a)");
+        ans.step_solution.push_back("Applying formula: (-b ± sqrt{b^2-4ac})/(2a)");
         string delta = "Discriminate d = "+ P[1].get_string()+"^2-4*" + P[0].get_string()+ "*" +P[2].get_string();
         Rational x = P[1];
         x.a = - x.a;
@@ -427,13 +426,10 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
         y = Rational(2,1)*y;
 
         if ((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()==0){
-            //cout<<" is 0\n";
             delta += " is 0";
             ans.step_solution.push_back(delta);
-            //cout<<"We have just one real solution:\n";
             ans.step_solution.push_back("We have just one real solution:");
             double res = (-P[1].get_value()+sqrt((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()))/(2*P[2].get_value());
-            //cout<<"("<<x.get_string()<<"+sqrt(("<<P[1].get_string()<<")^2-4("<<P[0].get_string()<<")*("<<P[2].get_string()<<"))/("<<y.get_string()<<") = "<< res <<"\n";
             ans.step_solution.push_back("("+x.get_string()+"+sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res));
             ans.roots.push_back(res);
             ans.roots.push_back(res);
@@ -445,17 +441,13 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
 
         }
         else if ((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value() > 0){
-            //cout<<" is positive and equal to "<<((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()) <<"\n";
             delta += " is positive and equal to "+to_string((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value());
             ans.step_solution.push_back(delta);
-            //cout<<"We have two distinct real solutions:\n";
-            ans.step_solution.push_back(delta);
+            ans.step_solution.push_back("We have two distinct real solutions:");
             double res1, res2;
 
             res1 = (-P[1].get_value()+sqrt((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()))/(2*P[2].get_value());
             res2 = (-P[1].get_value()-sqrt((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()))/(2*P[2].get_value());
-            //cout<<"("<<x.get_string()<<"+sqrt(("<<P[1].get_string()<<")^2-4("<<P[0].get_string()<<")*("<<P[2].get_string()<<"))/("<<y.get_string()<<") = "<< res1 << "\n";
-            //cout<<"("<<x.get_string()<<"-sqrt(("<<P[1].get_string()<<")^2-4("<<P[0].get_string()<<")*("<<P[2].get_string()<<"))/("<<y.get_string()<<") = "<< res2 << "\n";
             ans.step_solution.push_back("("+x.get_string()+"+sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res1));
             ans.step_solution.push_back("("+x.get_string()+"-sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res2));
 
@@ -473,17 +465,14 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 ans.factors["(x+"+ to_string(abs(res2)) + ")"] += 1;
         }
         else {
-            //cout<<" is negative and equal to "<<((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()) <<"\n";
-            //cout<<"We have two distinct complex solutions:\n";
             delta += " is negative and equal to "+to_string((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value());
             ans.step_solution.push_back(delta);
+            ans.step_solution.push_back("We have two distinct complex solutions:");
             Complex res1 = Complex((x/y).get_value(), sqrt(-(P[1]*P[1]).get_value()+4*(P[0]*P[2]).get_value())/y.get_value());
             Complex res2 = res1.conj();
 
-            //cout<<"("<<x.get_string()<<"+i*sqrt(-("<<P[1].get_string()<<")^2+4("<<P[0].get_string()<<")*("<<P[2].get_string()<<"))/("<<y.get_string()<<") = "<<res1.get_string() << "\n";
-            //cout<<"("<<x.get_string()<<"-i*sqrt(-("<<P[1].get_string()<<")^2+4("<<P[0].get_string()<<")*("<<P[2].get_string()<<"))/("<<y.get_string()<<") = "<<res2.get_string() <<"\n";
             ans.step_solution.push_back("("+x.get_string()+"+i*sqrt(-("+P[1].get_string()+")^2+4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+res1.get_string());
-            ans.step_solution.push_back("("+x.get_string()+"-i*sqrt(-("+P[1].get_string()+")^2+4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+res1.get_string());
+            ans.step_solution.push_back("("+x.get_string()+"-i*sqrt(-("+P[1].get_string()+")^2+4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+res2.get_string());
 
             ans.complex.push_back(res1.get_string());
             ans.complex.push_back(res2.get_string());
@@ -494,13 +483,10 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
         return ans;
     }
     if (P.deg == 1){
-        //cout<<step<<". Solving a linear equation "<< P.get_string()<<" = 0\n";
         ans.step_solution.push_back(" Solving a linear equation "+P.get_string()+" = 0");
         Rational x = P[0];
         x.a = - x.a;
-        //cout<<"x = " << x.get_string()<< "/" << P[1].get_string()<<"\n";
         ans.step_solution.push_back("x = " + x.get_string()+ "/" +P[1].get_string());
-        //cout<<"x = " << (x / P[1]).get_string()<<"\n";
         ans.step_solution.push_back("x = " + (x / P[1]).get_string());
 
         double res = -(P[0]/P[1]).get_value();
@@ -515,45 +501,32 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
     }
 
     if (P.deg == 0){
-        //cout<<"No solutions\n";
         ans.step_solution.push_back("No solution");
         return ans;
     }
-
-   /* if(P[P.deg].get_value()!=1){
-        cout<<"We devide the all the coefficients with "<<P[P.deg].get_string()<<"\n";
-
-        for (int i = 0; i <= P.deg; i++){
-            P[i] = P[i] / P[P.deg];
-        }
-        cout<<"We get "<<P.get_string()<<"\n";
-    }*/
-
-//    vector<int> fa = divisors(abs(P[0].get_a()));
-//    vector<int> fb = divisors(abs(P[0].get_b()));
 
     bool end = false;
     for (auto j : fb){
         for (auto i : fa){
             Rational x = Rational(i, j);
             if(P.get_value(x) == 0){
-                //cout<<step<<". We have P("<<x.get_string()<<") = 0\n";
                 ans.step_solution.push_back("We have P("+x.get_string()+") = 0");
 
                 Rational coe[2] = {Rational(-i, j), Rational(1, 1)};
                 PolynomialRational Q = PolynomialRational(coe,1);
 
-                PolynomialRational R = divisionR(P, Q, false);
+                divPolynomial div_res = divisionR(P, Q);
+                ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
 
-                solutionPolynomial res = solveRationalAux(R, fa, fb, step+1);
+                solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
                 ans.complex.insert(ans.complex.end(), res.complex.begin(), res.complex.end());
                 ans.roots.insert(ans.roots.end(), res.roots.begin(), res.roots.end());
-                for (auto i : res.factors){
-                    if (ans.factors.find(i.first) == ans.factors.end())
-                        ans.factors[i.first] = i.second;
+                for (map<string,int>::iterator it=res.factors.begin(); it != res.factors.end(); it++){
+                    if (ans.factors.find(it->first) == ans.factors.end())
+                        ans.factors[it->first] = it->second;
                     else
-                        ans.factors[i.first] += i.second;
+                        ans.factors[it->first] += it->second;
                 }
                 ans.roots.push_back(x.get_value());
 
@@ -583,7 +556,6 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
 solutionPolynomial solveRational(PolynomialRational P){
     solutionPolynomial ans;
     vector<string> res;
-   // cout<< "Solving the equation "<< P.get_string()<< " = 0\n";
     res.push_back("Solving the equation "+ P.get_string()+ " = 0");
 
     int lcm = 1;
@@ -591,12 +563,10 @@ solutionPolynomial solveRational(PolynomialRational P){
         lcm = (lcm* P[i].get_b())/gcd(lcm, P[i].get_b());
 
     if (lcm != 1){
-     //   cout<<"We multiply polynomial with lcm of denominators of its coefficients which is "<<lcm<< "\n";
         res.push_back("We multiply polynomial with lcm of denominators of its coefficients which is " + to_string(lcm));
         for (int i = 0; i <= P.deg; i++)
             P[i] = P[i]* Rational(lcm, 1);
 
-       // cout<<"We get "<< P.get_string()<<"\n";
         res.push_back("We get "+ P.get_string());
     }
 
@@ -604,16 +574,25 @@ solutionPolynomial solveRational(PolynomialRational P){
     vector<int> fa= divisors(abs(P[0].get_a()));
     vector<int> fb = divisors(abs(P[P.deg].get_a()));
 
-   /* ask prof if this seems nice
-    * if (P.deg >= 3){
-        cout<<"By Bezout's theorem it can be divided with:\n";
-        for (auto i : fb)
-            for (auto j : fa)
-                cout<<Rational(i, j).get_string()<<" ";
-        cout<<"\n";
-    }*/
 
-    ans = solveRationalAux(P, fa, fb, 1);
+    if (P.deg >= 3){
+        res.push_back("By Rational Root Theorem, all rational roots of a polynomial are in the from p/q, where p divides the constant term "+ P[0].get_string() + " and q divides the leading coefficient  " + P[P.deg].get_string());
+        res.push_back("List of candidates is:");
+        set<double> r;
+        for (auto j : fb)
+            for (auto i : fa)
+                r.insert(Rational(abs(i), abs(j)));
+
+        res.push_back("");
+        for (set<double>::iterator it=r.begin(); it!=r.end(); it++){
+            if (*it == 0)
+                res[(int)res.size() - 1] += (Rational(*it).get_string()) +" ";
+            else
+                res[(int)res.size() - 1] += "±" + (Rational(*it).get_string()) +" ";
+        }
+    }
+
+    ans = solveRationalAux(P, fa, fb);
 
     res.insert(res.end(), ans.step_solution.begin(), ans.step_solution.end());
     ans.step_solution = res;

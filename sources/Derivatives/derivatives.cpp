@@ -28,37 +28,29 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
         leaf_mark = assign(fun[0]);
     }
     else{
-     operation =  Operator();
-         int counter = 0;
-         int j = 0;
-         for (int i = 0; i < (int)fun.size(); i++){
-             if (fun[i].get_type() > 0){
-                 if (fun[i].get_type() == 7)
-                     counter++;
-                 else if (fun[i].get_type() == 8)
-                     counter++;
-                 else if (fun[i].get_type() > operation.get_type() && counter == 0){
-                     operation = Operator(fun[i].get_value());
-                     j = i;
-                 }
-             }
+        operation =  Operator();
+        int j = 0;
+        for (int i = 0; i < (int)fun.size(); i++)
+         if (fun[i].get_type() > operation.get_type()){
+                 operation = Operator(fun[i].get_value());
+                 j = i;
          }
 
-         if (operation.get_type() > 0){
-             vector<Token> l, r;
+        if (operation.get_type() > 0){
+            vector<Token> l, r;
 
-             for (int i = 0; i < (int)fun.size(); i++){
-                 if(i < j)
-                     l.push_back(fun[i]);
-                 else if (i > j)
-                     r.push_back(fun[i]);
-             }
+            for (int i = 0; i < (int)fun.size(); i++){
+             if(i < j)
+                 l.push_back(fun[i]);
+             else if (i > j)
+                 r.push_back(fun[i]);
+            }
 
-             left = new AbstractFunction(l);
-             right = new AbstractFunction(r);
+            left = new AbstractFunction(l);
+            right = new AbstractFunction(r);
 
-             str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
-         }
+            str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
+        }
     }
 }
 
@@ -95,7 +87,6 @@ AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right
     this->right = &right;
     this->operation = operation;
     this->str_label = "";
-
 }
 
 
@@ -131,6 +122,10 @@ void AbstractFunction::set_operation(Operator operation){
 
 string AbstractFunction::get_str_label(){
     return str_label;
+}
+
+double AbstractFunction:: operator()(const double &x){
+    return get_value(x);
 }
 
 
@@ -217,7 +212,7 @@ bool AbstractFunction::is_polynomial(){
             break;
         case 1: return false; break;
         // later update needed for power, since power has to be int>=0
-        case 2: return (get_left().leaf_mark == 8) && (get_right().leaf_mark == 0); break;
+        case 2: return get_left().is_polynomial() && (get_right().leaf_mark == 0); break;
         case 3: return (get_left().leaf_mark == 0) && (get_right().leaf_mark == 0); break;
         case 4: return get_left().is_polynomial() && get_right().is_polynomial(); break;
         case 5: return get_left().is_polynomial() && get_right().is_polynomial(); break;
@@ -247,6 +242,14 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
         }
         case 2: {
             int n = (int)get_right().get_value(0);
+//            PolynomialRational P = get_left().get_polynomial();
+//            PolynomialRational Q(P.deg);
+//            Q = P.copy();
+//            for (int i = 1; i < n; i++)
+//                Q = Q * P;
+
+//            return Q;
+//            break;
             Rational c[n+1];
             for (int i = 0; i <= n; i++)
                 c[i] = Rational(0, 1);
@@ -314,20 +317,18 @@ string AbstractFunction::get_derivative(){
             if (r1 == "0")
                 return  "0";
             else if (r1 == "1"){
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 6 || get_left().leaf_mark == 7){
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7)
                     return get_left().get_derivative() + get_right().display() + ")";
-                }
-                else{
+
+                else
                     return get_left().get_derivative() + get_right().display();
-                }
             }
             else{
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 6 || get_left().leaf_mark == 7){
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7)
                     return mult_strings(get_left().get_derivative() + "(" + get_right().display() + "))", r1);
-                }
-                else{
+
+                else
                     return mult_strings(get_left().get_derivative() + "(" + get_right().display() + ")", r1);
-                }
             }
             break;
         }

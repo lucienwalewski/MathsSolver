@@ -101,8 +101,9 @@ public:
     PolynomialRational operator * (const Rational& b) const;
     PolynomialRational operator / (const PolynomialRational& b) const;
     PolynomialRational operator / (const Rational& b) const;
+    PolynomialRational copy();
+    bool is_divisible(PolynomialRational P);
     string get_string();
-    void operator = (const PolynomialRational &c);
     void print(){
         cout<<this->get_string()<<"\n";
     }
@@ -112,14 +113,15 @@ public:
 struct solutionPolynomial{
     map<string, int> factors;
     vector<double> roots;
-    vector< string > complex;
-    vector< string > step_solution;
+    vector<string> complex;
+    vector<string> step_solution;
 };
 
 struct divPolynomial{
     PolynomialRational Quotient;
     PolynomialRational Reminder;
     bool ReminderZero = false;
+    vector<string> step_solution;
 };
 
 Polynomial mul_with_mod_po(Polynomial x, Polynomial y, long long mod); // return x * y % mod with mod = 469762049 or 998244353 or 1004535809
@@ -129,7 +131,7 @@ Polynomial linear_re(Polynomial a, long long *f, int k, long long P, int b);
 Polynomial ksm(Polynomial a, long long *f, int k, long long P, int b);
 
 Polynomial division(Polynomial a, Polynomial b);
-PolynomialRational divisionR(PolynomialRational A, PolynomialRational B, bool step = false);
+divPolynomial divisionR(PolynomialRational A, PolynomialRational B);
 
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
 
@@ -139,7 +141,7 @@ long long CRT(long long r1,long long r2,long long r3,long long mod);
 
 std::vector<std::string> solve(Polynomial a);
 
-solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb, int step);
+solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb);
 
 solutionPolynomial solveRational(PolynomialRational P);
 

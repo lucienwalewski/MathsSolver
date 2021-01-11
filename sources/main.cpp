@@ -1,8 +1,4 @@
-#include <QApplication>
-#include <QtTest>
-
 #include "MainWindow/mainwindow.h"
-
 #include<iostream>
 
 using namespace std;
