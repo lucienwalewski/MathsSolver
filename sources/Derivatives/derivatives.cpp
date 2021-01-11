@@ -4,11 +4,12 @@
 
 map<string, int> type_m = {{"~",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
 
-AbstractFunction::AbstractFunction(vector<Token> fun){
+AbstractFunction::AbstractFunction(vector<Token> fun, char var){
     type = 1;
     vect_label = fun;
+    this->var = var;
     while ((int)fun.size() == 1 && (fun[0].get_type() == -4)){
-        fun = simplify(fun[0].get_value(),'x');
+        fun = simplify(fun[0].get_value(), this->var);
         type = -4;
     }
 
@@ -46,8 +47,8 @@ AbstractFunction::AbstractFunction(vector<Token> fun){
                  r.push_back(fun[i]);
             }
 
-            left = new AbstractFunction(l);
-            right = new AbstractFunction(r);
+            left = new AbstractFunction(l, var);
+            right = new AbstractFunction(r, var);
 
             str_label = left->get_str_label() + this->get_operation().get_value()+ right->get_str_label();
         }
@@ -82,11 +83,12 @@ int assign(Token fun){
 
 
 
-AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation){
+AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation, char var){
     this->left = &left;
     this->right = &right;
     this->operation = operation;
     this->str_label = "";
+    this->var = var;
 }
 
 
@@ -190,12 +192,33 @@ double AbstractFunction::get_leaf_value(double x, int n, string val){
     switch (n) {
         case 0: return stod(val); break;
         case 1: return exp(x); break;
-        case 2: return log(x); break;
-        case 3: return log(x)/log(10); break;
+        case 2:
+            if (x > 0)
+                return log(x);
+            else{
+                cout<< "Error\n";
+                return -9999999;
+            }
+            break;
+        case 3:
+            if (x > 0)
+                return log(x)/log(10);
+            else{
+                cout<< "Error\n";
+                return -9999999;
+            }
+            break;
         case 4: return cos(x); break;
         case 5: return sin(x); break;
         case 6: return tan(x); break;
-        case 7: return sqrt(x); break;
+        case 7:
+            if (x >= 0)
+                return sqrt(x);
+            else{
+                cout<< "Error\n";
+                return -9999999;
+            }
+            break;
         case 8: return x; break;
         default: return 0;
     }
@@ -211,8 +234,7 @@ bool AbstractFunction::is_polynomial(){
                 return false;
             break;
         case 1: return false; break;
-        // later update needed for power, since power has to be int>=0
-        case 2: return get_left().is_polynomial() && (get_right().leaf_mark == 0); break;
+        case 2: return get_left().is_polynomial() && (get_right().leaf_mark == 0 && (is_int(get_right().get_value(0)))); break;
         case 3: return (get_left().leaf_mark == 0) && (get_right().leaf_mark == 0); break;
         case 4: return get_left().is_polynomial() && get_right().is_polynomial(); break;
         case 5: return get_left().is_polynomial() && get_right().is_polynomial(); break;
@@ -231,19 +253,19 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
             if (leaf_mark == 0 || leaf_mark == 9){
                 Rational c[1];
                 c[0] = Rational((get_value(0)));
-                return PolynomialRational(c, 0);
+                return PolynomialRational(c, 0, var);
             }
             else{
                 Rational c[2] = {};
                 c[1] = Rational(1,1);
-                return PolynomialRational(c, 1);
+                    return PolynomialRational(c, 1, var);
             }
             break;
         }
         case 2: {
             int n = (int)get_right().get_value(0);
 //            PolynomialRational P = get_left().get_polynomial();
-//            PolynomialRational Q(P.deg);
+//            PolynomialRational Q(P.deg, var);
 //            Q = P.copy();
 //            for (int i = 1; i < n; i++)
 //                Q = Q * P;
@@ -254,7 +276,7 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
             for (int i = 0; i <= n; i++)
                 c[i] = Rational(0, 1);
             c[n] = Rational(1,1);
-            return PolynomialRational(c, n);
+            return PolynomialRational(c, n, var);
             break;
         }
         case 3: return get_left().get_polynomial()/get_right().get_polynomial(); break;
@@ -516,6 +538,19 @@ string pow_strings(string l, string r){
         return "(" + l + ")^" + r;
 
     return "(" + l + ")^(" + r + ")";
+}
+
+bool is_int(double x){
+    string s = to_str(x);
+    bool dot = false;
+    for (int i = 0; i < (int)s.size(); i++){
+        if (s[i] == '.')
+            dot = true;
+        else if (dot && s[i] != '0')
+            return false;
+    }
+
+    return true;
 }
 
 
