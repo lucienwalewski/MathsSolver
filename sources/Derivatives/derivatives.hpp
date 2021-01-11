@@ -46,12 +46,14 @@ public:
     double get_integral_value(double a, double b);
     bool is_polynomial();
     PolynomialRational get_polynomial(bool neg = false);
+
     int get_type();
     void set_type(int type);
     double get_value(double x, bool  neg = false);
     double get_leaf_value(double x, int n, string value);
-    string  get_derivative();
+    string  get_derivative(vector<string> *step_by_step);
     string  get_leaf_derivative(int n);
+    vector<string> derive();
     int leaf_mark = -1;
 private:
     Operator operation;
@@ -61,9 +63,13 @@ private:
     vector<Token> vect_label;
     int type;
     char var;
+
+
 };
 
-
+string vect_to_str(vector<Token> vt);
+string remove_mult(string func, char var);
+string extra_additions(string func,  char var);
 int assign(Token fun);
 string add_strings(string l, string r);
 string sub_strings(string l, string r);

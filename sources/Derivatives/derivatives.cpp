@@ -148,7 +148,7 @@ string AbstractFunction::display(){
         string s1 = get_left().display();
         string s2 = get_right().display();
         if (operation.get_value() == "~")
-            return par_left + s1  + s2 +par_right;
+            return par_left + s1  + s2 + par_right;
 
         else
             return par_left + s1  + operation.get_value() + s2 + par_right;
@@ -156,6 +156,8 @@ string AbstractFunction::display(){
 
     return "display() error!!";
 }
+
+
 
 // be careful when divion with 0
 double AbstractFunction::get_value(double x, bool neg){
@@ -328,86 +330,165 @@ vector<double> AbstractFunction::get_roots(double start, double end){
     return roots;
 }
 
-string AbstractFunction::get_derivative(){
+
+vector<string> AbstractFunction::derive(){
+    vector<string> step_by_step = {};
+    string derivative = get_derivative(&step_by_step);
+    step_by_step.push_back("r");
+    step_by_step.push_back(derivative);
+    return step_by_step;
+}
+
+
+string AbstractFunction::get_derivative(vector<string> *step_by_step){
     switch (operation.get_type()) {
         case -1:
             return get_leaf_derivative(leaf_mark); break;
         // composition
         case 1:{
-            string r1 = get_right().get_derivative();
-            if (r1 == "0")
-                return  "0";
-            else if (r1 == "1"){
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7)
-                    return get_left().get_derivative() + get_right().display() + ")";
 
+            string r1 = get_right().get_derivative(step_by_step);
+            if (r1 == "0"){
+                string sbs = "Derivative of a constant => 0";
+                (*step_by_step).push_back(sbs);
+                return  "0";
+            }
+            else if (r1 == "1"){
+                //string sbs = "d/dx[" + get_left().display() +"]";
+                //step_by_step.push_back(sbs);
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
+                    return get_left().get_derivative(step_by_step) + get_right().display() + ")";
+                }
                 else
-                    return get_left().get_derivative() + get_right().display();
+                    return get_left().get_derivative(step_by_step) + get_right().display();
             }
             else{
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7)
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + "))", r1);
 
-                else
-                    return mult_strings(get_left().get_derivative() + "(" + get_right().display() + ")", r1);
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
+                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + "))";
+                    string sbs = "Chain Rule => [" + left_str + "] * d/dx[" + get_right().display() +"]";
+                    (*step_by_step).push_back(sbs);
+                    return mult_strings(left_str, r1);
+                }
+                else{
+                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + ")";
+                    string sbs = "Chain Rule => [" + left_str + "] * d/dx[" + get_right().display() +"]";
+                    (*step_by_step).push_back(sbs);
+                    return mult_strings(left_str, r1);
+                }
             }
             break;
         }
         // power
         case 2: {
             // left is a num
-            if(get_left().leaf_mark == 0)
-                return mult_strings(mult_strings(display(), "ln(" + get_left().display() + ")"), get_right().get_derivative());
-
+            if(get_left().leaf_mark == 0){
+                string sbs2 = "Exponential rule => [" + mult_strings(display(), "ln(" + get_left().display() + ")") + "] * d/dx[" + get_right().display() + "]";
+                (*step_by_step).push_back(sbs2);
+                return mult_strings(mult_strings(display(), "ln(" + get_left().display() + ")"), get_right().get_derivative(step_by_step));
+            }
             // right is a num
             else if(get_right().leaf_mark == 0){
                 string new_exp = Rational(get_right().get_value(0) - 1).get_string();
                 string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
-                string r2 = get_left().get_derivative() ;
+                string r2 = get_left().get_derivative(step_by_step) ;
+                string sbs2 = "";
+                if (r2 != "1"){
+                    sbs2 = "Power rule => [" + l2 + "] *d/dx [" + get_left().display() + "]";
+                }
+                else
+                    sbs2 = "Power rule => " + l2 ;
+                (*step_by_step).push_back(sbs2);
                 return mult_strings(l2, r2);
             }
             else
-                return mult_strings(display(), AbstractFunction(simplify(get_right().display()+"*ln("+get_left().display() +")" , 'x')).get_derivative());
+                return mult_strings(display(), AbstractFunction(simplify(get_right().display()+"*ln("+get_left().display() +")" , 'x')).get_derivative(step_by_step));
 
             break;
         }
         // division
         case 3:{
             if (get_right().get_operation().get_type() == -1 && get_right().leaf_mark == 0)
-                return div_strings(get_left().get_derivative(), get_right().display());
+                return div_strings(get_left().get_derivative(step_by_step), get_right().display());
 
-            string l3 = mult_strings(get_left().get_derivative(), get_right().display());
-            string r3 = mult_strings(get_right().get_derivative(), get_left().display());
+            string l3 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
+            string r3 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
             string tog = sub_strings(l3, r3);
             string denom = pow_strings(get_right().display(), "2");
+
+            string sbs = "Division rule => [ d/dx[" + get_left().display() +"] * [" + get_right().display() + "] - ["+ get_left().display() +"] * d/dx["+ get_right().display() + "] ] / [" + get_right().display() + "]^2";
+            (*step_by_step).push_back(sbs);
+
             return div_strings(tog, denom);
         }
         // multiplication
         case 4: {
-            string l4 = mult_strings(get_left().get_derivative(), get_right().display());
-            string r4 = mult_strings(get_right().get_derivative(), get_left().display());
+            string l4 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
+            string r4 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
+
+            string sbs = "Multiplication rule => d/dx[" + get_left().display() +"] * [" + get_right().display() + "] + ["+ get_left().display() +"] * d/dx["+ get_right().display() + "]";
+            (*step_by_step).push_back(sbs);
+
             return add_strings(l4, r4);
             break;
         }
         // subtraction
-        case 5: return sub_strings(get_left().get_derivative(), get_right().get_derivative()); break;
+        case 5: {
+            string sbs = "Subtraction rule rule => d/dx[" + get_left().display() + "] - d/dx["+ get_right().display() + "]";
+            (*step_by_step).push_back(sbs);
+            return sub_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
+            break;
+
+        }
         // addition
-        case 6: return add_strings(get_left().get_derivative(), get_right().get_derivative()); break;
+        case 6: {
+            string sbs = "Addition rule rule => d/dx[" + get_left().display() + "] + d/dx["+ get_right().display() + "]";
+            (*step_by_step).push_back(sbs);
+            return add_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
+            break;
+        }
         default: return "";
     }
 }
 
 string AbstractFunction::get_leaf_derivative(int n){
     switch (n) {
-        case 0: return "0"; break;
-        case 1: return "exp"; break;
-        case 2: return "1/"; break;
-        case 3: return "1/(ln(10)*"; break;
-        case 4: return "-sin"; break;
-        case 5: return "cos"; break;
-        case 6: return "1/cos^2"; break;
-        case 7: return "1/(2*sqrt"; break;
-        case 8: return "1"; break;
+        case 0: {
+            return "0";
+            break;
+        }
+        case 1: {
+            return "exp";
+            break;
+        }
+        case 2: {
+            return "1/";
+            break;
+        }
+        case 3: {
+            return "1/(ln(10)*";
+            break;
+        }
+        case 4: {
+            return "-sin";
+            break;
+        }
+        case 5: {
+            return "cos";
+            break;
+        }
+        case 6: {
+            return "1/cos^2";
+            break;
+        }
+        case 7: {
+            return "1/(2*sqrt";
+            break;
+        }
+        case 8: {
+            return "1";
+            break;
+        }
         default: return "";
     }
 }
@@ -552,4 +633,184 @@ bool is_int(double x){
     return true;
 }
 
+
+string extra_additions(string func,  char var){
+    vector<Token> vt = simplify(func,var);
+    double starting_number;
+    bool start_found = false;
+    int start;
+    bool pairs_exist = true;
+
+    if (vt.size() == 1){
+        return vt[0].get_value();
+    }
+
+    while(pairs_exist){
+        pairs_exist = false;
+        start_found = false;
+        pairs_exist = false;
+        for(std::size_t i=0; i<vt.size(); i = i+2){
+            if(vt[i].get_type() == -1 && (i < vt.size()-1)){
+                // found number / not last number
+
+
+
+                //find number with minus or plus pair
+                if (vt[i+1].get_type() == 5 || vt[i+1].get_type() == 6){
+
+                    if (!start_found){
+                        starting_number = stod(vt[i].get_value());
+                        start = i;
+                        start_found = true;
+                    }
+                    //minus
+                    else if(vt[i-1].get_type() == 5){
+                        double new_num = starting_number - stod(vt[i].get_value());
+                        vt[start] = simplify(to_string(new_num), var)[0];
+                        vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                        pairs_exist = true;
+                        break;
+                    }
+                    //add
+                    else if(vt[i-1].get_type() == 6){
+                        double new_num = starting_number + stod(vt[i].get_value());
+                        vt[start] = simplify(to_string(new_num), var)[0];
+                        vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                        pairs_exist = true;
+                        break;
+                    }
+
+                }
+            }
+
+            //number is last and start is found
+
+            else if(vt[i].get_type() == -1 && start_found){
+                //minus
+                if(vt[i-1].get_type() == 5){
+                    double new_num = starting_number - stod(vt[i].get_value());
+                    vt[start] = simplify(to_string(new_num), var)[0];
+                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                    pairs_exist = true;
+                    break;
+                }
+                //add
+                else if(vt[i-1].get_type() == 6){
+
+                    double new_num = starting_number + stod(vt[i].get_value());
+                    vt[start] = simplify(to_string(new_num), var)[0];
+                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                    pairs_exist = true;
+                    break;
+                }
+            }
+
+
+        }
+    }
+    return vect_to_str(vt);
+}
+
+string remove_mult(string func, char var){
+    vector<Token> vt = simplify(func,var);
+    double starting_number;
+    bool start_found = false;
+    int start;
+    bool pairs_exist = true;
+
+    if (vt.size() == 1){
+        return vt[0].get_value();
+    }
+
+    while(pairs_exist){
+        pairs_exist = false;
+        start_found = false;
+        pairs_exist = false;
+        for(std::size_t i=0; i<vt.size(); i = i+2){
+            if (i != 0){
+                if(vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6){
+                    start_found = false;
+                }
+            }
+            if(vt[i].get_type() == -1 && (i < vt.size()-1)){
+                // found number / not last number
+
+
+
+                //find number with minus or plus pair
+                if (vt[i+1].get_type() == 3 || vt[i+1].get_type() == 4){
+
+                    if (!start_found){
+                        starting_number = stod(vt[i].get_value());
+                        start = i;
+                        start_found = true;
+                    }
+                    //minus
+                    else if(vt[i-1].get_type() == 3){
+                        double new_num = starting_number / stod(vt[i].get_value());
+                        vt[start] = simplify(to_string(new_num), var)[0];
+                        vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                        pairs_exist = true;
+                        break;
+                    }
+                    //add
+                    else if(vt[i-1].get_type() == 4){
+                        double new_num = starting_number * stod(vt[i].get_value());
+                        vt[start] = simplify(to_string(new_num), var)[0];
+                        vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                        pairs_exist = true;
+                        break;
+                    }
+
+                }
+            }
+
+            //number is last and start is found
+
+            else if(vt[i].get_type() == -1 && start_found){
+                //minus
+                if(vt[i-1].get_type() == 3){
+                    double new_num = starting_number / stod(vt[i].get_value());
+                    vt[start] = simplify(to_string(new_num), var)[0];
+                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                    pairs_exist = true;
+                    break;
+                }
+                //add
+                else if(vt[i-1].get_type() == 4){
+                    double new_num = starting_number * stod(vt[i].get_value());
+                    vt[start] = simplify(to_string(new_num), var)[0];
+                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
+                    pairs_exist = true;
+                    break;
+                }
+            }
+
+
+        }
+    }
+    return vect_to_str(vt);
+}
+
+
+string vect_to_str(vector<Token> vt){
+    string final;
+    for(std::size_t j=0; j<vt.size(); ++j){
+        if(vt[j].get_type() == 1){
+            final = final + "(" + vt[j+1].get_value() + ")";
+            j++;
+        }
+        else if(vt[j].get_type() == -1){
+            final = final + Rational(stod(vt[j].get_value())).get_string();
+        }
+        else if(vt[j].get_type() == -4){
+            final = final + "(" + vt[j].get_value() +")";
+        }
+        else {
+            final = final + vt[j].get_value();
+        }
+
+    }
+    return final;
+}
 
