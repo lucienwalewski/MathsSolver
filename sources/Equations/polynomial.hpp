@@ -36,11 +36,6 @@ public:
     {
         delete[] coefficient;
     }
-//    Polynomial derivative();
-//    Polynomial integral();
-//    Polynomial exp();
-//    Polynomial ln();
-//    Polynomial inverse();
     Polynomial operator + (const Polynomial& b) const;
     Polynomial operator - (const Polynomial& b) const;
     long long operator [] (const int &i) const {return coefficient[i];}
@@ -64,23 +59,25 @@ class PolynomialRational
 public:
     int deg;
     Rational *coefficient;
-    PolynomialRational(Rational* c, int d)
-    {
+    char var;
+    PolynomialRational(Rational* c, int d, char var = 'x'){
         deg = d;
         coefficient = new Rational [d + 5];
         for (int i = 0; i <= d; i++){
             coefficient[i] = c[i];
         }
+        this->var = var;
     }
-    PolynomialRational(){deg = -1, coefficient = NULL;}
-    PolynomialRational(int n)
+    PolynomialRational(char var = 'x'){deg = -1, coefficient = NULL, this->var = var;}
+    PolynomialRational(int n, char var = 'x')
     {
         deg = n;
         coefficient = new Rational[n + 1];
         for (int i = 0; i <= n; i++)
             coefficient[i] = Rational(0,1);
+        this->var = var;
     }
-    PolynomialRational(const PolynomialRational &b)
+    PolynomialRational(const PolynomialRational &b, char var = 'x')
     {
         deg = b.deg;
         coefficient = new Rational [b.deg + 5];
@@ -88,6 +85,7 @@ public:
         {
             coefficient[i] = b[i];
         }
+        this->var = var;
     }
     ~PolynomialRational()
     {
@@ -142,7 +140,6 @@ long long CRT(long long r1,long long r2,long long r3,long long mod);
 std::vector<std::string> solve(Polynomial a);
 
 solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb);
-
 solutionPolynomial solveRational(PolynomialRational P);
 
 #endif // POLYNOMIAL_HPP

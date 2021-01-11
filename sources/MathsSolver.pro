@@ -20,7 +20,6 @@ SOURCES += \
      Equations/matrix.cpp \
      Equations/numbers.cpp \
      Equations/polynomial.cpp \
-     Equations/step.cpp \
      NumericalSolver/num_derivation.cpp \
      NumericalSolver/num_integration.cpp \
      NumericalSolver/num_ODE.cpp \
@@ -41,7 +40,6 @@ HEADERS += \
      Equations/matrix.hpp \
      Equations/numbers.hpp \
      Equations/polynomial.hpp \
-     Equations/step.hpp \
      MainWindow/mainwindow.h \
      NumericalSolver/num_ODE.hpp \
      NumericalSolver/num_derivation.hpp \
