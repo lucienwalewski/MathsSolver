@@ -43,6 +43,9 @@ template <typename T> vector<string> gaussian(Matrix<T> A, Matrix<T>  Y){
         Y.mult_row(i, Rational(1,1)/A.get_element(i, i));
     }
     res.push_back("r");
+    res.push_back("Solution of the system of equations");
+    res.push_back(":");
+    res.push_back("n");
     for (int i = 0; i < n; i++) {
         if (Y.get_element(i, 0) == 0) {
             res.push_back("x" + to_str(i) + " = 0");

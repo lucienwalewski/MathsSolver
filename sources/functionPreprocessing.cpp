@@ -138,9 +138,7 @@ bool check_integral(string f){
 }
 
 vector<string> derivative(string f, char var){
-    AbstractFunction function(simplify(f.substr(1, (int)f.size() - 3), var));
-    //function.get_derivative();
-    return vector<string>();
+    return AbstractFunction(simplify(f.substr(1, (int)f.size() - 3), var)).derive();
 }
 
 vector<string> equation(string f, char var){
@@ -180,21 +178,29 @@ vector<string> equation(string f, char var){
         solution = res.step_solution;
         solution.push_back("r");
         if (res.roots.empty() && res.complex.empty())
-             solution.push_back("No Solution");
+             solution.push_back("No steps solution found.");
 
         else{
 
-            if (!res.roots.empty())
-                solution.push_back("The roots are:");
+            if (!res.roots.empty()){
+                solution.push_back("The roots are");
+                solution.push_back(":");
+            }
+            solution.push_back("n");
+
 
             for (int i = 0; i < (int)res.roots.size(); i++)
                 solution.push_back(to_string(res.roots[i]));
+            solution.push_back("n");
 
-            if(!res.complex.empty())
-                solution.push_back("The complex roots are:");
+            if(!res.complex.empty()){
+                solution.push_back("The complex roots are");
+                solution.push_back(":");
+            }
 
             for (int i = 0; i < (int)res.complex.size(); i++)
                 solution.push_back(res.complex[i]);
+            solution.push_back("n");
         }
 
 
@@ -206,20 +212,25 @@ vector<string> equation(string f, char var){
              }
          }
 
-         solution.push_back("Factorization:");
+         solution.push_back("Factorization");
+         solution.push_back(":");
          solution.push_back(s);
+         solution.push_back("n");
     }
     else
         solution.push_back("r");
 
 
-    if (!sol.empty())
-        solution.push_back("Numerical roots obtained:");
-    else
-        solution.push_back("No numerical solution found");
+    if (!sol.empty()){
+        solution.push_back("Numerical roots obtained");
+        solution.push_back(":");
 
-    for (auto i : sol)
-        solution.push_back(to_string(i));
+        for (auto i : sol)
+            solution.push_back(to_string(i));
+    }
+    else
+        solution.push_back("No numerical solution found.");
+
 
     return solution;
 }
@@ -248,9 +259,8 @@ vector<string> inetgral(string f, char var){
         up = AbstractFunction(simplify(b, var)).get_value(0);
     i++;
 
-    vector<string> res{"r"};
+    vector<string> res{"r", "Result", ":"};
     res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1), var)).get_integral_value(down, up)));
-
     return res;
 }
 vector<string> system(string f, char var){
@@ -313,12 +323,15 @@ vector<string> division(string f, char var){
 
     divPolynomial res =  divisionR(P.get_polynomial(), Q.get_polynomial());
     res.step_solution.push_back("r");
-    res.step_solution.push_back("Quotient:");
+    res.step_solution.push_back("Quotient");
+    res.step_solution.push_back(":");
     res.step_solution.push_back(res.Quotient.get_string());
+    res.step_solution.push_back("n");
     if (res.ReminderZero)
         res.step_solution.push_back("Reminder is 0");
     else{
         res.step_solution.push_back("Reminder");
+        res.step_solution.push_back(":");
         res.step_solution.push_back(res.Reminder.get_string());
     }
 
