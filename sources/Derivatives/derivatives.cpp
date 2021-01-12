@@ -334,7 +334,7 @@ vector<string> AbstractFunction::derive(){
     vector<string> step_by_step = {};
     string derivative = get_derivative(&step_by_step);
     step_by_step.push_back("r");
-    step_by_step.push_back(derivative);
+    step_by_step.push_back('('+display()+")' = " +derivative);
     return step_by_step;
 }
 
