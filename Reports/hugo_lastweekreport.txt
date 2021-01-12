@@ -1,0 +1,1 @@
+This week I spent time trying to download external libraries to convert string to latex to no avail (first klfbackend which didn't work out, then qtmathjax which uses outdated classes of QT). I dynamically modified the layout of the page for a better display of results, and cleaned up my code.
