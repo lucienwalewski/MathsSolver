@@ -112,7 +112,7 @@ public:
     }
 };
 
-void extract_contours(Mat image){
+vector<Mat> extract_contours(Mat image){
     //extarcting and preparing the signs to be read
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -155,6 +155,7 @@ void extract_contours(Mat image){
        sort(contours_poly.begin(),contours_poly.end(),comparator());
 
        //Loop through all contours to extract
+       vector<Mat> res;
         for( int i = 0; i< (int)contours_poly.size(); i++ ){
 
            Rect r = boundingRect( Mat(contours_poly[i]) );
@@ -187,17 +188,21 @@ void extract_contours(Mat image){
 
            Mat image=resizedPic.clone();
 
-           resize(image, image, Size(28,28), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
+//           resize(image, image, Size(28,28), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
+
+           bitwise_not(image, image);
+           res.push_back(image);
 
            //Show image
-           imshow("image",image);
-           waitKey(0);
-           stringstream searchMask;
-           searchMask<<i<<".jpg";
-           imwrite(searchMask.str(),image);
+//           imshow("image",image);
+//           waitKey(0);
+//           stringstream searchMask;
+//           searchMask<<i<<".jpg";
+//           imwrite(searchMask.str(),image);
 
 
         }
+    return res;
 
 }
 
@@ -221,8 +226,20 @@ void display_prepocessing(string path){
     resizeWindow(source_window, 1000, 800);
     imshow( source_window, image );
 
-    extract_contours(image);
+    vector<Mat> contours = extract_contours(image);
 
     waitKey(0);
 }
 
+
+void save_contours(string imagepath, string outputpath) {
+    Mat image = upload_img(imagepath);
+    image = binarisation(image);
+    image = crop(image);
+    image = noise_removal(image);
+    vector<Mat> contours = extract_contours(image);
+    for (int i = 0; i < contours.size(); i++) {
+        string output_string = outputpath + to_string(i) + ".jpg";
+        imwrite(output_string, contours[i]);
+    }
+}
