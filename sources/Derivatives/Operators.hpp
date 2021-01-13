@@ -17,6 +17,8 @@ bool missing_parentheses(string s);
 
 bool valid_operators(string s);
 
+string delete_layers_pare(string s);
+
 bool is_valid(string s);
 
 #endif // OPERATORS_HPP
