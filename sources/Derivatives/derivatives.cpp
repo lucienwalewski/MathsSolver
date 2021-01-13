@@ -330,168 +330,6 @@ vector<double> AbstractFunction::get_roots(double start, double end){
 }
 
 
-vector<string> AbstractFunction::derive(){
-    vector<string> step_by_step = {};
-    string derivative = get_derivative(&step_by_step);
-    step_by_step.push_back("r");
-    step_by_step.push_back('('+display()+")' = " +derivative);
-    return step_by_step;
-}
-
-
-string AbstractFunction::get_derivative(vector<string> *step_by_step){
-    switch (operation.get_type()) {
-        case -1:
-            return get_leaf_derivative(leaf_mark); break;
-        // composition
-        case 1:{
-
-            string r1 = get_right().get_derivative(step_by_step);
-            if (r1 == "0"){
-                string sbs = "Derivative of a constant => 0";
-                (*step_by_step).push_back(sbs);
-                return  "0";
-            }
-            else if (r1 == "1"){
-                //string sbs = "d/dx[" + get_left().display() +"]";
-                //step_by_step.push_back(sbs);
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
-                    return get_left().get_derivative(step_by_step) + get_right().display() + ")";
-                }
-                else
-                    return get_left().get_derivative(step_by_step) + get_right().display();
-            }
-            else{
-
-                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
-                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + "))";
-                    string sbs = "Chain Rule => [" + left_str + "] * d/dx[" + get_right().display() +"]";
-                    (*step_by_step).push_back(sbs);
-                    return mult_strings(left_str, r1);
-                }
-                else{
-                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + ")";
-                    string sbs = "Chain Rule => [" + left_str + "] * d/dx[" + get_right().display() +"]";
-                    (*step_by_step).push_back(sbs);
-                    return mult_strings(left_str, r1);
-                }
-            }
-            break;
-        }
-        // power
-        case 2: {
-            // left is a num
-            if(get_left().leaf_mark == 0){
-                string sbs2 = "Exponential rule => [" + mult_strings(display(), "ln(" + get_left().display() + ")") + "] * d/dx[" + get_right().display() + "]";
-                (*step_by_step).push_back(sbs2);
-                return mult_strings(mult_strings(display(), "ln(" + get_left().display() + ")"), get_right().get_derivative(step_by_step));
-            }
-            // right is a num
-            else if(get_right().leaf_mark == 0){
-                string new_exp = Rational(get_right().get_value(0) - 1).get_string();
-                string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
-                string r2 = get_left().get_derivative(step_by_step) ;
-                string sbs2 = "";
-                if (r2 != "1"){
-                    sbs2 = "Power rule => [" + l2 + "] *d/dx [" + get_left().display() + "]";
-                }
-                else
-                    sbs2 = "Power rule => " + l2 ;
-                (*step_by_step).push_back(sbs2);
-                return mult_strings(l2, r2);
-            }
-            else
-                return mult_strings(display(), AbstractFunction(simplify(get_right().display()+"*ln("+get_left().display() +")" , 'x')).get_derivative(step_by_step));
-
-            break;
-        }
-        // division
-        case 3:{
-            if (get_right().get_operation().get_type() == -1 && get_right().leaf_mark == 0)
-                return div_strings(get_left().get_derivative(step_by_step), get_right().display());
-
-            string l3 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
-            string r3 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
-            string tog = sub_strings(l3, r3);
-            string denom = pow_strings(get_right().display(), "2");
-
-            string sbs = "Division rule => [ d/dx[" + get_left().display() +"] * [" + get_right().display() + "] - ["+ get_left().display() +"] * d/dx["+ get_right().display() + "] ] / [" + get_right().display() + "]^2";
-            (*step_by_step).push_back(sbs);
-
-            return div_strings(tog, denom);
-        }
-        // multiplication
-        case 4: {
-            string l4 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
-            string r4 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
-
-            string sbs = "Multiplication rule => d/dx[" + get_left().display() +"] * [" + get_right().display() + "] + ["+ get_left().display() +"] * d/dx["+ get_right().display() + "]";
-            (*step_by_step).push_back(sbs);
-
-            return add_strings(l4, r4);
-            break;
-        }
-        // subtraction
-        case 5: {
-            string sbs = "Subtraction rule rule => d/dx[" + get_left().display() + "] - d/dx["+ get_right().display() + "]";
-            (*step_by_step).push_back(sbs);
-            return sub_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
-            break;
-
-        }
-        // addition
-        case 6: {
-            string sbs = "Addition rule rule => d/dx[" + get_left().display() + "] + d/dx["+ get_right().display() + "]";
-            (*step_by_step).push_back(sbs);
-            return add_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
-            break;
-        }
-        default: return "";
-    }
-}
-
-string AbstractFunction::get_leaf_derivative(int n){
-    switch (n) {
-        case 0: {
-            return "0";
-            break;
-        }
-        case 1: {
-            return "exp";
-            break;
-        }
-        case 2: {
-            return "1/";
-            break;
-        }
-        case 3: {
-            return "1/(ln(10)*";
-            break;
-        }
-        case 4: {
-            return "-sin";
-            break;
-        }
-        case 5: {
-            return "cos";
-            break;
-        }
-        case 6: {
-            return "1/cos^2";
-            break;
-        }
-        case 7: {
-            return "1/(2*sqrt";
-            break;
-        }
-        case 8: {
-            return "1";
-            break;
-        }
-        default: return "";
-    }
-}
-
 double AbstractFunction::get_integral_value(double a, double b){
     double DIV = (b-a)*1100;
     double h = (b-a)/DIV;
@@ -510,6 +348,36 @@ double AbstractFunction::get_integral_value(double a, double b){
     return T;
 }
 
+
+bool is_int(double x){
+    string s = to_str(x);
+    bool dot = false;
+    for (int i = 0; i < (int)s.size(); i++){
+        if (s[i] == '.')
+            dot = true;
+        else if (dot && s[i] != '0')
+            return false;
+    }
+
+    return true;
+}
+
+
+
+
+//----------------------------------------------------------------------------------------
+// finding derivatives BELOW
+
+
+bool check_par(vector<Token> v){
+    for (int i = 0; i < (int)v.size(); i++)
+        if (v[i].get_type() >= 5)
+            return false;
+
+    return true;
+}
+
+
 string add_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
@@ -521,6 +389,8 @@ string add_strings(string l, string r){
 
     return  l + "+" + r ;
 }
+
+
 string sub_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
@@ -532,14 +402,6 @@ string sub_strings(string l, string r){
         return "-" + r;
 
     return l + '-' + r;
-}
-
-bool check_par(vector<Token> v){
-    for (int i = 0; i < (int)v.size(); i++)
-        if (v[i].get_type() >= 5)
-            return false;
-
-    return true;
 }
 
 string mult_strings(string l, string r){
@@ -570,6 +432,7 @@ string mult_strings(string l, string r){
 
     return "(" + l + ")*(" + r + ")";
 }
+
 string div_strings(string l, string r){
     l = del_exterior_parentheses(l);
     r = del_exterior_parentheses(r);
@@ -619,22 +482,9 @@ string pow_strings(string l, string r){
     return "(" + l + ")^(" + r + ")";
 }
 
-bool is_int(double x){
-    string s = to_str(x);
-    bool dot = false;
-    for (int i = 0; i < (int)s.size(); i++){
-        if (s[i] == '.')
-            dot = true;
-        else if (dot && s[i] != '0')
-            return false;
-    }
-
-    return true;
-}
-
-
-string extra_additions(string func,  char var){
+string arith_add_sub(string func,  char var){
     vector<Token> vt = simplify(func,var);
+    std::cout<<vt.size()<<'\n';
     double starting_number;
     bool start_found = false;
     int start;
@@ -704,13 +554,18 @@ string extra_additions(string func,  char var){
                 }
             }
 
+            else if(vt[i].get_type() == -4){
+                // super token
+                vt[i] = SuperToken(arith_add_sub(vt[i].get_value(), var));
+            }
+
 
         }
     }
     return vect_to_str(vt);
 }
 
-string remove_mult(string func, char var){
+string arith_mult_div(string func, char var){
     vector<Token> vt = simplify(func,var);
     double starting_number;
     bool start_found = false;
@@ -744,7 +599,7 @@ string remove_mult(string func, char var){
                         start = i;
                         start_found = true;
                     }
-                    //minus
+                    //div
                     else if(vt[i-1].get_type() == 3){
                         double new_num = starting_number / stod(vt[i].get_value());
                         vt[start] = simplify(to_string(new_num), var)[0];
@@ -752,7 +607,7 @@ string remove_mult(string func, char var){
                         pairs_exist = true;
                         break;
                     }
-                    //add
+                    //mult
                     else if(vt[i-1].get_type() == 4){
                         double new_num = starting_number * stod(vt[i].get_value());
                         vt[start] = simplify(to_string(new_num), var)[0];
@@ -767,7 +622,7 @@ string remove_mult(string func, char var){
             //number is last and start is found
 
             else if(vt[i].get_type() == -1 && start_found){
-                //minus
+                //div
                 if(vt[i-1].get_type() == 3){
                     double new_num = starting_number / stod(vt[i].get_value());
                     vt[start] = simplify(to_string(new_num), var)[0];
@@ -775,7 +630,7 @@ string remove_mult(string func, char var){
                     pairs_exist = true;
                     break;
                 }
-                //add
+                //mult
                 else if(vt[i-1].get_type() == 4){
                     double new_num = starting_number * stod(vt[i].get_value());
                     vt[start] = simplify(to_string(new_num), var)[0];
@@ -785,12 +640,37 @@ string remove_mult(string func, char var){
                 }
             }
 
-
+            else if(vt[i].get_type() == -4){
+                // super token
+                vt[i] = SuperToken(arith_mult_div(vt[i].get_value(), var));
+            }
         }
     }
     return vect_to_str(vt);
 }
 
+
+string remove_mult_sign(string func, char var){
+    vector<Token> vt = simplify(func,var);
+
+    for(std::size_t i=0; i<vt.size(); ++i){
+        if(vt[i].get_type() == -1 && (i<vt.size()-2)){
+            // found number
+            if(vt[i+1].get_type() == 4){
+                //found mult
+                if(vt[i+2].get_type() == -3){
+                    //found variable
+                    vt.erase(vt.begin()+i+1);
+                }
+            }
+        }
+        else if(vt[i].get_type() == -4){
+            vt[i] = SuperToken(remove_mult_sign(vt[i].get_value(), var));
+        }
+
+    }
+    return vect_to_str(vt);
+}
 
 string vect_to_str(vector<Token> vt){
     string final;
@@ -812,4 +692,197 @@ string vect_to_str(vector<Token> vt){
     }
     return final;
 }
+
+
+string AbstractFunction::get_leaf_derivative(int n){
+    switch (n) {
+        case 0: {
+            return "0";
+            break;
+        }
+        case 1: {
+            return "exp";
+            break;
+        }
+        case 2: {
+            return "1/";
+            break;
+        }
+        case 3: {
+            return "1/(ln(10)*";
+            break;
+        }
+        case 4: {
+            return "-sin";
+            break;
+        }
+        case 5: {
+            return "cos";
+            break;
+        }
+        case 6: {
+            return "1/(cos";
+            break;
+        }
+        case 7: {
+            return "1/(2*sqrt";
+            break;
+        }
+        case 8: {
+            return "1";
+            break;
+        }
+        default: return "";
+    }
+}
+
+string AbstractFunction::get_derivative(vector<string> *step_by_step){
+    switch (operation.get_type()) {
+        case -1:
+            return get_leaf_derivative(leaf_mark); break;
+        // composition
+        case 1:{
+
+            string r1 = get_right().get_derivative(step_by_step);
+            if (r1 == "0"){
+                return  "0";
+            }
+            else if (r1 == "1"){
+                //string sbs = "d/dx[" + get_left().display() +"]";
+                //step_by_step.push_back(sbs);
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
+                    string res = get_left().get_derivative(step_by_step) + get_right().display() + ")";
+                    string sbs = "d/dx[" + display() + "] = " + res;
+                    (*step_by_step).push_back(sbs);
+                    return res;
+                }
+                else if (get_left().leaf_mark == 6){
+                    string res = get_left().get_derivative(step_by_step) + get_right().display() + ")^2";
+                    string sbs = "d/dx[" + display() + "] = " + res;
+                    (*step_by_step).push_back(sbs);
+                    return res;
+                }
+
+                else {
+                    string res = get_left().get_derivative(step_by_step) + get_right().display();
+                    string sbs = "d/dx[" + display() + "] = " + res;
+                    (*step_by_step).push_back(sbs);
+                    return res;
+                }
+            }
+            else{
+
+                if (get_left().leaf_mark == 3 || get_left().leaf_mark == 7){
+                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + "))";
+                    string sbs = "Chain Rule with u = "+ get_right().display() +" => d/du[" + get_left().display() + "(u)] * d/dx[" + get_right().display() +"]";
+                    (*step_by_step).push_back(sbs);
+                    string res = mult_strings(left_str, r1);
+                    return res;
+                }
+                if (get_left().leaf_mark == 6){
+                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + "))^2";
+                    string sbs = "Chain Rule with u = "+ get_right().display() +" => d/du[" + get_left().display() + "(u)] * d/dx[" + get_right().display() +"]";
+                    (*step_by_step).push_back(sbs);
+                    string res = mult_strings(left_str, r1);
+                    return res;
+                }
+                else{
+                    string left_str = get_left().get_derivative(step_by_step) + "(" + get_right().display() + ")";
+                    string sbs = "Chain Rule with u = "+ get_right().display() +" => d/du[" + get_left().display() + "(u)] * d/dx[" + get_right().display() +"]";
+                    (*step_by_step).push_back(sbs);
+                    string res = mult_strings(left_str, r1);
+                    return res;
+                }
+            }
+            break;
+        }
+        // power
+        case 2: {
+            // left is a num
+            if(get_left().leaf_mark == 0){
+                string sbs2 = "Exponential rule => [" + mult_strings(display(), "ln(" + get_left().display() + ")") + "] * d/dx[" + get_right().display() + "]";
+                (*step_by_step).push_back(sbs2);
+                return mult_strings(mult_strings(display(), "ln(" + get_left().display() + ")"), get_right().get_derivative(step_by_step));
+            }
+            // right is a num
+            else if(get_right().leaf_mark == 0){
+                string new_exp = Rational(get_right().get_value(0) - 1).get_string();
+                string l2 = mult_strings(get_right().display(), pow_strings(get_left().display(), new_exp));
+                string r2 = get_left().get_derivative(step_by_step) ;
+                string sbs2 = "";
+                string res = mult_strings(l2, r2);
+                if (r2 != "1"){
+                    sbs2 = "Power x Chain rule with u = "+ get_left().display()+ " => d/du[u^" + get_right().display() + "] * d/dx[" + get_left().display() + "] = "+ res;
+                }
+                else
+                    sbs2 = "Power rule => d/dx[" + display() + "] = " + res ;
+                (*step_by_step).push_back(sbs2);
+                return res;
+            }
+            else
+                return mult_strings(display(), AbstractFunction(simplify(get_right().display()+"*ln("+get_left().display() +")" , 'x')).get_derivative(step_by_step));
+
+            break;
+        }
+        // division
+        case 3:{
+            if (get_right().get_operation().get_type() == -1 && get_right().leaf_mark == 0)
+                return div_strings(get_left().get_derivative(step_by_step), get_right().display());
+            string l3 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
+            string r3 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
+            string tog = sub_strings(l3, r3);
+            string denom = pow_strings(get_right().display(), "2");
+            string res = div_strings(tog, denom);
+            string sbs = "Division rule => [ d/dx[" + get_left().display() +"] * [" + get_right().display() + "] - ["+ get_left().display() +"] * d/dx["+ get_right().display() + "] ] / [" + get_right().display() + "]^2 = " + res;
+            (*step_by_step).push_back(sbs);
+            return res;
+            break;
+        }
+        // multiplication
+        case 4: {
+            string l4 = mult_strings(get_left().get_derivative(step_by_step), get_right().display());
+            string r4 = mult_strings(get_right().get_derivative(step_by_step), get_left().display());
+            string res = add_strings(l4, r4);
+            string sbs = "Multiplication rule => d/dx[" + get_left().display() +"] * [" + get_right().display() + "] + ["+ get_left().display() +"] * d/dx["+ get_right().display() + "] = " + res;
+            (*step_by_step).push_back(sbs);
+            return res;
+            break;
+        }
+        // subtraction
+        case 5: {
+            string res = sub_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
+            string sbs = "Subtraction rule => d/dx[" + get_left().display() + "] - d/dx["+ get_right().display() + "] = " + res;
+            (*step_by_step).push_back(sbs);
+            return res;
+            break;
+
+        }
+        // addition
+        case 6: {
+            string res = add_strings(get_left().get_derivative(step_by_step), get_right().get_derivative(step_by_step));
+            string sbs = "Addition rule => d/dx[" + get_left().display() + "] + d/dx["+ get_right().display() + "] = " + res;
+            (*step_by_step).push_back(sbs);
+            return res;
+            break;
+        }
+        default: return "";
+    }
+}
+
+vector<string> AbstractFunction::derive(){
+    vector<string> step_by_step = {};
+    std::cout<<"1.1"<<'\n';
+    string derivative = get_derivative(&step_by_step);
+    std::cout<<derivative<<'\n';
+    derivative = arith_add_sub(derivative, var);
+    std::cout<<"1.2"<<'\n';
+    derivative = arith_mult_div(derivative, var);
+    std::cout<<"1.3"<<'\n';
+    derivative = remove_mult_sign(derivative, var);
+    std::cout<<"1.4"<<'\n';
+    step_by_step.push_back("r");
+    step_by_step.push_back(derivative);
+    return step_by_step;
+}
+
 
