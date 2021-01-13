@@ -25,13 +25,13 @@ bool check_system(string f);
 bool check_divisonPolynomials(string f);
 bool check_multiplication(string f);
 
-vector<string> derivative(string f, char var);
-vector<string> equation(string f, char var);
-vector<string> inetgral(string f, char var);
-vector<string> system(string f, char var);
-vector<string> division(string f, char var);
-vector<string> multiplication_poly(string f, char var);
+vector<string> derivative(string f);
+vector<string> equation(string f);
+vector<string> inetgral(string f);
+vector<string> system(string f);
+vector<string> division(string f);
+vector<string> multiplication_poly(string f);
 
-vector<string> start_process(string f, char var = 'x');
+vector<string> start_process(string f);
 
 #endif // FUNCTIONPREPROCESSING_HPP

@@ -44,7 +44,7 @@ public:
     {
         for (int i = 0; i <= deg; i++)
         {
-            std::cout << coefficient[i] << "*x^" << i;
+            cout << coefficient[i] << "*x^" << i;
             if (i != deg)
             {
                 printf("+");
@@ -59,25 +59,22 @@ class PolynomialRational
 public:
     int deg;
     Rational *coefficient;
-    char var;
-    PolynomialRational(Rational* c, int d, char var = 'x'){
+    PolynomialRational(Rational* c, int d){
         deg = d;
         coefficient = new Rational [d + 5];
         for (int i = 0; i <= d; i++){
             coefficient[i] = c[i];
         }
-        this->var = var;
     }
-    PolynomialRational(char var = 'x'){deg = -1, coefficient = NULL, this->var = var;}
-    PolynomialRational(int n, char var = 'x')
+    PolynomialRational(){deg = -1, coefficient = NULL;}
+    PolynomialRational(int n)
     {
         deg = n;
         coefficient = new Rational[n + 1];
         for (int i = 0; i <= n; i++)
             coefficient[i] = Rational(0,1);
-        this->var = var;
     }
-    PolynomialRational(const PolynomialRational &b, char var = 'x')
+    PolynomialRational(const PolynomialRational &b)
     {
         deg = b.deg;
         coefficient = new Rational [b.deg + 5];
@@ -85,7 +82,6 @@ public:
         {
             coefficient[i] = b[i];
         }
-        this->var = var;
     }
     ~PolynomialRational()
     {

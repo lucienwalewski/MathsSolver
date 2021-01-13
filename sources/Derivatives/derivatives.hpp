@@ -14,17 +14,16 @@ using namespace std;
 
 class AbstractFunction {
 public:
-    AbstractFunction(vector<Token> fun, char var = 'x');
-    AbstractFunction(char var = 'x'){
+    AbstractFunction(vector<Token> fun);
+    AbstractFunction(){
         this->left = nullptr;
         this->right = nullptr;
         this->operation = Operator();
         this->str_label = "";
-        this->var = var;
         this->type = 0;
     };
 
-    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation, char var = 'x');
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
    // ~AbstractFunction(){delete left;delete right;};
 
     AbstractFunction get_left();
@@ -62,9 +61,6 @@ private:
     string str_label;
     vector<Token> vect_label;
     int type;
-    char var;
-
-
 };
 
 string vect_to_str(vector<Token> vt);

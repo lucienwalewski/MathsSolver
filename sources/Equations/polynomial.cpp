@@ -241,9 +241,6 @@ Polynomial division(Polynomial a, Polynomial b)
 
 
 PolynomialRational PolynomialRational::operator+(const PolynomialRational&b)const{
-//    if (var != b.var)
-//        return PolynomialRational();
-
     int l = max(deg, b.deg);
     Rational a[l+1];
     for (int i = 0; i <= min(deg, b.deg); i++)
@@ -258,14 +255,11 @@ PolynomialRational PolynomialRational::operator+(const PolynomialRational&b)cons
         for (int i = b.deg + 1; i <= l; i++)
             a[i] = coefficient[i];
 
-    return PolynomialRational(a,l, var);
+    return PolynomialRational(a,l);
 }
 
 PolynomialRational PolynomialRational::operator-(const PolynomialRational&b)const
 {
-//    if (var != b.var)
-//        return PolynomialRational();
-
     int l = max(deg, b.deg);
     Rational a[l+1];
     for (int i = 0; i <= min(deg, b.deg); i++)
@@ -280,22 +274,20 @@ PolynomialRational PolynomialRational::operator-(const PolynomialRational&b)cons
         for (int i = b.deg + 1; i <= l; i++)
             a[i] = coefficient[i];
 
-    return PolynomialRational(a,l, var);
+    return PolynomialRational(a,l);
 }
 
 //Hector to update with better algorithm
 PolynomialRational PolynomialRational:: operator*(const PolynomialRational &b) const{
-//    if (var != b.var)
-//        return PolynomialRational();
-
     Rational c[deg + b.deg+1];
     for (int i = 0; i <= (deg + b.deg); i++)
         c[i] = Rational(0, 1);
+
     for (int i = 0; i <= deg; i++)
         for (int j = 0; j <= b.deg; j++)
             c[i+j] = c[i+j] + coefficient[i]*b[j];
 
-    return PolynomialRational(c, deg + b.deg, var);
+    return PolynomialRational(c, deg + b.deg);
 }
 
 PolynomialRational PolynomialRational:: operator*(const Rational &b) const{   
@@ -303,11 +295,45 @@ PolynomialRational PolynomialRational:: operator*(const Rational &b) const{
     for (int i = 0; i <= deg; i++)
         c[i] = coefficient[i]*b;
 
-    return PolynomialRational(c, deg, var);
+    return PolynomialRational(c, deg);
 }
 
 PolynomialRational PolynomialRational:: operator/(const PolynomialRational &b) const{
-    return divisionR(PolynomialRational(coefficient, deg), b).Quotient;
+    PolynomialRational A(coefficient, deg);
+    int n = A.deg, k = b.deg;
+    Rational coea[n+1];
+    for (int i = 0; i <= n - 1; i++){
+        coea[i] = Rational(0, 1);
+    }
+
+    for (int i = n; i >= k; i--){
+        if (A[i].get_a()){
+            coea[i-k] = A[i]/b[k];
+            Rational c[i+2];
+            for (int j = 0; j <= i; j++)
+                c[j] = Rational(0, 1);
+
+            for (int j = 0; j<=k; j++)
+                c[j+i-k] = b[j] * coea[i-k];
+
+
+            c[i+1] = Rational(0, 1);
+            int size;
+            if (i == n)
+                size = i;
+            else
+                size = i+1;
+            PolynomialRational Q(c, size);
+            PolynomialRational P = A-Q;
+            for (int j = 0; j< (int)Q.get_string().size()+3; j++)
+
+            for (int i = 0; i<= P.deg; i++)
+                A[i] = P[i];
+
+        }
+    }
+
+    return PolynomialRational(coea, n-k);
 }
 
 bool PolynomialRational::is_divisible(PolynomialRational P){
@@ -319,7 +345,7 @@ PolynomialRational PolynomialRational:: operator/(const Rational &b) const{
     for (int i = 0; i <= deg; i++)
         c[i] = coefficient[i]/b;
 
-    return PolynomialRational(c, deg, var);
+    return PolynomialRational(c, deg);
 }
 
 
@@ -328,17 +354,12 @@ PolynomialRational PolynomialRational::copy(){
     for (int i = 0; i<= deg; i++)
         P.coefficient[i] = coefficient[i];
 
-    P.var = this->var;
-
     return P;
 }
 
 divPolynomial divisionR(PolynomialRational A, PolynomialRational B)
 {
     divPolynomial res;
-
-//    if (A.var != B.var)
-//        return res;
 
     res.step_solution.push_back(" (" + A.get_string() + ") : (" + B.get_string() + ") = ");
     string steps = "";
@@ -406,7 +427,7 @@ divPolynomial divisionR(PolynomialRational A, PolynomialRational B)
         }
 
 
-    PolynomialRational P(coea, n-k, A.var);
+    PolynomialRational P(coea, n-k);
 
     res.Quotient = P.copy();
     res.Reminder = A.copy();
@@ -524,11 +545,11 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 ans.step_solution.push_back("We have P("+x.get_string()+") = 0");
 
                 Rational coe[2] = {Rational(-i, j), Rational(1, 1)};
-                PolynomialRational Q = PolynomialRational(coe,1, P.var);
+                PolynomialRational Q = PolynomialRational(coe,1);
 
                 divPolynomial div_res = divisionR(P, Q);
+                cout<<div_res.Quotient.get_string()<<"\n";
                 ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
-
                 solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
                 ans.complex.insert(ans.complex.end(), res.complex.begin(), res.complex.end());
@@ -695,9 +716,9 @@ string PolynomialRational::get_string(){
             if (i==0)
                 s += '1';
             else if (i == 1)
-                s += var;
+                s += 'x';
             else{
-                s += var;
+                s += 'x';
                 s += "^"+to_string(i);
             }
         }
@@ -705,9 +726,9 @@ string PolynomialRational::get_string(){
             if (i==0)
                 s+=coefficient[i].get_string();
             else if (i == 1)
-                s+= coefficient[i].get_string()+ var;
+                s+= coefficient[i].get_string()+ 'x';
             else
-                s+= coefficient[i].get_string()+ var + "^" + to_string(i);
+                s+= coefficient[i].get_string()+ 'x' + "^" + to_string(i);
         }
     }
 

@@ -17,99 +17,50 @@
 
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 
-//TITLES
-
-    title0 = new QLabel(this);
-    title0->setText("Welcome to the Handwritten Math Solver");
-    QFont f("Times New Roman", 40, QFont::Bold);
-    title0->setFont(f);
-    title0->setAlignment(Qt::AlignHCenter);
-    title0->setStyleSheet("border:none");
-
-    title1 = new QLabel(this);
-    title1->setText("developed by students of BX22");
-    title1->setStyleSheet("border:none");
-
 
 //MANUALLY INPUT EQUATION BUTTON
-    QFont f1("Arial", 20);
 
-    question = new QLabel(this);
-    question->setText("Manually input your equation:");
-    question->setFont(f1);
+    QFont input_font("Arial", 20);
 
     equation_input = new QLineEdit(this);
-    equation_input-> setPlaceholderText("here");
-    equation_input->setFont(f1);
+    equation_input-> setPlaceholderText("example: x^3 + x^2 - 5 = 0");
+    equation_input->setFont(input_font);
 
-    enter = new QPushButton(this);
-    enter->setText("Confirm");
-    enter->setFont(f1);
-    enter->setStyleSheet("background-color: rgb(216, 242, 196)");
+    confirm = new QPushButton(this);
+    confirm->setText("Confirm");
+    confirm->setFont(input_font);
+    confirm->setStyleSheet("background-color: rgb(216, 242, 196)");
+
 
 
 //UPLOAD FILE BUTTON
 
-    info = new QLabel(this);
-    info->setText("OR choose a picture of the equation you wish to solve:");
-    info->setFont(f1);
-
     upload_file = new QPushButton(this);
     upload_file->setText("Upload file");
-    upload_file->setFont(f1);
-
-
-//STEPS
-/*
- label1 = new QLabel(this);
- label1->setText("Step 1:");
- step1 = new QTextEdit(this);
- step1->setText("first do this");
- gs1 = new QGroupBox(this);
-
- label2 = new QLabel(this);
- label2->setText("Step 2:");
- step2 = new QTextEdit(this);
- step2->setText("then do this");
- gs2 = new QGroupBox(this);
-
- label3 = new QLabel(this);
- label3->setText("Step 3:");
- step3 = new QTextEdit(this);
- step3->setText("then do this");
- gs3 = new QGroupBox(this);
-
-
-//FINAL RESULT
- output = new QLabel(this);
- output->setText("The final result to your equation is:");
- result = new QLabel(this);
- result->setText("result");
-
-*/
-
+    upload_file->setFont(input_font);
 
 
 
 //LAYOUT
 
-    main_layout = new QVBoxLayout(this);
+    main_layout = new QVBoxLayout(this); //main layout of page, then layouts defined descending vertically
+
     top_layout = new QVBoxLayout(this);
+    top_layout->addWidget(title_group());
+    top_layout->addWidget(manual_input_group());
+    top_layout->addWidget(upload_group());
+
     steps_layout = new QVBoxLayout(this);
+
     results_layout = new QHBoxLayout(this);
 
-    top_layout->addWidget(group_0());
-    top_layout->addWidget(first_group());
-    top_layout->addWidget(second_group());
-    //top_layout->addStretch();
-
-
-
+    //Setting scrollable box for steps
     QWidget *subwindow = new QWidget();
     subwindow ->setLayout(steps_layout);
 
@@ -123,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     main_layout->addLayout(results_layout);
 
 
-    QWidget *window = new QWidget(); //setting layout
+    QWidget *window = new QWidget();
     window->setLayout(main_layout);
     setCentralWidget(window); //setting layout for main window
 
@@ -134,77 +85,83 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(upload_file, &QAbstractButton::clicked, this, &MainWindow::find_file);
 
-    connect(enter, &QAbstractButton::clicked, this, &MainWindow::enter_equation);
+    connect(confirm, &QAbstractButton::clicked, this, &MainWindow::enter_equation);
 
 
 
 }
 
-//DEFINITIONS FOR LAYOUT
 
-QGroupBox *MainWindow::group_0(){
+//GROUPS FOR TOP LAYOUT
 
-    QGroupBox *group0 = new QGroupBox();
+QGroupBox *MainWindow::title_group(){
+
+    QGroupBox *title_group = new QGroupBox();
+
+    QLabel* window_title = new QLabel;
+    window_title->setText("Welcome to the Handwritten Math Solver");
+    window_title->setAlignment(Qt::AlignHCenter);
+    window_title->setStyleSheet("border:none");
+    QFont window_title_font("Times New Roman", 40, QFont::Bold);
+    window_title->setFont(window_title_font);
+
+    QLabel* sub_title = new QLabel;
+    sub_title->setText("developed by students of BX22");
+    sub_title->setStyleSheet("border:none");
 
     QHBoxLayout *title_layout = new QHBoxLayout;
-    title_layout->addWidget(title0);
-    title_layout->addWidget(title1);
+    title_layout->addWidget(window_title);
+    title_layout->addWidget(sub_title);
     title_layout->addStretch();
-    //title_layout->setAlignment(Qt::AlignCenter);
-    group0->setStyleSheet("background-color: white; border:1px solid grey");
-    group0->setAlignment(Qt::AlignCenter);
-    group0->setLayout(title_layout);
+    title_group->setStyleSheet("background-color: white; border:1px solid grey");
+    title_group->setAlignment(Qt::AlignCenter);
+    title_group->setLayout(title_layout);
 
-    return group0;
+    return title_group;
 }
 
 
-QGroupBox *MainWindow::first_group(){
+QGroupBox *MainWindow::manual_input_group(){
 
-    QGroupBox *group1 = new QGroupBox();
+    QGroupBox *manual_input_group = new QGroupBox();
+
+
+    QFont input_font("Arial", 20);
+
+    QLabel* user_prompt1 = new QLabel(this);
+    user_prompt1->setText("Manually input your equation:");
+    user_prompt1->setFont(input_font);
 
     QHBoxLayout *input_layout = new QHBoxLayout;
-    input_layout->addWidget(question);
+    input_layout->addWidget(user_prompt1);
     input_layout->addWidget(equation_input);
-    input_layout->addWidget(enter);
+    input_layout->addWidget(confirm);
     input_layout->addStretch();
-    group1->setLayout(input_layout);
+    manual_input_group->setLayout(input_layout);
 
-    return group1;
+    return manual_input_group;
 }
 
 
-QGroupBox *MainWindow::second_group(){
+QGroupBox *MainWindow::upload_group(){
 
-    QGroupBox *group2 = new QGroupBox();
+    QGroupBox *upload_group = new QGroupBox();
+
+    QFont input_font("Arial", 20);
+
+    QLabel* info = new QLabel(this);
+    info->setText("OR choose a picture of the equation you wish to solve:");
+    info->setFont(input_font);
 
     QHBoxLayout *upload_layout = new QHBoxLayout;
     upload_layout->addWidget(info);
     upload_layout->addWidget(upload_file);
-    group2->setLayout(upload_layout);
+    upload_group->setLayout(upload_layout);
 
-    return group2;
+    return upload_group;
 }
 
 
-
-
-QGroupBox *MainWindow::group_result(){
-
-    QGroupBox *gr = new QGroupBox();
-    //gr->setVisible(false);
-    gr->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
-
-    //output->setVisible(true);
-    //result->setVisible(true);
-
-    QHBoxLayout *gr_layout = new QHBoxLayout;
-    gr_layout->addWidget(output);
-    gr_layout->addWidget(result);
-    gr->setLayout(gr_layout);
-
-    return gr;
-}
 
 //FUNCTION TO RETURN FILE PATH IN STRING FORMAT
 
@@ -220,17 +177,20 @@ void MainWindow::find_file(){
          std::cout<<paths.at(i).toStdString().c_str()<<std::endl;
     }
 
-
 }
 
 
-//FUNCTION TO RETURN INPUTTED EQUATION IN STRING FORMAT
+
+//FUNCTION TO HAVE INPUTTED EQUATION AS STRING --> ALGORITHMS (start_process) --> DISPLAY STEPS AND RESULT
 
 void MainWindow::enter_equation(){
 
     // Equation as input to function
+
     QString equation = equation_input->text();
+
     if (!equation.isEmpty()) {
+
         string f = equation.toStdString();
         vector<string> res = start_process(f);
 
@@ -239,8 +199,17 @@ void MainWindow::enter_equation(){
             arr.append(j);
         }
 
+        //Check if input is valid
+        //if (res[0] == "i"){
+
+        //}
+
+        //Step output
+
         size_t k = 0;
+
         while (res[k] != "r"){
+
             QLabel* number_step = new QLabel;
             QString number = QString::number(arr[k]);
             QString s = "Step "+number;
@@ -262,54 +231,66 @@ void MainWindow::enter_equation(){
             k += 1;
         }
 
-        QGroupBox *gfinalres = new QGroupBox();
-        gfinalres->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
+        QGroupBox *final = new QGroupBox();
+        final->setStyleSheet("background-color: rgb(216, 242, 196); border:none");
 
-        QLabel* infosol = new QLabel;
-        infosol->setText("The solution to your equation is");
         QFont f2("Arial", 20);
-        infosol->setFont(f2);
 
-        QHBoxLayout *gfinalres_layout = new QHBoxLayout;
-        gfinalres_layout->addWidget(infosol);
-        QVBoxLayout* sub_results = new QVBoxLayout;
-        for (size_t i=k+1 ; i < (res.size()) ; i++){
-            QLabel* part_res = new QLabel;
-            QString r2 = QString::fromStdString(res[i]);
-            part_res->setText(r2);
-            part_res->setFont(f2);
-            sub_results->addWidget(part_res);
-        gfinalres_layout->addLayout(sub_results);
-        gfinalres->setLayout(gfinalres_layout);
-        results_layout->addWidget(gfinalres);
+        //QHBoxLayout *gfinalres_layout = new QHBoxLayout;
+        //gfinalres_layout->addWidget(infosol);
+
+        QVBoxLayout* final_result_layout = new QVBoxLayout;
+
+        //Result output
+
+        size_t i = k+1;
+
+        while (i < (res.size())){
+
+            if (QString::fromStdString(res[i]) == ":"){
+
+                QHBoxLayout* sub_results = new QHBoxLayout;
+
+                while (res[i] != "n" && i < res.size()){
+
+                    QLabel* sub_res = new QLabel;
+                    sub_res -> setText(QString::fromStdString(res[i]));
+                    sub_res -> setFont(f2);
+
+                    sub_results->addWidget(sub_res);
+
+                    i += 1;
+                }
+
+                final_result_layout->addLayout(sub_results);
+
+                i += 1; // skipping 'n'
+            }
+
+
+
+            else if (i < res.size()){
+
+                QLabel* part_res = new QLabel;
+                part_res->setText(QString::fromStdString(res[i]));
+                part_res->setFont(f2);
+                final_result_layout->addWidget(part_res);
+
+            }
+
+            i += 1;
+
+
+        //gfinalres_layout->addLayout(sub_results);
+        //gfinalres->setLayout(gfinalres_layout);
+
+        final->setLayout(final_result_layout);
+        results_layout->addWidget(final);
         }
 
-
-
-
-
-
-
-/*
-        for (size_t k=0 ; k < (result.size()) ; k++){
-            QLabel* number_step = new QLabel;
-            QString s = "Step";
-            s += k;
-            number_step->setText(s);
-
-            QLabel* step = new QLabel;
-            step->setText(QString::fromStdString(result[k]));
-
-            QGroupBox* g = new QGroupBox;
-            g->setStyleSheet("background-color: white; border:none");
-            QHBoxLayout *g_layout = new QHBoxLayout;
-            g_layout->addWidget(number_step);
-            g_layout->addWidget(step);
-            g->setLayout(g_layout);
-
-            main_layout->addWidget(g);
-        }
-*/
+    }
+    else {
+        equation_input-> setPlaceholderText("Please enter something here");
     }
 }
 
@@ -319,9 +300,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-//k = 0
-//for i in res.step_solution()
-    //stepk.settext(i)
-

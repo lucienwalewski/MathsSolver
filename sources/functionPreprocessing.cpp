@@ -137,18 +137,18 @@ bool check_integral(string f){
         return false;
 }
 
-vector<string> derivative(string f, char var){
-    return AbstractFunction(simplify(f.substr(1, (int)f.size() - 3), var)).derive();
+vector<string> derivative(string f){
+    return AbstractFunction(simplify(f.substr(1, (int)f.size() - 3))).derive();
 }
 
-vector<string> equation(string f, char var){
+vector<string> equation(string f){
     vector<string> solution;
     string solve = "";
     int i = 0;
     while (f[i++] != '=');
 
     solve = f.substr(0, i-1);
-    vector<Token> tokens = simplify(f.substr(i), var);
+    vector<Token> tokens = simplify(f.substr(i));
     int j = 0;
     if (tokens[0].get_type() == 5){
         solve += '+';
@@ -171,10 +171,12 @@ vector<string> equation(string f, char var){
             solve += tokens[j].get_value();
     }
 
-    AbstractFunction function(simplify(solve, var), var);
+    AbstractFunction function(simplify(solve));
     vector<double> sol = function.get_roots();
     if (function.is_polynomial()){
+        //cout<<"Find "<< function.get_polynomial().get_string()<<"\n";
         solutionPolynomial res = solveRational(function.get_polynomial());
+        cout<<"OK??\n";
         solution = res.step_solution;
         solution.push_back("r");
         if (res.roots.empty() && res.complex.empty())
@@ -185,22 +187,20 @@ vector<string> equation(string f, char var){
             if (!res.roots.empty()){
                 solution.push_back("The roots are");
                 solution.push_back(":");
+                for (int i = 0; i < (int)res.roots.size(); i++)
+                    solution.push_back(to_string(res.roots[i]));
+                solution.push_back("n");
             }
-            solution.push_back("n");
 
-
-            for (int i = 0; i < (int)res.roots.size(); i++)
-                solution.push_back(to_string(res.roots[i]));
-            solution.push_back("n");
 
             if(!res.complex.empty()){
                 solution.push_back("The complex roots are");
                 solution.push_back(":");
+                for (int i = 0; i < (int)res.complex.size(); i++)
+                    solution.push_back(res.complex[i]);
+                solution.push_back("n");
             }
 
-            for (int i = 0; i < (int)res.complex.size(); i++)
-                solution.push_back(res.complex[i]);
-            solution.push_back("n");
         }
 
 
@@ -234,7 +234,7 @@ vector<string> equation(string f, char var){
 
     return solution;
 }
-vector<string> inetgral(string f, char var){
+vector<string> inetgral(string f){
     f = f.substr(3, f.size() - 3);
     int i =1;
     string a = "";
@@ -245,7 +245,7 @@ vector<string> inetgral(string f, char var){
     if (a == "-inf")
         down = -10000;
     else
-        down = AbstractFunction(simplify(a, var)).get_value(0);
+        down = AbstractFunction(simplify(a)).get_value(0);
 
     i++;
     string b = "";
@@ -256,14 +256,14 @@ vector<string> inetgral(string f, char var){
     if (b == "inf")
         up = 10000;
     else
-        up = AbstractFunction(simplify(b, var)).get_value(0);
+        up = AbstractFunction(simplify(b)).get_value(0);
     i++;
 
     vector<string> res{"r", "Result", ":"};
-    res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1), var)).get_integral_value(down, up)));
+    res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1))).get_integral_value(down, up)));
     return res;
 }
-vector<string> system(string f, char var){
+vector<string> system(string f){
     f = f.substr(4, f.size() - 5);
     vector< vector <Rational> > X;
     vector< vector <Rational> > Y;
@@ -272,16 +272,16 @@ vector<string> system(string f, char var){
     X.push_back(vector<Rational>());
     for (int i = 0; i < (int)f.size(); i++){
         if (f[i] == ';'){
-            X[x].push_back(Rational(AbstractFunction(simplify(num, var))(0)));
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
         }
         else if (f[i] == '='){
-            X[x].push_back(Rational(AbstractFunction(simplify(num, var))(0)));
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             Y.push_back(vector<Rational>());
         }
         else if (f[i] == '|'){
-            Y[x].push_back(Rational(AbstractFunction(simplify(num, var))(0)));
+            Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             x++;
             X.push_back(vector<Rational>());
@@ -290,7 +290,7 @@ vector<string> system(string f, char var){
             num += f[i];
     }
 
-    Y[x].push_back(Rational(AbstractFunction(simplify(num, var))(0)));
+    Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
 
     int m = X[0].size();
     int n = X.size();
@@ -302,7 +302,7 @@ vector<string> system(string f, char var){
 
     return gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
 }
-vector<string> division(string f, char var){
+vector<string> division(string f){
     string make_poly[2];
     make_poly[0] = "";
     make_poly[1] = "";
@@ -315,8 +315,8 @@ vector<string> division(string f, char var){
         else
             make_poly[cnt] += f[i];
     }
-    AbstractFunction P(simplify(make_poly[0], var), var);
-    AbstractFunction Q(simplify(make_poly[1], var), var);
+    AbstractFunction P(simplify(make_poly[0]));
+    AbstractFunction Q(simplify(make_poly[1]));
 
     if (!P.is_polynomial() || !Q.is_polynomial())
         return vector<string>{"i"};
@@ -338,7 +338,7 @@ vector<string> division(string f, char var){
     return res.step_solution;
 }
 
-vector<string> multiplication_poly(string f, char var){
+vector<string> multiplication_poly(string f){
     string make_poly[2];
     make_poly[0] = "";
     make_poly[1] = "";
@@ -351,8 +351,8 @@ vector<string> multiplication_poly(string f, char var){
         else
             make_poly[cnt] += f[i];
     }
-    AbstractFunction P(simplify(make_poly[0], var), var);
-    AbstractFunction Q(simplify(make_poly[1], var), var);
+    AbstractFunction P(simplify(make_poly[0]));
+    AbstractFunction Q(simplify(make_poly[1]));
 
     if (!P.is_polynomial() || !Q.is_polynomial())
         return vector<string>{"i"};
@@ -371,7 +371,7 @@ bool (*checkProcess[])(string) = {
         check_multiplication
 };
 
-vector<string> (*solve_problem[])(string, char){
+vector<string> (*solve_problem[])(string){
     derivative,
     equation,
     inetgral,
@@ -380,7 +380,7 @@ vector<string> (*solve_problem[])(string, char){
     multiplication_poly
 };
 
-vector<string> start_process(string f, char var){
+vector<string> start_process(string f){
     f = upload_function(f);
     int cnt=0;
     for (int i = 0; i < 6; i++)
@@ -393,7 +393,7 @@ vector<string> start_process(string f, char var){
     vector<string> res;
     for (int i = 0; i < 6; i++)
         if (checkProcess[i](f))
-            res = solve_problem[i](f, var);
+            res = solve_problem[i](f);
 
     return res;
 }
