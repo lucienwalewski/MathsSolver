@@ -10,6 +10,7 @@
 #include<string>
 #include<iostream>
 #include <string.h>
+#include<set>
 
 #define ZERO 0.000001
 

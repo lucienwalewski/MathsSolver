@@ -20,6 +20,7 @@ private slots:
     void test_corresponding_pare();
     void test_del_useless_parentheses();
     void test_add_multiplication();
+    void test_delete_layers_pare();
 
 };
 

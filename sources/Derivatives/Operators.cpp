@@ -74,7 +74,7 @@ string add_multiplication(string v){
     return new_string;
 };
 
-//The following function returns the string inside parentheses
+//The following function returns the string inside parentheses.
 string inside_parentheses(string s, int i){
     string inside = "";
     i++;
@@ -142,6 +142,8 @@ bool missing_parentheses(string s){
 
 vector <string> modified_str_operators{"+", "-", "*" , "/", "^", "sqrt", "_", "~"};
 
+
+//The following function returns true if there are no operators in the above vector next to each other.
 bool valid_operators(string s){
     if (is_in_vector(modified_str_operators, string(1,s[1]))){
         return false;
@@ -159,6 +161,26 @@ bool valid_operators(string s){
     return true;
     };
 
+
+//The following function deletes useless layers of parentheses inside a string on some simple cases.
+// ex : "exp(((x)))" -> "exp(x)"
+string delete_layers_pare(string t){
+    string new_s;
+    string s = del_exterior_parentheses(t);
+    for (int i = 0; i < int(s.size()); i++){
+        if (s[i] == '('){
+            new_s += "(";
+            string inside = inside_parentheses(s, i);
+            new_s += del_exterior_parentheses(inside);
+            i += int(inside.size());
+        }
+       else {
+            string c(1, s[i]);
+            new_s += c;
+        }
+    }
+    return new_s;
+}
 
 bool is_valid(string s){
     if (s.empty()){

@@ -38,9 +38,6 @@ Operator::Operator(string t): Token(t){
     type = type_map[t];
 };
 
-//Operator::Operator(int t){
-//    type = t;
-//}
 
 int Operator::get_type(){
     return type;

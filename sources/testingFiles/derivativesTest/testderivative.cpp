@@ -38,20 +38,21 @@ void testDerivative::test_find_function()
 
 void testDerivative::test_simplify()
 {
-    string s = "5 + sin(exp(x))";
+    string s = "cos(x) + 5^2 + sin(exp(x))";
     char variable = 'x';
     vector <Token> v = simplify(s, variable);
     vector <Token> w;
-    w.push_back(Num("5"));
-    w.push_back(Operator("+"));
-    w.push_back(Function("sin"));
-    w.push_back(Operator("("));
-    w.push_back(Function("exp"));
+    w.push_back(Function("cos"));
     w.push_back(Operator("("));
     w.push_back(Variable("x"));
     w.push_back(Operator(")"));
-    w.push_back(Operator(")"));
-    for (int i=0; i < int(v.size()); i++){
+    w.push_back(Operator("+"));
+    w.push_back(Num("5"));
+    w.push_back(Operator("+"));
+    w.push_back(Function("sin"));
+    w.push_back(Operator("~"));
+    w.push_back(SuperToken("exp(x)"));
+    for (int i= 0; i < int(v.size()); i++){
        cout << "The value of the token is" << v[i].get_value() << endl;
        cout << "You should have the following value" << w[i].get_value() << endl;
     }
@@ -71,21 +72,32 @@ void testDerivative::test_corresponding_pare()
 
 void testDerivative::test_del_useless_parentheses()
 {
-    vector <Token> s{Operator("("),Operator("("), Num("8"),Operator(")"), Function("cos"),
-                Operator("("), Num("6"), Operator(")"), Operator(")")};
-    vector <Token> v{Num("8"), Function("cos"), Operator("("), Num("6"), Operator(")")};
-    vector <Token> u = del_useless_parentheses(s);
+    string s = "(((8)cos((6))))";
+    string v = "(8)cos((6))";
+    string u = del_exterior_parentheses(s);
     QVERIFY(v == u);
 }
 
 void testDerivative::test_add_multiplication()
-{   vector <Token> s{ Operator("("), Num("8"), Num("3"), Operator(")"), Function("cos"),
-                Operator("("), Num("6"), Variable("x"), Operator(")"), Operator("("),
-                Num("3"), Operator("("), Variable("x"), Operator(")"), Operator(")")};
-    vector <Token> v{ Operator("("), Num("8"), Num("3"), Operator(")"), Operator("*"),
-                    Function("cos"), Operator("("), Num("6"), Operator("*"), Variable("x"),
-                    Operator(")"), Operator("*"), Operator("("), Num("3"), Operator("*"),
-                    Operator("("), Variable("x"), Operator(")"), Operator(")")};
-    vector <Token> u = add_multiplication(s);
+{   string s = "(83)cos(6x)(3(x^2(ln(x))))";
+    string v = "(83)*cos(6*x)(3*(x^2*(ln(x)))";
+    string u = add_multiplication(s);
     QVERIFY(v == u);
 }
+
+void testDerivative::test_delete_layers_pare()
+{
+    string a_1 = "exp(((x^2))) + ((3+4))";
+    string b_1 = "(((exp(((x^2))) + ((3+4)))))";
+    string c_1 = "(1 + ((exp(((x^2))) + ((3+4)))))";
+    string a_2 = delete_layers_pare(a_1);
+    string b_2 = delete_layers_pare(b_1);
+    string c_2 = delete_layers_pare(c_1);
+    string a_3 = "exp(x^2) + (3+4)";
+    string b_3 = "exp(x^2) + (3+4)";
+    string c_3 = "1 + exp(x^2) + (3+4)";
+    QVERIFY(a_2 == a_3);
+    QVERIFY(b_2 == b_3);
+    QVERIFY(c_2 == c_3);
+}
+
