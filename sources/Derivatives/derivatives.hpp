@@ -68,8 +68,9 @@ private:
 };
 
 string vect_to_str(vector<Token> vt);
-string remove_mult(string func, char var);
-string extra_additions(string func,  char var);
+string arith_mult_div(string func, char var);
+string arith_add_sub(string func,  char var);
+string remove_mult_sign(string func, char var);
 int assign(Token fun);
 string add_strings(string l, string r);
 string sub_strings(string l, string r);
