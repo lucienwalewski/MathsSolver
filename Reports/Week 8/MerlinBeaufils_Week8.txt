@@ -1,0 +1,4 @@
+During the vacation and the past week, I worked closely with Lazar Marie and Constance to 
+fix the Tokenizer, Constructor and Derivative files. We now have a completely functional implementation.
+This week I cleaned up some of the derivatives group code and made two files to include all libraries either 
+specific to open cv or not to speed up the build time.
