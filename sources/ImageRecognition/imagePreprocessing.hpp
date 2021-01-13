@@ -28,5 +28,7 @@ void extract_contours(Mat image);
 /// Applies all the preprocessing techniques
 void display_prepocessing(string path);
 
+void save_contours(string path, string outputPath);
+
 
 #endif // IMAGEPREPROCESSING_HPP

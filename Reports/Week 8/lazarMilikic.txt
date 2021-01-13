@@ -1,0 +1,2 @@
+I have fixed and updated simpify and get_derivative functions and now that part is working properly, also connceted all parts and algorithms with GUI. In addition, I have been
+working on fixing other bugs of different parts of the code.

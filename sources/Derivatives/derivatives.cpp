@@ -130,7 +130,6 @@ double AbstractFunction:: operator()(const double &x){
     return get_value(x);
 }
 
-
 string AbstractFunction::display(){
 
     string par_left = "";

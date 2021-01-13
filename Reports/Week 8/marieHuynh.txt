@@ -1,0 +1,8 @@
+During vacation, I finished debugging and updating the parsing part (especially simplify)
+ I took into account decimals, digits with multiple numbers, came up with Merlin with the 
+supertoken concept for composition and implemented it, dealt with parentheses. 
+
+This week, Lazar helped me debugging one final bug in simplify and I implemented and 
+tested some functions to check for string validity (parentheses, operators, ...). I will
+implement some last functions to simplify the output of the derivative solver and review
+everything one last time.   
