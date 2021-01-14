@@ -83,6 +83,8 @@ LIBS += -L$${OPENCV_LIBRARY_PATH} \
 #"EIGEN_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\eigen-3.3.8\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\opencv\release\install\include" "OPENCV_LIBRARY_PATH=C:\Users\Korisnik\Downloads\opencv\release\bin"
 # ...
 
+DEFINES += CONDAPATH=\"\\\"$${ANACONDA_PATH}\\\"\"
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

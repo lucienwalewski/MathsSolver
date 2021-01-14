@@ -6,7 +6,9 @@
 using namespace std;
 using namespace cv;
 
-string makePrediction(string pathname);
+string makePrediction(const char* pathname, const char* contoursFolder, bool devV);
+
+string reformatString(string &prediction);
 
 
 #endif // IMAGEPREDICTION_HPP
