@@ -203,10 +203,12 @@ bool is_valid(string s){
 
 
 string replace_e(string s){
+    bool repeat = false;
     string sub = "e^";
     int len = int(s.length());
     for (int i = 0; i<len;i++){
         if (s.substr(i,2) == sub){
+            repeat = true;
             if (s[i + 2] == '('){
                 int c = closing_pare(s,i+2);
                 int mids = c -i -3;
@@ -214,7 +216,6 @@ string replace_e(string s){
                 string middle = "exp(" + s.substr(i + 3, mids) + ")";
                 string r = s.substr(c+1,len-c);
                 s = l + middle + r;
-
             } else {
             string l = s.substr(0,i);
             string middle = "exp(" + s.substr(i+2,1) + ")";
@@ -222,6 +223,9 @@ string replace_e(string s){
             s = l + middle + r;
             }
         }
+    }
+    if (repeat){
+        replace_e(s);
     }
     return s;
 };

@@ -141,3 +141,26 @@ vector<Token> simplify(string v, char variable){
 vector<Token> simplify(string s){
     return simplify(s, 'x');
 }
+string simplify_polynomial(string s,map<string, int> &poly_map){
+    bool repeat = false;
+    poly_map = {{"x",1},{"^",2},{"/",3},{"*",4},{"-",5},{"+",6},{"(",7},{")",8},{"_",9}};
+    vector<Token> tok = simplify(s);
+    for (int i = 0; i < int(tok.size());i++){
+
+    }
+    if (repeat) {s = simplify_polynomial(s, poly_map);}
+    return s;
+}
+int find_next_plus(vector<Token> t, int i){
+    int j = i;
+    while (j < int(t.size())){
+        if (t[j].get_value() == "x"){
+            return j;
+        }
+        j += 1;
+    }
+    if (j != i){
+        return j;
+    }else {return -1;}
+}
+
