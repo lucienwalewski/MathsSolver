@@ -21,5 +21,8 @@ string delete_layers_pare(string s);
 
 bool is_valid(string s);
 
+string replace_e(string s);
+
+
 #endif // OPERATORS_HPP
 

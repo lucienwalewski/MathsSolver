@@ -66,7 +66,8 @@ string find_function(string s){
 //The following function takes as input a function under the form of a string and outputs a vector of tokens
 //The string is assumed to be valid.
 vector<Token> simplify(string v, char variable){
-    string w = del_exterior_parentheses(v);
+    string t = replace_e(v);
+    string w = del_exterior_parentheses(t);
     string s = add_multiplication(w);
 
     vector <Token> new_vector;

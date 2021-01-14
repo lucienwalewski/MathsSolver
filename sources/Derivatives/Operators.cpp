@@ -200,3 +200,28 @@ bool is_valid(string s){
     }
     return true;
 };
+
+
+string replace_e(string s){
+    string sub = "e^";
+    int len = int(s.length());
+    for (int i = 0; i<len;i++){
+        if (s.substr(i,2) == sub){
+            if (s[i + 2] == '('){
+                int c = closing_pare(s,i+2);
+                int mids = c -i -3;
+                string l = s.substr(0,i);
+                string middle = "exp(" + s.substr(i + 3, mids) + ")";
+                string r = s.substr(c+1,len-c);
+                s = l + middle + r;
+
+            } else {
+            string l = s.substr(0,i);
+            string middle = "exp(" + s.substr(i+2,1) + ")";
+            string r = s.substr(i + 3,len-i-3);
+            s = l + middle + r;
+            }
+        }
+    }
+    return s;
+};
