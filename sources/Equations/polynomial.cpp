@@ -239,6 +239,115 @@ Polynomial division(Polynomial a, Polynomial b)
     return Polynomial(coe, 1);
 }
 
+std::vector<std::string> solve(Polynomial a)
+{
+    std::vector<std::string> ans;
+    if (a.deg == 2){
+        ans.push_back("frac{-"+std::to_string(a[1]) + "+sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
+        ans.push_back("frac{-"+std::to_string(a[1]) + "-sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
+        return ans;
+    }
+    if (a.deg == 1){
+        ans.push_back("-"+std::to_string(a[0])+"/"+std::to_string(a[1]));
+        return ans;
+    }
+    if (a.deg == 0){
+        return ans;
+    }
+
+    std::vector<int> f = factorization(abs(a[0]));
+    for (auto i : f)
+    {
+        long long coe[2] = {i, 1};
+        Polynomial now = division(a, Polynomial(coe,1));
+        if (now[0] == 9999999)
+        {
+            continue;
+        }
+        if (now.deg == 0)
+        {
+            ans.push_back(std::to_string(-i));
+            return ans;
+        }
+        ans = solve(now);
+        if (ans.empty())
+        {
+            return ans;
+        }
+        ans.push_back(std::to_string(-i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
+        return ans;
+    }
+    for (auto i : f)
+    {
+        long long coe[2] = {-i, 1};
+        Polynomial now = division(a, Polynomial(coe,1));
+        if (now[0] == 9999999)
+        {
+            continue;
+        }
+        if (now.deg == 0)
+        {
+            ans.push_back(std::to_string(i));
+            return ans;
+        }
+        ans = solve(now);
+        if (ans.empty())
+        {
+            return ans;
+        }
+        ans.push_back(std::to_string(i));
+        printf("after division with ");
+        Polynomial(coe,1).print();
+        printf("we get ");
+        now.print();
+        return ans;
+    }
+    return ans;
+}
+
+string PolynomialRational::get_string(){
+    string s="";
+    for(int i = deg; i>=0; i--){
+        if(coefficient[i].get_a()==0)
+            continue;
+
+        if(i!=deg && !coefficient[i].negative())
+            s+= '+';
+        if(abs(coefficient[i].get_a())==1 && abs(coefficient[i].get_b())==1){
+            if(coefficient[i].negative())
+                s += '-';
+            if (i==0)
+                s += '1';
+            else if (i == 1)
+                s += 'x';
+            else{
+                s += 'x';
+                s += "^"+to_string(i);
+            }
+        }
+        else{
+            if (i==0)
+                s+=coefficient[i].get_string();
+            else if (i == 1)
+                s+= coefficient[i].get_string()+ 'x';
+            else
+                s+= coefficient[i].get_string()+ 'x' + "^" + to_string(i);
+        }
+    }
+
+    if (s=="")
+        return "0";
+    else
+        return s;
+}
+
+void PolynomialRational:: print(){
+    cout<<this->get_string()<<"\n";
+}
 
 PolynomialRational PolynomialRational::operator+(const PolynomialRational&b)const{
     int l = max(deg, b.deg);
@@ -290,7 +399,7 @@ PolynomialRational PolynomialRational:: operator*(const PolynomialRational &b) c
     return PolynomialRational(c, deg + b.deg);
 }
 
-PolynomialRational PolynomialRational:: operator*(const Rational &b) const{   
+PolynomialRational PolynomialRational:: operator*(const Rational &b) const{
     Rational c[deg+1];
     for (int i = 0; i <= deg; i++)
         c[i] = coefficient[i]*b;
@@ -632,111 +741,6 @@ solutionPolynomial solveRational(PolynomialRational P){
     return ans;
 }
 
-std::vector<std::string> solve(Polynomial a)
-{
-    std::vector<std::string> ans;
-    if (a.deg == 2){
-        ans.push_back("frac{-"+std::to_string(a[1]) + "+sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
-        ans.push_back("frac{-"+std::to_string(a[1]) + "-sqrt{4"+std::to_string(a[0]*a[2])+"}}{2"+std::to_string(a[0])+"}");
-        return ans;
-    }
-    if (a.deg == 1){
-        ans.push_back("-"+std::to_string(a[0])+"/"+std::to_string(a[1]));
-        return ans;
-    }
-    if (a.deg == 0){
-        return ans;
-    }
-
-    std::vector<int> f = factorization(abs(a[0]));
-    for (auto i : f)
-    {
-        long long coe[2] = {i, 1};
-        Polynomial now = division(a, Polynomial(coe,1));
-        if (now[0] == 9999999)
-        {
-            continue;
-        }
-        if (now.deg == 0)
-        {
-            ans.push_back(std::to_string(-i));
-            return ans;
-        }
-        ans = solve(now);
-        if (ans.empty())
-        {
-            return ans;
-        }
-        ans.push_back(std::to_string(-i));
-        printf("after division with ");
-        Polynomial(coe,1).print();
-        printf("we get ");
-        now.print();
-        return ans;
-    }
-    for (auto i : f)
-    {
-        long long coe[2] = {-i, 1};
-        Polynomial now = division(a, Polynomial(coe,1));
-        if (now[0] == 9999999)
-        {
-            continue;
-        }
-        if (now.deg == 0)
-        {
-            ans.push_back(std::to_string(i));
-            return ans;
-        }
-        ans = solve(now);
-        if (ans.empty())
-        {
-            return ans;
-        }
-        ans.push_back(std::to_string(i));
-        printf("after division with ");
-        Polynomial(coe,1).print();
-        printf("we get ");
-        now.print();
-        return ans;
-    }
-    return ans;
-}
-
-string PolynomialRational::get_string(){
-    string s="";
-    for(int i = deg; i>=0; i--){
-        if(coefficient[i].get_a()==0)
-            continue;
-
-        if(i!=deg && !coefficient[i].negative())
-            s+= '+';
-        if(abs(coefficient[i].get_a())==1 && abs(coefficient[i].get_b())==1){
-            if(coefficient[i].negative())
-                s += '-';
-            if (i==0)
-                s += '1';
-            else if (i == 1)
-                s += 'x';
-            else{
-                s += 'x';
-                s += "^"+to_string(i);
-            }
-        }
-        else{
-            if (i==0)
-                s+=coefficient[i].get_string();
-            else if (i == 1)
-                s+= coefficient[i].get_string()+ 'x';
-            else
-                s+= coefficient[i].get_string()+ 'x' + "^" + to_string(i);
-        }
-    }
-
-    if (s=="")
-        return "0";
-    else
-        return s;
-}
 
 double PolynomialRational::get_value(Rational x){
     double res = 0;

@@ -18,5 +18,4 @@ int main(int argc, char *argv[]){
 
 }
 
-
-//system/integrals equations/destrucror AF/ pre processes for Determiante/numerics-domen/simplification
+//system/integrals

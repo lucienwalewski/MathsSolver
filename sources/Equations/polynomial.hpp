@@ -4,19 +4,9 @@
 #include "Include_libraries.h"
 #include "numbers.hpp"
 
-#include <math.h>
-#include<map>
-#include<vector>
-#include<string>
-#include<iostream>
-#include <string.h>
-#include<set>
-
 #define ZERO 0.000001
 
 using namespace std;
-
-/*Think about setting up the specific variable, by default it should be x */
 
 class Polynomial
 {
@@ -54,6 +44,7 @@ public:
         printf("\n");
     }
 };
+
 
 class PolynomialRational
 {
@@ -129,12 +120,10 @@ Polynomial division(Polynomial a, Polynomial b);
 divPolynomial divisionR(PolynomialRational A, PolynomialRational B);
 
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
-
 void NTT(long long *cp,long long cnt,long long inv,long long mod);
-
 long long CRT(long long r1,long long r2,long long r3,long long mod);
 
-std::vector<std::string> solve(Polynomial a);
+vector<std::string> solve(Polynomial a);
 
 solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb);
 solutionPolynomial solveRational(PolynomialRational P);

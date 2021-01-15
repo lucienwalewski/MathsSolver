@@ -55,6 +55,75 @@ bool check_system(string f){
         return false;
 }
 
+bool check_inv(string f){
+    /*checking if system of equations solving should be performed*/
+    if (f.size()<6)
+        return false;
+    if (f.substr(0,3) == "inv"){
+        int j = 3;
+        if (f[j] != '{')
+            return false;
+
+        while (j < (int)f.size()){
+            if (f[j] == '}')
+                return true;
+            j++;
+        }
+
+        return false;
+    }
+    else
+        return false;
+}
+
+bool check_det(string f){
+    /*checking if system of equations solving should be performed*/
+    if (f.size()<6)
+        return false;
+    if (f.substr(0,3) == "det"){
+        int j = 3;
+        if (f[j] != '{')
+            return false;
+
+        while (j < (int)f.size()){
+            if (f[j] == '}')
+                return true;
+            j++;
+        }
+
+        return false;
+    }
+    else
+        return false;
+}
+
+bool check_mult(string f){
+    /*checking if system of equations solving should be performed*/
+    if (f.size()<10)
+        return false;
+    if (f.substr(0,4) == "mult"){
+        int j = 4;
+        for (int i = 0; i < 2; i++){
+            if (f[j] != '{')
+                return false;
+            j++;
+            bool find = false;
+            while (j < (int)f.size()){
+                if (f[j] == '}'){
+                    find = true;
+                    break;
+                }
+                j++;
+            }
+            if (!find)
+                return false;
+            j++;
+        }
+        return true;
+    }
+    else
+        return false;
+}
 bool check_divisonPolynomials(string f){
     /*checking if divison of the polynomials should be performed*/
     if (f[0] != '(')
@@ -293,11 +362,14 @@ vector<string> system(string f){
         else
             num += f[i];
     }
+    int m = X[0].size();
+    int n = X.size();
+
+    if ((int)Y.size() != n)
+        return vector<string>{"i"};
 
     Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
 
-    int m = X[0].size();
-    int n = X.size();
 
     for (int i = 1; i < n; i++)
         if ((int)X[i].size() != m)
@@ -367,28 +439,155 @@ vector<string> multiplication_poly(string f){
     return vector<string> {"r", R.get_string()};
 }
 
+vector<string> determinant(string f){
+    f = f.substr(4, f.size() - 5);
+    vector< vector <Rational> > X;
+    string num = "";
+    int x = 0;
+    X.push_back(vector<Rational>());
+    for (int i = 0; i < (int)f.size(); i++){
+        if (f[i] == ';'){
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+            num = "";
+        }
+
+        else if (f[i] == '|'){
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+            num = "";
+            x++;
+            X.push_back(vector<Rational>());
+        }
+        else
+            num += f[i];
+    }
+
+    X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+
+
+    int m = X[0].size();
+    int n = X.size();
+
+    if (n != m)
+        return vector<string> {"i"};
+
+    for (int i = 1; i < n; i++)
+        if ((int)X[i].size() != m)
+            return vector<string>{"i"};
+
+    return vector<string> {"r", "The result is", ":", Matrix<Rational>(X).det().get_string(), "n"};
+}
+
+vector<string> inverse(string f){
+    f = f.substr(4, f.size() - 5);
+    vector< vector <Rational> > X;
+    string num = "";
+    int x = 0;
+    X.push_back(vector<Rational>());
+    for (int i = 0; i < (int)f.size(); i++){
+        if (f[i] == ';'){
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+            num = "";
+        }
+
+        else if (f[i] == '|'){
+            X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+            num = "";
+            x++;
+            X.push_back(vector<Rational>());
+        }
+        else
+            num += f[i];
+    }
+    X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+
+    int m = X[0].size();
+    int n = X.size();
+
+    if (n != m)
+        return vector<string> {"i"};
+
+    for (int i = 1; i < n; i++)
+        if ((int)X[i].size() != m)
+            return vector<string>{"i"};
+
+    return vector<string> {"r", "The result is", ":", Matrix<Rational>(X).inverse().get_string(), "n"};
+}
+
+vector<string> mult_matrix(string f){
+    f = f.substr(5);
+    cout<< f <<"\n";
+    vector< vector <Rational> > X[2];
+    int curr = 0;
+    int i = 0;
+    for (int k = 0; k < 2; k++){
+        string num = "";
+        int x = 0;
+        X[curr].push_back(vector<Rational>());
+        while (f[i] != '}'){
+            if (f[i] == ';'){
+                X[curr][x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+                num = "";
+            }
+
+            else if (f[i] == '|'){
+                X[curr][x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+                num = "";
+                x++;
+                X[curr].push_back(vector<Rational>());
+            }
+            else
+                num += f[i];
+
+            i++;
+        }
+        X[curr][x].push_back(Rational(AbstractFunction(simplify(num))(0)));
+
+        int m = X[curr][0].size();
+        int n = X[curr].size();
+
+        for (int i = 1; i < n; i++)
+            if ((int)X[curr][i].size() != m)
+                return vector<string>{"i"};
+
+        curr++;
+        i += 2;
+    }
+
+    cout<< X[0][0].size() << X[1].size() <<"\n";
+    if (X[0][0].size() != X[1].size())
+        return vector<string>{"i"};
+
+    return vector<string> {"r", "The result is", ":", (Matrix<Rational>(X[0])*Matrix<Rational>(X[1])).get_string(), "n"};
+}
+
 bool (*checkProcess[])(string) = {
         check_derivative,
         check_equation,
         check_integral,
         check_system,
         check_divisonPolynomials,
-        check_multiplication
+        check_multiplication,
+        check_det,
+        check_inv,
+        check_mult
 };
 
 vector<string> (*solve_problem[])(string){
-    derivative,
-    equation,
-    inetgral,
-    system,
-    division,
-    multiplication_poly
+        derivative,
+        equation,
+        inetgral,
+        system,
+        division,
+        multiplication_poly,
+        determinant,
+        inverse,
+        mult_matrix
 };
 
 vector<string> start_process(string f){
     f = upload_function(f);
     int cnt=0;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 9; i++)
         if (checkProcess[i](f))
             cnt++;
 
@@ -396,7 +595,7 @@ vector<string> start_process(string f){
         return vector<string>{"i"};
 
     vector<string> res;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 9; i++)
         if (checkProcess[i](f))
             res = solve_problem[i](f);
 

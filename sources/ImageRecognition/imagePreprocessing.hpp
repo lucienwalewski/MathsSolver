@@ -8,7 +8,6 @@
 
 using namespace std;
 using namespace cv;
-//using namespace Eigen;
 
 /// Uploads image and returns it
 Mat upload_img(string path);

@@ -80,7 +80,13 @@ int assign(Token fun){
     }
 }
 
-
+AbstractFunction::AbstractFunction(){
+    this->left = nullptr;
+    this->right = nullptr;
+    this->operation = Operator();
+    this->str_label = "";
+    this->type = 0;
+};
 
 AbstractFunction::AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation){
     this->left = &left;
@@ -876,19 +882,25 @@ string AbstractFunction::get_derivative(vector<string> *step_by_step){
 
 vector<string> AbstractFunction::derive(){
     vector<string> step_by_step = {};
-    //std::cout<<"1.1"<<'\n';
     string derivative = get_derivative(&step_by_step);
-    //std::cout<<derivative<<'\n';
     derivative = arith_add_sub(derivative, 'x');
-   // std::cout<<"1.2"<<'\n';
     derivative = arith_mult_div(derivative, 'x');
- //  std::cout<<"1.3"<<'\n';
     derivative = remove_mult_sign(derivative, 'x');
-  //  std::cout<<"1.4"<<'\n';
+    derivative = delete_layers_pare(derivative);
+    AbstractFunction af_derivative = AbstractFunction(simplify(derivative));
+
+    if (af_derivative.is_polynomial()){
+        derivative = af_derivative.get_polynomial().get_string();
+    }
     step_by_step.push_back("r");
     step_by_step.push_back("The result is");
     step_by_step.push_back(":");
     step_by_step.push_back(derivative);
+
+    for (int i=0; i < (int)step_by_step.size(); i++){
+        step_by_step[i] = delete_layers_pare(step_by_step[i]);
+    }
+
     step_by_step.push_back("n");
     return step_by_step;
 }
