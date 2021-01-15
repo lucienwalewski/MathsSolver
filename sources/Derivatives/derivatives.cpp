@@ -489,11 +489,13 @@ string pow_strings(string l, string r){
     return "(" + l + ")^(" + r + ")";
 }
 
-string arith_add_sub(string func,  char var){
+
+
+string arith_add_sub(string func, char var){
     vector<Token> vt = simplify(func,var);
-    //std::cout<<vt.size()<<'\n';
     double starting_number;
     bool start_found = false;
+    bool is_ok = true;
     int start;
     bool pairs_exist = true;
 
@@ -504,69 +506,64 @@ string arith_add_sub(string func,  char var){
     while(pairs_exist){
         pairs_exist = false;
         start_found = false;
+        is_ok = true;
         pairs_exist = false;
         for(std::size_t i=0; i<vt.size(); i = i+2){
-            if(vt[i].get_type() == -1 && (i < vt.size()-1)){
-                // found number / not last number
+            std::cout<<vt[i].get_value()<<'\n';
 
+            if(vt[i].get_type() == -1){
+                // found number
+                if(i<vt.size()-1){
+                    if (vt[i+1].get_type() == 5 || vt[i+1].get_type() ==  6 || vt[i+1].get_type() == 2){
+                        is_ok = false;
+                    }
+                }
 
+                //first number
+                if (!start_found &&  (i < vt.size()-1)){
 
-                //find number with minus or plus pair
-                if (vt[i+1].get_type() == 5 || vt[i+1].get_type() == 6){
-
-                    if (!start_found){
+                    if (vt[i+1].get_type() == 5 || vt[i+1].get_type() == 6){
                         starting_number = stod(vt[i].get_value());
                         start = i;
                         start_found = true;
+                        std::cout<<"here"<<'\n';
+                        if (i != 0){
+                            // || vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6
+                            if(vt[i-1].get_type() == 2 || vt[i-1].get_type() == 1 || vt[i-1].get_type() == 3 || vt[i-1].get_type() == 4){
+                                std::cout<<"nooooo"<<'\n';
+                                start_found = false;
+                            }
+                        }
+                        continue;
                     }
-                    //minus
-                    else if(vt[i-1].get_type() == 5){
-                        double new_num = starting_number - stod(vt[i].get_value());
+                }
+
+                else if(start_found && is_ok && i != 0){
+                    std::cout<<vt[i-1].get_value();
+                    //div
+                    if(vt[i-1].get_type() == 5){
+                        double new_num = starting_number / stod(vt[i].get_value());
                         vt[start] = simplify(to_string(new_num), var)[0];
                         vt.erase(vt.begin()+i-1, vt.begin()+i+1);
                         pairs_exist = true;
                         break;
                     }
-                    //add
+                    //mult
                     else if(vt[i-1].get_type() == 6){
-                        double new_num = starting_number + stod(vt[i].get_value());
+                        double new_num = starting_number * stod(vt[i].get_value());
                         vt[start] = simplify(to_string(new_num), var)[0];
                         vt.erase(vt.begin()+i-1, vt.begin()+i+1);
                         pairs_exist = true;
                         break;
                     }
 
-                }
-            }
-
-            //number is last and start is found
-
-            else if(vt[i].get_type() == -1 && start_found){
-                //minus
-                if(vt[i-1].get_type() == 5){
-                    double new_num = starting_number - stod(vt[i].get_value());
-                    vt[start] = simplify(to_string(new_num), var)[0];
-                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
-                    pairs_exist = true;
-                    break;
-                }
-                //add
-                else if(vt[i-1].get_type() == 6){
-
-                    double new_num = starting_number + stod(vt[i].get_value());
-                    vt[start] = simplify(to_string(new_num), var)[0];
-                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
-                    pairs_exist = true;
-                    break;
                 }
             }
 
             else if(vt[i].get_type() == -4){
                 // super token
-                vt[i] = SuperToken(arith_add_sub(vt[i].get_value(), var));
+                vt[i] = SuperToken(arith_mult_div(vt[i].get_value(), var));
             }
-
-
         }
     }
     return vect_to_str(vt);
@@ -576,6 +573,7 @@ string arith_mult_div(string func, char var){
     vector<Token> vt = simplify(func,var);
     double starting_number;
     bool start_found = false;
+    bool is_ok = true;
     int start;
     bool pairs_exist = true;
 
@@ -583,31 +581,51 @@ string arith_mult_div(string func, char var){
         return vt[0].get_value();
     }
 
+
     while(pairs_exist){
         pairs_exist = false;
         start_found = false;
+        is_ok = true;
         pairs_exist = false;
         for(std::size_t i=0; i<vt.size(); i = i+2){
+            std::cout<<vt[i].get_value()<<'\n';
             if (i != 0){
-                if(vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6){
+                // vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6 ||
+                if( vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6){
                     start_found = false;
                 }
             }
-            if(vt[i].get_type() == -1 && (i < vt.size()-1)){
-                // found number / not last number
+            if(vt[i].get_type() == -1){
+                // found number
 
+                if(i<vt.size()-1){
+                    if (vt[i+1].get_type() == 2){
+                        is_ok = false;
+                    }
+                }
+                //first number
+                if (!start_found &&  (i < vt.size()-1)){
 
-
-                //find number with minus or plus pair
-                if (vt[i+1].get_type() == 3 || vt[i+1].get_type() == 4){
-
-                    if (!start_found){
+                    if (vt[i+1].get_type() == 3 || vt[i+1].get_type() == 4){
                         starting_number = stod(vt[i].get_value());
                         start = i;
                         start_found = true;
+                        std::cout<<"here"<<'\n';
+                        if (i != 0){
+                            // || vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6
+                            if(vt[i-1].get_type() == 2 || vt[i-1].get_type() == 1 ){
+                                std::cout<<"nooooo"<<'\n';
+                                start_found = false;
+                            }
+                        }
+                        continue;
                     }
+                }
+
+                else if(start_found && is_ok && i != 0){
+                    std::cout<<vt[i-1].get_value();
                     //div
-                    else if(vt[i-1].get_type() == 3){
+                    if(vt[i-1].get_type() == 3){
                         double new_num = starting_number / stod(vt[i].get_value());
                         vt[start] = simplify(to_string(new_num), var)[0];
                         vt.erase(vt.begin()+i-1, vt.begin()+i+1);
@@ -626,27 +644,6 @@ string arith_mult_div(string func, char var){
                 }
             }
 
-            //number is last and start is found
-
-            else if(vt[i].get_type() == -1 && start_found){
-                //div
-                if(vt[i-1].get_type() == 3){
-                    double new_num = starting_number / stod(vt[i].get_value());
-                    vt[start] = simplify(to_string(new_num), var)[0];
-                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
-                    pairs_exist = true;
-                    break;
-                }
-                //mult
-                else if(vt[i-1].get_type() == 4){
-                    double new_num = starting_number * stod(vt[i].get_value());
-                    vt[start] = simplify(to_string(new_num), var)[0];
-                    vt.erase(vt.begin()+i-1, vt.begin()+i+1);
-                    pairs_exist = true;
-                    break;
-                }
-            }
-
             else if(vt[i].get_type() == -4){
                 // super token
                 vt[i] = SuperToken(arith_mult_div(vt[i].get_value(), var));
@@ -655,8 +652,6 @@ string arith_mult_div(string func, char var){
     }
     return vect_to_str(vt);
 }
-
-
 string remove_mult_sign(string func, char var){
     vector<Token> vt = simplify(func,var);
 
