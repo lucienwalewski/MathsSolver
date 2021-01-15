@@ -106,4 +106,6 @@ solutionPolynomial solveRational(PolynomialRational P);
 vector<string> integral(PolynomialRational z, PolynomialRational m);
 vector<string> integralSimpl(PolynomialRational z, PolynomialRational m);
 
+bool isPerfectSquare(double x);
+
 #endif // POLYNOMIAL_HPP
