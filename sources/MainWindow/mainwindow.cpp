@@ -99,6 +99,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(confirm, &QAbstractButton::clicked, this, &MainWindow::enter_equation);
 
     connect(enter, &QShortcut::activated, this, &MainWindow::enter_equation);
+        
+    connect(info, &QAbstractButton::clicked, this, &MainWindow::display_info);
 
 }
 
@@ -119,6 +121,13 @@ QGroupBox *MainWindow::title_group(){
     QLabel* sub_title = new QLabel;
     sub_title->setText(" developed by students of BX22");
     sub_title->setStyleSheet("border:none");
+    
+    info = new QPushButton(this);
+    info->setText("?");
+    info->setFixedSize(30,30);
+    QFont infofont("Arial", 20);
+    info->setFont(infofont);
+    info->setStyleSheet("border: 1px solid black; border-radius: 15px; border-style: outset; background-color: rgb(237, 237, 237)");
 
     QHBoxLayout *title_layout = new QHBoxLayout;
     title_layout->addWidget(window_title);
@@ -265,6 +274,24 @@ QGroupBox *MainWindow::results_layoutf(vector<string> res){
     results->setLayout(final_result_layout);
     results->setStyleSheet("background-color: rgb(216, 242, 196); border:1px solid grey");
     return results;
+}
+
+void MainWindow::display_info(){
+    QMessageBox *infobox = new QMessageBox;
+    infobox->setText("How to use the Mathsolver");
+    infobox->setInformativeText("! Please only use x as variable !\nUsual functions that can be used: exp(x), ln(x), log(x), sin(x), cos(x), tan(x), sqrt(x)\n\n"
+    "To find the derivative of a function: (f(x))'\nexample: (x^2 + 5x + exp(x^3))'\n\n"
+    "To get the value of the integral of a function: int{a}{b}{f(x)}\nexample: int{0}{1}{exp(x)}\nmeans integral from 2 to 5 of exp(x)\n\n"
+    "To find the root at point a of a function f(x) = a\nexample: x^3 - 2x^2 - x + 2 = 0\n\n"
+    "To solve a system of equations: sys{your system}\nexample: sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }\n"
+    "means solving the following system of equations:\n2x0 + 5x1 + 2x2 = -38\n3x0 - 5x1 + 4x2 = 17\n-6x0 + x1 - 7x2 = -12\n*each coefficient should be separated by ';' and a new equation is obtained by entering '|'\n\n"
+    "To get the inverse of a matrix: inv{matrix}\nexample: inv{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To get the determinant of a matrix: det{matrix}\nexample: det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To get the product of matrices: mult{matrix1}{matrix2}\nexample: mult{8; 2}{3 | 4}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To divide two polynomials: (polynomial1) : (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) : (x^2 - 1)\n\n"
+    "To multiply two polynomials: (polynomial1) * (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) * (x^2 - 1)\nmeans integral from 2 to 5 of exp(x)");
+    infobox->setStyleSheet("QLabel{min-width: 700px; font-size: 14px}");
+    infobox->exec();
 }
 
 
