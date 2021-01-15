@@ -11,6 +11,8 @@ string add_multiplication(string v);
 
 string inside_parentheses(string s, int i);
 
+string convert_log_base(string s);
+
 bool valid_parentheses(string s);
 
 bool missing_parentheses(string s);

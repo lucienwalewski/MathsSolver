@@ -880,8 +880,12 @@ vector<string> AbstractFunction::derive(){
     std::cout<<"1.3"<<'\n';
     derivative = remove_mult_sign(derivative, var);
     std::cout<<"1.4"<<'\n';
+    derivative = delete_layers_pare(derivative);
     step_by_step.push_back("r");
     step_by_step.push_back(derivative);
+    for (int i=0; i < (int)step_by_step.size(); i++){
+        step_by_step[i] = delete_layers_pare(step_by_step[i]);
+    }
     return step_by_step;
 }
 

@@ -66,7 +66,7 @@ string find_function(string s){
 //The following function takes as input a function under the form of a string and outputs a vector of tokens
 //The string is assumed to be valid.
 vector<Token> simplify(string v, char variable){
-    string w = del_exterior_parentheses(v);
+    string w = delete_layers_pare(v);
     string s = add_multiplication(w);
 
     vector <Token> new_vector;
@@ -139,4 +139,22 @@ vector<Token> simplify(string v, char variable){
 //If no variable is mentionned, the default variable is 'x'.
 vector<Token> simplify(string s){
     return simplify(s, 'x');
+}
+
+//The derivative step solver only works when there is one variable.
+//The following code checks whether it is case in a given input.
+bool one_variable(string s, char variable){
+    vector <Token> v = simplify(s, variable);
+    for (int i=0; i < int(v.size()); i++){
+        if (v[i].get_type() == -5){
+            if (isalpha(v[i].get_value()[0])){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool one_variable(string s){
+    return one_variable(s, 'x');
 }
