@@ -162,7 +162,6 @@ string AbstractFunction::display(){
 
 
 
-// be careful when divion with 0
 double AbstractFunction::get_value(double x, bool neg){
     switch (operation.get_type()) {
         case -1:  return get_leaf_value(x, leaf_mark, get_str_label()); break;
