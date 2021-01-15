@@ -41,23 +41,28 @@ done so.
 
 In order to run the project, you will need to install the following libraries. We recommend you install them all in the same location:
 
-- Eigen http://eigen.tuxfamily.org/index.php?title=Main_Page
 - OpenCV https://opencv.org/releases/ (This library takes quite some time to install and you will also have to install Cmake in order to configure the library)
+
+You will also need to have a working version of Anaconda in order to run the conda environment for the character recognition. 
 
 Having installed these, open the project by double-clicking on MathsSolver.pro in the sources directory and navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, 
 
 If on Mac:
 
-Enter: "EIGEN_LIBRARY_INCLUDE=root/eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=root/opencv/build/install/lib" where "root" is the path towards
-both libraries on your machine. In the example image below, the directory towards the libraries is "Users/lucienwalewski/".
+Enter: "OPENCV_LIBRARY_INCLUDE=__root__/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=__root__/opencv/build/install/lib" "ANACONDA_PATH=__condaPath__" where __root__ is the path towards the opencv library on your machine and __condaPath__ is the directory towards your Anaconda installation. In the example image below, the directory towards the opencv library is "Users/lucienwalewski/".
 
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
 
 If on Windows: 
 
-Enter: "EIGEN_LIBRARY_INCLUDE=root\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=root\opencv\release\install\include" "OPENCV_LIBRARY_PATH=root\opencv\release\bin\" where "root" is the path towards both libraries on your machine. 
+Enter: "OPENCV_LIBRARY_INCLUDE=__root__\opencv\release\install\include" "OPENCV_LIBRARY_PATH=__root__\opencv\release\bin\" "ANACONDA_PATH=__condaPath__ where __root__ is the path towards your opencv installation and __condaPath__ is the path towards your Anaconda installation. 
 
-Then, scroll down to line 34 in MathsSolver.pro and follow the instructions. Having done this, the project should now build and run. Make sure to uncomment any source or header files in MathsSolver.pro if they are still commented. 
+We now also need to activate the Conda environment included. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
+
+```Conda env create -f recognition.yml```
+
+
+Having done this, the project should build and run.
 
 ### "bits/stdc++.h" not found
 

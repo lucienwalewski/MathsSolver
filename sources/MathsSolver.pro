@@ -2,7 +2,6 @@ QT += core gui
 QT += testlib
 QT += core
 
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -13,8 +12,8 @@ CONFIG += c++11
 
 
 SOURCES += \
-     #ImageRecognition/imagePrediction.cpp \
-     #ImageRecognition/imagePreprocessing.cpp \
+     ImageRecognition/imagePrediction.cpp \
+     ImageRecognition/imagePreprocessing.cpp \
      Derivatives/Tokenizer.cpp \
      Derivatives/derivatives.cpp \
      Derivatives/Operators.cpp \
@@ -32,9 +31,9 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-     #ImageRecognition/imagePrediction.hpp \
-     #ImageRecognition/imagePreprocessing.hpp \
-     #Include_OpenCV.h \
+     ImageRecognition/imagePrediction.hpp \
+     ImageRecognition/imagePreprocessing.hpp \
+     Include_OpenCV.h \
      Include_libraries.h \
      Derivatives/Tokenizer.hpp \
      Derivatives/derivatives.hpp \
@@ -56,19 +55,17 @@ FORMS += \
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
-
-INCLUDEPATH +=
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
 ## -lopencv_core450 tells to link agains libopencv_core450 (this syntax is portable across platforms)
 
 # ON MAC UNCOMMENT THE TWO LINES BELOW
 
-#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-#LIBS += -L$${OPENCV_LIBRARY_PATH} \
-#        -l"opencv_world"
+INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+LIBS += -L$${OPENCV_LIBRARY_PATH} \
+        -l"opencv_world"
 
 
 #INCLUDEPATH += "/Users/lucienwalewski/opencv/build/install/include/opencv4"

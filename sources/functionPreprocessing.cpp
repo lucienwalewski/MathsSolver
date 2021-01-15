@@ -349,6 +349,7 @@ vector<string> system(string f){
             num = "";
         }
         else if (f[i] == '='){
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             Y.push_back(vector<Rational>());
@@ -369,7 +370,6 @@ vector<string> system(string f){
         return vector<string>{"i"};
 
     Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
-
 
     for (int i = 1; i < n; i++)
         if ((int)X[i].size() != m)
@@ -555,7 +555,6 @@ vector<string> mult_matrix(string f){
         i += 2;
     }
 
-    cout<< X[0][0].size() << X[1].size() <<"\n";
     if (X[0][0].size() != X[1].size())
         return vector<string>{"i"};
 
@@ -589,8 +588,6 @@ vector<string> (*solve_problem[])(string){
 vector<string> start_process(string f){
     f = upload_function(f);
 
-//    if (!is_valid(f))
-//        return vector<string>{"i"};
 
     int cnt=0;
     for (int i = 0; i < 9; i++)
