@@ -132,6 +132,7 @@ QGroupBox *MainWindow::title_group(){
     QHBoxLayout *title_layout = new QHBoxLayout;
     title_layout->addWidget(window_title);
     title_layout->addWidget(sub_title);
+    title_layout->addWidget(info);
     //title_layout->addStretch();
     title_group->setStyleSheet("background-color: white; border:1px solid grey");
     title_group->setAlignment(Qt::AlignCenter);
