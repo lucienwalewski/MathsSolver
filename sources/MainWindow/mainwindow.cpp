@@ -310,9 +310,9 @@ void MainWindow::find_file(){
     for (int i=0 ; i < paths.length() ; i++) //no need for several files to be uploaded, but iteration was only way I found to have the full path printed to the console
     {
          QString s = paths.at(i);
-         string prediction = makePredictionQ(s);
-         QString eq = QString::fromStdString(prediction);
+         QString eq = QString::fromStdString(makePredictionQ(s));
          equation_input->setText(eq);
+
     }
 }
 
