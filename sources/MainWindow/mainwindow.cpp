@@ -311,8 +311,8 @@ void MainWindow::find_file(){
          QString s = paths.at(i);
          //std::cout<<s<<std::endl;
          //display_prepocessing(s);
-         //QString eq = QString::fromStdString(makePredictionQ(s));
-         //equation_input->setText(eq);
+         QString eq = QString::fromStdString(makePredictionQ(s));
+         equation_input->setText(eq);
 
     }
 }
