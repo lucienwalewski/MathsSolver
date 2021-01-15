@@ -509,7 +509,6 @@ string arith_add_sub(string func, char var){
         is_ok = true;
         pairs_exist = false;
         for(std::size_t i=0; i<vt.size(); i = i+2){
-            std::cout<<vt[i].get_value()<<'\n';
 
             if(vt[i].get_type() == -1){
                 // found number
@@ -526,11 +525,9 @@ string arith_add_sub(string func, char var){
                         starting_number = stod(vt[i].get_value());
                         start = i;
                         start_found = true;
-                        std::cout<<"here"<<'\n';
                         if (i != 0){
                             // || vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6
                             if(vt[i-1].get_type() == 2 || vt[i-1].get_type() == 1 || vt[i-1].get_type() == 3 || vt[i-1].get_type() == 4){
-                                std::cout<<"nooooo"<<'\n';
                                 start_found = false;
                             }
                         }
@@ -539,7 +536,6 @@ string arith_add_sub(string func, char var){
                 }
 
                 else if(start_found && is_ok && i != 0){
-                    std::cout<<vt[i-1].get_value();
                     //div
                     if(vt[i-1].get_type() == 5){
                         double new_num = starting_number / stod(vt[i].get_value());
@@ -562,7 +558,7 @@ string arith_add_sub(string func, char var){
 
             else if(vt[i].get_type() == -4){
                 // super token
-                vt[i] = SuperToken(arith_mult_div(vt[i].get_value(), var));
+                vt[i] = SuperToken(arith_add_sub(vt[i].get_value(), var));
             }
         }
     }
@@ -588,7 +584,6 @@ string arith_mult_div(string func, char var){
         is_ok = true;
         pairs_exist = false;
         for(std::size_t i=0; i<vt.size(); i = i+2){
-            std::cout<<vt[i].get_value()<<'\n';
             if (i != 0){
                 // vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6 ||
                 if( vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6){
@@ -610,11 +605,9 @@ string arith_mult_div(string func, char var){
                         starting_number = stod(vt[i].get_value());
                         start = i;
                         start_found = true;
-                        std::cout<<"here"<<'\n';
                         if (i != 0){
                             // || vt[i-1].get_type() == 5 || vt[i-1].get_type() == 6
                             if(vt[i-1].get_type() == 2 || vt[i-1].get_type() == 1 ){
-                                std::cout<<"nooooo"<<'\n';
                                 start_found = false;
                             }
                         }
@@ -623,7 +616,6 @@ string arith_mult_div(string func, char var){
                 }
 
                 else if(start_found && is_ok && i != 0){
-                    std::cout<<vt[i-1].get_value();
                     //div
                     if(vt[i-1].get_type() == 3){
                         double new_num = starting_number / stod(vt[i].get_value());
