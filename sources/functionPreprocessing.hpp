@@ -4,6 +4,7 @@
 #include "Include_libraries.h"
 #include "Derivatives/Tokenizer.hpp"
 #include "Derivatives/derivatives.hpp"
+#include "Derivatives/Operators.hpp"
 #include "Equations/numbers.hpp"
 #include "Equations/polynomial.hpp"
 #include "Equations/matrix.hpp"

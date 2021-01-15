@@ -29,7 +29,6 @@ class Operator: public Token{
 public :
     Operator();
     Operator(string t);
-//    Operator(int t);
     int get_type();
 };
 
@@ -37,7 +36,7 @@ public :
 class Num: public Token {
 public:
     Num(string t):Token(t){
-        type = -1;
+        type = -5;
     };
 private:
 };
@@ -76,5 +75,7 @@ bool is_function_(string s, string f);
 vector<Token> simplify(string s, char variable);
 vector<Token> simplify(string s);
 
+bool one_variable(string s, char variable);
+bool one_variable(string s);
 
 #endif // TOKENIZER_HPP

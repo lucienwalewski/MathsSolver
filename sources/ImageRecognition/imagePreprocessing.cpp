@@ -159,6 +159,15 @@ vector<Mat> extract_contours(Mat image){
         for( int i = 0; i< (int)contours_poly.size(); i++ ){
 
            Rect r = boundingRect( Mat(contours_poly[i]) );
+           int minWidth = 100;
+           if (r.width < minWidth) {
+               r.x = max(r.x - ((minWidth - r.width) / 2), 0);
+               r.width = minWidth;
+//               int oldwidth = r.width;
+//               r.width = minWidth;
+//               cout << oldwidth << " "<< minWidth << " " << r.x << " " << r.x - ((minWidth - oldwidth)/2) << endl;
+//               r.x = max(r.x - ((minWidth + oldwidth)/2), 0);
+           }
 
 
            Mat mask = Mat::zeros(image.size(), CV_8UC1);
@@ -168,7 +177,7 @@ vector<Mat> extract_contours(Mat image){
            //Check for equal sign (2 dashes on top of each other) and merge
            if(i+1< (int)contours_poly.size()){
                Rect r2 = boundingRect( Mat(contours_poly[i+1]) );
-               if(abs(r2.x-r.x)<20){
+               if(abs(r2.x-r.x)<50){
                    //Draw mask onto image
                    drawContours(mask, contours_poly, i+1, Scalar(255), FILLED);
                    i++;
@@ -230,8 +239,11 @@ void save_contours(string imagepath, string outputpath) {
     image = crop(image);
     image = noise_removal(image);
     vector<Mat> contours = extract_contours(image);
-    for (int i = 0; i < (int)contours.size(); i++) {
+
+//    cout << "OK";
+    for (int i = 0; i < contours.size(); i++) {
         string output_string = outputpath + to_string(i) + ".jpg";
+//        cout << output_string;
         imwrite(output_string, contours[i]);
     }
 }

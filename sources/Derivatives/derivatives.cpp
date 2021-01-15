@@ -893,12 +893,12 @@ vector<string> AbstractFunction::derive(){
     step_by_step.push_back("The result is");
     step_by_step.push_back(":");
     step_by_step.push_back(derivative);
-
     for (int i=0; i < (int)step_by_step.size(); i++){
         step_by_step[i] = delete_layers_pare(step_by_step[i]);
     }
 
     step_by_step.push_back("n");
+
     return step_by_step;
 }
 

@@ -13,8 +13,8 @@ CONFIG += c++11
 
 
 SOURCES += \
-     ImageRecognition/imagePrediction.cpp \
-     ImageRecognition/imagePreprocessing.cpp \
+     #ImageRecognition/imagePrediction.cpp \
+     #ImageRecognition/imagePreprocessing.cpp \
      Derivatives/Tokenizer.cpp \
      Derivatives/derivatives.cpp \
      Derivatives/Operators.cpp \
@@ -32,9 +32,9 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-     ImageRecognition/imagePrediction.hpp \
-     ImageRecognition/imagePreprocessing.hpp \
-     Include_OpenCV.h \
+     #ImageRecognition/imagePrediction.hpp \
+     #ImageRecognition/imagePreprocessing.hpp \
+     #Include_OpenCV.h \
      Include_libraries.h \
      Derivatives/Tokenizer.hpp \
      Derivatives/derivatives.hpp \
@@ -70,6 +70,7 @@ INCLUDEPATH +=
 #LIBS += -L$${OPENCV_LIBRARY_PATH} \
 #        -l"opencv_world"
 
+
 #INCLUDEPATH += "/Users/lucienwalewski/opencv/build/install/include/opencv4"
 #LIBS += -L"/Users/lucienwalewski/opencv/build/install/lib" \
 #        -l"opencv_world"
@@ -83,6 +84,8 @@ INCLUDEPATH +=
 #
 #"EIGEN_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\eigen-3.3.8\eigen-3.3.8" "OPENCV_LIBRARY_INCLUDE=C:\Users\Korisnik\Downloads\opencv\release\install\include" "OPENCV_LIBRARY_PATH=C:\Users\Korisnik\Downloads\opencv\release\bin"
 # ...
+
+DEFINES += CONDAPATH=\"\\\"$${ANACONDA_PATH}\\\"\"
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
