@@ -68,7 +68,7 @@ string find_function(string s){
 vector<Token> simplify(string v, char variable){
     string w = delete_layers_pare(v);
     string t = replace_e(w);
-    string s = add_multiplication(t);
+    string s = add_multiplication(t, variable);
 
     vector <Token> new_vector;
     string digits = "";
@@ -148,7 +148,7 @@ vector<Token> simplify(string s){
 bool one_variable(string s, char variable){
     vector <Token> v = simplify(s, variable);
     for (int i=0; i < int(v.size()); i++){
-        if (v[i].get_type() == -5){
+        if (v[i].get_type() == -1){
             if (isalpha(v[i].get_value()[0])){
                 return false;
             }

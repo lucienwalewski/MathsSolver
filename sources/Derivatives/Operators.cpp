@@ -8,6 +8,10 @@
 #include <stack>
 #include "Include_libraries.h"
 
+
+vector <string> modified_str_operators{"+", "-", "*" , "/", "^", "_", "~", ")"};
+vector <string> modified_str_operators2{"+", "-", "*" , "/", "^", "_", "~"};
+
 //The following function deletes layers of exterior parentheses.
 // ex : "((5x))" -> "5x"
 string del_exterior_parentheses(string v){
@@ -43,25 +47,86 @@ int closing_pare(string t, int i){
 
 
 //The following function allows to add multiplication signs where they are ommitted.
-
-string add_multiplication(string v){
+string add_multiplication(string v, char variable){
     if ((int)v.size() <= 1)
         return v;
-
     string new_string = "";
     for (int i = 0; i < (int)v.size()-1; i ++){
         new_string.push_back(v[i]);
+        if ((isalpha(v[i]))){
+            string c(1, v[i+1]);
+            //It is either a variable, a function or a constant.
 
-        //case 1 : num followed by "("
-        if ((isdigit(v[i]) && (v[i+1] == '(')))
-            new_string.push_back('*');   
-        //case 2 : num followed by function, variable, constant, ...
-        else if ((isdigit(v[i])) && (isalpha(v[i+1])))
+            // case 1 : variable not followed by an operator
+            if (v[i] == variable && !is_in_vector(modified_str_operators, c)){
+                new_string.push_back('*');
+               }
+            //case 2 : function
+            else if (int(v.size()) - i > 4){
+                    string v1 = v.substr(i, 4);
+                    string potential_function = find_function(v1);
+                    //If the function is log followed by _, special case of the base
+                    if (potential_function == "log" && v[i+ int(potential_function.size())] == '_'){
+                        new_string.pop_back();
+                        new_string += "log_";
+                        if (v[i+1+int(potential_function.size())] == '('){
+                            new_string += "(";
+                            i += 2+int(potential_function.size());
+                        }
+                        else {
+                            i += 1+int(potential_function.size());
+                        }
+                        while (v[i] != '('){
+                                new_string.push_back(v[i]);
+                                i++ ;
+                            }
+                            i --;
+                        }
+                    //Other functions
+                     else if (potential_function != ""){
+                        new_string.pop_back();
+                        new_string += potential_function;
+                        while (v[i] != '('){
+                                i++ ;
+                            }
+                            i --;
+                        }
+                    //variable
+                    else {
+                        string c(1, v[i+1]);
+                        if (!is_in_vector(modified_str_operators, c)){
+                            new_string.push_back('*');
+                        }
+                        }
+            }
+            //case 3 : variable
+            else {
+                    string c(1, v[i+1]);
+                    if (!is_in_vector(modified_str_operators, c)){
+                    new_string.push_back('*');
+                        }
+                  }
+                    }
+        //case 4 : num followed by "("
+        else if ((isdigit(v[i]) && (v[i+1] == '('))){
             new_string.push_back('*');
-        //case 3 : ")" followed by "("
-        else if ((v[i] == ')') && (v[i+1] == '('))
+        }
+        //case 5 : num followed by function, variable, constant, ...
+        else if ((isdigit(v[i])) && (isalpha(v[i+1]))){
             new_string.push_back('*');
-
+        }
+        //case 6 : ")" followed by "("
+        else if ((v[i] == ')') && (v[i+1] == '(')){
+            new_string.push_back('*');
+        }
+        //case 7 : ")" followed by a digit
+        else if ((v[i] == ')') && (isdigit(v[i+1]))){
+            new_string.push_back('*');
+        }
+        //case 8 : ")" followed by a letter
+        else if ((v[i] == ')') && (isalpha(v[i+1]))){
+            new_string.push_back('*');
+        }
         if (i + 2 == (int)v.size()){
             new_string.push_back(v[i+1]);
         }
@@ -73,6 +138,7 @@ string add_multiplication(string v){
 
     return new_string;
 };
+
 
 //The following function returns the string inside parentheses.
 string inside_parentheses(string s, int i){
@@ -189,21 +255,18 @@ bool missing_parentheses(string s){
         }
      }
     return false;
-   };
-
-
-vector <string> modified_str_operators{"+", "-", "*" , "/", "^", "_", "~"};
+};
 
 
 //The following function returns true if there are no operators in the above vector next to each other
 //and no simple division by 0.
 bool valid_operators(string s){
-    if (is_in_vector(modified_str_operators, string(1,s[1]))){
+    if (is_in_vector(modified_str_operators2, string(1,s[1]))){
         return false;
     }
     for (int i=2; i < int(s.size())-1; i++){
-        if(is_in_vector(modified_str_operators, string(1,s[i]))){
-            if (is_in_vector(modified_str_operators, string(1,s[i-1])) || is_in_vector(modified_str_operators, string(1,s[i+1]))){
+        if(is_in_vector(modified_str_operators2, string(1,s[i]))){
+            if (is_in_vector(modified_str_operators2, string(1,s[i-1])) || is_in_vector(modified_str_operators2, string(1,s[i+1]))){
                 return false;
             }
             else if (s[i] == '/' && s[i+1] == '0'){
@@ -253,7 +316,6 @@ bool is_valid(string s){
         return false;
     }
     if (one_variable(s) == false){
-        cout << "Error : There are more than one variable." << endl;
         return false;
     }
     return true;

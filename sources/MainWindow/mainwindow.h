@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include "functionPreprocessing.hpp"
-#include "ImageRecognition/imagePrediction.hpp"
+//#include "ImageRecognition/imagePrediction.hpp"
 
 #include <QMainWindow>
 #include <QPushButton>
