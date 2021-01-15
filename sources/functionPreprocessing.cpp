@@ -588,9 +588,10 @@ vector<string> (*solve_problem[])(string){
 
 vector<string> start_process(string f){
     f = upload_function(f);
-    cout << is_valid(f) << endl;
-    if (!is_valid(f))
-        return vector<string>{"i"};
+
+//    if (!is_valid(f))
+//        return vector<string>{"i"};
+
     int cnt=0;
     for (int i = 0; i < 9; i++)
         if (checkProcess[i](f))
