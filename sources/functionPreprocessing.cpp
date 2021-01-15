@@ -207,7 +207,11 @@ bool check_integral(string f){
 }
 
 vector<string> derivative(string f){
-    return AbstractFunction(simplify(f.substr(1, (int)f.size() - 3))).derive();
+    f = f.substr(1, (int)f.size() - 3);
+//    if (!is_valid(f))
+//        return vector<string> {"i"};
+
+    return AbstractFunction(simplify(f)).derive();
 }
 
 vector<string> equation(string f){
@@ -239,6 +243,10 @@ vector<string> equation(string f){
         else
             solve += tokens[j].get_value();
     }
+//    cout<< solve << " " <<is_valid(solve) <<" \n";
+
+//    if (!is_valid(solve))
+//        return vector<string> {"i"};
 
     AbstractFunction function(simplify(solve));
     vector<double> sol = function.get_roots();
@@ -332,8 +340,13 @@ vector<string> inetgral(string f){
     if (down> up)
         return vector<string> {"i"};
 
+
+    f =  f.substr(i, f.size() - i - 1);
+//    if (!is_valid(f))
+//        return vector<string> {"i"};
+
     vector<string> res{"r", "Result", ":"};
-    res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1))).get_integral_value(down, up)));
+    res.push_back(to_string(AbstractFunction(simplify(f)).get_integral_value(down, up)));
     return res;
 }
 vector<string> system(string f){
@@ -396,6 +409,9 @@ vector<string> division(string f){
     AbstractFunction P(simplify(make_poly[0]));
     AbstractFunction Q(simplify(make_poly[1]));
 
+//    if (!is_valid(make_poly[0]) || !is_valid(make_poly[1]))
+//        return vector<string>{"i"};
+
     if (!P.is_polynomial() || !Q.is_polynomial())
         return vector<string>{"i"};
 
@@ -433,8 +449,12 @@ vector<string> multiplication_poly(string f){
     AbstractFunction P(simplify(make_poly[0]));
     AbstractFunction Q(simplify(make_poly[1]));
 
+//    if (!is_valid(make_poly[0]) || !is_valid(make_poly[1]))
+//        return vector<string>{"i"};
+
     if (!P.is_polynomial() || !Q.is_polynomial())
         return vector<string>{"i"};
+
 
     PolynomialRational R = P.get_polynomial()* Q.get_polynomial();
 
@@ -517,7 +537,6 @@ vector<string> inverse(string f){
 
 vector<string> mult_matrix(string f){
     f = f.substr(5);
-    cout<< f <<"\n";
     vector< vector <Rational> > X[2];
     int curr = 0;
     int i = 0;
@@ -587,7 +606,6 @@ vector<string> (*solve_problem[])(string){
 
 vector<string> start_process(string f){
     f = upload_function(f);
-
 
     int cnt=0;
     for (int i = 0; i < 9; i++)
