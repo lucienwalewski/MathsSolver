@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "Equations/polynomial.hpp"
 #include "functionPreprocessing.hpp"
+#include "ImageRecognition/imagePrediction.hpp"
 #include <QLabel>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -309,11 +310,9 @@ void MainWindow::find_file(){
     for (int i=0 ; i < paths.length() ; i++) //no need for several files to be uploaded, but iteration was only way I found to have the full path printed to the console
     {
          QString s = paths.at(i);
-         //std::cout<<s<<std::endl;
-         //display_prepocessing(s);
-         //QString eq = QString::fromStdString(makePredictionQ(s));
-         //equation_input->setText(eq);
-
+         string prediction = makePredictionQ(s);
+         QString eq = QString::fromStdString(prediction);
+         equation_input->setText(eq);
     }
 }
 

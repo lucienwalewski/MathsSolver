@@ -52,6 +52,9 @@ string reformatString(string &prediction) {
         if (prediction[i] == 't') {
             prediction[i] = '+';
         }
+        if (prediction[i] == 'q') {
+            prediction[i] = '2';
+        }
     }
     string res = "";
     // Add exponents
