@@ -40,6 +40,19 @@ string reformatString(string &prediction) {
         if (prediction[i] == 'X') {
             prediction[i] = 'x';
         }
+        // List of common errors:
+        if (prediction[i] == 'G') {
+            prediction[i] = '6';
+        }
+        if (prediction[i] == 'Z') {
+            prediction[i] = '2';
+        }
+        if (prediction[i] == 'B') {
+            prediction[i] = '3';
+        }
+        if (prediction[i] == 't') {
+            prediction[i] = '+';
+        }
     }
     string res = "";
     // Add exponents

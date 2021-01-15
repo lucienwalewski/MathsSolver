@@ -57,6 +57,11 @@ If on Windows:
 
 Enter: "OPENCV_LIBRARY_INCLUDE=__root__\opencv\release\install\include" "OPENCV_LIBRARY_PATH=__root__\opencv\release\bin\" "ANACONDA_PATH=__condaPath__ where __root__ is the path towards your opencv installation and __condaPath__ is the path towards your Anaconda installation. 
 
+We now also need to activate the Conda environment included. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
+
+```Conda env create -f recognition.yml```
+
+
 Having done this, the project should build and run.
 
 ### "bits/stdc++.h" not found

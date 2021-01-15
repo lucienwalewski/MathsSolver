@@ -12,28 +12,28 @@ int main(int argc, char *argv[]){
   
     QApplication  a(argc, argv);
 
-//     MainWindow w;
-//     w.setWindowState(Qt::WindowMaximized);
-//     w.setWindowTitle("MathsSolver");
-//     w.show();
+     MainWindow w;
+     w.setWindowState(Qt::WindowMaximized);
+     w.setWindowTitle("MathsSolver");
+     w.show();
 
-//     return a.exec();
+     return a.exec();
 
 
     // String prediction demo
 
-    QString pathname ; // path for the Image to be recognised
-    pathname = "/Users/lucienwalewski/OneDrive/Polytechnique/Work/Year 2/CSE201/Project/MathsSolver/sources/ImageRecognition/Images/reference6.jpg";
-    string predictedString = makePredictionQ(pathname);
-    cout << "The predicted string is: " << predictedString << endl;
-    return 0;
+//    QString pathname ; // path for the Image to be recognised
+//    pathname = "/Users/lucienwalewski/OneDrive/Polytechnique/Work/Year 2/CSE201/Project/MathsSolver/sources/ImageRecognition/Images/reference6.jpg";
+//    string predictedString = makePredictionQ(pathname);
+//    cout << "The predicted string is: " << predictedString << endl;
+//    return 0;
 
 //    MainWindow w;
 //    w.setWindowState(Qt::WindowMaximized);
 //    w.setWindowTitle("MathsSolver");
 //    w.show();
 
-    return a.exec();
+//    return a.exec();
 }
 
 //system/integrals
