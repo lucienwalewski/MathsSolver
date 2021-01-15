@@ -375,6 +375,8 @@ vector<string> system(string f){
         if ((int)X[i].size() != m)
             return vector<string>{"i"};
 
+    if (n != m)
+        return vector<string> {"r", "There are no unique solutions to this system"};
 
     return gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
 }

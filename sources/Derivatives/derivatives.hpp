@@ -14,14 +14,7 @@ using namespace std;
 class AbstractFunction {
 public:
     AbstractFunction(vector<Token> fun);
-    AbstractFunction(){
-        this->left = nullptr;
-        this->right = nullptr;
-        this->operation = Operator();
-        this->str_label = "";
-        this->type = 0;
-    };
-
+    AbstractFunction();
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
 
     AbstractFunction get_left();
