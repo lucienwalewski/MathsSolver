@@ -21,162 +21,43 @@ You will also need to have a working version of Anaconda in order to run the con
 
 Having installed these, open the Qt project by double-clicking the file ```MathsSolver.pro``` in the ```sources``` directory. Then, navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, 
 
-If on Mac:
+If on **Mac**:
 
 Enter: "OPENCV_LIBRARY_INCLUDE=__root__/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=__root__/opencv/build/install/lib" "ANACONDA_PATH=__condaPath__" where __root__ is the path towards the opencv library on your machine and __condaPath__ is the directory towards your Anaconda installation. In the example image below, the directory towards the opencv library is "Users/lucienwalewski/".
 
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
 
-If on Windows: 
+If on **Windows**: 
 
 Enter: "OPENCV_LIBRARY_INCLUDE=__root__\opencv\release\install\include" "OPENCV_LIBRARY_PATH=__root__\opencv\release\bin\" "ANACONDA_PATH=__condaPath__ where __root__ is the path towards your opencv installation and __condaPath__ is the path towards your Anaconda installation. 
 
 > Note: The project can build and run on both Mac and Windows (not tested on Linux) but the ImageRecognition part will not work on Windows.
 
-We now also need to activate the Conda environment included if on Mac and using the ImageRecognition feature. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
+#### For Image Recognition 
+
+This is only necessary if running the Image Recognition (only from Mac!). We need to install the Conda environment included. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
 
 ```Conda env create -f recognition.yml```
 
 Having done this, the project should build and run.
 
-### "bits/stdc++.h" not found
+## Instructions
 
-This file will not compile on Mac. The fix for this is as follows:
-
-
-1. Open the terminal and paste the following line: `cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/` to navigate to the directory.
-2. Create a folder named `bits` by entering `mkdir bits` and then enter the directory with `cd bits`.
-3. Create the file `stdc++.h` by entering `touch stdc++.h`. 
-4. Open the file in Xcode by entering `open stdc++.h`
-5. Copy and paste into the file the following lines of code. Save and close the file. 
-
-Copy this:
-
-
-    // C++ includes used for precompiling -*- C++ -*-
-    // Copyright (C) 2003-2013 Free Software Foundation, Inc.
-    //
-    // This file is part of the GNU ISO C++ Library.  This library is free
-    // software; you can redistribute it and/or modify it under the
-    // terms of the GNU General Public License as published by the
-    // Free Software Foundation; either version 3, or (at your option)
-    // any later version.
-
-    // This library is distributed in the hope that it will be useful,
-    // but WITHOUT ANY WARRANTY; without even the implied warranty of
-    // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    // GNU General Public License for more details.
-
-    // Under Section 7 of GPL version 3, you are granted additional
-    // permissions described in the GCC Runtime Library Exception, version
-    // 3.1, as published by the Free Software Foundation.
-
-    // You should have received a copy of the GNU General Public License and
-    // a copy of the GCC Runtime Library Exception along with this program;
-    // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-    // <http://www.gnu.org/licenses/>.
-
-    /** @file stdc++.h
-     *  This is an implementation file for a precompiled header.
-      */
-
-    // Also writing "using namespace std;" here so that you dont need to write it everytime you start a cpp file
-
-    using namespace std;
-
-    // 17.4.1.2 Headers
-
-    // C
-    #ifndef _GLIBCXX_NO_ASSERT
-    #include <cassert>
-    #endif
-    #include <cctype>
-    #include <cerrno>
-    #include <cfloat>
-    #include <ciso646>
-    #include <climits>
-    #include <clocale>
-    #include <cmath>
-    #include <csetjmp>
-    #include <csignal>
-    #include <cstdarg>
-    #include <cstddef>
-    #include <cstdio>
-    #include <cstdlib>
-    #include <cstring>
-    #include <ctime>
-
-    #if __cplusplus >= 201103L
-    #include <ccomplex>
-    #include <cfenv>
-    #include <cinttypes>
-    #include <cstdbool>
-    #include <cstdint>
-    #include <ctgmath>
-    #include <cwchar>
-    #include <cwctype>
-    #endif
-
-    // C++
-    #include <algorithm>
-    #include <bitset>
-    #include <complex>
-    #include <deque>
-    #include <exception>
-    #include <fstream>
-    #include <functional>
-    #include <iomanip>
-    #include <ios>
-    #include <iosfwd>
-    #include <iostream>
-    #include <istream>
-    #include <iterator>
-    #include <limits>
-    #include <list>
-    #include <locale>
-    #include <map>
-    #include <memory>
-    #include <new>
-    #include <numeric>
-    #include <ostream>
-    #include <queue>
-    #include <set>
-    #include <sstream>
-    #include <stack>
-    #include <stdexcept>
-    #include <streambuf>
-    #include <string>
-    #include <typeinfo>
-    #include <utility>
-    #include <valarray>
-    #include <vector>
-
-    #if __cplusplus >= 201103L
-    #include <array>
-    #include <atomic>
-    #include <chrono>
-    #include <condition_variable>
-    #include <forward_list>
-    #include <future>
-    #include <initializer_list>
-    #include <mutex>
-    #include <random>
-    #include <ratio>
-    #include <regex>
-    #include <scoped_allocator>
-    #include <system_error>
-    #include <thread>
-    #include <tuple>
-    #include <typeindex>
-    #include <type_traits>
-    #include <unordered_map>
-    #include <unordered_set>
-    #endif
-
-
+- Please only use x as variable! Usual functions that can be used: exp(x), ln(x), log(x), sin(x), cos(x), tan(x), sqrt(x)\n\n"
+- To find the derivative of a function: (f(x))'\nexample: (x^2 + 5x + exp(x^3))'\n\n"
+- "To get the value of the integral of a function: int{a}{b}{f(x)}\nexample: int{0}{1}{exp(x)}\nmeans integral from 2 to 5 of exp(x)\n\n"
+- "To find the root at point a of a function f(x) = a\nexample: x^3 - 2x^2 - x + 2 = 0\n\n"
+- "To solve a system of equations: sys{your system}\nexample: sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }\n"
+- "means solving the following system of equations:\n2x0 + 5x1 + 2x2 = -38\n3x0 - 5x1 + 4x2 = 17\n-6x0 + x1 - 7x2 = -12\n*each coefficient should be separated by ';' and a new equation is obtained by entering '|'\n\n"
+- "To get the inverse of a matrix: inv{matrix}\nexample: inv{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To get the determinant of a matrix: det{matrix}\nexample: det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To get the product of matrices: mult{matrix1}{matrix2}\nexample: mult{8; 2}{3 | 4}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
+    "To divide two polynomials: (polynomial1) : (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) : (x^2 - 1)\n\n"
+    "To multiply two polynomials: (polynomial1) * (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) * (x^2 - 1)\nmeans integral from 2 to 5 of exp(x)"
 
 ## Current Build Issues
 
+- None
 
 # Maths Solver Project Description
 
@@ -211,7 +92,6 @@ problem or type the problem which will then be solved by the program.
 **Image recogntion**
 
 - Lucien Walewski
-- Lazar Milikic
 
 **Differential calculator**
 
@@ -228,8 +108,6 @@ problem or type the problem which will then be solved by the program.
 **GUI**
 
 - Hugo de Mascarel
-
-
 
 
 # Testing Project Description
