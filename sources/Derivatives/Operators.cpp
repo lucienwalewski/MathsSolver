@@ -261,7 +261,7 @@ bool missing_parentheses(string s){
 //The following function returns true if there are no operators in the above vector next to each other
 //and no simple division by 0.
 bool valid_operators(string s){
-    if (is_in_vector(modified_str_operators2, string(1,s[1]))){
+    if (is_in_vector(modified_str_operators2, string(1,s[0]))){
         return false;
     }
     for (int i=2; i < int(s.size())-1; i++){
