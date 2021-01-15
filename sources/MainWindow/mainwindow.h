@@ -38,7 +38,7 @@ private:
 
 //1. Title
     QGroupBox *title_group();
-
+    QPushButton *info;
 //2. Manual input
     QLineEdit *equation_input;
     QPushButton *confirm;
