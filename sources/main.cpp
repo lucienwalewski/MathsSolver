@@ -1,7 +1,8 @@
 #include <QProcess>
 #include "MainWindow/mainwindow.h"
-#include "ImageRecognition/imagePreprocessing.hpp"
-#include "ImageRecognition/imagePrediction.hpp"
+//#include "ImageRecognition/imagePreprocessing.hpp"
+//#include "ImageRecognition/imagePrediction.hpp"
+#include "Derivatives/Operators.hpp"
 #include <iostream>
 
 using namespace std;
@@ -13,6 +14,7 @@ int main(int argc, char *argv[]){
      w.setWindowState(Qt::WindowMaximized);
      w.setWindowTitle("MathsSolver");
      w.show();
+
 
 //     display_prepocessing("C:\\Users\\Korisnik\\Desktop\\reference4.jpg");
 

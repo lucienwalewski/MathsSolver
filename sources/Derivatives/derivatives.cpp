@@ -881,6 +881,10 @@ vector<string> AbstractFunction::derive(){
     derivative = remove_mult_sign(derivative, var);
     std::cout<<"1.4"<<'\n';
     derivative = delete_layers_pare(derivative);
+    AbstractFunction af_derivative = AbstractFunction(simplify(derivative));
+    if (af_derivative.is_polynomial()){
+        derivative = af_derivative.get_polynomial().get_string();
+    }
     step_by_step.push_back("r");
     step_by_step.push_back(derivative);
     for (int i=0; i < (int)step_by_step.size(); i++){

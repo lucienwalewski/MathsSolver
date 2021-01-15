@@ -67,7 +67,8 @@ string find_function(string s){
 //The string is assumed to be valid.
 vector<Token> simplify(string v, char variable){
     string w = delete_layers_pare(v);
-    string s = add_multiplication(w);
+    string t = replace_e(w);
+    string s = add_multiplication(t);
 
     vector <Token> new_vector;
     string digits = "";
@@ -141,6 +142,7 @@ vector<Token> simplify(string s){
     return simplify(s, 'x');
 }
 
+
 //The derivative step solver only works when there is one variable.
 //The following code checks whether it is case in a given input.
 bool one_variable(string s, char variable){
@@ -158,3 +160,4 @@ bool one_variable(string s, char variable){
 bool one_variable(string s){
     return one_variable(s, 'x');
 }
+
