@@ -68,6 +68,14 @@ Having done this, the project should build and run.
     - Example: ```(x^3 - 2x^2 - x + 2) : (x^2 - 1)```
 - To multiply two polynomials: ```(polynomial1) * (polynomial2)```
     - Example: ```(x^3 - 2x^2 - x + 2) * (x^2 - 1)```
+    
+### Screenshots
+
+Example usecases
+
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic1.png)
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic2.png)
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic3.png)
 
 ## Members (name surname, github, trello, [role])
 
