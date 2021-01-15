@@ -1,5 +1,10 @@
 # MathsSolver
 
+## Description
+
+The MathsSolver program will allow a user to upload a picture of a handwritten maths
+problem or type the problem which will then be solved by the program.
+
 ## Prerequisites
 
 - QT 4.13.3 or newer
@@ -64,15 +69,6 @@ Having done this, the project should build and run.
 - To multiply two polynomials: ```(polynomial1) * (polynomial2)```
     - Example: ```(x^3 - 2x^2 - x + 2) * (x^2 - 1)```
 
-## Current Build Issues
-
-- None
-
-# Maths Solver Project Description
-
-The MathsSolver program will allow a user to upload a picture of a handwritten maths
-problem or type the problem which will then be solved by the program.
-
 ## Members (name surname, github, trello, [role])
 
 - Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
@@ -119,7 +115,7 @@ problem or type the problem which will then be solved by the program.
 - Hugo de Mascarel
 
 
-# Testing Project Description
+### Testing Project Description (for development)
 
 A testing project has been added so that you may test your files. From the root path, 
 navigate to "sources", where you will find two new files (in addition to MathSolver.pro
