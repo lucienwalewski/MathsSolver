@@ -1,8 +1,8 @@
-//#include <QProcess>
-//#include <QDir>
+#include <QProcess>
+#include <QDir>
 #include "MainWindow/mainwindow.h"
-#include "ImageRecognition/imagePreprocessing.hpp"
-#include "ImageRecognition/imagePrediction.hpp"
+//#include "ImageRecognition/imagePreprocessing.hpp"
+//#include "ImageRecognition/imagePrediction.hpp"
 #include "Derivatives/Operators.hpp"
 #include <iostream>
 
@@ -16,9 +16,14 @@ int main(int argc, char *argv[]){
      w.setWindowState(Qt::WindowMaximized);
      w.setWindowTitle("MathsSolver");
      w.show();
-
+     string q = "cos(exp(x))+c";
+     string z = "()";
+     cout << is_valid(q) << endl;
+     cout << valid_parentheses(q) << endl;
+     cout << missing_parentheses(z) << endl;
+     cout << one_variable(q) << endl;
+     cout << is_valid(q) << endl;
      return a.exec();
-
 
     // String prediction demo
 

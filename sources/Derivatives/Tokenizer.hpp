@@ -36,7 +36,7 @@ public :
 class Num: public Token {
 public:
     Num(string t):Token(t){
-        type = -5;
+        type = -1;
     };
 private:
 };
