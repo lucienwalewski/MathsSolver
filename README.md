@@ -45,24 +45,24 @@ Having done this, the project should build and run.
 
 - Please only use x as variable! Usual functions that can be used:
     ```exp(x)```, ```ln(x)```, ```log(x)```, ```sin(x)```, ```cos(x)```, ```tan(x)```, ```sqrt(x)```
-- To find the derivative of a function: (f(x))'
-    - example: ```(x^2 + 5x + exp(x^3))'```
+- To find the derivative of a function: ```(f(x))'```
+    - Example: ```(x^2 + 5x + exp(x^3))'```
 - To get the value of the integral of a function: int{a}{b}{f(x)}
-    - example: ```int{0}{1}{exp(x)}``` means integral from 2 to 5 of exp(x)
+    - Example: ```int{0}{1}{exp(x)}``` means integral from 0 to 1 of exp(x)
 - To find the root at point a of a function f(x) = a
-    - example: ```x^3 - 2x^2 - x + 2 = 0```
+    - Example: ```x^3 - 2x^2 - x + 2 = 0```
 - To solve a system of equations: sys{your system}
-    - example: ```sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }``` means solving the following system of equations: 2x0 + 5x1 + 2x2 = -38\n3x0 - 5x1 + 4x2 = 17\n-6x0 + x1 - 7x2 = -12. Each coefficient should be separated by a semi-colon and a new equation is obtained by entering '|'.
+    - Example: ```sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }``` means solving the following system of equations: ```2x0 + 5x1 + 2x2 = -38, 3x0 - 5x1 + 4x2 = 17, -6x0 + x1 - 7x2 = -12```. Each coefficient should be separated by a semi-colon and a new equation is obtained by entering '|'.
 - To get the inverse of a matrix: inv{matrix}
-    - example: ```inv{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semmi-colon and a new row is obtained by entering '|'.
+    - Example: ```inv{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semmi-colon and a new row is obtained by entering '|'.
 - To get the determinant of a matrix: det{matrix}
-    - example: ```det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
+    - Example: ```det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
 - To get the product of matrices: mult{matrix1}{matrix2}
-    - example: ```mult{8; 2}{3 | 4}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
+    - Example: ```mult{8; 2}{3 | 4}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
 - To divide two polynomials: (polynomial1) : (polynomial2)
-    - example: ```(x^3 - 2x^2 - x + 2) : (x^2 - 1)```
+    - Example: ```(x^3 - 2x^2 - x + 2) : (x^2 - 1)```
 - To multiply two polynomials: (polynomial1) * (polynomial2)
-    - example: ```(x^3 - 2x^2 - x + 2) * (x^2 - 1)``` means integral from 2 to 5 of exp(x)
+    - Example: ```(x^3 - 2x^2 - x + 2) * (x^2 - 1)``` means integral from 2 to 5 of exp(x)
 
 ## Current Build Issues
 
