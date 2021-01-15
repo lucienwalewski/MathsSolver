@@ -7,6 +7,12 @@ const ll MOD1 = 469762049, MOD2 = 998244353, MOD3 = 1004535809;
 const ll MOD = 468937312667959297;
 
 
+bool isPerfectSquare(double x) {
+  double r = sqrt(x);
+  return ((r - floor(r)) == 0);
+}
+
+
 PolynomialRational::PolynomialRational(Rational* c, int d){
     deg = d;
     coefficient = new Rational [d + 5];
@@ -275,7 +281,7 @@ divPolynomial divisionR(PolynomialRational A, PolynomialRational B){
     else
         res.step_solution[0] += P.get_string() + " with the reminder " + A.get_string();
 
-    res.step_solution.push_back(steps.substr(0, steps.size()-1));
+    res.step_solution[0] += "\n"+steps.substr(0, steps.size()-1);
 
     return res;
 }
@@ -299,13 +305,13 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
             ans.step_solution.push_back("We have just one real solution:");
             double res = (-P[1].get_value()+sqrt((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value()))/(2*P[2].get_value());
             ans.step_solution.push_back("("+x.get_string()+"+sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res));
-            ans.roots.push_back(res);
-            ans.roots.push_back(res);
+            ans.roots.push_back(Rational(res));
+            ans.roots.push_back(Rational(res));
 
             if (res > 0)
-                ans.factors["(x-"+ to_string(res) + ")"] += 2;
+                ans.factors["(x-"+ Rational(res).get_string() + ")"] += 2;
             else
-                ans.factors["(x+"+ to_string(abs(res)) + ")"] += 2;
+                ans.factors["(x+"+ Rational(abs(res)).get_string() + ")"] += 2;
 
         }
         else if ((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value() > 0){
@@ -319,18 +325,33 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
             ans.step_solution.push_back("("+x.get_string()+"+sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res1));
             ans.step_solution.push_back("("+x.get_string()+"-sqrt(("+P[1].get_string()+")^2-4("+P[0].get_string()+")*("+P[2].get_string()+"))/("+y.get_string()+") = "+to_string(res2));
 
-            ans.roots.push_back(res1);
-            ans.roots.push_back(res2);
+            if (isPerfectSquare((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value())){
+                ans.roots.push_back(Rational(res1));
+                ans.roots.push_back(Rational(res2));
+                if (res1 > 0)
+                    ans.factors["(x-"+ Rational(res1).get_string() + ")"] += 1;
+                else
+                    ans.factors["(x+"+ Rational(abs(res1)).get_string() + ")"] += 1;
 
-            if (res1 > 0)
-                ans.factors["(x-"+ to_string(res1) + ")"] += 1;
-            else
-                ans.factors["(x+"+ to_string(abs(res1)) + ")"] += 1;
+                if (res2 > 0)
+                    ans.factors["(x-"+ Rational(res2).get_string() + ")"] += 1;
+                else
+                    ans.factors["(x+"+ Rational(abs(res2)).get_string() + ")"] += 1;
+            }
+            else{
+                ans.roots.push_back(res1);
+                ans.roots.push_back(res2);
+                if (res1 > 0)
+                    ans.factors["(x-"+ to_string(res1) + ")"] += 1;
+                else
+                    ans.factors["(x+"+ to_string(abs(res1)) + ")"] += 1;
 
-            if (res2 > 0)
-                ans.factors["(x-"+ to_string(res2) + ")"] += 1;
-            else
-                ans.factors["(x+"+ to_string(abs(res2)) + ")"] += 1;
+                if (res2 > 0)
+                    ans.factors["(x-"+ to_string(res2) + ")"] += 1;
+                else
+                    ans.factors["(x+"+ to_string(abs(res2)) + ")"] += 1;
+            }
+
         }
         else {
             delta += " is negative and equal to "+to_string((P[1]*P[1]).get_value()-4*(P[0]*P[2]).get_value());
@@ -384,7 +405,7 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 PolynomialRational Q = PolynomialRational(coe,1);
 
                 divPolynomial div_res = divisionR(P, Q);
-               //cout<<div_res.Quotient.get_string()<<"\n";
+                //cout<<div_res.Quotient.get_string()<<"\n";
                 ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
                 solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
