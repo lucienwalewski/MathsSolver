@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<string>
+#include<QString>
 
 #include "Include_OpenCV.h"
 
@@ -28,6 +29,8 @@ void extract_contours(Mat image);
 void display_prepocessing(string path);
 
 void save_contours(string path, string outputPath);
+
+void save_contoursQS(QString path, string outputPath);
 
 
 #endif // IMAGEPREPROCESSING_HPP

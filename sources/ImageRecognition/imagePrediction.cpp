@@ -7,6 +7,9 @@
 #include<cstdio>
 #include<cstdint>
 #include<filesystem>
+#include<QDir>
+#include<QString>
+#include<QCoreApplication>
 
 #include "Include_OpenCV.h"
 
@@ -37,6 +40,19 @@ string reformatString(string &prediction) {
         if (prediction[i] == 'X') {
             prediction[i] = 'x';
         }
+        // List of common errors:
+        if (prediction[i] == 'G') {
+            prediction[i] = '6';
+        }
+        if (prediction[i] == 'Z') {
+            prediction[i] = '2';
+        }
+        if (prediction[i] == 'B') {
+            prediction[i] = '3';
+        }
+        if (prediction[i] == 't') {
+            prediction[i] = '+';
+        }
     }
     string res = "";
     // Add exponents
@@ -56,9 +72,9 @@ string reformatString(string &prediction) {
 
 /* Takes a string that is the location of the image
  * and returns a prediction
+ * This is version with absolute paths
  */
 string makePrediction(const char* inputpathname, const char* contoursFolder, bool devV) {
-//    remove(contoursFolder);
     save_contours(inputpathname, contoursFolder);
     string cmd;
     char* cmdC;
@@ -80,5 +96,39 @@ string makePrediction(const char* inputpathname, const char* contoursFolder, boo
     string outputString = exec(cmdC);
     cout << "The preformatted string is: " << outputString << endl;
     outputString = reformatString(outputString);
+    return outputString;
+}
+
+/*
+ * Final makePrediction function
+ */
+string makePredictionQ(QString pathname) {
+
+    // First create the contoursFolder (delete it if it already exists)
+    const QString projectpath = QDir::currentPath();
+    string projectPathstd = projectpath.toStdString();
+    string quote = "\"";
+    string dir = quote + projectPathstd + "/ImageRecognition/" + quote;
+    string cmd = "cd " + dir + ";rm -r extractedContours; mkdir extractedContours";
+    system(cmd.c_str());
+    string extractedContours = projectpath.toStdString() + "/ImageRecognition/extractedContours/";
+
+    // Extract and save the contours to the folder
+    save_contoursQS(pathname, extractedContours);
+
+    // Build command for character recognition
+    cmd = ". ";
+    cmd.append(CONDAPATH); cmd.append("/bin/activate && conda activate ");
+    cmd.append(CONDAPATH); cmd.append("/envs/OCR; "); cmd.append("cd ");
+    cmd.append(quote + projectPathstd + "/ImageRecognition/" + quote + "; ");
+    cmd.append("python3 modelPredict.py; conda deactivate");
+    char* cmdC;
+    cmdC = new char [cmd.length()+1];
+    strcpy (cmdC, cmd.c_str());
+
+    // Execute command
+    string outputString = exec(cmdC);
+    outputString = reformatString(outputString);
+
     return outputString;
 }
