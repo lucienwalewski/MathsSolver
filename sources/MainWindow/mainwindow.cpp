@@ -18,12 +18,10 @@
 #include <QMessageBox>
 
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-
 
 //MANUALLY INPUT EQUATION BUTTON
 
@@ -283,7 +281,7 @@ void MainWindow::display_info(){
     infobox->setText("How to use the Mathsolver");
     infobox->setInformativeText("! Please only use x as variable !\nUsual functions that can be used: exp(x), ln(x), log(x), sin(x), cos(x), tan(x), sqrt(x)\n\n"
     "To find the derivative of a function: (f(x))'\nexample: (x^2 + 5x + exp(x^3))'\n\n"
-    "To get the value of the integral of a function: int{a}{b}{f(x)}\nexample: int{0}{1}{exp(x)}\nmeans integral from 2 to 5 of exp(x)\n\n"
+    "To get the value of the integral of a function: int{a}{b}{f(x)}\nexample: int{0}{1}{exp(x)}\nmeans integral from 0 to 1 of exp(x)\n\n"
     "To find the root at point a of a function f(x) = a\nexample: x^3 - 2x^2 - x + 2 = 0\n\n"
     "To solve a system of equations: sys{your system}\nexample: sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }\n"
     "means solving the following system of equations:\n2x0 + 5x1 + 2x2 = -38\n3x0 - 5x1 + 4x2 = 17\n-6x0 + x1 - 7x2 = -12\n*each coefficient should be separated by ';' and a new equation is obtained by entering '|'\n\n"
