@@ -289,7 +289,7 @@ void MainWindow::display_info(){
     "To get the determinant of a matrix: det{matrix}\nexample: det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
     "To get the product of matrices: mult{matrix1}{matrix2}\nexample: mult{8; 2}{3 | 4}\n*each coefficient should be separated by ';' and a new row is obtained by entering '|'\n\n"
     "To divide two polynomials: (polynomial1) : (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) : (x^2 - 1)\n\n"
-    "To multiply two polynomials: (polynomial1) * (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) * (x^2 - 1)\nmeans integral from 2 to 5 of exp(x)");
+    "To multiply two polynomials: (polynomial1) * (polynomial2)\nexample: (x^3 - 2x^2 - x + 2) * (x^2 - 1)");
     infobox->setStyleSheet("QLabel{min-width: 700px; font-size: 14px}");
     infobox->exec();
 }
