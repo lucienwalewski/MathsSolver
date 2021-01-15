@@ -17,6 +17,5 @@ int main(int argc, char *argv[]){
      w.setWindowTitle("MathsSolver");
      w.show();
 
-
      return a.exec();
 }
