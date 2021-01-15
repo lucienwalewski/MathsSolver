@@ -112,6 +112,7 @@ QGroupBox *MainWindow::title_group(){
     QGroupBox *title_group = new QGroupBox();
 
     QLabel* window_title = new QLabel;
+
     window_title->setText("Welcome to the Handwritten Math Solver");
     window_title->setAlignment(Qt::AlignHCenter);
     window_title->setStyleSheet("border:none");
@@ -307,9 +308,12 @@ void MainWindow::find_file(){
 
     for (int i=0 ; i < paths.length() ; i++) //no need for several files to be uploaded, but iteration was only way I found to have the full path printed to the console
     {
-         string s = paths.at(i).toStdString().c_str();
-         std::cout<<s<<std::endl;
+         QString s = paths.at(i);
+         //std::cout<<s<<std::endl;
          //display_prepocessing(s);
+         //QString eq = QString::fromStdString(makePredictionQ(s));
+         //equation_input->setText(eq);
+
     }
 }
 
