@@ -281,7 +281,7 @@ void MainWindow::find_file(){
     {
          string s = paths.at(i).toStdString().c_str();
          std::cout<<s<<std::endl;
-         display_prepocessing(s);
+         //display_prepocessing(s);
     }
 }
 
