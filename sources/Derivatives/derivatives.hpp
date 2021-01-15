@@ -4,8 +4,7 @@
 #include "functionPreprocessing.hpp"
 #include "Equations/polynomial.hpp"
 
-
-const int MAX_ITER =1000000;
+const int MAX_ITER =10000;
 const double EPS =  0.00001;
 
 #include "Include_libraries.h"
@@ -14,18 +13,9 @@ using namespace std;
 
 class AbstractFunction {
 public:
-    AbstractFunction(vector<Token> fun, char var = 'x');
-    AbstractFunction(char var = 'x'){
-        this->left = nullptr;
-        this->right = nullptr;
-        this->operation = Operator();
-        this->str_label = "";
-        this->var = var;
-        this->type = 0;
-    };
-
-    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation, char var = 'x');
-   // ~AbstractFunction(){delete left;delete right;};
+    AbstractFunction(vector<Token> fun);
+    AbstractFunction();
+    AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
 
     AbstractFunction get_left();
     vector<Token> get_vect_label(){return vect_label;}
@@ -62,9 +52,6 @@ private:
     string str_label;
     vector<Token> vect_label;
     int type;
-    char var;
-
-
 };
 
 string vect_to_str(vector<Token> vt);

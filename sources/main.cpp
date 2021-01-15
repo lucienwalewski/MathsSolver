@@ -1,14 +1,16 @@
-#include <QProcess>
-#include <QDir>
+//#include <QProcess>
+//#include <QDir>
 #include "MainWindow/mainwindow.h"
 #include "ImageRecognition/imagePreprocessing.hpp"
 #include "ImageRecognition/imagePrediction.hpp"
+#include "Derivatives/Operators.hpp"
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char *argv[]){
-     QApplication  a(argc, argv);
+  
+    QApplication  a(argc, argv);
 
 //     MainWindow w;
 //     w.setWindowState(Qt::WindowMaximized);
@@ -25,4 +27,13 @@ int main(int argc, char *argv[]){
     string predictedString = makePredictionQ(pathname);
     cout << "The predicted string is: " << predictedString << endl;
     return 0;
+
+//    MainWindow w;
+//    w.setWindowState(Qt::WindowMaximized);
+//    w.setWindowTitle("MathsSolver");
+//    w.show();
+
+    return a.exec();
 }
+
+//system/integrals

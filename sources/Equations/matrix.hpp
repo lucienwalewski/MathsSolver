@@ -193,7 +193,7 @@ public:
             for (int j = 0; j < a.width(); j++) {
                 T elm = Rational(0, 1);
                 for (int k = 0; k < m; k++) {
-                    elm += elements[i][k] * a.get_element(k, j);
+                    elm = elm + elements[i][k] * a.get_element(k, j);
                 }
                 res.set_element(i, j, elm);
             }
@@ -260,9 +260,9 @@ public:
                 for (int i = 0; i < n; i++) {
                     Matrix<T> cropped = this->crop(i);
                     if (i % 2 == 0)
-                        d += cropped.det() * this->get_element(i, 0);
+                        d = d + cropped.det() * this->get_element(i, 0);
                     else
-                        d += Rational(-1, 1)* cropped.det() * this->get_element(i, 0);
+                        d = d + Rational(-1, 1)* cropped.det() * this->get_element(i, 0);
                 }
                 return d;
             }

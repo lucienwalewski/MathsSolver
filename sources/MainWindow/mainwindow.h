@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "functionPreprocessing.hpp"
+#include "ImageRecognition/imagePrediction.hpp"
+
 #include <QMainWindow>
 #include <QPushButton>
 #include <QFileDialog>
@@ -10,11 +13,13 @@
 #include <QVBoxLayout>
 #include <QTextEdit>
 #include <QKeyEvent>
-#include "functionPreprocessing.hpp"
+
+//QwtText::setTextEngine( QwtText::MathMLText, new QwtMathMLTextEngine() );
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
@@ -27,13 +32,14 @@ public:
 private slots:
     void find_file();
     void enter_equation();
+    void display_info();
 
 private:
     Ui::MainWindow *ui;
 
 //1. Title
     QGroupBox *title_group();
-
+    QPushButton *info;
 //2. Manual input
     QLineEdit *equation_input;
     QPushButton *confirm;
@@ -41,6 +47,7 @@ private:
 //3. Upload file
     QPushButton* upload_file;
     QGroupBox *upload_group();
+\
 
     QGroupBox *final;
 //6. Layout

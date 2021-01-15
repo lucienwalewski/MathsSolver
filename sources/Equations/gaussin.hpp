@@ -39,7 +39,17 @@ template <typename T> vector<string> gaussian(Matrix<T> A, Matrix<T>  Y){
             }
         }
     }
+
+//    for (int i = 0; i < n; i++) {
+//        Y.mult_row(i, Rational(1,1)/A.get_element(i, i));
+//    }
+
     for (int i = 0; i < n; i++) {
+        if (A.get_element(i, i) == 0) {
+                res.push_back("r");
+                res.push_back("There are no unique solutions to this system");
+                return res;
+        }
         Y.mult_row(i, Rational(1,1)/A.get_element(i, i));
     }
     res.push_back("r");
@@ -66,31 +76,40 @@ template <typename T> vector<string> display_system(Matrix<T>  A, Matrix<T>  Y){
     for (int i = 0; i < n; i++) {
         steps[(int)steps.size() - 1] += "Equation " + to_string(i+1) + ": ";
         int cache = 0;
+        bool non_zero = true;
         for (int j = 0; j < n; j++) {
             if (A.get_element(i, j) != Rational(0,1)) {
                 if (A.get_element(i, j) == Rational(1,1) || A.get_element(i, j) == Rational(-1,1)) {
                     if (A.get_element(i, j) ==  Rational(-1,1)) {
                         steps[(int)steps.size() - 1] += "-x" + to_string(j) + " ";
                         cache = 1;
+                        non_zero = false;
                     } else if (cache ==  0) {
                         steps[(int)steps.size() - 1] += "x" + to_string(j) + " ";
                         cache = 1;
+                        non_zero = false;
                     } else {
                         steps[(int)steps.size() - 1] += "+x" + to_string(j) + " ";
                         cache = 1;
+                        non_zero = false;
                     }
                 }
                 else {
                     if (A.get_element(i, j) < 0 || (A.get_element(i, j) > 0 && cache ==  0)) {
                         steps[(int)steps.size() - 1] +=  to_str(A.get_element(i, j))+ "x" + to_string(j) + " ";
                         cache = 1;
+                        non_zero = false;
                     } else {
                         steps[(int)steps.size() - 1] += "+" + to_str(A.get_element(i, j)) + "x" + to_string(j) + " ";
                         cache = 1;
+                        non_zero = false;
                     }
                 }
             }
         }
+        if(non_zero)
+            steps[(int)steps.size() - 1] += "0";
+
         steps[(int)steps.size() - 1] +=  "= " + to_str(Y.get_element(i, 0)) + "\n";
     }
 

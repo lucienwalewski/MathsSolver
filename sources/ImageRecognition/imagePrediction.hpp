@@ -1,9 +1,11 @@
 #ifndef IMAGEPREDICTION_HPP
 #define IMAGEPREDICTION_HPP
 
-#include "Include_OpenCV.h"
 #include<QString>
 #include<QDir>
+
+#include "Include_OpenCV.h"
+#include "imagePreprocessing.hpp"
 
 using namespace std;
 using namespace cv;

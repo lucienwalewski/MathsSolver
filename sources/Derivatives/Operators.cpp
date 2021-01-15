@@ -8,7 +8,7 @@
 #include <stack>
 #include "Include_libraries.h"
 
-//The following function deletes layers of exterior parentheses
+//The following function deletes layers of exterior parentheses.
 // ex : "((5x))" -> "5x"
 string del_exterior_parentheses(string v){
     string s ;
@@ -25,7 +25,7 @@ string del_exterior_parentheses(string v){
 };
 
 
-//The following function associates an open parenthesis to its corresponding closed one
+//The following function associates an open parenthesis to its corresponding closed one.
 int closing_pare(string t, int i){
     int counter = 1;
     int j = i + 1;
@@ -42,8 +42,7 @@ int closing_pare(string t, int i){
 };
 
 
-//The following function allows to add multiplication signs where they are ommittes
-//(ex : [Num("5"), Variable("x")] -> [Num("5"), Operator("*"), Variable("x")])
+//The following function allows to add multiplication signs where they are ommitted.
 
 string add_multiplication(string v){
     if ((int)v.size() <= 1)
@@ -52,6 +51,7 @@ string add_multiplication(string v){
     string new_string = "";
     for (int i = 0; i < (int)v.size()-1; i ++){
         new_string.push_back(v[i]);
+
         //case 1 : num followed by "("
         if ((isdigit(v[i]) && (v[i+1] == '(')))
             new_string.push_back('*');   
@@ -94,10 +94,62 @@ string inside_parentheses(string s, int i){
     return inside;
 };
 
+
+//The following function converts a log in base a in a log base 10 with a preceding factor of 1/log(a).
+//In the following function, we assume the operators are present and valid.
+string convert_log_base(string s){
+    string new_s = "";
+    for (int i= 0; i < int(s.size()); i++){
+        if (s[i] == 'l'){
+            string s1 = s.substr(i, 3);
+            if (find_function(s1) == "log"){
+                i+= 3;
+                if (s[i] == '_'){
+                    if (s[i+1] == '('){
+                       new_s += "1/log(" + inside_parentheses(s, i+1) + ")*log";
+                       i = closing_pare(s, i+1);
+                    }
+                    else {
+                        cout << s[i] << endl;
+                        i++;
+                        string base = "";
+                        while (s[i] != '('){
+                            string c(1, s[i]);
+                            base += c;
+                            i++;
+                        }
+                        cout << base << endl;
+                        cout << s[i] << endl;
+                        if (base == "10"){
+                            new_s += "log(" + inside_parentheses(s, i) + ")";
+                            i = closing_pare(s,i);
+                        }
+                        else {
+                            new_s += "1/log(" + base + ")*log(" + inside_parentheses(s, i) + ")";
+                            i = closing_pare(s,i);
+                        }
+                    }
+                }
+                else if (s[i] == '('){
+                    new_s += "log(";
+                    i+= 3;
+                    cout << i << endl;
+                }
+            }
+        }
+        else {
+            string c(1, s[i]);
+            new_s += c;
+        }
+    }
+    return new_s;
+}
+
+
 //String validity (operators issues)
 
 //Check if every opening parenthesis has a closing one and
-//that there are in the right order : opening first and closing second
+//that there are in the right order : opening first and closing second.
 bool valid_parentheses(string s){
     vector <char> v;
     for (int i=0; i < int(s.size()); i++){
@@ -121,8 +173,8 @@ bool valid_parentheses(string s){
     }
    };
 
-//The following function returns false if there are no missing parentheses
-//It returns true if there are missing parentheses
+//The following function returns false if there are no missing parentheses.
+//It returns true if there are missing parentheses.
 bool missing_parentheses(string s){
     if (not valid_parentheses(s)){
         return true;
@@ -140,10 +192,11 @@ bool missing_parentheses(string s){
    };
 
 
-vector <string> modified_str_operators{"+", "-", "*" , "/", "^", "sqrt", "_", "~"};
+vector <string> modified_str_operators{"+", "-", "*" , "/", "^", "_", "~"};
 
 
-//The following function returns true if there are no operators in the above vector next to each other.
+//The following function returns true if there are no operators in the above vector next to each other
+//and no simple division by 0.
 bool valid_operators(string s){
     if (is_in_vector(modified_str_operators, string(1,s[1]))){
         return false;
@@ -153,7 +206,7 @@ bool valid_operators(string s){
             if (is_in_vector(modified_str_operators, string(1,s[i-1])) || is_in_vector(modified_str_operators, string(1,s[i+1]))){
                 return false;
             }
-            else if (s[i] == '^' && s[i+1] == '0'){
+            else if (s[i] == '/' && s[i+1] == '0'){
                 return false;
             }
         }
@@ -197,6 +250,40 @@ bool is_valid(string s){
     }
     if (valid_operators(s) == false){
         cout << "Error : The operators are not valid." << endl;
+        return false;
+    }
+    if (one_variable(s) == false){
+        cout << "Error : There are more than one variable." << endl;
+        return false;
     }
     return true;
+};
+
+
+string replace_e(string s){
+    bool repeat = false;
+    string sub = "e^";
+    int len = int(s.length());
+    for (int i = 0; i<len;i++){
+        if (s.substr(i,2) == sub){
+            repeat = true;
+            if (s[i + 2] == '('){
+                int c = closing_pare(s,i+2);
+                int mids = c -i -3;
+                string l = s.substr(0,i);
+                string middle = "exp(" + s.substr(i + 3, mids) + ")";
+                string r = s.substr(c+1,len-c);
+                s = l + middle + r;
+            } else {
+            string l = s.substr(0,i);
+            string middle = "exp(" + s.substr(i+2,1) + ")";
+            string r = s.substr(i + 3,len-i-3);
+            s = l + middle + r;
+            }
+        }
+    }
+    if (repeat){
+        replace_e(s);
+    }
+    return s;
 };

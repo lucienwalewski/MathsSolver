@@ -1,0 +1,2 @@
+Over the holidays and past few weeks, I managed to add code in our project that would call a Python prediction script for character
+recognition. I now need to generalise the program by changing absolute paths to relative paths to generalise the program.
