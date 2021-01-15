@@ -1,6 +1,8 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<QString>
+#include<QDir>
 
 #include "Include_OpenCV.h"
 
@@ -163,10 +165,11 @@ vector<Mat> extract_contours(Mat image){
            if (r.width < minWidth) {
                r.x = max(r.x - ((minWidth - r.width) / 2), 0);
                r.width = minWidth;
-//               int oldwidth = r.width;
-//               r.width = minWidth;
-//               cout << oldwidth << " "<< minWidth << " " << r.x << " " << r.x - ((minWidth - oldwidth)/2) << endl;
-//               r.x = max(r.x - ((minWidth + oldwidth)/2), 0);
+           }
+           int minHeight = 100;
+           if (r.height < minHeight) {
+               r.y = max(r.y - ((minHeight - r.height) / 2), 0);
+               r.height = minHeight;
            }
 
 
@@ -247,10 +250,21 @@ void save_contours(string imagepath, string outputpath) {
     image = crop(image);
     image = noise_removal(image);
     vector<Mat> contours = extract_contours(image);
-//    cout << "OK";
     for (int i = 0; i < contours.size(); i++) {
         string output_string = outputpath + to_string(i) + ".jpg";
-//        cout << output_string;
+        imwrite(output_string, contours[i]);
+    }
+}
+
+void save_contoursQS(QString imagepath, string outputpath) {
+    string imagepathstd = imagepath.toStdString();
+//    string outputpathstd = outputpath.toStdString();
+    Mat image = upload_img(imagepathstd);
+    image = binarisation(image);
+    image = crop(image);
+    vector<Mat> contours = extract_contours(image);
+    for (int i = 0; i < contours.size(); i++) {
+        string output_string = outputpath + to_string(i) + ".jpg";
         imwrite(output_string, contours[i]);
     }
 }
