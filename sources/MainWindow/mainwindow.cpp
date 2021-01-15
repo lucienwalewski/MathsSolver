@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     QShortcut* enter = new QShortcut(QKeySequence("Return"), this);
 
     equation_input = new QLineEdit(this);
-    equation_input-> setPlaceholderText("example: x^3 + x^2 - 5 = 0");
+    equation_input-> setPlaceholderText("example: x^3 - 2x^2 - x + 2 = 0");
     equation_input->setFont(input_font);
 
     confirm = new QPushButton(this);
@@ -64,19 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     /*
     steps_layout = new QVBoxLayout(this);
-
     results_layout = new QHBoxLayout(this);
-
     //Setting scrollable box for steps
     QWidget *subwindow = new QWidget();
     subwindow ->setLayout(steps_layout);
-
     QScrollArea *scrollarea = new QScrollArea(this);
     scrollarea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollarea->setWidgetResizable( true );
     scrollarea->setWidget(subwindow);
-
-
     main_layout->addWidget(scrollarea);
     main_layout->addLayout(results_layout);
     */
@@ -122,7 +117,7 @@ QGroupBox *MainWindow::title_group(){
     window_title->setFont(window_title_font);
 
     QLabel* sub_title = new QLabel;
-    sub_title->setText("developed by students of BX22");
+    sub_title->setText(" developed by students of BX22");
     sub_title->setStyleSheet("border:none");
 
     QHBoxLayout *title_layout = new QHBoxLayout;
@@ -284,7 +279,9 @@ void MainWindow::find_file(){
 
     for (int i=0 ; i < paths.length() ; i++) //no need for several files to be uploaded, but iteration was only way I found to have the full path printed to the console
     {
-         std::cout<<paths.at(i).toStdString().c_str()<<std::endl;
+         string s = paths.at(i).toStdString().c_str();
+         std::cout<<s<<std::endl;
+         display_prepocessing(s);
     }
 }
 
@@ -336,5 +333,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-

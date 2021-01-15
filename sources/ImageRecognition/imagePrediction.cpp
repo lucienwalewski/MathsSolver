@@ -1,5 +1,4 @@
 #include "imagePrediction.hpp"
-#include "imagePreprocessing.hpp"
 
 #include<iostream>
 #include<string>
@@ -77,6 +76,7 @@ string makePrediction(const char* inputpathname, const char* contoursFolder, boo
         strcpy (cmdC, cmd.c_str());
     }
 //    const char* cmd = ". /Users/lucienwalewski/opt/anaconda3/bin/activate && conda activate /Users/lucienwalewski/opt/anaconda3/envs/OCR; cd /Users/lucienwalewski/OCR; python3 modelPredict.py; conda deactivate";
+
     string outputString = exec(cmdC);
     cout << "The preformatted string is: " << outputString << endl;
     outputString = reformatString(outputString);

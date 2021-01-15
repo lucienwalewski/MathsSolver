@@ -4,19 +4,9 @@
 #include "Include_libraries.h"
 #include "numbers.hpp"
 
-#include <math.h>
-#include<map>
-#include<vector>
-#include<string>
-#include<iostream>
-#include <string.h>
-#include<set>
-
 #define ZERO 0.000001
 
 using namespace std;
-
-/*Think about setting up the specific variable, by default it should be x */
 
 class Polynomial
 {
@@ -45,7 +35,7 @@ public:
     {
         for (int i = 0; i <= deg; i++)
         {
-            std::cout << coefficient[i] << "*x^" << i;
+            cout << coefficient[i] << "*x^" << i;
             if (i != deg)
             {
                 printf("+");
@@ -55,43 +45,17 @@ public:
     }
 };
 
+
 class PolynomialRational
 {
 public:
     int deg;
     Rational *coefficient;
-    char var;
-    PolynomialRational(Rational* c, int d, char var = 'x'){
-        deg = d;
-        coefficient = new Rational [d + 5];
-        for (int i = 0; i <= d; i++){
-            coefficient[i] = c[i];
-        }
-        this->var = var;
-    }
-    PolynomialRational(char var = 'x'){deg = -1, coefficient = NULL, this->var = var;}
-    PolynomialRational(int n, char var = 'x')
-    {
-        deg = n;
-        coefficient = new Rational[n + 1];
-        for (int i = 0; i <= n; i++)
-            coefficient[i] = Rational(0,1);
-        this->var = var;
-    }
-    PolynomialRational(const PolynomialRational &b, char var = 'x')
-    {
-        deg = b.deg;
-        coefficient = new Rational [b.deg + 5];
-        for (int i = 0; i <= b.deg; i++)
-        {
-            coefficient[i] = b[i];
-        }
-        this->var = var;
-    }
-    ~PolynomialRational()
-    {
-        delete[] coefficient;
-    }
+    PolynomialRational(Rational* c, int d);
+    PolynomialRational();
+    PolynomialRational(int n);
+    PolynomialRational(const PolynomialRational &b);
+    ~PolynomialRational();
     PolynomialRational operator + (const PolynomialRational& b) const;
     PolynomialRational operator - (const PolynomialRational& b) const;
     Rational operator [] (const int &i) const {return coefficient[i];}
@@ -103,9 +67,7 @@ public:
     PolynomialRational copy();
     bool is_divisible(PolynomialRational P);
     string get_string();
-    void print(){
-        cout<<this->get_string()<<"\n";
-    }
+    void print();
     double get_value(Rational x);
 };
 
@@ -133,14 +95,15 @@ Polynomial division(Polynomial a, Polynomial b);
 divPolynomial divisionR(PolynomialRational A, PolynomialRational B);
 
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
-
 void NTT(long long *cp,long long cnt,long long inv,long long mod);
-
 long long CRT(long long r1,long long r2,long long r3,long long mod);
 
-std::vector<std::string> solve(Polynomial a);
+vector<string> solve(Polynomial a);
 
 solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector<int> fb);
 solutionPolynomial solveRational(PolynomialRational P);
+
+vector<string> integral(PolynomialRational z, PolynomialRational m);
+vector<string> integralSimpl(PolynomialRational z, PolynomialRational m);
 
 #endif // POLYNOMIAL_HPP
