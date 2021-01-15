@@ -6,7 +6,6 @@
 #include<stdio.h>
 #include<cstdio>
 #include<cstdint>
-#include<filesystem>
 #include<QDir>
 #include<QString>
 #include<QCoreApplication>
@@ -56,7 +55,7 @@ string reformatString(string &prediction) {
     }
     string res = "";
     // Add exponents
-    for (int i = 0; i < prediction.length(); i++) {
+    for (int i = 0; i < (int)prediction.length(); i++) {
         if (prediction[i] == 'x' && isdigit(prediction[i + 1])) {
             res.append("x");
             res.append("^");
