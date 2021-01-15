@@ -174,9 +174,7 @@ vector<string> equation(string f){
     AbstractFunction function(simplify(solve));
     vector<double> sol = function.get_roots();
     if (function.is_polynomial()){
-        //cout<<"Find "<< function.get_polynomial().get_string()<<"\n";
         solutionPolynomial res = solveRational(function.get_polynomial());
-        cout<<"OK??\n";
         solution = res.step_solution;
         solution.push_back("r");
         if (res.roots.empty() && res.complex.empty())
@@ -225,8 +223,11 @@ vector<string> equation(string f){
         solution.push_back("Numerical roots obtained");
         solution.push_back(":");
 
-        for (auto i : sol)
+        for (auto i : sol){
             solution.push_back(to_string(i));
+        }
+
+        solution.push_back("n");
     }
     else
         solution.push_back("No numerical solution found.");
@@ -258,6 +259,9 @@ vector<string> inetgral(string f){
     else
         up = AbstractFunction(simplify(b)).get_value(0);
     i++;
+
+    if (down> up)
+        return vector<string> {"i"};
 
     vector<string> res{"r", "Result", ":"};
     res.push_back(to_string(AbstractFunction(simplify(f.substr(i, f.size() - i - 1))).get_integral_value(down, up)));
@@ -333,6 +337,7 @@ vector<string> division(string f){
         res.step_solution.push_back("Reminder");
         res.step_solution.push_back(":");
         res.step_solution.push_back(res.Reminder.get_string());
+        res.step_solution.push_back("n");
     }
 
     return res.step_solution;

@@ -56,17 +56,19 @@ FORMS += \
 
 # ON WINDOWS UNCOMMENT THE TWO LINES BELOW
 
-#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-#LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+LIBS += -L$${OPENCV_LIBRARY_PATH} -lopencv_core450 -lopencv_highgui450 -lopencv_imgcodecs450 -lopencv_imgproc450 -lopencv_calib3d450
+
+INCLUDEPATH +=
 
 ## -L path tells the linker to look for library files inside OPENCV_LIBRARY_PATH
 ## -lopencv_core450 tells to link agains libopencv_core450 (this syntax is portable across platforms)
 
 # ON MAC UNCOMMENT THE TWO LINES BELOW
 
-INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
-LIBS += -L$${OPENCV_LIBRARY_PATH} \
-        -l"opencv_world"
+#INCLUDEPATH += $${OPENCV_LIBRARY_INCLUDE}
+#LIBS += -L$${OPENCV_LIBRARY_PATH} \
+#        -l"opencv_world"
 
 #INCLUDEPATH += "/Users/lucienwalewski/opencv/build/install/include/opencv4"
 #LIBS += -L"/Users/lucienwalewski/opencv/build/install/lib" \
@@ -86,3 +88,4 @@ LIBS += -L$${OPENCV_LIBRARY_PATH} \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+

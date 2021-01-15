@@ -1,5 +1,4 @@
 #include "imagePrediction.hpp"
-#include "imagePreprocessing.hpp"
 
 #include<iostream>
 #include<string>
@@ -35,6 +34,5 @@ string makePrediction(string inputpathname) {
     save_contours(inputpathname, contoursFolder);
     const char* cmd = "conda activate OCR; cd /Users/lucienwalewski/OCR; python3 modelPredict.py; conda deactivate";
 //    const char* cmd = ". /Users/lucienwalewski/opt/anaconda3/bin/activate && conda activate /Users/lucienwalewski/opt/anaconda3/envs/OCR; cd /Users/lucienwalewski/OCR; python3 modelPredict.py; conda deactivate";
-    string outputString = exec(cmd);
-    return outputString;
+    return  exec(cmd);
 }

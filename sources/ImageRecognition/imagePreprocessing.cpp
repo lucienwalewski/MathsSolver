@@ -209,17 +209,9 @@ vector<Mat> extract_contours(Mat image){
 void display_prepocessing(string path){
     // dispalay the extracting process, for testing and debugging
     Mat image= upload_img(path);
-    //image = noise_removal(image);
+    image = noise_removal(image);
     image = binarisation(image);
     image = crop(image);
-    //image = noise_removal(image);
-
-    // improvement of dilation if possible
- /*  int dilation_size=0.5;
-    Mat element = getStructuringElement(  MORPH_RECT,
-                         Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                         Point( dilation_size, dilation_size ) );
-    dilate( image, image, element );*/
 
     const char* source_window = "Source";
     namedWindow( source_window, WINDOW_NORMAL );
@@ -238,7 +230,7 @@ void save_contours(string imagepath, string outputpath) {
     image = crop(image);
     image = noise_removal(image);
     vector<Mat> contours = extract_contours(image);
-    for (int i = 0; i < contours.size(); i++) {
+    for (int i = 0; i < (int)contours.size(); i++) {
         string output_string = outputpath + to_string(i) + ".jpg";
         imwrite(output_string, contours[i]);
     }

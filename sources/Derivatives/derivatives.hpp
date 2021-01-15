@@ -5,7 +5,7 @@
 #include "Equations/polynomial.hpp"
 
 
-const int MAX_ITER =1000000;
+const int MAX_ITER =10000;
 const double EPS =  0.00001;
 
 #include "Include_libraries.h"
@@ -24,7 +24,7 @@ public:
     };
 
     AbstractFunction(AbstractFunction left, AbstractFunction right, Operator operation);
-   // ~AbstractFunction(){delete left;delete right;};
+    //~AbstractFunction(){delete left;delete right;};
 
     AbstractFunction get_left();
     vector<Token> get_vect_label(){return vect_label;}

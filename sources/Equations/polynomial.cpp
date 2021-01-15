@@ -548,7 +548,7 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 PolynomialRational Q = PolynomialRational(coe,1);
 
                 divPolynomial div_res = divisionR(P, Q);
-                cout<<div_res.Quotient.get_string()<<"\n";
+               //cout<<div_res.Quotient.get_string()<<"\n";
                 ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
                 solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());

@@ -195,16 +195,16 @@ double AbstractFunction::get_leaf_value(double x, int n, string val){
             if (x > 0)
                 return log(x);
             else{
-                cout<< "Error\n";
-                return -9999999;
+                //cout<< "Error\n";
+                return -INFINITY;
             }
             break;
         case 3:
             if (x > 0)
                 return log(x)/log(10);
             else{
-                cout<< "Error\n";
-                return -9999999;
+                //cout<< "Error\n";
+                return -INFINITY;
             }
             break;
         case 4: return cos(x); break;
@@ -214,8 +214,8 @@ double AbstractFunction::get_leaf_value(double x, int n, string val){
             if (x >= 0)
                 return sqrt(x);
             else{
-                cout<< "Error\n";
-                return -9999999;
+                //cout<< "Error\n";
+                return INFINITY;
             }
             break;
         case 8: return x; break;
@@ -247,8 +247,6 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
     if (!is_polynomial())
         return PolynomialRational();
 
-    //cout << get_str_label() << " " << operation.get_type()<<" "<<get_left().leaf_mark<<" " <<get_right().leaf_mark<< "\n";
-
     switch (operation.get_type()) {
         case -1:{
             if (leaf_mark == 0){
@@ -265,11 +263,22 @@ PolynomialRational AbstractFunction::get_polynomial(bool neg){
         }
         case 2: {
             int n = (int)get_right().get_value(0);
-            Rational c[n+1];
-            for (int i = 0; i <= n; i++)
-                c[i] = Rational(0, 1);
-            c[n] = Rational(1,1);
-            return PolynomialRational(c, n);
+            PolynomialRational P = get_left().get_polynomial();
+            if (P[0] == 0){
+                Rational c[n+1];
+                for (int i = 0; i <= n; i++)
+                    c[i] = Rational(0, 1);
+                c[n] = Rational(1,1);
+                return PolynomialRational(c, n);
+            }
+            else{
+                PolynomialRational Q = P.copy();
+                for (int i = 1; i < n; i++)
+                    Q = Q * P;
+
+                return Q;
+
+            }
             break;
         }
         case 3: return get_left().get_polynomial()/get_right().get_polynomial(); break;
@@ -316,8 +325,11 @@ vector<double> AbstractFunction::get_roots(double start, double end){
         i += 0.1;
     }
 
-    for(int i = 0; i < (int)critical_points.size(); i++)
-        roots.push_back(regula_falsi(i, i+0.1));
+    for(int i = 0; i < (int)critical_points.size(); i++){
+        double x = regula_falsi(i, i+0.1);
+        if (!isnan(x))
+            roots.push_back(regula_falsi(i, i+0.1));
+    }
 
     return roots;
 }
@@ -477,7 +489,7 @@ string pow_strings(string l, string r){
 
 string arith_add_sub(string func,  char var){
     vector<Token> vt = simplify(func,var);
-    std::cout<<vt.size()<<'\n';
+    //std::cout<<vt.size()<<'\n';
     double starting_number;
     bool start_found = false;
     int start;
@@ -864,17 +876,20 @@ string AbstractFunction::get_derivative(vector<string> *step_by_step){
 
 vector<string> AbstractFunction::derive(){
     vector<string> step_by_step = {};
-    std::cout<<"1.1"<<'\n';
+    //std::cout<<"1.1"<<'\n';
     string derivative = get_derivative(&step_by_step);
-    std::cout<<derivative<<'\n';
-    derivative = arith_add_sub(derivative, var);
-    std::cout<<"1.2"<<'\n';
-    derivative = arith_mult_div(derivative, var);
-    std::cout<<"1.3"<<'\n';
-    derivative = remove_mult_sign(derivative, var);
-    std::cout<<"1.4"<<'\n';
+    //std::cout<<derivative<<'\n';
+    derivative = arith_add_sub(derivative, 'x');
+   // std::cout<<"1.2"<<'\n';
+    derivative = arith_mult_div(derivative, 'x');
+ //  std::cout<<"1.3"<<'\n';
+    derivative = remove_mult_sign(derivative, 'x');
+  //  std::cout<<"1.4"<<'\n';
     step_by_step.push_back("r");
+    step_by_step.push_back("The result is");
+    step_by_step.push_back(":");
     step_by_step.push_back(derivative);
+    step_by_step.push_back("n");
     return step_by_step;
 }
 

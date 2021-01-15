@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     QShortcut* enter = new QShortcut(QKeySequence("Return"), this);
 
     equation_input = new QLineEdit(this);
-    equation_input-> setPlaceholderText("example: x^3 + x^2 - 5 = 0");
+    equation_input-> setPlaceholderText("example: x^3 - 2x^2 - x + 2 = 0");
     equation_input->setFont(input_font);
 
     confirm = new QPushButton(this);
@@ -117,7 +117,7 @@ QGroupBox *MainWindow::title_group(){
     window_title->setFont(window_title_font);
 
     QLabel* sub_title = new QLabel;
-    sub_title->setText("developed by students of BX22");
+    sub_title->setText(" developed by students of BX22");
     sub_title->setStyleSheet("border:none");
 
     QHBoxLayout *title_layout = new QHBoxLayout;
