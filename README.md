@@ -20,7 +20,7 @@ Run the command
 In order to run the project, you will need to install the following libraries. We recommend you install them all in the same location:
 
 - OpenCV https://opencv.org/releases/
-> This library takes quite some time to install and you will also have to install Cmake in order to configure the library
+> This library takes quite some time to install and you will also have to install Cmake in order to configure the library. We include two potentially helpful videos. For Mac (https://www.youtube.com/watch?v=SIXnD-9uh1k). For Windows (https://www.youtube.com/watch?v=ZOSu-2Oju-A)
 
 You will also need to have a working version of Anaconda in order to run the conda environment for the character recognition. 
 
@@ -75,7 +75,6 @@ Example usecases
 
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic1.png)
 ![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic2.png)
-![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic3.png)
 
 ## Members (name surname, github, trello, [role])
 
