@@ -32,6 +32,7 @@ public:
 private slots:
     void find_file();
     void enter_equation();
+    void display_info();
 
 private:
     Ui::MainWindow *ui;
