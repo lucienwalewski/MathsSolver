@@ -12,7 +12,7 @@ CONFIG += c++11
 
 
 SOURCES += \
-#     ImageRecognition/imagePrediction.cpp \
+     ImageRecognition/imagePrediction.cpp \
      ImageRecognition/imagePreprocessing.cpp \
      Derivatives/Tokenizer.cpp \
      Derivatives/derivatives.cpp \
@@ -31,7 +31,7 @@ SOURCES += \
      MainWindow/mainwindow.cpp
 
 HEADERS += \
-#     ImageRecognition/imagePrediction.hpp \
+     ImageRecognition/imagePrediction.hpp \
      ImageRecognition/imagePreprocessing.hpp \
      Include_OpenCV.h \
      Include_libraries.h \
