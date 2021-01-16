@@ -207,6 +207,7 @@ bool check_integral(string f){
 }
 
 vector<string> derivative(string f){
+    /*execution of finding the derivative of f*/
     f = f.substr(1, (int)f.size() - 3);
     if (!is_valid(f))
         return vector<string> {"i"};
@@ -215,6 +216,7 @@ vector<string> derivative(string f){
 }
 
 vector<string> equation(string f){
+    /*execution of finding the roots of f*/
     vector<string> solution;
     string solve = "";
     int i = 0;
@@ -243,7 +245,6 @@ vector<string> equation(string f){
         else
             solve += tokens[j].get_value();
     }
-//    cout<< solve << " " <<is_valid(solve) <<" \n";
 
     if (!is_valid(solve))
         return vector<string> {"i"};
@@ -313,6 +314,7 @@ vector<string> equation(string f){
     return solution;
 }
 vector<string> inetgral(string f){
+    /*execution of finding integral of f*/
     f = f.substr(3, f.size() - 3);
     int i =1;
     string a = "";
@@ -342,7 +344,6 @@ vector<string> inetgral(string f){
 
 
     f =  f.substr(i+1, f.size() - i - 2);
-    cout<< f << "\n";
     if (!is_valid(f))
         return vector<string> {"i"};
 
@@ -352,6 +353,7 @@ vector<string> inetgral(string f){
     return res;
 }
 vector<string> system(string f){
+    /*solving a system of equations*/
     f = f.substr(4, f.size() - 5);
     vector< vector <Rational> > X;
     vector< vector <Rational> > Y;
@@ -360,16 +362,24 @@ vector<string> system(string f){
     X.push_back(vector<Rational>());
     for (int i = 0; i < (int)f.size(); i++){
         if (f[i] == ';'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
         }
         else if (f[i] == '='){
+            if (!is_valid(num))
+                return vector<string> {"i"};
 
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             Y.push_back(vector<Rational>());
         }
         else if (f[i] == '|'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             x++;
@@ -384,6 +394,9 @@ vector<string> system(string f){
     if ((int)Y.size() != n)
         return vector<string>{"i"};
 
+    if (!is_valid(num))
+        return vector<string> {"i"};
+
     Y[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
 
     for (int i = 1; i < n; i++)
@@ -396,6 +409,7 @@ vector<string> system(string f){
     return gaussian(Matrix<Rational>(X), Matrix<Rational>(Y));
 }
 vector<string> division(string f){
+    /*execution of deviding polynomials*/
     string make_poly[2];
     make_poly[0] = "";
     make_poly[1] = "";
@@ -436,6 +450,7 @@ vector<string> division(string f){
 }
 
 vector<string> multiplication_poly(string f){
+    /*execution of multipliying polynomials*/
     string make_poly[2];
     make_poly[0] = "";
     make_poly[1] = "";
@@ -464,6 +479,7 @@ vector<string> multiplication_poly(string f){
 }
 
 vector<string> determinant(string f){
+    /*execution of finding the determinante of a matrix*/
     f = f.substr(4, f.size() - 5);
     vector< vector <Rational> > X;
     string num = "";
@@ -471,11 +487,17 @@ vector<string> determinant(string f){
     X.push_back(vector<Rational>());
     for (int i = 0; i < (int)f.size(); i++){
         if (f[i] == ';'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
         }
 
         else if (f[i] == '|'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             x++;
@@ -502,6 +524,7 @@ vector<string> determinant(string f){
 }
 
 vector<string> inverse(string f){
+    /*execution of finding the inverse of a matrix*/
     f = f.substr(4, f.size() - 5);
     vector< vector <Rational> > X;
     string num = "";
@@ -509,11 +532,17 @@ vector<string> inverse(string f){
     X.push_back(vector<Rational>());
     for (int i = 0; i < (int)f.size(); i++){
         if (f[i] == ';'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
         }
 
         else if (f[i] == '|'){
+            if (!is_valid(num))
+                return vector<string> {"i"};
+
             X[x].push_back(Rational(AbstractFunction(simplify(num))(0)));
             num = "";
             x++;
@@ -538,6 +567,7 @@ vector<string> inverse(string f){
 }
 
 vector<string> mult_matrix(string f){
+    /*execution of multiplication of two matrices*/
     f = f.substr(5);
     vector< vector <Rational> > X[2];
     int curr = 0;
@@ -548,11 +578,17 @@ vector<string> mult_matrix(string f){
         X[curr].push_back(vector<Rational>());
         while (f[i] != '}'){
             if (f[i] == ';'){
+                if (!is_valid(num))
+                    return vector<string> {"i"};
+
                 X[curr][x].push_back(Rational(AbstractFunction(simplify(num))(0)));
                 num = "";
             }
 
             else if (f[i] == '|'){
+                if (!is_valid(num))
+                    return vector<string> {"i"};
+
                 X[curr][x].push_back(Rational(AbstractFunction(simplify(num))(0)));
                 num = "";
                 x++;

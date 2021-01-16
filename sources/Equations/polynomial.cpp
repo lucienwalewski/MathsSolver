@@ -293,7 +293,7 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
     if (P.deg == 2){
         ans.step_solution.push_back("Solving a quadratic equation " + P.get_string() + " = 0");
         ans.step_solution.push_back("Applying formula: (-b ± sqrt{b^2-4ac})/(2a)");
-        string delta = "Discriminate d = "+ P[1].get_string()+"^2-4*" + P[0].get_string()+ "*" +P[2].get_string();
+        string delta = "Discriminant d = "+ P[1].get_string()+"^2-4*" + P[0].get_string()+ "*" +P[2].get_string();
         Rational x = P[1];
         x.a = - x.a;
         Rational y = P[2];
