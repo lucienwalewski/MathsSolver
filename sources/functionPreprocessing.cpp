@@ -415,22 +415,22 @@ vector<string> division(string f){
     if (!P.is_polynomial() || !Q.is_polynomial())
         return vector<string>{"i"};
 
-    divPolynomial res =  divisionR(P.get_polynomial(), Q.get_polynomial());
-    res.step_solution.push_back("r");
-    res.step_solution.push_back("Quotient");
-    res.step_solution.push_back(":");
-    res.step_solution.push_back(res.Quotient.get_string());
-    res.step_solution.push_back("n");
-    if (res.ReminderZero)
-        res.step_solution.push_back("Reminder is 0");
-    else{
-        res.step_solution.push_back("Reminder");
-        res.step_solution.push_back(":");
-        res.step_solution.push_back(res.Reminder.get_string());
-        res.step_solution.push_back("n");
-    }
+    pair<PolynomialRational, vector<string> > res =  divisionR(P.get_polynomial(), Q.get_polynomial());
+    res.second.push_back("r");
+    res.second.push_back("Quotient");
+    res.second.push_back(":");
+    res.second.push_back(res.first.get_string());
+    res.second.push_back("n");
+//    if (res.ReminderZero)
+//        res.second.push_back("Reminder is 0");
+//    else{
+        res.second.push_back("Reminder");
+        res.second.push_back(":");
+        //res.second.push_back(res.Reminder.get_string());
+        res.second.push_back("n");
+//    }
 
-    return res.step_solution;
+    return res.second;
 }
 
 vector<string> multiplication_poly(string f){

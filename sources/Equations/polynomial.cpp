@@ -143,9 +143,9 @@ PolynomialRational PolynomialRational:: operator/(const PolynomialRational &b) c
     return PolynomialRational(coea, n-k);
 }
 
-bool PolynomialRational::is_divisible(PolynomialRational P){
-    return divisionR(PolynomialRational(coefficient, deg), P).ReminderZero;
-}
+//bool PolynomialRational::is_divisible(PolynomialRational P){
+//    return divisionR(PolynomialRational(coefficient, deg), P).ReminderZero;
+//}
 
 PolynomialRational PolynomialRational:: operator/(const Rational &b) const{
     Rational c[deg+1];
@@ -200,10 +200,10 @@ string PolynomialRational::get_string(){
         return s;
 }
 
-divPolynomial divisionR(PolynomialRational A, PolynomialRational B){
-    divPolynomial res;
+pair<PolynomialRational, vector<string> > divisionR(PolynomialRational A, PolynomialRational B){
+    pair<PolynomialRational, vector<string> > res;
 
-    res.step_solution.push_back(" (" + A.get_string() + ") : (" + B.get_string() + ") = ");
+    res.second.push_back(" (" + A.get_string() + ") : (" + B.get_string() + ") = ");
     string steps = "";
 
     int n = A.deg, k = B.deg;
@@ -271,17 +271,17 @@ divPolynomial divisionR(PolynomialRational A, PolynomialRational B){
 
     PolynomialRational P(coea, n-k);
 
-    res.Quotient = P.copy();
-    res.Reminder = A.copy();
+    res.first = P.copy();
+    //res.Reminder = A.copy();
 
     if (zero){
-       res.step_solution[0] += P.get_string();
-       res.ReminderZero = true;
+       res.second[0] += P.get_string();
+       //res.ReminderZero = true;
     }
     else
-        res.step_solution[0] += P.get_string() + " with the reminder " + A.get_string();
+        res.second[0] += P.get_string() + " with the reminder " + A.get_string();
 
-    res.step_solution[0] += "\n"+steps.substr(0, steps.size()-1);
+    res.second[0] += "\n"+steps.substr(0, steps.size()-1);
 
     return res;
 }
@@ -404,10 +404,10 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 Rational coe[2] = {Rational(-i, j), Rational(1, 1)};
                 PolynomialRational Q = PolynomialRational(coe,1);
 
-                divPolynomial div_res = divisionR(P, Q);
-                //cout<<div_res.Quotient.get_string()<<"\n";
-                ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
-                solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
+                pair<PolynomialRational, vector<string> > div_res = divisionR(P, Q);
+                //PolynomialRational X = (P/Q).copy();
+                ans.step_solution.insert(ans.step_solution.end(), div_res.second.begin(), div_res.second.end());
+                solutionPolynomial res = solveRationalAux(div_res.first, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
                 ans.complex.insert(ans.complex.end(), res.complex.begin(), res.complex.end());
                 ans.roots.insert(ans.roots.end(), res.roots.begin(), res.roots.end());
@@ -539,7 +539,7 @@ std::vector<std::string> integral(PolynomialRational z, PolynomialRational m)
     for (int i = 0; i < n; i++)
     {
         Rational coe[2] = {Rational(-1, 1) * f[i], Rational(1, 1)};
-        PolynomialRational now = divisionR(m, PolynomialRational(coe,1)).Quotient;
+        PolynomialRational now = divisionR(m, PolynomialRational(coe,1)).first;
         for (int j = 0; j < n; j++)
         {
             if (j <= now.deg)

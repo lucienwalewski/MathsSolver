@@ -92,7 +92,7 @@ Polynomial linear_re(Polynomial a, long long *f, int k, long long P, int b);
 Polynomial ksm(Polynomial a, long long *f, int k, long long P, int b);
 
 Polynomial division(Polynomial a, Polynomial b);
-divPolynomial divisionR(PolynomialRational A, PolynomialRational B);
+pair<PolynomialRational, vector<string> > divisionR(PolynomialRational A, PolynomialRational B);
 
 long long linear_res(int n, int k, long long *f, long long *h, long long P);
 void NTT(long long *cp,long long cnt,long long inv,long long mod);
