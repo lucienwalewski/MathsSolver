@@ -1,4 +1,128 @@
-# Testing Project Description
+# MathsSolver
+
+## Description
+
+The MathsSolver program will allow a user to upload a picture of a handwritten maths
+problem or type the problem which will then be solved by the program.
+
+## Prerequisites
+
+- QT 4.13.3 or newer
+
+> Note: The Project was tested with macOS Big Sur 11.2 Beta with QT 4.13.3
+
+## Installation
+
+Run the command
+
+```git clone https://github.com/lucienwalewski/MathsSolver```
+
+In order to run the project, you will need to install the following libraries. We recommend you install them all in the same location:
+
+- OpenCV https://opencv.org/releases/
+> This library takes quite some time to install and you will also have to install Cmake in order to configure the library. We include two potentially helpful videos. For Mac (https://www.youtube.com/watch?v=SIXnD-9uh1k). For Windows (https://www.youtube.com/watch?v=ZOSu-2Oju-A)
+
+You will also need to have a working version of Anaconda in order to run the conda environment for the character recognition. 
+
+Having installed these, open the Qt project by double-clicking the file ```MathsSolver.pro``` in the ```sources``` directory. Then, navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, 
+
+If on **Mac**:
+
+Enter: "OPENCV_LIBRARY_INCLUDE=__root__/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=__root__/opencv/build/install/lib" "ANACONDA_PATH=__condaPath__" where __root__ is the path towards the opencv library on your machine and __condaPath__ is the directory towards your Anaconda installation. In the example image below, the directory towards the opencv library is "Users/lucienwalewski/".
+
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
+
+If on **Windows**: 
+
+Enter: "OPENCV_LIBRARY_INCLUDE=__root__\opencv\release\install\include" "OPENCV_LIBRARY_PATH=__root__\opencv\release\bin\" "ANACONDA_PATH=__condaPath__ where __root__ is the path towards your opencv installation and __condaPath__ is the path towards your Anaconda installation. 
+
+> Note: The project can build and run on both Mac and Windows (not tested on Linux) but the ImageRecognition part will not work on Windows.
+
+#### For Image Recognition 
+
+This is only necessary if running the Image Recognition (only from Mac!). We need to install the Conda environment included. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
+
+```Conda env create -f recognition.yml```
+
+Having done this, the project should build and run.
+
+## Instructions
+
+- Please only use x as variable! Usual functions that can be used:
+    ```exp(x)```, ```ln(x)```, ```log(x)```, ```sin(x)```, ```cos(x)```, ```tan(x)```, ```sqrt(x)```
+- To find the derivative of a function: ```(f(x))'```
+    - Example: ```(x^2 + 5x + exp(x^3))'```
+- To get the value of the integral of a function: ```int{a}{b}{f(x)}```
+    - Example: ```int{0}{1}{exp(x)}``` means integral from 0 to 1 of ```exp(x)```.
+- To find the root at point a of a function ```f(x) = a```.
+    - Example: ```x^3 - 2x^2 - x + 2 = 0```
+- To solve a system of equations: ```sys{your system}```
+    - Example: ```sys{2 ; 5 ;  2  = -38 | 3 ; -2; 4 = 17 | -6; 1; -7 = -12 }``` means solving the following system of equations: ```2x0 + 5x1 + 2x2 = -38, 3x0 - 5x1 + 4x2 = 17, -6x0 + x1 - 7x2 = -12```. Each coefficient should be separated by a semi-colon and a new equation is obtained by entering '|'.
+- To get the inverse of a matrix: ```inv{matrix}```
+    - Example: ```inv{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semmi-colon and a new row is obtained by entering '|'.
+- To get the determinant of a matrix: ```det{matrix}```
+    - Example: ```det{-5; 3; 1 | 4; -1; 5 | 2; -2; 3}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
+- To get the product of matrices: ```mult{matrix1}{matrix2}```
+    - Example: ```mult{8; 2}{3 | 4}```. Each coefficient should be separated by a semi-colon and a new row is obtained by entering '|'.
+- To divide two polynomials: ```(polynomial1) : (polynomial2)```
+    - Example: ```(x^3 - 2x^2 - x + 2) : (x^2 - 1)```
+- To multiply two polynomials: ```(polynomial1) * (polynomial2)```
+    - Example: ```(x^3 - 2x^2 - x + 2) * (x^2 - 1)```
+    
+### Screenshots
+
+Example usecases
+
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic1.png)
+![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/pic2.png)
+
+## Members (name surname, github, trello, [role])
+
+- Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
+- Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead, Git master
+- Peixin You, hyleindex , _ , Algorithms/Equations team lead
+- Constance Ferragu, constanceferragu , _ , Differential Calculator team lead
+- Ghadie Nehme, ghadinehme , ghadinehme , Numerical integration team lead
+- Hugo de Mascarel, hugodemascarel , hugodemascarel , GUI team lead
+- Hector Devie, hector-dvi , _ , Trello master, Algorithms/Equations team
+- Jean Paul Touret, jeanpaultouret2000 , _ , Differential calculator team
+- Merlin Beaufils, merlinbeaufils , _ , Differential calculator team
+- Wenqing Qu, QwQSama , _ , Algorithms/Equations team
+- Aurele Bohbot, aurelebohbot , Aurele Bohbot , Algorithms/Equations team
+- Ines Saih, inessaih , inessaih , Numerical integration team
+- Marie Huynh, marie-huynh , mariehuynh6 , Differential calculator team
+
+## Teams
+
+**Algorithms / Equations**
+
+- Peixin You
+- Wenqing Qu
+- Aurele Bohbot 
+- Hector Devie
+
+**Image recogntion**
+
+- Lucien Walewski
+
+**Differential calculator**
+
+- Constance Ferragu
+- Marie Huynh
+- Merlin Beaufils
+- Jean Paul Touret
+
+**Numerical Integration**
+
+- Ghadi Nehme
+- Ines Saih
+
+**GUI**
+
+- Hugo de Mascarel
+
+
+### Testing Project Description (for development)
 
 A testing project has been added so that you may test your files. From the root path, 
 navigate to "sources", where you will find two new files (in addition to MathSolver.pro
@@ -33,223 +157,3 @@ to something appropriate, adding the necessary includes in your cpp file and add
 "private slots". Then add the two lines in the main function in the file "testSuite.cpp" as described above
 and make sure that your file was added to the SOURCES and HEADERS in the .pro file if it was not already
 done so. 
-
-
-# Build details
-
-**Updated details to come**
-
-In order to run the project, you will need to install the following libraries. We recommend you install them all in the same location:
-
-- OpenCV https://opencv.org/releases/ (This library takes quite some time to install and you will also have to install Cmake in order to configure the library)
-
-You will also need to have a working version of Anaconda in order to run the conda environment for the character recognition. 
-
-Having installed these, open the project by double-clicking on MathsSolver.pro in the sources directory and navigate to the Projects tab, then in "Additional arguments" in the "Build Steps" section, 
-
-If on Mac:
-
-Enter: "OPENCV_LIBRARY_INCLUDE=__root__/opencv/build/install/include/opencv4" "OPENCV_LIBRARY_PATH=__root__/opencv/build/install/lib" "ANACONDA_PATH=__condaPath__" where __root__ is the path towards the opencv library on your machine and __condaPath__ is the directory towards your Anaconda installation. In the example image below, the directory towards the opencv library is "Users/lucienwalewski/".
-
-![Image](https://github.com/lucienwalewski/MathsSolver/blob/main/scripts/build_details/Screenshot%202020-11-22%20at%2000.06.27.png)
-
-If on Windows: 
-
-Enter: "OPENCV_LIBRARY_INCLUDE=__root__\opencv\release\install\include" "OPENCV_LIBRARY_PATH=__root__\opencv\release\bin\" "ANACONDA_PATH=__condaPath__ where __root__ is the path towards your opencv installation and __condaPath__ is the path towards your Anaconda installation. 
-
-We now also need to activate the Conda environment included. First ensure you are in the root directory of the project where you should find the file ```recognition.yml```. Run the following command:
-
-```Conda env create -f recognition.yml```
-
-
-Having done this, the project should build and run.
-
-### "bits/stdc++.h" not found
-
-This file will not compile on Mac. The fix for this is as follows:
-
-
-1. Open the terminal and paste the following line: `cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/` to navigate to the directory.
-2. Create a folder named `bits` by entering `mkdir bits` and then enter the directory with `cd bits`.
-3. Create the file `stdc++.h` by entering `touch stdc++.h`. 
-4. Open the file in Xcode by entering `open stdc++.h`
-5. Copy and paste into the file the following lines of code. Save and close the file. 
-
-Copy this:
-
-
-    // C++ includes used for precompiling -*- C++ -*-
-    // Copyright (C) 2003-2013 Free Software Foundation, Inc.
-    //
-    // This file is part of the GNU ISO C++ Library.  This library is free
-    // software; you can redistribute it and/or modify it under the
-    // terms of the GNU General Public License as published by the
-    // Free Software Foundation; either version 3, or (at your option)
-    // any later version.
-
-    // This library is distributed in the hope that it will be useful,
-    // but WITHOUT ANY WARRANTY; without even the implied warranty of
-    // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    // GNU General Public License for more details.
-
-    // Under Section 7 of GPL version 3, you are granted additional
-    // permissions described in the GCC Runtime Library Exception, version
-    // 3.1, as published by the Free Software Foundation.
-
-    // You should have received a copy of the GNU General Public License and
-    // a copy of the GCC Runtime Library Exception along with this program;
-    // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-    // <http://www.gnu.org/licenses/>.
-
-    /** @file stdc++.h
-     *  This is an implementation file for a precompiled header.
-      */
-
-    // Also writing "using namespace std;" here so that you dont need to write it everytime you start a cpp file
-
-    using namespace std;
-
-    // 17.4.1.2 Headers
-
-    // C
-    #ifndef _GLIBCXX_NO_ASSERT
-    #include <cassert>
-    #endif
-    #include <cctype>
-    #include <cerrno>
-    #include <cfloat>
-    #include <ciso646>
-    #include <climits>
-    #include <clocale>
-    #include <cmath>
-    #include <csetjmp>
-    #include <csignal>
-    #include <cstdarg>
-    #include <cstddef>
-    #include <cstdio>
-    #include <cstdlib>
-    #include <cstring>
-    #include <ctime>
-
-    #if __cplusplus >= 201103L
-    #include <ccomplex>
-    #include <cfenv>
-    #include <cinttypes>
-    #include <cstdbool>
-    #include <cstdint>
-    #include <ctgmath>
-    #include <cwchar>
-    #include <cwctype>
-    #endif
-
-    // C++
-    #include <algorithm>
-    #include <bitset>
-    #include <complex>
-    #include <deque>
-    #include <exception>
-    #include <fstream>
-    #include <functional>
-    #include <iomanip>
-    #include <ios>
-    #include <iosfwd>
-    #include <iostream>
-    #include <istream>
-    #include <iterator>
-    #include <limits>
-    #include <list>
-    #include <locale>
-    #include <map>
-    #include <memory>
-    #include <new>
-    #include <numeric>
-    #include <ostream>
-    #include <queue>
-    #include <set>
-    #include <sstream>
-    #include <stack>
-    #include <stdexcept>
-    #include <streambuf>
-    #include <string>
-    #include <typeinfo>
-    #include <utility>
-    #include <valarray>
-    #include <vector>
-
-    #if __cplusplus >= 201103L
-    #include <array>
-    #include <atomic>
-    #include <chrono>
-    #include <condition_variable>
-    #include <forward_list>
-    #include <future>
-    #include <initializer_list>
-    #include <mutex>
-    #include <random>
-    #include <ratio>
-    #include <regex>
-    #include <scoped_allocator>
-    #include <system_error>
-    #include <thread>
-    #include <tuple>
-    #include <typeindex>
-    #include <type_traits>
-    #include <unordered_map>
-    #include <unordered_set>
-    #endif
-
-
-
-## Current Build Issues
-
-
-# Maths Solver Project Description
-
-The MathsSolver program will allow a user to upload a picture of a handwritten maths
-problem or type the problem which will then be solved by the program.
-
-## Members (name surname, github, trello, [role])
-
-- Lazar Milikic, Lemmy00 , lazarmilikic , Project lead
-- Lucien Walewski, lucienwalewski, lucienwalewski , Image recognition team lead, Git master
-- Peixin You, hyleindex , _ , Algorithms/Equations team lead
-- Constance Ferragu, constanceferragu , _ , Differential Calculator team lead
-- Ghadie Nehme, ghadinehme , ghadinehme , Numerical integration team lead
-- Hugo de Mascarel, hugodemascarel , hugodemascarel , GUI team lead
-- Hector Devie, hector-dvi , _ , Trello master, Algorithms/Equations team
-- Jean Paul Touret, jeanpaultouret2000 , _ , Differential calculator team
-- Merlin Beaufils, merlinbeaufils , _ , Differential calculator team
-- Wenqing Qu, QwQSama , _ , Algorithms/Equations team
-- Aurele Bohbot, aurelebohbot , Aurele Bohbot , Algorithms/Equations team
-- Ines Saih, inessaih , inessaih , Numerical integration team
-- Marie Huynh, marie-huynh , mariehuynh6 , Differential calculator team
-
-## Teams
-
-**Algorithms / Equations**
-
-- Peixin You
-- Wenqing Qu
-- Aurele Bohbot 
-- Hector Devie
-
-**Image recogntion**
-
-- Lucien Walewski
-- Lazar Milikic
-
-**Differential calculator**
-
-- Constance Ferragu
-- Marie Huynh
-- Merlin Beaufils
-- Jean Paul Touret
-
-**Numerical Integration**
-
-- Ghadi Nehme
-- Ines Saih
-
-**GUI**
-
-- Hugo de Mascarel
