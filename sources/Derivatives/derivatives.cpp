@@ -331,9 +331,9 @@ vector<double> AbstractFunction::get_roots(double start, double end){
     }
 
     for(int i = 0; i < (int)critical_points.size(); i++){
-        double x = regula_falsi(i, i+0.1);
+        double x = regula_falsi(critical_points[i], critical_points[i]+0.1);
         if (!isnan(x))
-            roots.push_back(regula_falsi(i, i+0.1));
+            roots.push_back(x);
     }
 
     return roots;
