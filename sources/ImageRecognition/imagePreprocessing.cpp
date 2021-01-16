@@ -192,9 +192,9 @@ vector<Mat> extract_contours(Mat image){
 
                }
            }
-           //Copy
+           // Copy
             Mat extractPic;
-            //Extract the character using the mask
+            // Extract the character using the mask
             image.copyTo(extractPic,mask);
             Mat resizedPic = extractPic(r);
 
@@ -235,8 +235,6 @@ void save_contours(string imagepath, string outputpath) {
     image = crop(image);
     image = noise_removal(image);
     vector<Mat> contours = extract_contours(image);
-
-//    cout << "OK";
     for (int i = 0; i < contours.size(); i++) {
         string output_string = outputpath + to_string(i) + ".jpg";
         imwrite(output_string, contours[i]);
@@ -245,10 +243,10 @@ void save_contours(string imagepath, string outputpath) {
 
 void save_contoursQS(QString imagepath, string outputpath) {
     string imagepathstd = imagepath.toStdString();
-//    string outputpathstd = outputpath.toStdString();
     Mat image = upload_img(imagepathstd);
     image = binarisation(image);
     image = crop(image);
+    image = noise_removal(image);
     vector<Mat> contours = extract_contours(image);
     for (int i = 0; i < contours.size(); i++) {
         string output_string = outputpath + to_string(i) + ".jpg";
