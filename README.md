@@ -9,7 +9,7 @@ problem or type the problem which will then be solved by the program.
 
 - QT 4.13.3 or newer
 
-> Note: The Project was tested with macOS Big Sur 11.2 Beta with QT 4.13.3
+> Note: The Project was tested with macOS Big Sur 11.2 Beta with QT 4.13.3 and Windows 10 (without Image Recognition)
 
 ## Installation
 
