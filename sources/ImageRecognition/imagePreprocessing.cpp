@@ -163,12 +163,12 @@ vector<Mat> extract_contours(Mat image){
            Rect r = boundingRect( Mat(contours_poly[i]) );
            int minWidth = 100;
            if (r.width < minWidth) {
-               r.x = max(r.x - ((minWidth - r.width) / 2), 0);
+               r.x = min(image.size().width, max(r.x - ((minWidth - r.width) / 2), 0));
                r.width = minWidth;
            }
-           int minHeight = 100;
+           int minHeight = 80;
            if (r.height < minHeight) {
-               r.y = max(r.y - ((minHeight - r.height) / 2), 0);
+               r.y = min(image.size().height, max(r.y - ((minHeight - r.height) / 2), 0));
                r.height = minHeight;
            }
 
@@ -203,13 +203,12 @@ vector<Mat> extract_contours(Mat image){
 //           resize(image, image, Size(28,28), INTER_CUBIC);  //other possible interpolations to be tried: INTER_NEAREST, INTER_LINEAR, INTER_AREA
 
            bitwise_not(image, image);
-           res.push_back(image);
-
-
-
+           if (image.size().area() > 30 && countNonZero(image) != image.size().area()) {
+               res.push_back(image);
+           }
         }
-    return res;
 
+    return res;
 }
 
 void display_prepocessing(string path){

@@ -1,10 +1,5 @@
-#include <QProcess>
-#include <QDir>
 #include "MainWindow/mainwindow.h"
-//#include "ImageRecognition/imagePreprocessing.hpp"
-//#include "ImageRecognition/imagePrediction.hpp"
-#include "Derivatives/Operators.hpp"
-#include <iostream>
+
 
 using namespace std;
 
