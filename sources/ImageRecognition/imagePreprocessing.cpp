@@ -166,11 +166,12 @@ vector<Mat> extract_contours(Mat image){
                r.x = max(r.x - ((minWidth - r.width) / 2), 0);
                r.width = minWidth;
            }
-//           int minHeight = 100;
-//           if (r.height < minHeight) {
+           int minHeight = 80;
+           if (r.height < minHeight) {
 //               r.y = max(r.y - ((minHeight - r.height) / 2), 0);
-//               r.height = minHeight;
-//           }
+               r.y = r.y - (minHeight - r.height) / 3;
+               r.height = minHeight;
+           }
 
 
            Mat mask = Mat::zeros(image.size(), CV_8UC1);

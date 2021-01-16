@@ -342,7 +342,6 @@ vector<string> inetgral(string f){
 
 
     f =  f.substr(i+1, f.size() - i - 2);
-    cout<< f << "\n";
     if (!is_valid(f))
         return vector<string> {"i"};
 
