@@ -341,10 +341,11 @@ vector<string> inetgral(string f){
         return vector<string> {"i"};
 
 
-    f =  f.substr(i, f.size() - i - 1);
+    f =  f.substr(i+1, f.size() - i - 2);
     if (!is_valid(f))
         return vector<string> {"i"};
 
+    cout<<AbstractFunction(simplify(f)).display()<<"\n";
     vector<string> res{"r", "Result", ":"};
     res.push_back(to_string(AbstractFunction(simplify(f)).get_integral_value(down, up)));
     return res;

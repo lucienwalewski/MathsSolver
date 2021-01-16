@@ -404,10 +404,73 @@ solutionPolynomial solveRationalAux(PolynomialRational P, vector<int> fa, vector
                 Rational coe[2] = {Rational(-i, j), Rational(1, 1)};
                 PolynomialRational Q = PolynomialRational(coe,1);
 
-                divPolynomial div_res = divisionR(P, Q);
-                //cout<<div_res.Quotient.get_string()<<"\n";
-                ans.step_solution.insert(ans.step_solution.end(), div_res.step_solution.begin(), div_res.step_solution.end());
-                solutionPolynomial res = solveRationalAux(div_res.Quotient, fa, fb);
+                string division = "";
+
+                division += " (" + P.get_string() + ") : (" + Q.get_string() + ") = ";
+                string steps = "";
+
+                int n = P.deg, k = Q.deg;
+                Rational coea[n+1];
+                for (int i = 0; i <= n - 1; i++){
+                    coea[i] = Rational(0, 1);
+                }
+
+                string spacing = "";
+                for (int i = n; i >= k; i--){
+                    if (P[i].get_a()){
+                        coea[i-k] = P[i]/Q[k];
+                        Rational c[i+2];
+                        for (int j = 0; j <= i; j++)
+                            c[j] = Rational(0, 1);
+
+                        for (int j = 0; j<=k; j++)
+                            c[j+i-k] = Q[j] * coea[i-k];
+
+                        steps += spacing;
+
+                        c[i+1] = Rational(0, 1);
+                        int size;
+                        if (i == n)
+                            size = i;
+                        else
+                            size = i+1;
+                        PolynomialRational B(c, size);
+                        steps +="-("+ B.get_string()+")\n";
+
+                        PolynomialRational A = P-B;
+                        steps += spacing;
+
+                        for (int j = 0; j< (int)B.get_string().size()+3; j++)
+                            steps += '-';
+
+                        steps+= "\n";
+                        if (P[i].get_value() != 1)
+                            for (int j=0; j < (int)P[i].get_string().size(); j++)
+                                spacing += ' ';
+
+                        if (i != n && P[i].get_value()>0)
+                            spacing += ' ';
+
+                        if (i == 1)
+                            spacing += ' ';
+                        else if (i > 1)
+                            spacing += "   ";
+
+                        steps += "  "+spacing + A.get_string()+"\n";
+
+                        for (int i = 0; i<= P.deg; i++)
+                            P[i] = A[i];
+
+                    }
+                }
+
+                PolynomialRational R(coea, n-k);
+
+                division += R.get_string() + " with the reminder " + P.get_string();
+                division += "\n"+steps.substr(0, steps.size()-1);
+
+                ans.step_solution.push_back(division);
+                solutionPolynomial res = solveRationalAux(R, fa, fb);
                 ans.step_solution.insert(ans.step_solution.end(), res.step_solution.begin(), res.step_solution.end());
                 ans.complex.insert(ans.complex.end(), res.complex.begin(), res.complex.end());
                 ans.roots.insert(ans.roots.end(), res.roots.begin(), res.roots.end());
