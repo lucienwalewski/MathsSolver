@@ -346,6 +346,7 @@ double AbstractFunction::get_integral_value(double a, double b){
     double T=0;
     double x=a;
 
+
     T=0.5*get_value(x);
     for(int i=1; i<DIV; i++){
         x+=h;
@@ -354,7 +355,6 @@ double AbstractFunction::get_integral_value(double a, double b){
     x+=h;
     T+=0.5*get_value(x);
     T*=h;
-
     return T;
 }
 

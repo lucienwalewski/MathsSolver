@@ -242,7 +242,7 @@ vector<string> equation(string f){
             solve += '-';
         else if (tokens[j].get_type() == -4)
             solve += '(' + tokens[j].get_value() + ')';
-        else
+        else if (tokens[j].get_type() != 1)
             solve += tokens[j].get_value();
     }
 
@@ -339,6 +339,7 @@ vector<string> inetgral(string f){
         up = AbstractFunction(simplify(b)).get_value(0);
     i++;
 
+    cout<< up << "\n";
     if (down> up)
         return vector<string> {"i"};
 
@@ -347,9 +348,10 @@ vector<string> inetgral(string f){
     if (!is_valid(f))
         return vector<string> {"i"};
 
-    cout<<AbstractFunction(simplify(f)).display()<<"\n";
     vector<string> res{"r", "Result", ":"};
-    res.push_back(to_string(AbstractFunction(simplify(f)).get_integral_value(down, up)));
+    double x = AbstractFunction(simplify(f)).get_integral_value(down, up);
+    res.push_back("n");
+    res.push_back(to_string(x));
     return res;
 }
 vector<string> system(string f){

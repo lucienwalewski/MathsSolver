@@ -11,5 +11,7 @@ int main(int argc, char *argv[]){
      w.setWindowTitle("MathsSolver");
      w.show();
 
+//    display_prepocessing("C:\\Users\\Korisnik\\Desktop\\reference7.jpg");
+
      return a.exec();
 }
